@@ -8,10 +8,10 @@ from typing import Any, cast
 import pytest
 
 from tests.utils import assert_matches_type
-from vitable_partner_api import VitableConnectAPI, AsyncVitableConnectAPI
-from vitable_partner_api.types.employees import (
+from vitable_connect_api import VitableConnectAPI, AsyncVitableConnectAPI
+from vitable_connect_api.types.employees import (
     EnrollmentListResponse,
-    EnrollmentElectResponse,
+    EnrollmentSubmitElectionsResponse,
 )
 
 base_url = os.environ.get("TEST_API_BASE_URL", "http://127.0.0.1:4010")
@@ -24,7 +24,7 @@ class TestEnrollments:
     @parametrize
     def test_method_list(self, client: VitableConnectAPI) -> None:
         enrollment = client.employees.enrollments.list(
-            id="empl__1k--w2KifJ1",
+            employee_id="empl_abc123def456",
         )
         assert_matches_type(EnrollmentListResponse, enrollment, path=["response"])
 
@@ -32,7 +32,11 @@ class TestEnrollments:
     @parametrize
     def test_method_list_with_all_params(self, client: VitableConnectAPI) -> None:
         enrollment = client.employees.enrollments.list(
-            id="empl__1k--w2KifJ1",
+            employee_id="empl_abc123def456",
+            coverage_effective_start_year=2025,
+            limit=20,
+            page=1,
+            plan_year=2025,
             status="pending",
         )
         assert_matches_type(EnrollmentListResponse, enrollment, path=["response"])
@@ -41,7 +45,7 @@ class TestEnrollments:
     @parametrize
     def test_raw_response_list(self, client: VitableConnectAPI) -> None:
         response = client.employees.enrollments.with_raw_response.list(
-            id="empl__1k--w2KifJ1",
+            employee_id="empl_abc123def456",
         )
 
         assert response.is_closed is True
@@ -53,7 +57,7 @@ class TestEnrollments:
     @parametrize
     def test_streaming_response_list(self, client: VitableConnectAPI) -> None:
         with client.employees.enrollments.with_streaming_response.list(
-            id="empl__1k--w2KifJ1",
+            employee_id="empl_abc123def456",
         ) as response:
             assert not response.is_closed
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
@@ -66,34 +70,34 @@ class TestEnrollments:
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     def test_path_params_list(self, client: VitableConnectAPI) -> None:
-        with pytest.raises(ValueError, match=r"Expected a non-empty value for `id` but received ''"):
+        with pytest.raises(ValueError, match=r"Expected a non-empty value for `employee_id` but received ''"):
             client.employees.enrollments.with_raw_response.list(
-                id="",
+                employee_id="",
             )
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
-    def test_method_elect(self, client: VitableConnectAPI) -> None:
-        enrollment = client.employees.enrollments.elect(
-            id="empl__1k--w2KifJ1",
+    def test_method_submit_elections(self, client: VitableConnectAPI) -> None:
+        enrollment = client.employees.enrollments.submit_elections(
+            employee_id="empl_abc123def456",
             elections=[
                 {
-                    "decision": "enrolled",
-                    "enrollment_id": "enrl__1k--w2KifJ1",
+                    "decision": "Enrolled",
+                    "enrollment_id": "enrollment_id",
                 }
             ],
         )
-        assert_matches_type(EnrollmentElectResponse, enrollment, path=["response"])
+        assert_matches_type(EnrollmentSubmitElectionsResponse, enrollment, path=["response"])
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
-    def test_raw_response_elect(self, client: VitableConnectAPI) -> None:
-        response = client.employees.enrollments.with_raw_response.elect(
-            id="empl__1k--w2KifJ1",
+    def test_raw_response_submit_elections(self, client: VitableConnectAPI) -> None:
+        response = client.employees.enrollments.with_raw_response.submit_elections(
+            employee_id="empl_abc123def456",
             elections=[
                 {
-                    "decision": "enrolled",
-                    "enrollment_id": "enrl__1k--w2KifJ1",
+                    "decision": "Enrolled",
+                    "enrollment_id": "enrollment_id",
                 }
             ],
         )
@@ -101,17 +105,17 @@ class TestEnrollments:
         assert response.is_closed is True
         assert response.http_request.headers.get("X-Stainless-Lang") == "python"
         enrollment = response.parse()
-        assert_matches_type(EnrollmentElectResponse, enrollment, path=["response"])
+        assert_matches_type(EnrollmentSubmitElectionsResponse, enrollment, path=["response"])
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
-    def test_streaming_response_elect(self, client: VitableConnectAPI) -> None:
-        with client.employees.enrollments.with_streaming_response.elect(
-            id="empl__1k--w2KifJ1",
+    def test_streaming_response_submit_elections(self, client: VitableConnectAPI) -> None:
+        with client.employees.enrollments.with_streaming_response.submit_elections(
+            employee_id="empl_abc123def456",
             elections=[
                 {
-                    "decision": "enrolled",
-                    "enrollment_id": "enrl__1k--w2KifJ1",
+                    "decision": "Enrolled",
+                    "enrollment_id": "enrollment_id",
                 }
             ],
         ) as response:
@@ -119,20 +123,20 @@ class TestEnrollments:
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
 
             enrollment = response.parse()
-            assert_matches_type(EnrollmentElectResponse, enrollment, path=["response"])
+            assert_matches_type(EnrollmentSubmitElectionsResponse, enrollment, path=["response"])
 
         assert cast(Any, response.is_closed) is True
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
-    def test_path_params_elect(self, client: VitableConnectAPI) -> None:
-        with pytest.raises(ValueError, match=r"Expected a non-empty value for `id` but received ''"):
-            client.employees.enrollments.with_raw_response.elect(
-                id="",
+    def test_path_params_submit_elections(self, client: VitableConnectAPI) -> None:
+        with pytest.raises(ValueError, match=r"Expected a non-empty value for `employee_id` but received ''"):
+            client.employees.enrollments.with_raw_response.submit_elections(
+                employee_id="",
                 elections=[
                     {
-                        "decision": "enrolled",
-                        "enrollment_id": "enrl__1k--w2KifJ1",
+                        "decision": "Enrolled",
+                        "enrollment_id": "enrollment_id",
                     }
                 ],
             )
@@ -147,7 +151,7 @@ class TestAsyncEnrollments:
     @parametrize
     async def test_method_list(self, async_client: AsyncVitableConnectAPI) -> None:
         enrollment = await async_client.employees.enrollments.list(
-            id="empl__1k--w2KifJ1",
+            employee_id="empl_abc123def456",
         )
         assert_matches_type(EnrollmentListResponse, enrollment, path=["response"])
 
@@ -155,7 +159,11 @@ class TestAsyncEnrollments:
     @parametrize
     async def test_method_list_with_all_params(self, async_client: AsyncVitableConnectAPI) -> None:
         enrollment = await async_client.employees.enrollments.list(
-            id="empl__1k--w2KifJ1",
+            employee_id="empl_abc123def456",
+            coverage_effective_start_year=2025,
+            limit=20,
+            page=1,
+            plan_year=2025,
             status="pending",
         )
         assert_matches_type(EnrollmentListResponse, enrollment, path=["response"])
@@ -164,7 +172,7 @@ class TestAsyncEnrollments:
     @parametrize
     async def test_raw_response_list(self, async_client: AsyncVitableConnectAPI) -> None:
         response = await async_client.employees.enrollments.with_raw_response.list(
-            id="empl__1k--w2KifJ1",
+            employee_id="empl_abc123def456",
         )
 
         assert response.is_closed is True
@@ -176,7 +184,7 @@ class TestAsyncEnrollments:
     @parametrize
     async def test_streaming_response_list(self, async_client: AsyncVitableConnectAPI) -> None:
         async with async_client.employees.enrollments.with_streaming_response.list(
-            id="empl__1k--w2KifJ1",
+            employee_id="empl_abc123def456",
         ) as response:
             assert not response.is_closed
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
@@ -189,34 +197,34 @@ class TestAsyncEnrollments:
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     async def test_path_params_list(self, async_client: AsyncVitableConnectAPI) -> None:
-        with pytest.raises(ValueError, match=r"Expected a non-empty value for `id` but received ''"):
+        with pytest.raises(ValueError, match=r"Expected a non-empty value for `employee_id` but received ''"):
             await async_client.employees.enrollments.with_raw_response.list(
-                id="",
+                employee_id="",
             )
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
-    async def test_method_elect(self, async_client: AsyncVitableConnectAPI) -> None:
-        enrollment = await async_client.employees.enrollments.elect(
-            id="empl__1k--w2KifJ1",
+    async def test_method_submit_elections(self, async_client: AsyncVitableConnectAPI) -> None:
+        enrollment = await async_client.employees.enrollments.submit_elections(
+            employee_id="empl_abc123def456",
             elections=[
                 {
-                    "decision": "enrolled",
-                    "enrollment_id": "enrl__1k--w2KifJ1",
+                    "decision": "Enrolled",
+                    "enrollment_id": "enrollment_id",
                 }
             ],
         )
-        assert_matches_type(EnrollmentElectResponse, enrollment, path=["response"])
+        assert_matches_type(EnrollmentSubmitElectionsResponse, enrollment, path=["response"])
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
-    async def test_raw_response_elect(self, async_client: AsyncVitableConnectAPI) -> None:
-        response = await async_client.employees.enrollments.with_raw_response.elect(
-            id="empl__1k--w2KifJ1",
+    async def test_raw_response_submit_elections(self, async_client: AsyncVitableConnectAPI) -> None:
+        response = await async_client.employees.enrollments.with_raw_response.submit_elections(
+            employee_id="empl_abc123def456",
             elections=[
                 {
-                    "decision": "enrolled",
-                    "enrollment_id": "enrl__1k--w2KifJ1",
+                    "decision": "Enrolled",
+                    "enrollment_id": "enrollment_id",
                 }
             ],
         )
@@ -224,17 +232,17 @@ class TestAsyncEnrollments:
         assert response.is_closed is True
         assert response.http_request.headers.get("X-Stainless-Lang") == "python"
         enrollment = await response.parse()
-        assert_matches_type(EnrollmentElectResponse, enrollment, path=["response"])
+        assert_matches_type(EnrollmentSubmitElectionsResponse, enrollment, path=["response"])
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
-    async def test_streaming_response_elect(self, async_client: AsyncVitableConnectAPI) -> None:
-        async with async_client.employees.enrollments.with_streaming_response.elect(
-            id="empl__1k--w2KifJ1",
+    async def test_streaming_response_submit_elections(self, async_client: AsyncVitableConnectAPI) -> None:
+        async with async_client.employees.enrollments.with_streaming_response.submit_elections(
+            employee_id="empl_abc123def456",
             elections=[
                 {
-                    "decision": "enrolled",
-                    "enrollment_id": "enrl__1k--w2KifJ1",
+                    "decision": "Enrolled",
+                    "enrollment_id": "enrollment_id",
                 }
             ],
         ) as response:
@@ -242,20 +250,20 @@ class TestAsyncEnrollments:
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
 
             enrollment = await response.parse()
-            assert_matches_type(EnrollmentElectResponse, enrollment, path=["response"])
+            assert_matches_type(EnrollmentSubmitElectionsResponse, enrollment, path=["response"])
 
         assert cast(Any, response.is_closed) is True
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
-    async def test_path_params_elect(self, async_client: AsyncVitableConnectAPI) -> None:
-        with pytest.raises(ValueError, match=r"Expected a non-empty value for `id` but received ''"):
-            await async_client.employees.enrollments.with_raw_response.elect(
-                id="",
+    async def test_path_params_submit_elections(self, async_client: AsyncVitableConnectAPI) -> None:
+        with pytest.raises(ValueError, match=r"Expected a non-empty value for `employee_id` but received ''"):
+            await async_client.employees.enrollments.with_raw_response.submit_elections(
+                employee_id="",
                 elections=[
                     {
-                        "decision": "enrolled",
-                        "enrollment_id": "enrl__1k--w2KifJ1",
+                        "decision": "Enrolled",
+                        "enrollment_id": "enrollment_id",
                     }
                 ],
             )

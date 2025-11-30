@@ -2,7 +2,7 @@ from __future__ import annotations
 
 import pytest
 
-from vitable_partner_api._utils import required_args
+from vitable_connect_api._utils import required_args
 
 
 def test_too_many_positional_params() -> None:
