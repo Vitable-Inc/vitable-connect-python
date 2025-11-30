@@ -1,7 +1,7 @@
 # Vitable Connect API Python API library
 
 <!-- prettier-ignore -->
-[![PyPI version](https://img.shields.io/pypi/v/vitable_partner_api.svg?label=pypi%20(stable))](https://pypi.org/project/vitable_partner_api/)
+[![PyPI version](https://img.shields.io/pypi/v/vitable_connect_api.svg?label=pypi%20(stable))](https://pypi.org/project/vitable_connect_api/)
 
 The Vitable Connect API Python library provides convenient access to the Vitable Connect API REST API from any Python 3.9+
 application. The library includes type definitions for all request params and response fields,
@@ -11,7 +11,7 @@ It is generated with [Stainless](https://www.stainless.com/).
 
 ## Documentation
 
-The full API of this library can be found in [api.md](api.md).
+The REST API documentation can be found on [vitablehealth.com](https://vitablehealth.com/support). The full API of this library can be found in [api.md](api.md).
 
 ## Installation
 
@@ -21,7 +21,7 @@ pip install git+ssh://git@github.com/stainless-sdks/vitable-partner-api-python.g
 ```
 
 > [!NOTE]
-> Once this package is [published to PyPI](https://www.stainless.com/docs/guides/publish), this will become: `pip install vitable_partner_api`
+> Once this package is [published to PyPI](https://www.stainless.com/docs/guides/publish), this will become: `pip install vitable_connect_api`
 
 ## Usage
 
@@ -29,24 +29,23 @@ The full API of this library can be found in [api.md](api.md).
 
 ```python
 import os
-from vitable_partner_api import VitableConnectAPI
+from vitable_connect_api import VitableConnectAPI
 
 client = VitableConnectAPI(
-    api_key=os.environ.get("VITABLE_API_KEY"),  # This is the default and can be omitted
+    api_key=os.environ.get("VITABLE_connect_API_API_KEY"),  # This is the default and can be omitted
     # defaults to "production".
     environment="environment_1",
 )
 
-employers = client.employers.list(
-    limit=20,
-    offset=0,
+benefit_eligibility_policy = client.benefit_eligibility_policy.retrieve(
+    "REPLACE_ME",
 )
-print(employers.data)
+print(benefit_eligibility_policy.id)
 ```
 
 While you can provide an `api_key` keyword argument,
 we recommend using [python-dotenv](https://pypi.org/project/python-dotenv/)
-to add `VITABLE_API_KEY="My API Key"` to your `.env` file
+to add `VITABLE_connect_API_API_KEY="My API Key"` to your `.env` file
 so that your API Key is not stored in source control.
 
 ## Async usage
@@ -56,21 +55,20 @@ Simply import `AsyncVitableConnectAPI` instead of `VitableConnectAPI` and use `a
 ```python
 import os
 import asyncio
-from vitable_partner_api import AsyncVitableConnectAPI
+from vitable_connect_api import AsyncVitableConnectAPI
 
 client = AsyncVitableConnectAPI(
-    api_key=os.environ.get("VITABLE_API_KEY"),  # This is the default and can be omitted
+    api_key=os.environ.get("VITABLE_connect_API_API_KEY"),  # This is the default and can be omitted
     # defaults to "production".
     environment="environment_1",
 )
 
 
 async def main() -> None:
-    employers = await client.employers.list(
-        limit=20,
-        offset=0,
+    benefit_eligibility_policy = await client.benefit_eligibility_policy.retrieve(
+        "REPLACE_ME",
     )
-    print(employers.data)
+    print(benefit_eligibility_policy.id)
 
 
 asyncio.run(main())
@@ -86,15 +84,15 @@ You can enable this by installing `aiohttp`:
 
 ```sh
 # install from this staging repo
-pip install 'vitable_partner_api[aiohttp] @ git+ssh://git@github.com/stainless-sdks/vitable-partner-api-python.git'
+pip install 'vitable_connect_api[aiohttp] @ git+ssh://git@github.com/stainless-sdks/vitable-partner-api-python.git'
 ```
 
 Then you can enable it by instantiating the client with `http_client=DefaultAioHttpClient()`:
 
 ```python
 import asyncio
-from vitable_partner_api import DefaultAioHttpClient
-from vitable_partner_api import AsyncVitableConnectAPI
+from vitable_connect_api import DefaultAioHttpClient
+from vitable_connect_api import AsyncVitableConnectAPI
 
 
 async def main() -> None:
@@ -102,11 +100,10 @@ async def main() -> None:
         api_key="My API Key",
         http_client=DefaultAioHttpClient(),
     ) as client:
-        employers = await client.employers.list(
-            limit=20,
-            offset=0,
+        benefit_eligibility_policy = await client.benefit_eligibility_policy.retrieve(
+            "REPLACE_ME",
         )
-        print(employers.data)
+        print(benefit_eligibility_policy.id)
 
 
 asyncio.run(main())
@@ -121,32 +118,52 @@ Nested request parameters are [TypedDicts](https://docs.python.org/3/library/typ
 
 Typed requests and responses provide autocomplete and documentation within your editor. If you would like to see type errors in VS Code to help catch bugs earlier, set `python.analysis.typeCheckingMode` to `basic`.
 
-## Handling errors
+## Nested params
 
-When the library is unable to connect to the API (for example, due to network connection problems or a timeout), a subclass of `vitable_partner_api.APIConnectionError` is raised.
-
-When the API returns a non-success status code (that is, 4xx or 5xx
-response), a subclass of `vitable_partner_api.APIStatusError` is raised, containing `status_code` and `response` properties.
-
-All errors inherit from `vitable_partner_api.APIError`.
+Nested parameters are dictionaries, typed using `TypedDict`, for example:
 
 ```python
-import vitable_partner_api
-from vitable_partner_api import VitableConnectAPI
+from vitable_connect_api import VitableConnectAPI
+
+client = VitableConnectAPI()
+
+employee = client.employees.update(
+    employee_id="empl_abc123def456",
+    address={
+        "city": "city",
+        "state": "xx",
+        "street_1": "street_1",
+        "zip_code": "zip_code",
+    },
+)
+print(employee.address)
+```
+
+## Handling errors
+
+When the library is unable to connect to the API (for example, due to network connection problems or a timeout), a subclass of `vitable_connect_api.APIConnectionError` is raised.
+
+When the API returns a non-success status code (that is, 4xx or 5xx
+response), a subclass of `vitable_connect_api.APIStatusError` is raised, containing `status_code` and `response` properties.
+
+All errors inherit from `vitable_connect_api.APIError`.
+
+```python
+import vitable_connect_api
+from vitable_connect_api import VitableConnectAPI
 
 client = VitableConnectAPI()
 
 try:
-    client.employers.list(
-        limit=20,
-        offset=0,
+    client.benefit_eligibility_policy.retrieve(
+        "REPLACE_ME",
     )
-except vitable_partner_api.APIConnectionError as e:
+except vitable_connect_api.APIConnectionError as e:
     print("The server could not be reached")
     print(e.__cause__)  # an underlying Exception, likely raised within httpx.
-except vitable_partner_api.RateLimitError as e:
+except vitable_connect_api.RateLimitError as e:
     print("A 429 status code was received; we should back off a bit.")
-except vitable_partner_api.APIStatusError as e:
+except vitable_connect_api.APIStatusError as e:
     print("Another non-200-range status code was received")
     print(e.status_code)
     print(e.response)
@@ -174,7 +191,7 @@ Connection errors (for example, due to a network connectivity problem), 408 Requ
 You can use the `max_retries` option to configure or disable retry settings:
 
 ```python
-from vitable_partner_api import VitableConnectAPI
+from vitable_connect_api import VitableConnectAPI
 
 # Configure the default for all requests:
 client = VitableConnectAPI(
@@ -183,9 +200,8 @@ client = VitableConnectAPI(
 )
 
 # Or, configure per-request:
-client.with_options(max_retries=5).employers.list(
-    limit=20,
-    offset=0,
+client.with_options(max_retries=5).benefit_eligibility_policy.retrieve(
+    "REPLACE_ME",
 )
 ```
 
@@ -195,7 +211,7 @@ By default requests time out after 1 minute. You can configure this with a `time
 which accepts a float or an [`httpx.Timeout`](https://www.python-httpx.org/advanced/timeouts/#fine-tuning-the-configuration) object:
 
 ```python
-from vitable_partner_api import VitableConnectAPI
+from vitable_connect_api import VitableConnectAPI
 
 # Configure the default for all requests:
 client = VitableConnectAPI(
@@ -209,9 +225,8 @@ client = VitableConnectAPI(
 )
 
 # Override per-request:
-client.with_options(timeout=5.0).employers.list(
-    limit=20,
-    offset=0,
+client.with_options(timeout=5.0).benefit_eligibility_policy.retrieve(
+    "REPLACE_ME",
 )
 ```
 
@@ -250,22 +265,21 @@ if response.my_field is None:
 The "raw" Response object can be accessed by prefixing `.with_raw_response.` to any HTTP method call, e.g.,
 
 ```py
-from vitable_partner_api import VitableConnectAPI
+from vitable_connect_api import VitableConnectAPI
 
 client = VitableConnectAPI()
-response = client.employers.with_raw_response.list(
-    limit=20,
-    offset=0,
+response = client.benefit_eligibility_policy.with_raw_response.retrieve(
+    "REPLACE_ME",
 )
 print(response.headers.get('X-My-Header'))
 
-employer = response.parse()  # get the object that `employers.list()` would have returned
-print(employer.data)
+benefit_eligibility_policy = response.parse()  # get the object that `benefit_eligibility_policy.retrieve()` would have returned
+print(benefit_eligibility_policy.id)
 ```
 
-These methods return an [`APIResponse`](https://github.com/stainless-sdks/vitable-partner-api-python/tree/main/src/vitable_partner_api/_response.py) object.
+These methods return an [`APIResponse`](https://github.com/stainless-sdks/vitable-partner-api-python/tree/main/src/vitable_connect_api/_response.py) object.
 
-The async client returns an [`AsyncAPIResponse`](https://github.com/stainless-sdks/vitable-partner-api-python/tree/main/src/vitable_partner_api/_response.py) with the same structure, the only difference being `await`able methods for reading the response content.
+The async client returns an [`AsyncAPIResponse`](https://github.com/stainless-sdks/vitable-partner-api-python/tree/main/src/vitable_connect_api/_response.py) with the same structure, the only difference being `await`able methods for reading the response content.
 
 #### `.with_streaming_response`
 
@@ -274,9 +288,8 @@ The above interface eagerly reads the full response body when you make the reque
 To stream the response body, use `.with_streaming_response` instead, which requires a context manager and only reads the response body once you call `.read()`, `.text()`, `.json()`, `.iter_bytes()`, `.iter_text()`, `.iter_lines()` or `.parse()`. In the async client, these are async methods.
 
 ```python
-with client.employers.with_streaming_response.list(
-    limit=20,
-    offset=0,
+with client.benefit_eligibility_policy.with_streaming_response.retrieve(
+    "REPLACE_ME",
 ) as response:
     print(response.headers.get("X-My-Header"))
 
@@ -330,7 +343,7 @@ You can directly override the [httpx client](https://www.python-httpx.org/api/#c
 
 ```python
 import httpx
-from vitable_partner_api import VitableConnectAPI, DefaultHttpxClient
+from vitable_connect_api import VitableConnectAPI, DefaultHttpxClient
 
 client = VitableConnectAPI(
     # Or use the `VITABLE_CONNECT_API_BASE_URL` env var
@@ -353,7 +366,7 @@ client.with_options(http_client=DefaultHttpxClient(...))
 By default the library closes underlying HTTP connections whenever the client is [garbage collected](https://docs.python.org/3/reference/datamodel.html#object.__del__). You can manually close the client using the `.close()` method if desired, or with a context manager that closes when exiting.
 
 ```py
-from vitable_partner_api import VitableConnectAPI
+from vitable_connect_api import VitableConnectAPI
 
 with VitableConnectAPI() as client:
   # make requests here
@@ -381,8 +394,8 @@ If you've upgraded to the latest version but aren't seeing any new features you 
 You can determine the version that is being used at runtime with:
 
 ```py
-import vitable_partner_api
-print(vitable_partner_api.__version__)
+import vitable_connect_api
+print(vitable_connect_api.__version__)
 ```
 
 ## Requirements

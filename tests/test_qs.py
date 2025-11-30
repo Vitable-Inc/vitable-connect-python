@@ -4,7 +4,7 @@ from urllib.parse import unquote
 
 import pytest
 
-from vitable_partner_api._qs import Querystring, stringify
+from vitable_connect_api._qs import Querystring, stringify
 
 
 def test_empty() -> None:

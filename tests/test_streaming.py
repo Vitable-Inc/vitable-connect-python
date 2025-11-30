@@ -5,8 +5,8 @@ from typing import Iterator, AsyncIterator
 import httpx
 import pytest
 
-from vitable_partner_api import VitableConnectAPI, AsyncVitableConnectAPI
-from vitable_partner_api._streaming import Stream, AsyncStream, ServerSentEvent
+from vitable_connect_api import VitableConnectAPI, AsyncVitableConnectAPI
+from vitable_connect_api._streaming import Stream, AsyncStream, ServerSentEvent
 
 
 @pytest.mark.asyncio

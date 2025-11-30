@@ -4,8 +4,8 @@ from typing import Sequence
 
 import pytest
 
-from vitable_partner_api._types import FileTypes
-from vitable_partner_api._utils import extract_files
+from vitable_connect_api._types import FileTypes
+from vitable_connect_api._utils import extract_files
 
 
 def test_removes_files_from_input() -> None:

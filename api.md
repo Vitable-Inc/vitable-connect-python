@@ -1,176 +1,178 @@
-# Employers
+# BenefitEligibilityPolicy
 
 Types:
 
 ```python
-from vitable_partner_api.types import (
-    CreateEligibilityPolicyRequest,
-    CreateEmployerRequest,
-    EligibilityPolicy,
-    Employer,
-    UpdateEmployerRequest,
-    EmployerListResponse,
-)
+from vitable_connect_api.types import BenefitEligibilityPolicy
 ```
 
 Methods:
 
-- <code title="post /employers">client.employers.<a href="./src/vitable_partner_api/resources/employers/employers.py">create</a>(\*\*<a href="src/vitable_partner_api/types/employer_create_params.py">params</a>) -> <a href="./src/vitable_partner_api/types/employer.py">Employer</a></code>
-- <code title="get /employers/{id}">client.employers.<a href="./src/vitable_partner_api/resources/employers/employers.py">retrieve</a>(id) -> <a href="./src/vitable_partner_api/types/employer.py">Employer</a></code>
-- <code title="put /employers/{id}">client.employers.<a href="./src/vitable_partner_api/resources/employers/employers.py">update</a>(id, \*\*<a href="src/vitable_partner_api/types/employer_update_params.py">params</a>) -> <a href="./src/vitable_partner_api/types/employer.py">Employer</a></code>
-- <code title="get /employers">client.employers.<a href="./src/vitable_partner_api/resources/employers/employers.py">list</a>(\*\*<a href="src/vitable_partner_api/types/employer_list_params.py">params</a>) -> <a href="./src/vitable_partner_api/types/employer_list_response.py">EmployerListResponse</a></code>
-- <code title="post /employers/{id}/benefit-eligibility-policy">client.employers.<a href="./src/vitable_partner_api/resources/employers/employers.py">create_eligibility_policy</a>(id, \*\*<a href="src/vitable_partner_api/types/employer_create_eligibility_policy_params.py">params</a>) -> <a href="./src/vitable_partner_api/types/eligibility_policy.py">EligibilityPolicy</a></code>
-
-## Employees
-
-Types:
-
-```python
-from vitable_partner_api.types.employers import (
-    CreateEmployeeRequest,
-    UpdateEmployeeRequest,
-    EmployeeListResponse,
-)
-```
-
-Methods:
-
-- <code title="post /employers/{id}/employees">client.employers.employees.<a href="./src/vitable_partner_api/resources/employers/employees.py">create</a>(id, \*\*<a href="src/vitable_partner_api/types/employers/employee_create_params.py">params</a>) -> <a href="./src/vitable_partner_api/types/employee.py">Employee</a></code>
-- <code title="get /employers/{id}/employees">client.employers.employees.<a href="./src/vitable_partner_api/resources/employers/employees.py">list</a>(id, \*\*<a href="src/vitable_partner_api/types/employers/employee_list_params.py">params</a>) -> <a href="./src/vitable_partner_api/types/employers/employee_list_response.py">EmployeeListResponse</a></code>
-
-# Employees
-
-Types:
-
-```python
-from vitable_partner_api.types import (
-    CreateQualifyingLifeEventRequest,
-    ElectBenefitsRequest,
-    Employee,
-    Member,
-    QualifyingLifeEvent,
-)
-```
-
-Methods:
-
-- <code title="get /employees/{id}">client.employees.<a href="./src/vitable_partner_api/resources/employees/employees.py">retrieve</a>(id) -> <a href="./src/vitable_partner_api/types/employee.py">Employee</a></code>
-- <code title="put /employees/{id}">client.employees.<a href="./src/vitable_partner_api/resources/employees/employees.py">update</a>(id, \*\*<a href="src/vitable_partner_api/types/employee_update_params.py">params</a>) -> <a href="./src/vitable_partner_api/types/employee.py">Employee</a></code>
-- <code title="delete /employees/{id}">client.employees.<a href="./src/vitable_partner_api/resources/employees/employees.py">terminate</a>(id) -> None</code>
-
-## Dependents
-
-Types:
-
-```python
-from vitable_partner_api.types.employees import DependentListResponse
-```
-
-Methods:
-
-- <code title="post /employees/{id}/dependents">client.employees.dependents.<a href="./src/vitable_partner_api/resources/employees/dependents.py">create</a>(id, \*\*<a href="src/vitable_partner_api/types/employees/dependent_create_params.py">params</a>) -> <a href="./src/vitable_partner_api/types/dependent.py">Dependent</a></code>
-- <code title="get /employees/{id}/dependents">client.employees.dependents.<a href="./src/vitable_partner_api/resources/employees/dependents.py">list</a>(id) -> <a href="./src/vitable_partner_api/types/employees/dependent_list_response.py">DependentListResponse</a></code>
-
-## QualifyingLifeEvents
-
-Types:
-
-```python
-from vitable_partner_api.types.employees import QualifyingLifeEventListResponse
-```
-
-Methods:
-
-- <code title="post /employees/{id}/qualifying-life-events">client.employees.qualifying_life_events.<a href="./src/vitable_partner_api/resources/employees/qualifying_life_events.py">create</a>(id, \*\*<a href="src/vitable_partner_api/types/employees/qualifying_life_event_create_params.py">params</a>) -> <a href="./src/vitable_partner_api/types/qualifying_life_event.py">QualifyingLifeEvent</a></code>
-- <code title="get /employees/{id}/qualifying-life-events">client.employees.qualifying_life_events.<a href="./src/vitable_partner_api/resources/employees/qualifying_life_events.py">list</a>(id) -> <a href="./src/vitable_partner_api/types/employees/qualifying_life_event_list_response.py">QualifyingLifeEventListResponse</a></code>
-
-## Enrollments
-
-Types:
-
-```python
-from vitable_partner_api.types.employees import EnrollmentListResponse, EnrollmentElectResponse
-```
-
-Methods:
-
-- <code title="get /employees/{id}/enrollments">client.employees.enrollments.<a href="./src/vitable_partner_api/resources/employees/enrollments.py">list</a>(id, \*\*<a href="src/vitable_partner_api/types/employees/enrollment_list_params.py">params</a>) -> <a href="./src/vitable_partner_api/types/employees/enrollment_list_response.py">EnrollmentListResponse</a></code>
-- <code title="post /employees/{id}/enrollments/elect">client.employees.enrollments.<a href="./src/vitable_partner_api/resources/employees/enrollments.py">elect</a>(id, \*\*<a href="src/vitable_partner_api/types/employees/enrollment_elect_params.py">params</a>) -> <a href="./src/vitable_partner_api/types/employees/enrollment_elect_response.py">EnrollmentElectResponse</a></code>
-
-# Dependents
-
-Types:
-
-```python
-from vitable_partner_api.types import CreateDependentRequest, Dependent, UpdateDependentRequest
-```
-
-Methods:
-
-- <code title="put /dependents/{id}">client.dependents.<a href="./src/vitable_partner_api/resources/dependents.py">update</a>(id, \*\*<a href="src/vitable_partner_api/types/dependent_update_params.py">params</a>) -> <a href="./src/vitable_partner_api/types/dependent.py">Dependent</a></code>
+- <code title="get /v1/benefit-eligibility-policy/{policy_id}">client.benefit_eligibility_policy.<a href="./src/vitable_connect_api/resources/benefit_eligibility_policy.py">retrieve</a>(policy_id) -> <a href="./src/vitable_connect_api/types/benefit_eligibility_policy.py">BenefitEligibilityPolicy</a></code>
 
 # BenefitProducts
 
 Types:
 
 ```python
-from vitable_partner_api.types import (
-    BenefitProduct,
-    Plan,
-    Quote,
-    QuoteRequest,
-    BenefitProductListResponse,
-)
+from vitable_connect_api.types import Category, ProductCode, BenefitProductListResponse
 ```
 
 Methods:
 
-- <code title="get /benefit-products">client.benefit_products.<a href="./src/vitable_partner_api/resources/benefit_products/benefit_products.py">list</a>(\*\*<a href="src/vitable_partner_api/types/benefit_product_list_params.py">params</a>) -> <a href="./src/vitable_partner_api/types/benefit_product_list_response.py">BenefitProductListResponse</a></code>
-- <code title="post /benefit-products/{id}/quote">client.benefit_products.<a href="./src/vitable_partner_api/resources/benefit_products/benefit_products.py">generate_quote</a>(id, \*\*<a href="src/vitable_partner_api/types/benefit_product_generate_quote_params.py">params</a>) -> <a href="./src/vitable_partner_api/types/quote.py">Quote</a></code>
+- <code title="get /v1/benefit-products">client.benefit_products.<a href="./src/vitable_connect_api/resources/benefit_products/benefit_products.py">list</a>(\*\*<a href="src/vitable_connect_api/types/benefit_product_list_params.py">params</a>) -> <a href="./src/vitable_connect_api/types/benefit_product_list_response.py">BenefitProductListResponse</a></code>
 
 ## PlanYears
 
 Types:
 
 ```python
-from vitable_partner_api.types.benefit_products import (
-    CreatePlanYearRequest,
-    PlanContributionClass,
-    PlanCost,
+from vitable_connect_api.types.benefit_products import (
+    PlanYear,
+    PlanYearStatus,
     PlanYearListResponse,
 )
 ```
 
 Methods:
 
-- <code title="post /benefit-products/{id}/plan-years">client.benefit_products.plan_years.<a href="./src/vitable_partner_api/resources/benefit_products/plan_years.py">create</a>(id, \*\*<a href="src/vitable_partner_api/types/benefit_products/plan_year_create_params.py">params</a>) -> <a href="./src/vitable_partner_api/types/plan_year.py">PlanYear</a></code>
-- <code title="get /benefit-products/{id}/plan-years">client.benefit_products.plan_years.<a href="./src/vitable_partner_api/resources/benefit_products/plan_years.py">list</a>(id, \*\*<a href="src/vitable_partner_api/types/benefit_products/plan_year_list_params.py">params</a>) -> <a href="./src/vitable_partner_api/types/benefit_products/plan_year_list_response.py">PlanYearListResponse</a></code>
+- <code title="post /v1/benefit-products/{benefit_product_id}/plan-years">client.benefit_products.plan_years.<a href="./src/vitable_connect_api/resources/benefit_products/plan_years.py">create</a>(benefit_product_id, \*\*<a href="src/vitable_connect_api/types/benefit_products/plan_year_create_params.py">params</a>) -> <a href="./src/vitable_connect_api/types/benefit_products/plan_year.py">PlanYear</a></code>
+- <code title="get /v1/benefit-products/{benefit_product_id}/plan-years">client.benefit_products.plan_years.<a href="./src/vitable_connect_api/resources/benefit_products/plan_years.py">list</a>(benefit_product_id, \*\*<a href="src/vitable_connect_api/types/benefit_products/plan_year_list_params.py">params</a>) -> <a href="./src/vitable_connect_api/types/benefit_products/plan_year_list_response.py">PlanYearListResponse</a></code>
 
-# PlanYears
+# Dependents
 
 Types:
 
 ```python
-from vitable_partner_api.types import PlanYear, UpdatePlanYearRequest
+from vitable_connect_api.types import Dependent, Sex
 ```
 
 Methods:
 
-- <code title="put /plan-years/{id}">client.plan_years.<a href="./src/vitable_partner_api/resources/plan_years.py">update</a>(id, \*\*<a href="src/vitable_partner_api/types/plan_year_update_params.py">params</a>) -> <a href="./src/vitable_partner_api/types/plan_year.py">PlanYear</a></code>
+- <code title="get /v1/dependents/{dependent_id}">client.dependents.<a href="./src/vitable_connect_api/resources/dependents.py">retrieve</a>(dependent_id) -> <a href="./src/vitable_connect_api/types/dependent.py">Dependent</a></code>
+- <code title="put /v1/dependents/{dependent_id}">client.dependents.<a href="./src/vitable_connect_api/resources/dependents.py">update</a>(dependent_id, \*\*<a href="src/vitable_connect_api/types/dependent_update_params.py">params</a>) -> <a href="./src/vitable_connect_api/types/dependent.py">Dependent</a></code>
+
+# Employees
+
+Types:
+
+```python
+from vitable_connect_api.types import Employee
+```
+
+Methods:
+
+- <code title="get /v1/employees/{employee_id}">client.employees.<a href="./src/vitable_connect_api/resources/employees/employees.py">retrieve</a>(employee_id) -> <a href="./src/vitable_connect_api/types/employee.py">Employee</a></code>
+- <code title="put /v1/employees/{employee_id}">client.employees.<a href="./src/vitable_connect_api/resources/employees/employees.py">update</a>(employee_id, \*\*<a href="src/vitable_connect_api/types/employee_update_params.py">params</a>) -> <a href="./src/vitable_connect_api/types/employee.py">Employee</a></code>
+- <code title="delete /v1/employees/{employee_id}">client.employees.<a href="./src/vitable_connect_api/resources/employees/employees.py">terminate</a>(employee_id) -> None</code>
+
+## Enrollments
+
+Types:
+
+```python
+from vitable_connect_api.types.employees import (
+    EnrollmentStatus,
+    EnrollmentListResponse,
+    EnrollmentSubmitElectionsResponse,
+)
+```
+
+Methods:
+
+- <code title="get /v1/employees/{employee_id}/enrollments">client.employees.enrollments.<a href="./src/vitable_connect_api/resources/employees/enrollments.py">list</a>(employee_id, \*\*<a href="src/vitable_connect_api/types/employees/enrollment_list_params.py">params</a>) -> <a href="./src/vitable_connect_api/types/employees/enrollment_list_response.py">EnrollmentListResponse</a></code>
+- <code title="post /v1/employees/{employee_id}/enrollments/elect">client.employees.enrollments.<a href="./src/vitable_connect_api/resources/employees/enrollments.py">submit_elections</a>(employee_id, \*\*<a href="src/vitable_connect_api/types/employees/enrollment_submit_elections_params.py">params</a>) -> <a href="./src/vitable_connect_api/types/employees/enrollment_submit_elections_response.py">EnrollmentSubmitElectionsResponse</a></code>
+
+# Employers
+
+Types:
+
+```python
+from vitable_connect_api.types import Employer, EmployerListResponse
+```
+
+Methods:
+
+- <code title="post /v1/employers">client.employers.<a href="./src/vitable_connect_api/resources/employers/employers.py">create</a>(\*\*<a href="src/vitable_connect_api/types/employer_create_params.py">params</a>) -> <a href="./src/vitable_connect_api/types/employer.py">Employer</a></code>
+- <code title="get /v1/employers/{employer_id}">client.employers.<a href="./src/vitable_connect_api/resources/employers/employers.py">retrieve</a>(employer_id) -> <a href="./src/vitable_connect_api/types/employer.py">Employer</a></code>
+- <code title="put /v1/employers/{employer_id}">client.employers.<a href="./src/vitable_connect_api/resources/employers/employers.py">update</a>(employer_id, \*\*<a href="src/vitable_connect_api/types/employer_update_params.py">params</a>) -> <a href="./src/vitable_connect_api/types/employer.py">Employer</a></code>
+- <code title="get /v1/employers">client.employers.<a href="./src/vitable_connect_api/resources/employers/employers.py">list</a>(\*\*<a href="src/vitable_connect_api/types/employer_list_params.py">params</a>) -> <a href="./src/vitable_connect_api/types/employer_list_response.py">EmployerListResponse</a></code>
+- <code title="post /v1/employers/{employer_id}/benefit-eligibility-policy">client.employers.<a href="./src/vitable_connect_api/resources/employers/employers.py">create_eligibility_policy</a>(employer_id, \*\*<a href="src/vitable_connect_api/types/employer_create_eligibility_policy_params.py">params</a>) -> <a href="./src/vitable_connect_api/types/benefit_eligibility_policy.py">BenefitEligibilityPolicy</a></code>
+
+## Employees
+
+Types:
+
+```python
+from vitable_connect_api.types.employers import EmployeeClass, EmployeeListResponse
+```
+
+Methods:
+
+- <code title="post /v1/employers/{employer_id}/employees">client.employers.employees.<a href="./src/vitable_connect_api/resources/employers/employees.py">create</a>(employer_id, \*\*<a href="src/vitable_connect_api/types/employers/employee_create_params.py">params</a>) -> <a href="./src/vitable_connect_api/types/employee.py">Employee</a></code>
+- <code title="get /v1/employers/{employer_id}/employees">client.employers.employees.<a href="./src/vitable_connect_api/resources/employers/employees.py">list</a>(employer_id, \*\*<a href="src/vitable_connect_api/types/employers/employee_list_params.py">params</a>) -> <a href="./src/vitable_connect_api/types/employers/employee_list_response.py">EmployeeListResponse</a></code>
 
 # Enrollments
 
 Types:
 
 ```python
-from vitable_partner_api.types import (
+from vitable_connect_api.types import (
+    CoverageTier,
     Enrollment,
-    ReissueEnrollmentRequest,
-    EnrollmentGetEligiblePlansResponse,
+    PlanTier,
+    EnrollmentListPlansResponse,
 )
 ```
 
 Methods:
 
-- <code title="get /enrollments/{id}/plans">client.enrollments.<a href="./src/vitable_partner_api/resources/enrollments.py">get_eligible_plans</a>(id) -> <a href="./src/vitable_partner_api/types/enrollment_get_eligible_plans_response.py">EnrollmentGetEligiblePlansResponse</a></code>
-- <code title="post /enrollments/{id}/reissue">client.enrollments.<a href="./src/vitable_partner_api/resources/enrollments.py">reissue</a>(id, \*\*<a href="src/vitable_partner_api/types/enrollment_reissue_params.py">params</a>) -> <a href="./src/vitable_partner_api/types/enrollment.py">Enrollment</a></code>
+- <code title="get /v1/enrollments/{enrollment_id}">client.enrollments.<a href="./src/vitable_connect_api/resources/enrollments.py">retrieve</a>(enrollment_id) -> <a href="./src/vitable_connect_api/types/enrollment.py">Enrollment</a></code>
+- <code title="get /v1/enrollments/{enrollment_id}/plans">client.enrollments.<a href="./src/vitable_connect_api/resources/enrollments.py">list_plans</a>(enrollment_id) -> <a href="./src/vitable_connect_api/types/enrollment_list_plans_response.py">EnrollmentListPlansResponse</a></code>
+- <code title="post /v1/enrollments/{enrollment_id}/reissue">client.enrollments.<a href="./src/vitable_connect_api/resources/enrollments.py">reissue</a>(enrollment_id, \*\*<a href="src/vitable_connect_api/types/enrollment_reissue_params.py">params</a>) -> <a href="./src/vitable_connect_api/types/enrollment.py">Enrollment</a></code>
+
+# Members
+
+## Dependents
+
+Types:
+
+```python
+from vitable_connect_api.types.members import Relationship, DependentListResponse
+```
+
+Methods:
+
+- <code title="post /v1/members/{member_id}/dependents">client.members.dependents.<a href="./src/vitable_connect_api/resources/members/dependents.py">create</a>(member_id, \*\*<a href="src/vitable_connect_api/types/members/dependent_create_params.py">params</a>) -> <a href="./src/vitable_connect_api/types/dependent.py">Dependent</a></code>
+- <code title="get /v1/members/{member_id}/dependents">client.members.dependents.<a href="./src/vitable_connect_api/resources/members/dependents.py">list</a>(member_id, \*\*<a href="src/vitable_connect_api/types/members/dependent_list_params.py">params</a>) -> <a href="./src/vitable_connect_api/types/members/dependent_list_response.py">DependentListResponse</a></code>
+
+## QualifyingLifeEvents
+
+Types:
+
+```python
+from vitable_connect_api.types.members import (
+    EventType,
+    QualifyingLifeEvent,
+    QualifyingLifeEventStatus,
+    QualifyingLifeEventListResponse,
+)
+```
+
+Methods:
+
+- <code title="get /v1/members/{member_id}/qualifying-life-events">client.members.qualifying_life_events.<a href="./src/vitable_connect_api/resources/members/qualifying_life_events.py">list</a>(member_id, \*\*<a href="src/vitable_connect_api/types/members/qualifying_life_event_list_params.py">params</a>) -> <a href="./src/vitable_connect_api/types/members/qualifying_life_event_list_response.py">QualifyingLifeEventListResponse</a></code>
+- <code title="post /v1/members/{member_id}/qualifying-life-events">client.members.qualifying_life_events.<a href="./src/vitable_connect_api/resources/members/qualifying_life_events.py">record</a>(member_id, \*\*<a href="src/vitable_connect_api/types/members/qualifying_life_event_record_params.py">params</a>) -> <a href="./src/vitable_connect_api/types/members/qualifying_life_event.py">QualifyingLifeEvent</a></code>
+
+# PlanYears
+
+Methods:
+
+- <code title="get /v1/plan-years/{plan_year_id}">client.plan_years.<a href="./src/vitable_connect_api/resources/plan_years.py">retrieve</a>(plan_year_id) -> <a href="./src/vitable_connect_api/types/benefit_products/plan_year.py">PlanYear</a></code>
+- <code title="put /v1/plan-years/{plan_year_id}">client.plan_years.<a href="./src/vitable_connect_api/resources/plan_years.py">update</a>(plan_year_id, \*\*<a href="src/vitable_connect_api/types/plan_year_update_params.py">params</a>) -> <a href="./src/vitable_connect_api/types/benefit_products/plan_year.py">PlanYear</a></code>
+
+# QualifyingLifeEvents
+
+Methods:
+
+- <code title="get /v1/qualifying-life-events/{qle_id}">client.qualifying_life_events.<a href="./src/vitable_connect_api/resources/qualifying_life_events.py">retrieve</a>(qle_id) -> <a href="./src/vitable_connect_api/types/members/qualifying_life_event.py">QualifyingLifeEvent</a></code>
