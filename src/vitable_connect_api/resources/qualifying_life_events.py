@@ -26,7 +26,7 @@ class QualifyingLifeEventsResource(SyncAPIResource):
         This property can be used as a prefix for any HTTP method call to return
         the raw response object instead of the parsed content.
 
-        For more information, see https://www.github.com/stainless-sdks/vitable-partner-api-python#accessing-raw-response-data-eg-headers
+        For more information, see https://www.github.com/stainless-sdks/vitable-connect-python#accessing-raw-response-data-eg-headers
         """
         return QualifyingLifeEventsResourceWithRawResponse(self)
 
@@ -35,7 +35,7 @@ class QualifyingLifeEventsResource(SyncAPIResource):
         """
         An alternative to `.with_raw_response` that doesn't eagerly read the response body.
 
-        For more information, see https://www.github.com/stainless-sdks/vitable-partner-api-python#with_streaming_response
+        For more information, see https://www.github.com/stainless-sdks/vitable-connect-python#with_streaming_response
         """
         return QualifyingLifeEventsResourceWithStreamingResponse(self)
 
@@ -82,7 +82,7 @@ class AsyncQualifyingLifeEventsResource(AsyncAPIResource):
         This property can be used as a prefix for any HTTP method call to return
         the raw response object instead of the parsed content.
 
-        For more information, see https://www.github.com/stainless-sdks/vitable-partner-api-python#accessing-raw-response-data-eg-headers
+        For more information, see https://www.github.com/stainless-sdks/vitable-connect-python#accessing-raw-response-data-eg-headers
         """
         return AsyncQualifyingLifeEventsResourceWithRawResponse(self)
 
@@ -91,7 +91,7 @@ class AsyncQualifyingLifeEventsResource(AsyncAPIResource):
         """
         An alternative to `.with_raw_response` that doesn't eagerly read the response body.
 
-        For more information, see https://www.github.com/stainless-sdks/vitable-partner-api-python#with_streaming_response
+        For more information, see https://www.github.com/stainless-sdks/vitable-connect-python#with_streaming_response
         """
         return AsyncQualifyingLifeEventsResourceWithStreamingResponse(self)
 
