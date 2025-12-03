@@ -50,7 +50,7 @@ class EmployersResource(SyncAPIResource):
         This property can be used as a prefix for any HTTP method call to return
         the raw response object instead of the parsed content.
 
-        For more information, see https://www.github.com/stainless-sdks/vitable-partner-api-python#accessing-raw-response-data-eg-headers
+        For more information, see https://www.github.com/stainless-sdks/vitable-connect-python#accessing-raw-response-data-eg-headers
         """
         return EmployersResourceWithRawResponse(self)
 
@@ -59,7 +59,7 @@ class EmployersResource(SyncAPIResource):
         """
         An alternative to `.with_raw_response` that doesn't eagerly read the response body.
 
-        For more information, see https://www.github.com/stainless-sdks/vitable-partner-api-python#with_streaming_response
+        For more information, see https://www.github.com/stainless-sdks/vitable-connect-python#with_streaming_response
         """
         return EmployersResourceWithStreamingResponse(self)
 
@@ -346,7 +346,7 @@ class AsyncEmployersResource(AsyncAPIResource):
         This property can be used as a prefix for any HTTP method call to return
         the raw response object instead of the parsed content.
 
-        For more information, see https://www.github.com/stainless-sdks/vitable-partner-api-python#accessing-raw-response-data-eg-headers
+        For more information, see https://www.github.com/stainless-sdks/vitable-connect-python#accessing-raw-response-data-eg-headers
         """
         return AsyncEmployersResourceWithRawResponse(self)
 
@@ -355,7 +355,7 @@ class AsyncEmployersResource(AsyncAPIResource):
         """
         An alternative to `.with_raw_response` that doesn't eagerly read the response body.
 
-        For more information, see https://www.github.com/stainless-sdks/vitable-partner-api-python#with_streaming_response
+        For more information, see https://www.github.com/stainless-sdks/vitable-connect-python#with_streaming_response
         """
         return AsyncEmployersResourceWithStreamingResponse(self)
 
