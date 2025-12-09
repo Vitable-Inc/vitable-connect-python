@@ -12,6 +12,12 @@ __all__ = ["PlanYear", "ContributionClass", "Plan"]
 
 
 class ContributionClass(BaseModel):
+    """Defines eligibility tiers for contributions within a plan year.
+
+    Contribution classes specify cost structures based on employment type
+    and family coverage status.
+    """
+
     id: str
     """Unique contribution class identifier"""
 
@@ -35,6 +41,8 @@ class ContributionClass(BaseModel):
 
 
 class Plan(BaseModel):
+    """Nested plan within PlanYearSerializer."""
+
     id: str
     """Unique plan identifier with 'plan\\__' prefix"""
 
@@ -63,6 +71,12 @@ class Plan(BaseModel):
 
 
 class PlanYear(BaseModel):
+    """Serializer for Plan Year entity in public API responses.
+
+    A Plan Year represents a benefit period configuration including coverage dates,
+    open enrollment windows, available plans, and contribution structures.
+    """
+
     id: str
     """Unique plan year identifier with 'plyr\\__' prefix"""
 

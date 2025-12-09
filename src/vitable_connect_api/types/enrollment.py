@@ -12,6 +12,8 @@ __all__ = ["Enrollment", "EnrolledDependent"]
 
 
 class EnrolledDependent(BaseModel):
+    """Dependent included in an enrollment."""
+
     dependent_id: str
     """ID of the dependent (dpnd\\__\\**)"""
 
@@ -29,6 +31,11 @@ class EnrolledDependent(BaseModel):
 
 
 class Enrollment(BaseModel):
+    """Serializer for Enrollment entity in public API responses.
+
+    An Enrollment represents an employee's benefit enrollment for a specific plan year.
+    """
+
     id: str
     """Unique enrollment identifier with 'enrl\\__' prefix"""
 

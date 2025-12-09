@@ -10,6 +10,12 @@ __all__ = ["QualifyingLifeEvent"]
 
 
 class QualifyingLifeEvent(BaseModel):
+    """Serializer for Qualifying Life Event entity in public API responses.
+
+    QLEs are significant life changes (marriage, birth, adoption, loss of coverage)
+    that allow employees to modify benefit elections outside of open enrollment.
+    """
+
     id: str
     """Unique QLE identifier with 'qle\\__' prefix"""
 

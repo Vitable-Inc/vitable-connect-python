@@ -9,6 +9,8 @@ __all__ = ["BenefitEligibilityPolicy", "Rule"]
 
 
 class Rule(BaseModel):
+    """Individual eligibility rule within a policy."""
+
     operator: str
     """Comparison operator (e.g., 'equals', 'greater_than', 'in')"""
 
@@ -23,6 +25,11 @@ class Rule(BaseModel):
 
 
 class BenefitEligibilityPolicy(BaseModel):
+    """Serializer for Benefit Eligibility Policy entity.
+
+    Eligibility policies define rules that determine which employees qualify for benefits.
+    """
+
     id: str
     """Unique eligibility policy identifier with 'epol\\__' prefix"""
 

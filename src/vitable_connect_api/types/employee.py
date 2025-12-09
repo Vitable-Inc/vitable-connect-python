@@ -11,6 +11,11 @@ __all__ = ["Employee", "Member", "Address"]
 
 
 class Member(BaseModel):
+    """Nested member entity containing personal identity information.
+
+    Matches MemberEntity from account module domain.
+    """
+
     id: str
     """Unique member identifier with 'mbr\\__' prefix"""
 
@@ -45,6 +50,8 @@ class Member(BaseModel):
 
 
 class Address(BaseModel):
+    """Nested address for employee."""
+
     city: str
     """City name"""
 
@@ -65,6 +72,12 @@ class Address(BaseModel):
 
 
 class Employee(BaseModel):
+    """Serializer for Employee entity in public API responses.
+
+    Note: Employee is in the company module but exposed via account public API.
+    Contains nested MemberEntity with personal identity information.
+    """
+
     id: str
     """Unique employee identifier with 'empl\\__' prefix"""
 
