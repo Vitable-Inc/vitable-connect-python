@@ -9,6 +9,8 @@ __all__ = ["Employer", "Address"]
 
 
 class Address(BaseModel):
+    """Nested address within EmployerSerializer."""
+
     city: str
     """City name"""
 
@@ -29,6 +31,11 @@ class Address(BaseModel):
 
 
 class Employer(BaseModel):
+    """Serializer for Employer entity in public API responses.
+
+    Matches EmployerEntity from company module domain.
+    """
+
     id: str
     """Unique employer identifier with 'empr\\__' prefix"""
 

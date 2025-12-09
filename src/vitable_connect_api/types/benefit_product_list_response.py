@@ -12,6 +12,12 @@ __all__ = ["BenefitProductListResponse", "BenefitProductListResponseItem"]
 
 
 class BenefitProductListResponseItem(BaseModel):
+    """Serializer for Benefit Product entity in public API responses.
+
+    Benefit Products represent types of benefits (dental, vision, medical, etc.)
+    that an Organization can offer to their Employers.
+    """
+
     id: str
     """Unique benefit product identifier with 'bprd\\__' prefix"""
 

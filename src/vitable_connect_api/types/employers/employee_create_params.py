@@ -64,6 +64,8 @@ class EmployeeCreateParams(TypedDict, total=False):
 
 
 class Address(TypedDict, total=False):
+    """Employee's residential address"""
+
     city: Required[str]
     """City name"""
 

@@ -11,6 +11,8 @@ __all__ = ["EnrollmentListPlansResponse", "EnrollmentListPlansResponseItem", "En
 
 
 class EnrollmentListPlansResponseItemCost(BaseModel):
+    """Cost breakdown for a plan option."""
+
     coverage_tier: CoverageTier
     """
     - `Unspecified` - Unspecified
@@ -31,6 +33,11 @@ class EnrollmentListPlansResponseItemCost(BaseModel):
 
 
 class EnrollmentListPlansResponseItem(BaseModel):
+    """Serializer for plan options available for enrollment selection.
+
+    Returns plan details with cost breakdowns for each coverage tier.
+    """
+
     id: str
     """Unique plan identifier (plan\\__\\**)"""
 

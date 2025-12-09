@@ -23,6 +23,8 @@ class EmployerUpdateParams(TypedDict, total=False):
 
 
 class Address(TypedDict, total=False):
+    """Employer address"""
+
     city: Required[str]
     """City name"""
 

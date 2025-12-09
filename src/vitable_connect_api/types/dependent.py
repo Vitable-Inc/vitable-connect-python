@@ -11,6 +11,12 @@ __all__ = ["Dependent"]
 
 
 class Dependent(BaseModel):
+    """Serializer for Dependent entity in public API responses.
+
+    Dependents are family members (spouse, children) who may be eligible
+    for benefit coverage through an employee.
+    """
+
     id: str
     """Unique dependent identifier with 'dpnd\\__' prefix"""
 
