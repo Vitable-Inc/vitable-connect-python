@@ -3,7 +3,7 @@
 from __future__ import annotations
 
 import os
-from typing import Any, Dict, Mapping, cast
+from typing import TYPE_CHECKING, Any, Dict, Mapping, cast
 from typing_extensions import Self, Literal, override
 
 import httpx
@@ -20,8 +20,8 @@ from ._types import (
     not_given,
 )
 from ._utils import is_given, get_async_library
+from ._compat import cached_property
 from ._version import __version__
-from .resources import dependents, plan_years, enrollments, qualifying_life_events, benefit_eligibility_policy
 from ._streaming import Stream as Stream, AsyncStream as AsyncStream
 from ._exceptions import APIStatusError, VitableConnectAPIError
 from ._base_client import (
@@ -29,10 +29,31 @@ from ._base_client import (
     SyncAPIClient,
     AsyncAPIClient,
 )
-from .resources.members import members
-from .resources.employees import employees
-from .resources.employers import employers
-from .resources.benefit_products import benefit_products
+
+if TYPE_CHECKING:
+    from .resources import (
+        members,
+        employees,
+        employers,
+        dependents,
+        plan_years,
+        enrollments,
+        benefit_products,
+        qualifying_life_events,
+        benefit_eligibility_policy,
+    )
+    from .resources.dependents import DependentsResource, AsyncDependentsResource
+    from .resources.plan_years import PlanYearsResource, AsyncPlanYearsResource
+    from .resources.enrollments import EnrollmentsResource, AsyncEnrollmentsResource
+    from .resources.members.members import MembersResource, AsyncMembersResource
+    from .resources.employees.employees import EmployeesResource, AsyncEmployeesResource
+    from .resources.employers.employers import EmployersResource, AsyncEmployersResource
+    from .resources.qualifying_life_events import QualifyingLifeEventsResource, AsyncQualifyingLifeEventsResource
+    from .resources.benefit_eligibility_policy import (
+        BenefitEligibilityPolicyResource,
+        AsyncBenefitEligibilityPolicyResource,
+    )
+    from .resources.benefit_products.benefit_products import BenefitProductsResource, AsyncBenefitProductsResource
 
 __all__ = [
     "ENVIRONMENTS",
@@ -53,18 +74,6 @@ ENVIRONMENTS: Dict[str, str] = {
 
 
 class VitableConnectAPI(SyncAPIClient):
-    benefit_eligibility_policy: benefit_eligibility_policy.BenefitEligibilityPolicyResource
-    benefit_products: benefit_products.BenefitProductsResource
-    dependents: dependents.DependentsResource
-    employees: employees.EmployeesResource
-    employers: employers.EmployersResource
-    enrollments: enrollments.EnrollmentsResource
-    members: members.MembersResource
-    plan_years: plan_years.PlanYearsResource
-    qualifying_life_events: qualifying_life_events.QualifyingLifeEventsResource
-    with_raw_response: VitableConnectAPIWithRawResponse
-    with_streaming_response: VitableConnectAPIWithStreamedResponse
-
     # client options
     api_key: str
 
@@ -143,17 +152,67 @@ class VitableConnectAPI(SyncAPIClient):
             _strict_response_validation=_strict_response_validation,
         )
 
-        self.benefit_eligibility_policy = benefit_eligibility_policy.BenefitEligibilityPolicyResource(self)
-        self.benefit_products = benefit_products.BenefitProductsResource(self)
-        self.dependents = dependents.DependentsResource(self)
-        self.employees = employees.EmployeesResource(self)
-        self.employers = employers.EmployersResource(self)
-        self.enrollments = enrollments.EnrollmentsResource(self)
-        self.members = members.MembersResource(self)
-        self.plan_years = plan_years.PlanYearsResource(self)
-        self.qualifying_life_events = qualifying_life_events.QualifyingLifeEventsResource(self)
-        self.with_raw_response = VitableConnectAPIWithRawResponse(self)
-        self.with_streaming_response = VitableConnectAPIWithStreamedResponse(self)
+    @cached_property
+    def benefit_eligibility_policy(self) -> BenefitEligibilityPolicyResource:
+        from .resources.benefit_eligibility_policy import BenefitEligibilityPolicyResource
+
+        return BenefitEligibilityPolicyResource(self)
+
+    @cached_property
+    def benefit_products(self) -> BenefitProductsResource:
+        from .resources.benefit_products import BenefitProductsResource
+
+        return BenefitProductsResource(self)
+
+    @cached_property
+    def dependents(self) -> DependentsResource:
+        from .resources.dependents import DependentsResource
+
+        return DependentsResource(self)
+
+    @cached_property
+    def employees(self) -> EmployeesResource:
+        from .resources.employees import EmployeesResource
+
+        return EmployeesResource(self)
+
+    @cached_property
+    def employers(self) -> EmployersResource:
+        from .resources.employers import EmployersResource
+
+        return EmployersResource(self)
+
+    @cached_property
+    def enrollments(self) -> EnrollmentsResource:
+        from .resources.enrollments import EnrollmentsResource
+
+        return EnrollmentsResource(self)
+
+    @cached_property
+    def members(self) -> MembersResource:
+        from .resources.members import MembersResource
+
+        return MembersResource(self)
+
+    @cached_property
+    def plan_years(self) -> PlanYearsResource:
+        from .resources.plan_years import PlanYearsResource
+
+        return PlanYearsResource(self)
+
+    @cached_property
+    def qualifying_life_events(self) -> QualifyingLifeEventsResource:
+        from .resources.qualifying_life_events import QualifyingLifeEventsResource
+
+        return QualifyingLifeEventsResource(self)
+
+    @cached_property
+    def with_raw_response(self) -> VitableConnectAPIWithRawResponse:
+        return VitableConnectAPIWithRawResponse(self)
+
+    @cached_property
+    def with_streaming_response(self) -> VitableConnectAPIWithStreamedResponse:
+        return VitableConnectAPIWithStreamedResponse(self)
 
     @property
     @override
@@ -263,18 +322,6 @@ class VitableConnectAPI(SyncAPIClient):
 
 
 class AsyncVitableConnectAPI(AsyncAPIClient):
-    benefit_eligibility_policy: benefit_eligibility_policy.AsyncBenefitEligibilityPolicyResource
-    benefit_products: benefit_products.AsyncBenefitProductsResource
-    dependents: dependents.AsyncDependentsResource
-    employees: employees.AsyncEmployeesResource
-    employers: employers.AsyncEmployersResource
-    enrollments: enrollments.AsyncEnrollmentsResource
-    members: members.AsyncMembersResource
-    plan_years: plan_years.AsyncPlanYearsResource
-    qualifying_life_events: qualifying_life_events.AsyncQualifyingLifeEventsResource
-    with_raw_response: AsyncVitableConnectAPIWithRawResponse
-    with_streaming_response: AsyncVitableConnectAPIWithStreamedResponse
-
     # client options
     api_key: str
 
@@ -353,17 +400,67 @@ class AsyncVitableConnectAPI(AsyncAPIClient):
             _strict_response_validation=_strict_response_validation,
         )
 
-        self.benefit_eligibility_policy = benefit_eligibility_policy.AsyncBenefitEligibilityPolicyResource(self)
-        self.benefit_products = benefit_products.AsyncBenefitProductsResource(self)
-        self.dependents = dependents.AsyncDependentsResource(self)
-        self.employees = employees.AsyncEmployeesResource(self)
-        self.employers = employers.AsyncEmployersResource(self)
-        self.enrollments = enrollments.AsyncEnrollmentsResource(self)
-        self.members = members.AsyncMembersResource(self)
-        self.plan_years = plan_years.AsyncPlanYearsResource(self)
-        self.qualifying_life_events = qualifying_life_events.AsyncQualifyingLifeEventsResource(self)
-        self.with_raw_response = AsyncVitableConnectAPIWithRawResponse(self)
-        self.with_streaming_response = AsyncVitableConnectAPIWithStreamedResponse(self)
+    @cached_property
+    def benefit_eligibility_policy(self) -> AsyncBenefitEligibilityPolicyResource:
+        from .resources.benefit_eligibility_policy import AsyncBenefitEligibilityPolicyResource
+
+        return AsyncBenefitEligibilityPolicyResource(self)
+
+    @cached_property
+    def benefit_products(self) -> AsyncBenefitProductsResource:
+        from .resources.benefit_products import AsyncBenefitProductsResource
+
+        return AsyncBenefitProductsResource(self)
+
+    @cached_property
+    def dependents(self) -> AsyncDependentsResource:
+        from .resources.dependents import AsyncDependentsResource
+
+        return AsyncDependentsResource(self)
+
+    @cached_property
+    def employees(self) -> AsyncEmployeesResource:
+        from .resources.employees import AsyncEmployeesResource
+
+        return AsyncEmployeesResource(self)
+
+    @cached_property
+    def employers(self) -> AsyncEmployersResource:
+        from .resources.employers import AsyncEmployersResource
+
+        return AsyncEmployersResource(self)
+
+    @cached_property
+    def enrollments(self) -> AsyncEnrollmentsResource:
+        from .resources.enrollments import AsyncEnrollmentsResource
+
+        return AsyncEnrollmentsResource(self)
+
+    @cached_property
+    def members(self) -> AsyncMembersResource:
+        from .resources.members import AsyncMembersResource
+
+        return AsyncMembersResource(self)
+
+    @cached_property
+    def plan_years(self) -> AsyncPlanYearsResource:
+        from .resources.plan_years import AsyncPlanYearsResource
+
+        return AsyncPlanYearsResource(self)
+
+    @cached_property
+    def qualifying_life_events(self) -> AsyncQualifyingLifeEventsResource:
+        from .resources.qualifying_life_events import AsyncQualifyingLifeEventsResource
+
+        return AsyncQualifyingLifeEventsResource(self)
+
+    @cached_property
+    def with_raw_response(self) -> AsyncVitableConnectAPIWithRawResponse:
+        return AsyncVitableConnectAPIWithRawResponse(self)
+
+    @cached_property
+    def with_streaming_response(self) -> AsyncVitableConnectAPIWithStreamedResponse:
+        return AsyncVitableConnectAPIWithStreamedResponse(self)
 
     @property
     @override
@@ -473,79 +570,253 @@ class AsyncVitableConnectAPI(AsyncAPIClient):
 
 
 class VitableConnectAPIWithRawResponse:
+    _client: VitableConnectAPI
+
     def __init__(self, client: VitableConnectAPI) -> None:
-        self.benefit_eligibility_policy = benefit_eligibility_policy.BenefitEligibilityPolicyResourceWithRawResponse(
-            client.benefit_eligibility_policy
-        )
-        self.benefit_products = benefit_products.BenefitProductsResourceWithRawResponse(client.benefit_products)
-        self.dependents = dependents.DependentsResourceWithRawResponse(client.dependents)
-        self.employees = employees.EmployeesResourceWithRawResponse(client.employees)
-        self.employers = employers.EmployersResourceWithRawResponse(client.employers)
-        self.enrollments = enrollments.EnrollmentsResourceWithRawResponse(client.enrollments)
-        self.members = members.MembersResourceWithRawResponse(client.members)
-        self.plan_years = plan_years.PlanYearsResourceWithRawResponse(client.plan_years)
-        self.qualifying_life_events = qualifying_life_events.QualifyingLifeEventsResourceWithRawResponse(
-            client.qualifying_life_events
-        )
+        self._client = client
+
+    @cached_property
+    def benefit_eligibility_policy(self) -> benefit_eligibility_policy.BenefitEligibilityPolicyResourceWithRawResponse:
+        from .resources.benefit_eligibility_policy import BenefitEligibilityPolicyResourceWithRawResponse
+
+        return BenefitEligibilityPolicyResourceWithRawResponse(self._client.benefit_eligibility_policy)
+
+    @cached_property
+    def benefit_products(self) -> benefit_products.BenefitProductsResourceWithRawResponse:
+        from .resources.benefit_products import BenefitProductsResourceWithRawResponse
+
+        return BenefitProductsResourceWithRawResponse(self._client.benefit_products)
+
+    @cached_property
+    def dependents(self) -> dependents.DependentsResourceWithRawResponse:
+        from .resources.dependents import DependentsResourceWithRawResponse
+
+        return DependentsResourceWithRawResponse(self._client.dependents)
+
+    @cached_property
+    def employees(self) -> employees.EmployeesResourceWithRawResponse:
+        from .resources.employees import EmployeesResourceWithRawResponse
+
+        return EmployeesResourceWithRawResponse(self._client.employees)
+
+    @cached_property
+    def employers(self) -> employers.EmployersResourceWithRawResponse:
+        from .resources.employers import EmployersResourceWithRawResponse
+
+        return EmployersResourceWithRawResponse(self._client.employers)
+
+    @cached_property
+    def enrollments(self) -> enrollments.EnrollmentsResourceWithRawResponse:
+        from .resources.enrollments import EnrollmentsResourceWithRawResponse
+
+        return EnrollmentsResourceWithRawResponse(self._client.enrollments)
+
+    @cached_property
+    def members(self) -> members.MembersResourceWithRawResponse:
+        from .resources.members import MembersResourceWithRawResponse
+
+        return MembersResourceWithRawResponse(self._client.members)
+
+    @cached_property
+    def plan_years(self) -> plan_years.PlanYearsResourceWithRawResponse:
+        from .resources.plan_years import PlanYearsResourceWithRawResponse
+
+        return PlanYearsResourceWithRawResponse(self._client.plan_years)
+
+    @cached_property
+    def qualifying_life_events(self) -> qualifying_life_events.QualifyingLifeEventsResourceWithRawResponse:
+        from .resources.qualifying_life_events import QualifyingLifeEventsResourceWithRawResponse
+
+        return QualifyingLifeEventsResourceWithRawResponse(self._client.qualifying_life_events)
 
 
 class AsyncVitableConnectAPIWithRawResponse:
+    _client: AsyncVitableConnectAPI
+
     def __init__(self, client: AsyncVitableConnectAPI) -> None:
-        self.benefit_eligibility_policy = (
-            benefit_eligibility_policy.AsyncBenefitEligibilityPolicyResourceWithRawResponse(
-                client.benefit_eligibility_policy
-            )
-        )
-        self.benefit_products = benefit_products.AsyncBenefitProductsResourceWithRawResponse(client.benefit_products)
-        self.dependents = dependents.AsyncDependentsResourceWithRawResponse(client.dependents)
-        self.employees = employees.AsyncEmployeesResourceWithRawResponse(client.employees)
-        self.employers = employers.AsyncEmployersResourceWithRawResponse(client.employers)
-        self.enrollments = enrollments.AsyncEnrollmentsResourceWithRawResponse(client.enrollments)
-        self.members = members.AsyncMembersResourceWithRawResponse(client.members)
-        self.plan_years = plan_years.AsyncPlanYearsResourceWithRawResponse(client.plan_years)
-        self.qualifying_life_events = qualifying_life_events.AsyncQualifyingLifeEventsResourceWithRawResponse(
-            client.qualifying_life_events
-        )
+        self._client = client
+
+    @cached_property
+    def benefit_eligibility_policy(
+        self,
+    ) -> benefit_eligibility_policy.AsyncBenefitEligibilityPolicyResourceWithRawResponse:
+        from .resources.benefit_eligibility_policy import AsyncBenefitEligibilityPolicyResourceWithRawResponse
+
+        return AsyncBenefitEligibilityPolicyResourceWithRawResponse(self._client.benefit_eligibility_policy)
+
+    @cached_property
+    def benefit_products(self) -> benefit_products.AsyncBenefitProductsResourceWithRawResponse:
+        from .resources.benefit_products import AsyncBenefitProductsResourceWithRawResponse
+
+        return AsyncBenefitProductsResourceWithRawResponse(self._client.benefit_products)
+
+    @cached_property
+    def dependents(self) -> dependents.AsyncDependentsResourceWithRawResponse:
+        from .resources.dependents import AsyncDependentsResourceWithRawResponse
+
+        return AsyncDependentsResourceWithRawResponse(self._client.dependents)
+
+    @cached_property
+    def employees(self) -> employees.AsyncEmployeesResourceWithRawResponse:
+        from .resources.employees import AsyncEmployeesResourceWithRawResponse
+
+        return AsyncEmployeesResourceWithRawResponse(self._client.employees)
+
+    @cached_property
+    def employers(self) -> employers.AsyncEmployersResourceWithRawResponse:
+        from .resources.employers import AsyncEmployersResourceWithRawResponse
+
+        return AsyncEmployersResourceWithRawResponse(self._client.employers)
+
+    @cached_property
+    def enrollments(self) -> enrollments.AsyncEnrollmentsResourceWithRawResponse:
+        from .resources.enrollments import AsyncEnrollmentsResourceWithRawResponse
+
+        return AsyncEnrollmentsResourceWithRawResponse(self._client.enrollments)
+
+    @cached_property
+    def members(self) -> members.AsyncMembersResourceWithRawResponse:
+        from .resources.members import AsyncMembersResourceWithRawResponse
+
+        return AsyncMembersResourceWithRawResponse(self._client.members)
+
+    @cached_property
+    def plan_years(self) -> plan_years.AsyncPlanYearsResourceWithRawResponse:
+        from .resources.plan_years import AsyncPlanYearsResourceWithRawResponse
+
+        return AsyncPlanYearsResourceWithRawResponse(self._client.plan_years)
+
+    @cached_property
+    def qualifying_life_events(self) -> qualifying_life_events.AsyncQualifyingLifeEventsResourceWithRawResponse:
+        from .resources.qualifying_life_events import AsyncQualifyingLifeEventsResourceWithRawResponse
+
+        return AsyncQualifyingLifeEventsResourceWithRawResponse(self._client.qualifying_life_events)
 
 
 class VitableConnectAPIWithStreamedResponse:
+    _client: VitableConnectAPI
+
     def __init__(self, client: VitableConnectAPI) -> None:
-        self.benefit_eligibility_policy = (
-            benefit_eligibility_policy.BenefitEligibilityPolicyResourceWithStreamingResponse(
-                client.benefit_eligibility_policy
-            )
-        )
-        self.benefit_products = benefit_products.BenefitProductsResourceWithStreamingResponse(client.benefit_products)
-        self.dependents = dependents.DependentsResourceWithStreamingResponse(client.dependents)
-        self.employees = employees.EmployeesResourceWithStreamingResponse(client.employees)
-        self.employers = employers.EmployersResourceWithStreamingResponse(client.employers)
-        self.enrollments = enrollments.EnrollmentsResourceWithStreamingResponse(client.enrollments)
-        self.members = members.MembersResourceWithStreamingResponse(client.members)
-        self.plan_years = plan_years.PlanYearsResourceWithStreamingResponse(client.plan_years)
-        self.qualifying_life_events = qualifying_life_events.QualifyingLifeEventsResourceWithStreamingResponse(
-            client.qualifying_life_events
-        )
+        self._client = client
+
+    @cached_property
+    def benefit_eligibility_policy(
+        self,
+    ) -> benefit_eligibility_policy.BenefitEligibilityPolicyResourceWithStreamingResponse:
+        from .resources.benefit_eligibility_policy import BenefitEligibilityPolicyResourceWithStreamingResponse
+
+        return BenefitEligibilityPolicyResourceWithStreamingResponse(self._client.benefit_eligibility_policy)
+
+    @cached_property
+    def benefit_products(self) -> benefit_products.BenefitProductsResourceWithStreamingResponse:
+        from .resources.benefit_products import BenefitProductsResourceWithStreamingResponse
+
+        return BenefitProductsResourceWithStreamingResponse(self._client.benefit_products)
+
+    @cached_property
+    def dependents(self) -> dependents.DependentsResourceWithStreamingResponse:
+        from .resources.dependents import DependentsResourceWithStreamingResponse
+
+        return DependentsResourceWithStreamingResponse(self._client.dependents)
+
+    @cached_property
+    def employees(self) -> employees.EmployeesResourceWithStreamingResponse:
+        from .resources.employees import EmployeesResourceWithStreamingResponse
+
+        return EmployeesResourceWithStreamingResponse(self._client.employees)
+
+    @cached_property
+    def employers(self) -> employers.EmployersResourceWithStreamingResponse:
+        from .resources.employers import EmployersResourceWithStreamingResponse
+
+        return EmployersResourceWithStreamingResponse(self._client.employers)
+
+    @cached_property
+    def enrollments(self) -> enrollments.EnrollmentsResourceWithStreamingResponse:
+        from .resources.enrollments import EnrollmentsResourceWithStreamingResponse
+
+        return EnrollmentsResourceWithStreamingResponse(self._client.enrollments)
+
+    @cached_property
+    def members(self) -> members.MembersResourceWithStreamingResponse:
+        from .resources.members import MembersResourceWithStreamingResponse
+
+        return MembersResourceWithStreamingResponse(self._client.members)
+
+    @cached_property
+    def plan_years(self) -> plan_years.PlanYearsResourceWithStreamingResponse:
+        from .resources.plan_years import PlanYearsResourceWithStreamingResponse
+
+        return PlanYearsResourceWithStreamingResponse(self._client.plan_years)
+
+    @cached_property
+    def qualifying_life_events(self) -> qualifying_life_events.QualifyingLifeEventsResourceWithStreamingResponse:
+        from .resources.qualifying_life_events import QualifyingLifeEventsResourceWithStreamingResponse
+
+        return QualifyingLifeEventsResourceWithStreamingResponse(self._client.qualifying_life_events)
 
 
 class AsyncVitableConnectAPIWithStreamedResponse:
+    _client: AsyncVitableConnectAPI
+
     def __init__(self, client: AsyncVitableConnectAPI) -> None:
-        self.benefit_eligibility_policy = (
-            benefit_eligibility_policy.AsyncBenefitEligibilityPolicyResourceWithStreamingResponse(
-                client.benefit_eligibility_policy
-            )
-        )
-        self.benefit_products = benefit_products.AsyncBenefitProductsResourceWithStreamingResponse(
-            client.benefit_products
-        )
-        self.dependents = dependents.AsyncDependentsResourceWithStreamingResponse(client.dependents)
-        self.employees = employees.AsyncEmployeesResourceWithStreamingResponse(client.employees)
-        self.employers = employers.AsyncEmployersResourceWithStreamingResponse(client.employers)
-        self.enrollments = enrollments.AsyncEnrollmentsResourceWithStreamingResponse(client.enrollments)
-        self.members = members.AsyncMembersResourceWithStreamingResponse(client.members)
-        self.plan_years = plan_years.AsyncPlanYearsResourceWithStreamingResponse(client.plan_years)
-        self.qualifying_life_events = qualifying_life_events.AsyncQualifyingLifeEventsResourceWithStreamingResponse(
-            client.qualifying_life_events
-        )
+        self._client = client
+
+    @cached_property
+    def benefit_eligibility_policy(
+        self,
+    ) -> benefit_eligibility_policy.AsyncBenefitEligibilityPolicyResourceWithStreamingResponse:
+        from .resources.benefit_eligibility_policy import AsyncBenefitEligibilityPolicyResourceWithStreamingResponse
+
+        return AsyncBenefitEligibilityPolicyResourceWithStreamingResponse(self._client.benefit_eligibility_policy)
+
+    @cached_property
+    def benefit_products(self) -> benefit_products.AsyncBenefitProductsResourceWithStreamingResponse:
+        from .resources.benefit_products import AsyncBenefitProductsResourceWithStreamingResponse
+
+        return AsyncBenefitProductsResourceWithStreamingResponse(self._client.benefit_products)
+
+    @cached_property
+    def dependents(self) -> dependents.AsyncDependentsResourceWithStreamingResponse:
+        from .resources.dependents import AsyncDependentsResourceWithStreamingResponse
+
+        return AsyncDependentsResourceWithStreamingResponse(self._client.dependents)
+
+    @cached_property
+    def employees(self) -> employees.AsyncEmployeesResourceWithStreamingResponse:
+        from .resources.employees import AsyncEmployeesResourceWithStreamingResponse
+
+        return AsyncEmployeesResourceWithStreamingResponse(self._client.employees)
+
+    @cached_property
+    def employers(self) -> employers.AsyncEmployersResourceWithStreamingResponse:
+        from .resources.employers import AsyncEmployersResourceWithStreamingResponse
+
+        return AsyncEmployersResourceWithStreamingResponse(self._client.employers)
+
+    @cached_property
+    def enrollments(self) -> enrollments.AsyncEnrollmentsResourceWithStreamingResponse:
+        from .resources.enrollments import AsyncEnrollmentsResourceWithStreamingResponse
+
+        return AsyncEnrollmentsResourceWithStreamingResponse(self._client.enrollments)
+
+    @cached_property
+    def members(self) -> members.AsyncMembersResourceWithStreamingResponse:
+        from .resources.members import AsyncMembersResourceWithStreamingResponse
+
+        return AsyncMembersResourceWithStreamingResponse(self._client.members)
+
+    @cached_property
+    def plan_years(self) -> plan_years.AsyncPlanYearsResourceWithStreamingResponse:
+        from .resources.plan_years import AsyncPlanYearsResourceWithStreamingResponse
+
+        return AsyncPlanYearsResourceWithStreamingResponse(self._client.plan_years)
+
+    @cached_property
+    def qualifying_life_events(self) -> qualifying_life_events.AsyncQualifyingLifeEventsResourceWithStreamingResponse:
+        from .resources.qualifying_life_events import AsyncQualifyingLifeEventsResourceWithStreamingResponse
+
+        return AsyncQualifyingLifeEventsResourceWithStreamingResponse(self._client.qualifying_life_events)
 
 
 Client = VitableConnectAPI
