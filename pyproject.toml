@@ -1,11 +1,11 @@
 [project]
-name = "vitable_connect_api"
+name = "vitable_connect"
 version = "0.0.1"
-description = "The official Python library for the vitable-connect-api API"
+description = "The official Python library for the vitable-connect API"
 dynamic = ["readme"]
 license = "Apache-2.0"
 authors = [
-{ name = "Vitable Connect API", email = "dev@vitablehealth.com" },
+{ name = "Vitable Connect", email = "dev@vitablehealth.com" },
 ]
 
 dependencies = [
@@ -43,10 +43,19 @@ Repository = "https://github.com/stainless-sdks/vitable-connect-python"
 [project.optional-dependencies]
 aiohttp = ["aiohttp", "httpx_aiohttp>=0.1.9"]
 
-[tool.rye]
+[tool.uv]
 managed = true
-# version pins are in requirements-dev.lock
-dev-dependencies = [
+required-version = ">=0.9"
+conflicts = [
+    [
+      { group = "pydantic-v1" },
+      { group = "pydantic-v2" },
+    ],
+]
+
+[dependency-groups]
+# version pins are in uv.lock
+dev = [
     "pyright==1.1.399",
     "mypy==1.17",
     "respx",
@@ -54,41 +63,18 @@ dev-dependencies = [
     "pytest-asyncio",
     "ruff",
     "time-machine",
-    "nox",
     "dirty-equals>=0.6.0",
     "importlib-metadata>=6.7.0",
     "rich>=13.7.1",
     "pytest-xdist>=3.6.1",
 ]
-
-[tool.rye.scripts]
-format = { chain = [
-  "format:ruff",
-  "format:docs",
-  "fix:ruff",
-  # run formatting again to fix any inconsistencies when imports are stripped
-  "format:ruff",
-]}
-"format:docs" = "python scripts/utils/ruffen-docs.py README.md api.md"
-"format:ruff" = "ruff format"
-
-"lint" = { chain = [
-  "check:ruff",
-  "typecheck",
-  "check:importable",
-]}
-"check:ruff" = "ruff check ."
-"fix:ruff" = "ruff check --fix ."
-
-"check:importable" = "python -c 'import vitable_connect_api'"
-
-typecheck = { chain = [
-  "typecheck:pyright",
-  "typecheck:mypy"
-]}
-"typecheck:pyright" = "pyright"
-"typecheck:verify-types" = "pyright --verifytypes vitable_connect_api --ignoreexternal"
-"typecheck:mypy" = "mypy ."
+pydantic-v1 = [
+    "pydantic>=1.9.0,<2",
+]
+pydantic-v2 = [
+    "pydantic~=2.0 ; python_full_version < '3.14'",
+    "pydantic~=2.12 ; python_full_version >= '3.14'",
+]
 
 [build-system]
 requires = ["hatchling==1.26.3", "hatch-fancy-pypi-readme"]
@@ -100,7 +86,7 @@ include = [
 ]
 
 [tool.hatch.build.targets.wheel]
-packages = ["src/vitable_connect_api"]
+packages = ["src/vitable_connect"]
 
 [tool.hatch.build.targets.sdist]
 # Basically everything except hidden files/directories (such as .github, .devcontainers, .python-version, etc)
@@ -168,7 +154,7 @@ show_error_codes = true
 #
 # We also exclude our `tests` as mypy doesn't always infer
 # types correctly and Pyright will still catch any type errors.
-exclude = ['src/vitable_connect_api/_files.py', '_dev/.*.py', 'tests/.*']
+exclude = ['src/vitable_connect/_files.py', '_dev/.*.py', 'tests/.*']
 
 strict_equality = true
 implicit_reexport = true
@@ -260,7 +246,7 @@ length-sort = true
 length-sort-straight = true
 combine-as-imports = true
 extra-standard-library = ["typing_extensions"]
-known-first-party = ["vitable_connect_api", "tests"]
+known-first-party = ["vitable_connect", "tests"]
 
 [tool.ruff.lint.per-file-ignores]
 "bin/**.py" = ["T201", "T203"]

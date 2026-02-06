@@ -8,8 +8,8 @@ from typing import Any, TypeVar, Iterator, Sequence, cast
 from datetime import date, datetime
 from typing_extensions import Literal, get_args, get_origin, assert_type
 
-from vitable_connect_api._types import Omit, NoneType
-from vitable_connect_api._utils import (
+from vitable_connect._types import Omit, NoneType
+from vitable_connect._utils import (
     is_dict,
     is_list,
     is_list_type,
@@ -19,8 +19,8 @@ from vitable_connect_api._utils import (
     is_annotated_type,
     is_type_alias_type,
 )
-from vitable_connect_api._compat import PYDANTIC_V1, field_outer_type, get_model_fields
-from vitable_connect_api._models import BaseModel
+from vitable_connect._compat import PYDANTIC_V1, field_outer_type, get_model_fields
+from vitable_connect._models import BaseModel
 
 BaseModelT = TypeVar("BaseModelT", bound=BaseModel)
 

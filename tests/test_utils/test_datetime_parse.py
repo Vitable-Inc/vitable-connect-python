@@ -8,7 +8,7 @@ from datetime import date, datetime, timezone, timedelta
 
 import pytest
 
-from vitable_connect_api._utils import parse_date, parse_datetime
+from vitable_connect._utils import parse_date, parse_datetime
 
 
 def create_tz(minutes: int) -> timezone:

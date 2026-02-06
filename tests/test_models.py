@@ -7,9 +7,9 @@ import pytest
 import pydantic
 from pydantic import Field
 
-from vitable_connect_api._utils import PropertyInfo
-from vitable_connect_api._compat import PYDANTIC_V1, parse_obj, model_dump, model_json
-from vitable_connect_api._models import DISCRIMINATOR_CACHE, BaseModel, construct_type
+from vitable_connect._utils import PropertyInfo
+from vitable_connect._compat import PYDANTIC_V1, parse_obj, model_dump, model_json
+from vitable_connect._models import DISCRIMINATOR_CACHE, BaseModel, construct_type
 
 
 class BasicModel(BaseModel):
