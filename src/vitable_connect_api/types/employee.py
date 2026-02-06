@@ -81,7 +81,7 @@ class Employee(BaseModel):
     id: str
     """Unique employee identifier with 'empl\\__' prefix"""
 
-    active: bool
+    active_in: bool
     """Whether the employee is currently active"""
 
     created_at: datetime

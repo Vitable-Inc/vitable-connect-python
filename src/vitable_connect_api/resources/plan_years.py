@@ -19,7 +19,8 @@ from .._response import (
     async_to_streamed_response_wrapper,
 )
 from .._base_client import make_request_options
-from ..types.benefit_products.plan_year import PlanYear
+from ..types.plan_year_update_response import PlanYearUpdateResponse
+from ..types.plan_year_retrieve_response import PlanYearRetrieveResponse
 
 __all__ = ["PlanYearsResource", "AsyncPlanYearsResource"]
 
@@ -54,7 +55,7 @@ class PlanYearsResource(SyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> PlanYear:
+    ) -> PlanYearRetrieveResponse:
         """Retrieves detailed configuration for a specific plan year by ID.
 
         Returns
@@ -62,6 +63,8 @@ class PlanYearsResource(SyncAPIResource):
         structure.
 
         Args:
+          plan_year_id: Unique plan year identifier (plyr\\__\\**)
+
           extra_headers: Send extra headers
 
           extra_query: Add additional query parameters to the request
@@ -77,7 +80,7 @@ class PlanYearsResource(SyncAPIResource):
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
-            cast_to=PlanYear,
+            cast_to=PlanYearRetrieveResponse,
         )
 
     def update(
@@ -94,7 +97,7 @@ class PlanYearsResource(SyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> PlanYear:
+    ) -> PlanYearUpdateResponse:
         """Updates an existing plan year's configuration.
 
         Important: Plan years can only be
@@ -102,6 +105,8 @@ class PlanYearsResource(SyncAPIResource):
         must be in cents.
 
         Args:
+          plan_year_id: Unique plan year identifier (plyr\\__\\**)
+
           contribution_classes: Updated contribution classes
 
           open_enrollment_end: Open enrollment end date
@@ -134,7 +139,7 @@ class PlanYearsResource(SyncAPIResource):
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
-            cast_to=PlanYear,
+            cast_to=PlanYearUpdateResponse,
         )
 
 
@@ -168,7 +173,7 @@ class AsyncPlanYearsResource(AsyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> PlanYear:
+    ) -> PlanYearRetrieveResponse:
         """Retrieves detailed configuration for a specific plan year by ID.
 
         Returns
@@ -176,6 +181,8 @@ class AsyncPlanYearsResource(AsyncAPIResource):
         structure.
 
         Args:
+          plan_year_id: Unique plan year identifier (plyr\\__\\**)
+
           extra_headers: Send extra headers
 
           extra_query: Add additional query parameters to the request
@@ -191,7 +198,7 @@ class AsyncPlanYearsResource(AsyncAPIResource):
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
-            cast_to=PlanYear,
+            cast_to=PlanYearRetrieveResponse,
         )
 
     async def update(
@@ -208,7 +215,7 @@ class AsyncPlanYearsResource(AsyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> PlanYear:
+    ) -> PlanYearUpdateResponse:
         """Updates an existing plan year's configuration.
 
         Important: Plan years can only be
@@ -216,6 +223,8 @@ class AsyncPlanYearsResource(AsyncAPIResource):
         must be in cents.
 
         Args:
+          plan_year_id: Unique plan year identifier (plyr\\__\\**)
+
           contribution_classes: Updated contribution classes
 
           open_enrollment_end: Open enrollment end date
@@ -248,7 +257,7 @@ class AsyncPlanYearsResource(AsyncAPIResource):
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
-            cast_to=PlanYear,
+            cast_to=PlanYearUpdateResponse,
         )
 
 

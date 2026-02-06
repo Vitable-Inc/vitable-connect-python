@@ -17,6 +17,17 @@ class EnrollmentSubmitElectionsParams(TypedDict, total=False):
 
 
 class Election(TypedDict, total=False):
+    """Individual enrollment election within the batch request."""
+
+    coverage_tier: Required[CoverageTier]
+    """
+    - `Unspecified` - Unspecified
+    - `EE` - Ee
+    - `ES` - Es
+    - `EC` - Ec
+    - `EF` - Ef
+    """
+
     decision: Required[Literal["Enrolled", "Waived"]]
     """
     - `Enrolled` - Enrolled
@@ -25,15 +36,6 @@ class Election(TypedDict, total=False):
 
     enrollment_id: Required[str]
     """ID of the enrollment (enrl\\__\\**)"""
-
-    coverage_tier: Optional[CoverageTier]
-    """
-    - `Unspecified` - Unspecified
-    - `EE` - Ee
-    - `ES` - Es
-    - `EC` - Ec
-    - `EF` - Ef
-    """
 
     dependent_ids: Optional[SequenceNotStr[str]]
     """List of dependent IDs to include in coverage (dpnd\\__\\**)"""

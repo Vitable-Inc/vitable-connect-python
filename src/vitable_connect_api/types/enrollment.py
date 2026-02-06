@@ -42,6 +42,15 @@ class Enrollment(BaseModel):
     benefit_product_id: str
     """ID of the benefit product (bprd\\__\\**)"""
 
+    coverage_tier: CoverageTier
+    """
+    - `Unspecified` - Unspecified
+    - `EE` - Ee
+    - `ES` - Es
+    - `EC` - Ec
+    - `EF` - Ef
+    """
+
     created_at: datetime
     """Timestamp when the enrollment was created"""
 
@@ -67,15 +76,6 @@ class Enrollment(BaseModel):
 
     coverage_start_date: Optional[date] = None
     """Date when coverage begins"""
-
-    coverage_tier: Optional[CoverageTier] = None
-    """
-    - `Unspecified` - Unspecified
-    - `EE` - Ee
-    - `ES` - Es
-    - `EC` - Ec
-    - `EF` - Ef
-    """
 
     decision: Optional[str] = None
     """Employee's election decision: 'enrolled' (accepted) or 'waived' (declined)"""

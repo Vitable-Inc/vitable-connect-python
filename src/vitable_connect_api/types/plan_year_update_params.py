@@ -27,6 +27,17 @@ class PlanYearUpdateParams(TypedDict, total=False):
 
 
 class ContributionClass(TypedDict, total=False):
+    """Contribution class input for plan year update."""
+
+    coverage_tier: Required[CoverageTier]
+    """
+    - `Unspecified` - Unspecified
+    - `EE` - Ee
+    - `ES` - Es
+    - `EC` - Ec
+    - `EF` - Ef
+    """
+
     employee_contribution_cents: Required[int]
     """Employee's monthly contribution in cents"""
 
@@ -35,12 +46,3 @@ class ContributionClass(TypedDict, total=False):
 
     employment: Required[str]
     """Employment type"""
-
-    family_status: Required[CoverageTier]
-    """
-    - `Unspecified` - Unspecified
-    - `EE` - Ee
-    - `ES` - Es
-    - `EC` - Ec
-    - `EF` - Ef
-    """

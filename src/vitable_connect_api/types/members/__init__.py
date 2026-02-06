@@ -8,7 +8,11 @@ from .dependent_list_params import DependentListParams as DependentListParams
 from .qualifying_life_event import QualifyingLifeEvent as QualifyingLifeEvent
 from .dependent_create_params import DependentCreateParams as DependentCreateParams
 from .dependent_list_response import DependentListResponse as DependentListResponse
+from .dependent_create_response import DependentCreateResponse as DependentCreateResponse
 from .qualifying_life_event_status import QualifyingLifeEventStatus as QualifyingLifeEventStatus
 from .qualifying_life_event_list_params import QualifyingLifeEventListParams as QualifyingLifeEventListParams
 from .qualifying_life_event_list_response import QualifyingLifeEventListResponse as QualifyingLifeEventListResponse
 from .qualifying_life_event_record_params import QualifyingLifeEventRecordParams as QualifyingLifeEventRecordParams
+from .qualifying_life_event_record_response import (
+    QualifyingLifeEventRecordResponse as QualifyingLifeEventRecordResponse,
+)

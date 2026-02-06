@@ -25,10 +25,10 @@ class QualifyingLifeEvent(BaseModel):
     employee_id: str
     """ID of the employee (empl\\__\\**)"""
 
-    enrollment_window_end: date
+    enrollment_window_end: datetime
     """End of the special enrollment period (typically 30-60 days from event)"""
 
-    enrollment_window_start: date
+    enrollment_window_start: datetime
     """Start of the special enrollment period"""
 
     event_date: date

@@ -11,8 +11,8 @@ from tests.utils import assert_matches_type
 from vitable_connect_api import VitableConnectAPI, AsyncVitableConnectAPI
 from vitable_connect_api._utils import parse_date
 from vitable_connect_api.types.members import (
-    QualifyingLifeEvent,
     QualifyingLifeEventListResponse,
+    QualifyingLifeEventRecordResponse,
 )
 
 base_url = os.environ.get("TEST_API_BASE_URL", "http://127.0.0.1:4010")
@@ -80,49 +80,49 @@ class TestQualifyingLifeEvents:
     def test_method_record(self, client: VitableConnectAPI) -> None:
         qualifying_life_event = client.members.qualifying_life_events.record(
             member_id="mbr_abc123def456",
-            event_date=parse_date("2019-12-27"),
+            event_date=parse_date("2024-11-15"),
             event_type="Marriage",
         )
-        assert_matches_type(QualifyingLifeEvent, qualifying_life_event, path=["response"])
+        assert_matches_type(QualifyingLifeEventRecordResponse, qualifying_life_event, path=["response"])
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     def test_method_record_with_all_params(self, client: VitableConnectAPI) -> None:
         qualifying_life_event = client.members.qualifying_life_events.record(
             member_id="mbr_abc123def456",
-            event_date=parse_date("2019-12-27"),
+            event_date=parse_date("2024-11-15"),
             event_type="Marriage",
-            notes="notes",
+            notes="Employee got married, adding spouse to coverage",
         )
-        assert_matches_type(QualifyingLifeEvent, qualifying_life_event, path=["response"])
+        assert_matches_type(QualifyingLifeEventRecordResponse, qualifying_life_event, path=["response"])
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     def test_raw_response_record(self, client: VitableConnectAPI) -> None:
         response = client.members.qualifying_life_events.with_raw_response.record(
             member_id="mbr_abc123def456",
-            event_date=parse_date("2019-12-27"),
+            event_date=parse_date("2024-11-15"),
             event_type="Marriage",
         )
 
         assert response.is_closed is True
         assert response.http_request.headers.get("X-Stainless-Lang") == "python"
         qualifying_life_event = response.parse()
-        assert_matches_type(QualifyingLifeEvent, qualifying_life_event, path=["response"])
+        assert_matches_type(QualifyingLifeEventRecordResponse, qualifying_life_event, path=["response"])
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     def test_streaming_response_record(self, client: VitableConnectAPI) -> None:
         with client.members.qualifying_life_events.with_streaming_response.record(
             member_id="mbr_abc123def456",
-            event_date=parse_date("2019-12-27"),
+            event_date=parse_date("2024-11-15"),
             event_type="Marriage",
         ) as response:
             assert not response.is_closed
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
 
             qualifying_life_event = response.parse()
-            assert_matches_type(QualifyingLifeEvent, qualifying_life_event, path=["response"])
+            assert_matches_type(QualifyingLifeEventRecordResponse, qualifying_life_event, path=["response"])
 
         assert cast(Any, response.is_closed) is True
 
@@ -132,7 +132,7 @@ class TestQualifyingLifeEvents:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `member_id` but received ''"):
             client.members.qualifying_life_events.with_raw_response.record(
                 member_id="",
-                event_date=parse_date("2019-12-27"),
+                event_date=parse_date("2024-11-15"),
                 event_type="Marriage",
             )
 
@@ -201,49 +201,49 @@ class TestAsyncQualifyingLifeEvents:
     async def test_method_record(self, async_client: AsyncVitableConnectAPI) -> None:
         qualifying_life_event = await async_client.members.qualifying_life_events.record(
             member_id="mbr_abc123def456",
-            event_date=parse_date("2019-12-27"),
+            event_date=parse_date("2024-11-15"),
             event_type="Marriage",
         )
-        assert_matches_type(QualifyingLifeEvent, qualifying_life_event, path=["response"])
+        assert_matches_type(QualifyingLifeEventRecordResponse, qualifying_life_event, path=["response"])
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     async def test_method_record_with_all_params(self, async_client: AsyncVitableConnectAPI) -> None:
         qualifying_life_event = await async_client.members.qualifying_life_events.record(
             member_id="mbr_abc123def456",
-            event_date=parse_date("2019-12-27"),
+            event_date=parse_date("2024-11-15"),
             event_type="Marriage",
-            notes="notes",
+            notes="Employee got married, adding spouse to coverage",
         )
-        assert_matches_type(QualifyingLifeEvent, qualifying_life_event, path=["response"])
+        assert_matches_type(QualifyingLifeEventRecordResponse, qualifying_life_event, path=["response"])
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     async def test_raw_response_record(self, async_client: AsyncVitableConnectAPI) -> None:
         response = await async_client.members.qualifying_life_events.with_raw_response.record(
             member_id="mbr_abc123def456",
-            event_date=parse_date("2019-12-27"),
+            event_date=parse_date("2024-11-15"),
             event_type="Marriage",
         )
 
         assert response.is_closed is True
         assert response.http_request.headers.get("X-Stainless-Lang") == "python"
         qualifying_life_event = await response.parse()
-        assert_matches_type(QualifyingLifeEvent, qualifying_life_event, path=["response"])
+        assert_matches_type(QualifyingLifeEventRecordResponse, qualifying_life_event, path=["response"])
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     async def test_streaming_response_record(self, async_client: AsyncVitableConnectAPI) -> None:
         async with async_client.members.qualifying_life_events.with_streaming_response.record(
             member_id="mbr_abc123def456",
-            event_date=parse_date("2019-12-27"),
+            event_date=parse_date("2024-11-15"),
             event_type="Marriage",
         ) as response:
             assert not response.is_closed
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
 
             qualifying_life_event = await response.parse()
-            assert_matches_type(QualifyingLifeEvent, qualifying_life_event, path=["response"])
+            assert_matches_type(QualifyingLifeEventRecordResponse, qualifying_life_event, path=["response"])
 
         assert cast(Any, response.is_closed) is True
 
@@ -253,6 +253,6 @@ class TestAsyncQualifyingLifeEvents:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `member_id` but received ''"):
             await async_client.members.qualifying_life_events.with_raw_response.record(
                 member_id="",
-                event_date=parse_date("2019-12-27"),
+                event_date=parse_date("2024-11-15"),
                 event_type="Marriage",
             )

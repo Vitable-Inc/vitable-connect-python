@@ -9,8 +9,8 @@ import pytest
 
 from tests.utils import assert_matches_type
 from vitable_connect_api import VitableConnectAPI, AsyncVitableConnectAPI
+from vitable_connect_api.types import PlanYearUpdateResponse, PlanYearRetrieveResponse
 from vitable_connect_api._utils import parse_date
-from vitable_connect_api.types.benefit_products import PlanYear
 
 base_url = os.environ.get("TEST_API_BASE_URL", "http://127.0.0.1:4010")
 
@@ -24,7 +24,7 @@ class TestPlanYears:
         plan_year = client.plan_years.retrieve(
             "plyr_abc123def456",
         )
-        assert_matches_type(PlanYear, plan_year, path=["response"])
+        assert_matches_type(PlanYearRetrieveResponse, plan_year, path=["response"])
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
@@ -36,7 +36,7 @@ class TestPlanYears:
         assert response.is_closed is True
         assert response.http_request.headers.get("X-Stainless-Lang") == "python"
         plan_year = response.parse()
-        assert_matches_type(PlanYear, plan_year, path=["response"])
+        assert_matches_type(PlanYearRetrieveResponse, plan_year, path=["response"])
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
@@ -48,7 +48,7 @@ class TestPlanYears:
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
 
             plan_year = response.parse()
-            assert_matches_type(PlanYear, plan_year, path=["response"])
+            assert_matches_type(PlanYearRetrieveResponse, plan_year, path=["response"])
 
         assert cast(Any, response.is_closed) is True
 
@@ -66,7 +66,7 @@ class TestPlanYears:
         plan_year = client.plan_years.update(
             plan_year_id="plyr_abc123def456",
         )
-        assert_matches_type(PlanYear, plan_year, path=["response"])
+        assert_matches_type(PlanYearUpdateResponse, plan_year, path=["response"])
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
@@ -75,17 +75,23 @@ class TestPlanYears:
             plan_year_id="plyr_abc123def456",
             contribution_classes=[
                 {
-                    "employee_contribution_cents": 0,
-                    "employer_contribution_cents": 0,
-                    "employment": "employment",
-                    "family_status": "Unspecified",
-                }
+                    "coverage_tier": "EE",
+                    "employee_contribution_cents": 18000,
+                    "employer_contribution_cents": 47000,
+                    "employment": "full_time",
+                },
+                {
+                    "coverage_tier": "EF",
+                    "employee_contribution_cents": 48000,
+                    "employer_contribution_cents": 62000,
+                    "employment": "full_time",
+                },
             ],
-            open_enrollment_end=parse_date("2019-12-27"),
-            open_enrollment_start=parse_date("2019-12-27"),
-            status="status",
+            open_enrollment_end=parse_date("2024-11-15"),
+            open_enrollment_start=parse_date("2024-10-01"),
+            status="active",
         )
-        assert_matches_type(PlanYear, plan_year, path=["response"])
+        assert_matches_type(PlanYearUpdateResponse, plan_year, path=["response"])
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
@@ -97,7 +103,7 @@ class TestPlanYears:
         assert response.is_closed is True
         assert response.http_request.headers.get("X-Stainless-Lang") == "python"
         plan_year = response.parse()
-        assert_matches_type(PlanYear, plan_year, path=["response"])
+        assert_matches_type(PlanYearUpdateResponse, plan_year, path=["response"])
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
@@ -109,7 +115,7 @@ class TestPlanYears:
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
 
             plan_year = response.parse()
-            assert_matches_type(PlanYear, plan_year, path=["response"])
+            assert_matches_type(PlanYearUpdateResponse, plan_year, path=["response"])
 
         assert cast(Any, response.is_closed) is True
 
@@ -133,7 +139,7 @@ class TestAsyncPlanYears:
         plan_year = await async_client.plan_years.retrieve(
             "plyr_abc123def456",
         )
-        assert_matches_type(PlanYear, plan_year, path=["response"])
+        assert_matches_type(PlanYearRetrieveResponse, plan_year, path=["response"])
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
@@ -145,7 +151,7 @@ class TestAsyncPlanYears:
         assert response.is_closed is True
         assert response.http_request.headers.get("X-Stainless-Lang") == "python"
         plan_year = await response.parse()
-        assert_matches_type(PlanYear, plan_year, path=["response"])
+        assert_matches_type(PlanYearRetrieveResponse, plan_year, path=["response"])
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
@@ -157,7 +163,7 @@ class TestAsyncPlanYears:
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
 
             plan_year = await response.parse()
-            assert_matches_type(PlanYear, plan_year, path=["response"])
+            assert_matches_type(PlanYearRetrieveResponse, plan_year, path=["response"])
 
         assert cast(Any, response.is_closed) is True
 
@@ -175,7 +181,7 @@ class TestAsyncPlanYears:
         plan_year = await async_client.plan_years.update(
             plan_year_id="plyr_abc123def456",
         )
-        assert_matches_type(PlanYear, plan_year, path=["response"])
+        assert_matches_type(PlanYearUpdateResponse, plan_year, path=["response"])
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
@@ -184,17 +190,23 @@ class TestAsyncPlanYears:
             plan_year_id="plyr_abc123def456",
             contribution_classes=[
                 {
-                    "employee_contribution_cents": 0,
-                    "employer_contribution_cents": 0,
-                    "employment": "employment",
-                    "family_status": "Unspecified",
-                }
+                    "coverage_tier": "EE",
+                    "employee_contribution_cents": 18000,
+                    "employer_contribution_cents": 47000,
+                    "employment": "full_time",
+                },
+                {
+                    "coverage_tier": "EF",
+                    "employee_contribution_cents": 48000,
+                    "employer_contribution_cents": 62000,
+                    "employment": "full_time",
+                },
             ],
-            open_enrollment_end=parse_date("2019-12-27"),
-            open_enrollment_start=parse_date("2019-12-27"),
-            status="status",
+            open_enrollment_end=parse_date("2024-11-15"),
+            open_enrollment_start=parse_date("2024-10-01"),
+            status="active",
         )
-        assert_matches_type(PlanYear, plan_year, path=["response"])
+        assert_matches_type(PlanYearUpdateResponse, plan_year, path=["response"])
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
@@ -206,7 +218,7 @@ class TestAsyncPlanYears:
         assert response.is_closed is True
         assert response.http_request.headers.get("X-Stainless-Lang") == "python"
         plan_year = await response.parse()
-        assert_matches_type(PlanYear, plan_year, path=["response"])
+        assert_matches_type(PlanYearUpdateResponse, plan_year, path=["response"])
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
@@ -218,7 +230,7 @@ class TestAsyncPlanYears:
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
 
             plan_year = await response.parse()
-            assert_matches_type(PlanYear, plan_year, path=["response"])
+            assert_matches_type(PlanYearUpdateResponse, plan_year, path=["response"])
 
         assert cast(Any, response.is_closed) is True
 

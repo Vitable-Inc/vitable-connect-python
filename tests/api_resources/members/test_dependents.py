@@ -9,10 +9,10 @@ import pytest
 
 from tests.utils import assert_matches_type
 from vitable_connect_api import VitableConnectAPI, AsyncVitableConnectAPI
-from vitable_connect_api.types import Dependent
 from vitable_connect_api._utils import parse_date
 from vitable_connect_api.types.members import (
     DependentListResponse,
+    DependentCreateResponse,
 )
 
 base_url = os.environ.get("TEST_API_BASE_URL", "http://127.0.0.1:4010")
@@ -26,63 +26,63 @@ class TestDependents:
     def test_method_create(self, client: VitableConnectAPI) -> None:
         dependent = client.members.dependents.create(
             member_id="mbr_abc123def456",
-            date_of_birth=parse_date("2019-12-27"),
-            first_name="x",
-            last_name="x",
-            relationship="Spouse",
-            sex="Male",
+            date_of_birth=parse_date("2020-05-15"),
+            first_name="Emily",
+            last_name="Doe",
+            relationship="Child",
+            sex="Female",
         )
-        assert_matches_type(Dependent, dependent, path=["response"])
+        assert_matches_type(DependentCreateResponse, dependent, path=["response"])
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     def test_method_create_with_all_params(self, client: VitableConnectAPI) -> None:
         dependent = client.members.dependents.create(
             member_id="mbr_abc123def456",
-            date_of_birth=parse_date("2019-12-27"),
-            first_name="x",
-            last_name="x",
-            relationship="Spouse",
-            sex="Male",
+            date_of_birth=parse_date("2020-05-15"),
+            first_name="Emily",
+            last_name="Doe",
+            relationship="Child",
+            sex="Female",
             gender="gender",
-            ssn="xxxxxxxxx",
+            ssn="123-45-6789",
             suffix="suffix",
         )
-        assert_matches_type(Dependent, dependent, path=["response"])
+        assert_matches_type(DependentCreateResponse, dependent, path=["response"])
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     def test_raw_response_create(self, client: VitableConnectAPI) -> None:
         response = client.members.dependents.with_raw_response.create(
             member_id="mbr_abc123def456",
-            date_of_birth=parse_date("2019-12-27"),
-            first_name="x",
-            last_name="x",
-            relationship="Spouse",
-            sex="Male",
+            date_of_birth=parse_date("2020-05-15"),
+            first_name="Emily",
+            last_name="Doe",
+            relationship="Child",
+            sex="Female",
         )
 
         assert response.is_closed is True
         assert response.http_request.headers.get("X-Stainless-Lang") == "python"
         dependent = response.parse()
-        assert_matches_type(Dependent, dependent, path=["response"])
+        assert_matches_type(DependentCreateResponse, dependent, path=["response"])
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     def test_streaming_response_create(self, client: VitableConnectAPI) -> None:
         with client.members.dependents.with_streaming_response.create(
             member_id="mbr_abc123def456",
-            date_of_birth=parse_date("2019-12-27"),
-            first_name="x",
-            last_name="x",
-            relationship="Spouse",
-            sex="Male",
+            date_of_birth=parse_date("2020-05-15"),
+            first_name="Emily",
+            last_name="Doe",
+            relationship="Child",
+            sex="Female",
         ) as response:
             assert not response.is_closed
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
 
             dependent = response.parse()
-            assert_matches_type(Dependent, dependent, path=["response"])
+            assert_matches_type(DependentCreateResponse, dependent, path=["response"])
 
         assert cast(Any, response.is_closed) is True
 
@@ -92,11 +92,11 @@ class TestDependents:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `member_id` but received ''"):
             client.members.dependents.with_raw_response.create(
                 member_id="",
-                date_of_birth=parse_date("2019-12-27"),
-                first_name="x",
-                last_name="x",
-                relationship="Spouse",
-                sex="Male",
+                date_of_birth=parse_date("2020-05-15"),
+                first_name="Emily",
+                last_name="Doe",
+                relationship="Child",
+                sex="Female",
             )
 
     @pytest.mark.skip(reason="Prism tests are disabled")
@@ -164,63 +164,63 @@ class TestAsyncDependents:
     async def test_method_create(self, async_client: AsyncVitableConnectAPI) -> None:
         dependent = await async_client.members.dependents.create(
             member_id="mbr_abc123def456",
-            date_of_birth=parse_date("2019-12-27"),
-            first_name="x",
-            last_name="x",
-            relationship="Spouse",
-            sex="Male",
+            date_of_birth=parse_date("2020-05-15"),
+            first_name="Emily",
+            last_name="Doe",
+            relationship="Child",
+            sex="Female",
         )
-        assert_matches_type(Dependent, dependent, path=["response"])
+        assert_matches_type(DependentCreateResponse, dependent, path=["response"])
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     async def test_method_create_with_all_params(self, async_client: AsyncVitableConnectAPI) -> None:
         dependent = await async_client.members.dependents.create(
             member_id="mbr_abc123def456",
-            date_of_birth=parse_date("2019-12-27"),
-            first_name="x",
-            last_name="x",
-            relationship="Spouse",
-            sex="Male",
+            date_of_birth=parse_date("2020-05-15"),
+            first_name="Emily",
+            last_name="Doe",
+            relationship="Child",
+            sex="Female",
             gender="gender",
-            ssn="xxxxxxxxx",
+            ssn="123-45-6789",
             suffix="suffix",
         )
-        assert_matches_type(Dependent, dependent, path=["response"])
+        assert_matches_type(DependentCreateResponse, dependent, path=["response"])
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     async def test_raw_response_create(self, async_client: AsyncVitableConnectAPI) -> None:
         response = await async_client.members.dependents.with_raw_response.create(
             member_id="mbr_abc123def456",
-            date_of_birth=parse_date("2019-12-27"),
-            first_name="x",
-            last_name="x",
-            relationship="Spouse",
-            sex="Male",
+            date_of_birth=parse_date("2020-05-15"),
+            first_name="Emily",
+            last_name="Doe",
+            relationship="Child",
+            sex="Female",
         )
 
         assert response.is_closed is True
         assert response.http_request.headers.get("X-Stainless-Lang") == "python"
         dependent = await response.parse()
-        assert_matches_type(Dependent, dependent, path=["response"])
+        assert_matches_type(DependentCreateResponse, dependent, path=["response"])
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     async def test_streaming_response_create(self, async_client: AsyncVitableConnectAPI) -> None:
         async with async_client.members.dependents.with_streaming_response.create(
             member_id="mbr_abc123def456",
-            date_of_birth=parse_date("2019-12-27"),
-            first_name="x",
-            last_name="x",
-            relationship="Spouse",
-            sex="Male",
+            date_of_birth=parse_date("2020-05-15"),
+            first_name="Emily",
+            last_name="Doe",
+            relationship="Child",
+            sex="Female",
         ) as response:
             assert not response.is_closed
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
 
             dependent = await response.parse()
-            assert_matches_type(Dependent, dependent, path=["response"])
+            assert_matches_type(DependentCreateResponse, dependent, path=["response"])
 
         assert cast(Any, response.is_closed) is True
 
@@ -230,11 +230,11 @@ class TestAsyncDependents:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `member_id` but received ''"):
             await async_client.members.dependents.with_raw_response.create(
                 member_id="",
-                date_of_birth=parse_date("2019-12-27"),
-                first_name="x",
-                last_name="x",
-                relationship="Spouse",
-                sex="Male",
+                date_of_birth=parse_date("2020-05-15"),
+                first_name="Emily",
+                last_name="Doe",
+                relationship="Child",
+                sex="Female",
             )
 
     @pytest.mark.skip(reason="Prism tests are disabled")

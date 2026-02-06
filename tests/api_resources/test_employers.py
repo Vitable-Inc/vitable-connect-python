@@ -10,11 +10,11 @@ import pytest
 from tests.utils import assert_matches_type
 from vitable_connect_api import VitableConnectAPI, AsyncVitableConnectAPI
 from vitable_connect_api.types import (
-    Employer,
     EmployerListResponse,
-    BenefitEligibilityPolicy,
+    EmployerCreateResponse,
+    EmployerUpdateResponse,
+    EmployerRetrieveResponse,
 )
-from vitable_connect_api._utils import parse_date
 
 base_url = os.environ.get("TEST_API_BASE_URL", "http://127.0.0.1:4010")
 
@@ -27,74 +27,77 @@ class TestEmployers:
     def test_method_create(self, client: VitableConnectAPI) -> None:
         employer = client.employers.create(
             address={
-                "city": "city",
-                "state": "xx",
-                "street_1": "street_1",
-                "zip_code": "zip_code",
+                "address_line_1": "789 Business Blvd",
+                "city": "Seattle",
+                "state": "WA",
+                "zipcode": "98101",
             },
-            ein="xxxxxxxxx",
-            legal_name="x",
-            name="x",
+            ein="12-3456789",
+            email="hr@newco.com",
+            legal_name="NewCo Industries LLC",
+            name="NewCo Industries",
         )
-        assert_matches_type(Employer, employer, path=["response"])
+        assert_matches_type(EmployerCreateResponse, employer, path=["response"])
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     def test_method_create_with_all_params(self, client: VitableConnectAPI) -> None:
         employer = client.employers.create(
             address={
-                "city": "city",
-                "state": "xx",
-                "street_1": "street_1",
-                "zip_code": "zip_code",
-                "country": "country",
-                "street_2": "street_2",
+                "address_line_1": "789 Business Blvd",
+                "city": "Seattle",
+                "state": "WA",
+                "zipcode": "98101",
+                "address_line_2": "Floor 5",
             },
-            ein="xxxxxxxxx",
-            legal_name="x",
-            name="x",
+            ein="12-3456789",
+            email="hr@newco.com",
+            legal_name="NewCo Industries LLC",
+            name="NewCo Industries",
         )
-        assert_matches_type(Employer, employer, path=["response"])
+        assert_matches_type(EmployerCreateResponse, employer, path=["response"])
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     def test_raw_response_create(self, client: VitableConnectAPI) -> None:
         response = client.employers.with_raw_response.create(
             address={
-                "city": "city",
-                "state": "xx",
-                "street_1": "street_1",
-                "zip_code": "zip_code",
+                "address_line_1": "789 Business Blvd",
+                "city": "Seattle",
+                "state": "WA",
+                "zipcode": "98101",
             },
-            ein="xxxxxxxxx",
-            legal_name="x",
-            name="x",
+            ein="12-3456789",
+            email="hr@newco.com",
+            legal_name="NewCo Industries LLC",
+            name="NewCo Industries",
         )
 
         assert response.is_closed is True
         assert response.http_request.headers.get("X-Stainless-Lang") == "python"
         employer = response.parse()
-        assert_matches_type(Employer, employer, path=["response"])
+        assert_matches_type(EmployerCreateResponse, employer, path=["response"])
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     def test_streaming_response_create(self, client: VitableConnectAPI) -> None:
         with client.employers.with_streaming_response.create(
             address={
-                "city": "city",
-                "state": "xx",
-                "street_1": "street_1",
-                "zip_code": "zip_code",
+                "address_line_1": "789 Business Blvd",
+                "city": "Seattle",
+                "state": "WA",
+                "zipcode": "98101",
             },
-            ein="xxxxxxxxx",
-            legal_name="x",
-            name="x",
+            ein="12-3456789",
+            email="hr@newco.com",
+            legal_name="NewCo Industries LLC",
+            name="NewCo Industries",
         ) as response:
             assert not response.is_closed
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
 
             employer = response.parse()
-            assert_matches_type(Employer, employer, path=["response"])
+            assert_matches_type(EmployerCreateResponse, employer, path=["response"])
 
         assert cast(Any, response.is_closed) is True
 
@@ -104,7 +107,7 @@ class TestEmployers:
         employer = client.employers.retrieve(
             "empr_abc123def456",
         )
-        assert_matches_type(Employer, employer, path=["response"])
+        assert_matches_type(EmployerRetrieveResponse, employer, path=["response"])
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
@@ -116,7 +119,7 @@ class TestEmployers:
         assert response.is_closed is True
         assert response.http_request.headers.get("X-Stainless-Lang") == "python"
         employer = response.parse()
-        assert_matches_type(Employer, employer, path=["response"])
+        assert_matches_type(EmployerRetrieveResponse, employer, path=["response"])
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
@@ -128,7 +131,7 @@ class TestEmployers:
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
 
             employer = response.parse()
-            assert_matches_type(Employer, employer, path=["response"])
+            assert_matches_type(EmployerRetrieveResponse, employer, path=["response"])
 
         assert cast(Any, response.is_closed) is True
 
@@ -146,7 +149,7 @@ class TestEmployers:
         employer = client.employers.update(
             employer_id="empr_abc123def456",
         )
-        assert_matches_type(Employer, employer, path=["response"])
+        assert_matches_type(EmployerUpdateResponse, employer, path=["response"])
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
@@ -155,17 +158,16 @@ class TestEmployers:
             employer_id="empr_abc123def456",
             active=True,
             address={
-                "city": "city",
-                "state": "xx",
-                "street_1": "street_1",
-                "zip_code": "zip_code",
-                "country": "country",
-                "street_2": "street_2",
+                "address_line_1": "456 New Address Ave",
+                "city": "San Francisco",
+                "state": "CA",
+                "zipcode": "94103",
+                "address_line_2": "Suite 200",
             },
             legal_name="x",
-            name="x",
+            name="Acme Corp (Updated)",
         )
-        assert_matches_type(Employer, employer, path=["response"])
+        assert_matches_type(EmployerUpdateResponse, employer, path=["response"])
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
@@ -177,7 +179,7 @@ class TestEmployers:
         assert response.is_closed is True
         assert response.http_request.headers.get("X-Stainless-Lang") == "python"
         employer = response.parse()
-        assert_matches_type(Employer, employer, path=["response"])
+        assert_matches_type(EmployerUpdateResponse, employer, path=["response"])
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
@@ -189,7 +191,7 @@ class TestEmployers:
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
 
             employer = response.parse()
-            assert_matches_type(Employer, employer, path=["response"])
+            assert_matches_type(EmployerUpdateResponse, employer, path=["response"])
 
         assert cast(Any, response.is_closed) is True
 
@@ -240,103 +242,6 @@ class TestEmployers:
 
         assert cast(Any, response.is_closed) is True
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
-    @parametrize
-    def test_method_create_eligibility_policy(self, client: VitableConnectAPI) -> None:
-        employer = client.employers.create_eligibility_policy(
-            employer_id="empr_abc123def456",
-            effective_date=parse_date("2019-12-27"),
-            name="x",
-            rules=[
-                {
-                    "operator": "operator",
-                    "rule_type": "rule_type",
-                    "value": "value",
-                }
-            ],
-        )
-        assert_matches_type(BenefitEligibilityPolicy, employer, path=["response"])
-
-    @pytest.mark.skip(reason="Prism tests are disabled")
-    @parametrize
-    def test_method_create_eligibility_policy_with_all_params(self, client: VitableConnectAPI) -> None:
-        employer = client.employers.create_eligibility_policy(
-            employer_id="empr_abc123def456",
-            effective_date=parse_date("2019-12-27"),
-            name="x",
-            rules=[
-                {
-                    "operator": "operator",
-                    "rule_type": "rule_type",
-                    "value": "value",
-                }
-            ],
-            policy_to_replace_id="epol_abc123def456",
-            description="description",
-        )
-        assert_matches_type(BenefitEligibilityPolicy, employer, path=["response"])
-
-    @pytest.mark.skip(reason="Prism tests are disabled")
-    @parametrize
-    def test_raw_response_create_eligibility_policy(self, client: VitableConnectAPI) -> None:
-        response = client.employers.with_raw_response.create_eligibility_policy(
-            employer_id="empr_abc123def456",
-            effective_date=parse_date("2019-12-27"),
-            name="x",
-            rules=[
-                {
-                    "operator": "operator",
-                    "rule_type": "rule_type",
-                    "value": "value",
-                }
-            ],
-        )
-
-        assert response.is_closed is True
-        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
-        employer = response.parse()
-        assert_matches_type(BenefitEligibilityPolicy, employer, path=["response"])
-
-    @pytest.mark.skip(reason="Prism tests are disabled")
-    @parametrize
-    def test_streaming_response_create_eligibility_policy(self, client: VitableConnectAPI) -> None:
-        with client.employers.with_streaming_response.create_eligibility_policy(
-            employer_id="empr_abc123def456",
-            effective_date=parse_date("2019-12-27"),
-            name="x",
-            rules=[
-                {
-                    "operator": "operator",
-                    "rule_type": "rule_type",
-                    "value": "value",
-                }
-            ],
-        ) as response:
-            assert not response.is_closed
-            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
-
-            employer = response.parse()
-            assert_matches_type(BenefitEligibilityPolicy, employer, path=["response"])
-
-        assert cast(Any, response.is_closed) is True
-
-    @pytest.mark.skip(reason="Prism tests are disabled")
-    @parametrize
-    def test_path_params_create_eligibility_policy(self, client: VitableConnectAPI) -> None:
-        with pytest.raises(ValueError, match=r"Expected a non-empty value for `employer_id` but received ''"):
-            client.employers.with_raw_response.create_eligibility_policy(
-                employer_id="",
-                effective_date=parse_date("2019-12-27"),
-                name="x",
-                rules=[
-                    {
-                        "operator": "operator",
-                        "rule_type": "rule_type",
-                        "value": "value",
-                    }
-                ],
-            )
-
 
 class TestAsyncEmployers:
     parametrize = pytest.mark.parametrize(
@@ -348,74 +253,77 @@ class TestAsyncEmployers:
     async def test_method_create(self, async_client: AsyncVitableConnectAPI) -> None:
         employer = await async_client.employers.create(
             address={
-                "city": "city",
-                "state": "xx",
-                "street_1": "street_1",
-                "zip_code": "zip_code",
+                "address_line_1": "789 Business Blvd",
+                "city": "Seattle",
+                "state": "WA",
+                "zipcode": "98101",
             },
-            ein="xxxxxxxxx",
-            legal_name="x",
-            name="x",
+            ein="12-3456789",
+            email="hr@newco.com",
+            legal_name="NewCo Industries LLC",
+            name="NewCo Industries",
         )
-        assert_matches_type(Employer, employer, path=["response"])
+        assert_matches_type(EmployerCreateResponse, employer, path=["response"])
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     async def test_method_create_with_all_params(self, async_client: AsyncVitableConnectAPI) -> None:
         employer = await async_client.employers.create(
             address={
-                "city": "city",
-                "state": "xx",
-                "street_1": "street_1",
-                "zip_code": "zip_code",
-                "country": "country",
-                "street_2": "street_2",
+                "address_line_1": "789 Business Blvd",
+                "city": "Seattle",
+                "state": "WA",
+                "zipcode": "98101",
+                "address_line_2": "Floor 5",
             },
-            ein="xxxxxxxxx",
-            legal_name="x",
-            name="x",
+            ein="12-3456789",
+            email="hr@newco.com",
+            legal_name="NewCo Industries LLC",
+            name="NewCo Industries",
         )
-        assert_matches_type(Employer, employer, path=["response"])
+        assert_matches_type(EmployerCreateResponse, employer, path=["response"])
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     async def test_raw_response_create(self, async_client: AsyncVitableConnectAPI) -> None:
         response = await async_client.employers.with_raw_response.create(
             address={
-                "city": "city",
-                "state": "xx",
-                "street_1": "street_1",
-                "zip_code": "zip_code",
+                "address_line_1": "789 Business Blvd",
+                "city": "Seattle",
+                "state": "WA",
+                "zipcode": "98101",
             },
-            ein="xxxxxxxxx",
-            legal_name="x",
-            name="x",
+            ein="12-3456789",
+            email="hr@newco.com",
+            legal_name="NewCo Industries LLC",
+            name="NewCo Industries",
         )
 
         assert response.is_closed is True
         assert response.http_request.headers.get("X-Stainless-Lang") == "python"
         employer = await response.parse()
-        assert_matches_type(Employer, employer, path=["response"])
+        assert_matches_type(EmployerCreateResponse, employer, path=["response"])
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     async def test_streaming_response_create(self, async_client: AsyncVitableConnectAPI) -> None:
         async with async_client.employers.with_streaming_response.create(
             address={
-                "city": "city",
-                "state": "xx",
-                "street_1": "street_1",
-                "zip_code": "zip_code",
+                "address_line_1": "789 Business Blvd",
+                "city": "Seattle",
+                "state": "WA",
+                "zipcode": "98101",
             },
-            ein="xxxxxxxxx",
-            legal_name="x",
-            name="x",
+            ein="12-3456789",
+            email="hr@newco.com",
+            legal_name="NewCo Industries LLC",
+            name="NewCo Industries",
         ) as response:
             assert not response.is_closed
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
 
             employer = await response.parse()
-            assert_matches_type(Employer, employer, path=["response"])
+            assert_matches_type(EmployerCreateResponse, employer, path=["response"])
 
         assert cast(Any, response.is_closed) is True
 
@@ -425,7 +333,7 @@ class TestAsyncEmployers:
         employer = await async_client.employers.retrieve(
             "empr_abc123def456",
         )
-        assert_matches_type(Employer, employer, path=["response"])
+        assert_matches_type(EmployerRetrieveResponse, employer, path=["response"])
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
@@ -437,7 +345,7 @@ class TestAsyncEmployers:
         assert response.is_closed is True
         assert response.http_request.headers.get("X-Stainless-Lang") == "python"
         employer = await response.parse()
-        assert_matches_type(Employer, employer, path=["response"])
+        assert_matches_type(EmployerRetrieveResponse, employer, path=["response"])
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
@@ -449,7 +357,7 @@ class TestAsyncEmployers:
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
 
             employer = await response.parse()
-            assert_matches_type(Employer, employer, path=["response"])
+            assert_matches_type(EmployerRetrieveResponse, employer, path=["response"])
 
         assert cast(Any, response.is_closed) is True
 
@@ -467,7 +375,7 @@ class TestAsyncEmployers:
         employer = await async_client.employers.update(
             employer_id="empr_abc123def456",
         )
-        assert_matches_type(Employer, employer, path=["response"])
+        assert_matches_type(EmployerUpdateResponse, employer, path=["response"])
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
@@ -476,17 +384,16 @@ class TestAsyncEmployers:
             employer_id="empr_abc123def456",
             active=True,
             address={
-                "city": "city",
-                "state": "xx",
-                "street_1": "street_1",
-                "zip_code": "zip_code",
-                "country": "country",
-                "street_2": "street_2",
+                "address_line_1": "456 New Address Ave",
+                "city": "San Francisco",
+                "state": "CA",
+                "zipcode": "94103",
+                "address_line_2": "Suite 200",
             },
             legal_name="x",
-            name="x",
+            name="Acme Corp (Updated)",
         )
-        assert_matches_type(Employer, employer, path=["response"])
+        assert_matches_type(EmployerUpdateResponse, employer, path=["response"])
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
@@ -498,7 +405,7 @@ class TestAsyncEmployers:
         assert response.is_closed is True
         assert response.http_request.headers.get("X-Stainless-Lang") == "python"
         employer = await response.parse()
-        assert_matches_type(Employer, employer, path=["response"])
+        assert_matches_type(EmployerUpdateResponse, employer, path=["response"])
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
@@ -510,7 +417,7 @@ class TestAsyncEmployers:
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
 
             employer = await response.parse()
-            assert_matches_type(Employer, employer, path=["response"])
+            assert_matches_type(EmployerUpdateResponse, employer, path=["response"])
 
         assert cast(Any, response.is_closed) is True
 
@@ -560,100 +467,3 @@ class TestAsyncEmployers:
             assert_matches_type(EmployerListResponse, employer, path=["response"])
 
         assert cast(Any, response.is_closed) is True
-
-    @pytest.mark.skip(reason="Prism tests are disabled")
-    @parametrize
-    async def test_method_create_eligibility_policy(self, async_client: AsyncVitableConnectAPI) -> None:
-        employer = await async_client.employers.create_eligibility_policy(
-            employer_id="empr_abc123def456",
-            effective_date=parse_date("2019-12-27"),
-            name="x",
-            rules=[
-                {
-                    "operator": "operator",
-                    "rule_type": "rule_type",
-                    "value": "value",
-                }
-            ],
-        )
-        assert_matches_type(BenefitEligibilityPolicy, employer, path=["response"])
-
-    @pytest.mark.skip(reason="Prism tests are disabled")
-    @parametrize
-    async def test_method_create_eligibility_policy_with_all_params(self, async_client: AsyncVitableConnectAPI) -> None:
-        employer = await async_client.employers.create_eligibility_policy(
-            employer_id="empr_abc123def456",
-            effective_date=parse_date("2019-12-27"),
-            name="x",
-            rules=[
-                {
-                    "operator": "operator",
-                    "rule_type": "rule_type",
-                    "value": "value",
-                }
-            ],
-            policy_to_replace_id="epol_abc123def456",
-            description="description",
-        )
-        assert_matches_type(BenefitEligibilityPolicy, employer, path=["response"])
-
-    @pytest.mark.skip(reason="Prism tests are disabled")
-    @parametrize
-    async def test_raw_response_create_eligibility_policy(self, async_client: AsyncVitableConnectAPI) -> None:
-        response = await async_client.employers.with_raw_response.create_eligibility_policy(
-            employer_id="empr_abc123def456",
-            effective_date=parse_date("2019-12-27"),
-            name="x",
-            rules=[
-                {
-                    "operator": "operator",
-                    "rule_type": "rule_type",
-                    "value": "value",
-                }
-            ],
-        )
-
-        assert response.is_closed is True
-        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
-        employer = await response.parse()
-        assert_matches_type(BenefitEligibilityPolicy, employer, path=["response"])
-
-    @pytest.mark.skip(reason="Prism tests are disabled")
-    @parametrize
-    async def test_streaming_response_create_eligibility_policy(self, async_client: AsyncVitableConnectAPI) -> None:
-        async with async_client.employers.with_streaming_response.create_eligibility_policy(
-            employer_id="empr_abc123def456",
-            effective_date=parse_date("2019-12-27"),
-            name="x",
-            rules=[
-                {
-                    "operator": "operator",
-                    "rule_type": "rule_type",
-                    "value": "value",
-                }
-            ],
-        ) as response:
-            assert not response.is_closed
-            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
-
-            employer = await response.parse()
-            assert_matches_type(BenefitEligibilityPolicy, employer, path=["response"])
-
-        assert cast(Any, response.is_closed) is True
-
-    @pytest.mark.skip(reason="Prism tests are disabled")
-    @parametrize
-    async def test_path_params_create_eligibility_policy(self, async_client: AsyncVitableConnectAPI) -> None:
-        with pytest.raises(ValueError, match=r"Expected a non-empty value for `employer_id` but received ''"):
-            await async_client.employers.with_raw_response.create_eligibility_policy(
-                employer_id="",
-                effective_date=parse_date("2019-12-27"),
-                name="x",
-                rules=[
-                    {
-                        "operator": "operator",
-                        "rule_type": "rule_type",
-                        "value": "value",
-                    }
-                ],
-            )

@@ -82,9 +82,15 @@ class TestEnrollments:
             employee_id="empl_abc123def456",
             elections=[
                 {
+                    "coverage_tier": "EF",
                     "decision": "Enrolled",
-                    "enrollment_id": "enrollment_id",
-                }
+                    "enrollment_id": "enrl_pending123abc",
+                },
+                {
+                    "coverage_tier": "Unspecified",
+                    "decision": "Waived",
+                    "enrollment_id": "enrl_pending456def",
+                },
             ],
         )
         assert_matches_type(EnrollmentSubmitElectionsResponse, enrollment, path=["response"])
@@ -96,9 +102,15 @@ class TestEnrollments:
             employee_id="empl_abc123def456",
             elections=[
                 {
+                    "coverage_tier": "EF",
                     "decision": "Enrolled",
-                    "enrollment_id": "enrollment_id",
-                }
+                    "enrollment_id": "enrl_pending123abc",
+                },
+                {
+                    "coverage_tier": "Unspecified",
+                    "decision": "Waived",
+                    "enrollment_id": "enrl_pending456def",
+                },
             ],
         )
 
@@ -114,9 +126,15 @@ class TestEnrollments:
             employee_id="empl_abc123def456",
             elections=[
                 {
+                    "coverage_tier": "EF",
                     "decision": "Enrolled",
-                    "enrollment_id": "enrollment_id",
-                }
+                    "enrollment_id": "enrl_pending123abc",
+                },
+                {
+                    "coverage_tier": "Unspecified",
+                    "decision": "Waived",
+                    "enrollment_id": "enrl_pending456def",
+                },
             ],
         ) as response:
             assert not response.is_closed
@@ -135,9 +153,15 @@ class TestEnrollments:
                 employee_id="",
                 elections=[
                     {
+                        "coverage_tier": "EF",
                         "decision": "Enrolled",
-                        "enrollment_id": "enrollment_id",
-                    }
+                        "enrollment_id": "enrl_pending123abc",
+                    },
+                    {
+                        "coverage_tier": "Unspecified",
+                        "decision": "Waived",
+                        "enrollment_id": "enrl_pending456def",
+                    },
                 ],
             )
 
@@ -209,9 +233,15 @@ class TestAsyncEnrollments:
             employee_id="empl_abc123def456",
             elections=[
                 {
+                    "coverage_tier": "EF",
                     "decision": "Enrolled",
-                    "enrollment_id": "enrollment_id",
-                }
+                    "enrollment_id": "enrl_pending123abc",
+                },
+                {
+                    "coverage_tier": "Unspecified",
+                    "decision": "Waived",
+                    "enrollment_id": "enrl_pending456def",
+                },
             ],
         )
         assert_matches_type(EnrollmentSubmitElectionsResponse, enrollment, path=["response"])
@@ -223,9 +253,15 @@ class TestAsyncEnrollments:
             employee_id="empl_abc123def456",
             elections=[
                 {
+                    "coverage_tier": "EF",
                     "decision": "Enrolled",
-                    "enrollment_id": "enrollment_id",
-                }
+                    "enrollment_id": "enrl_pending123abc",
+                },
+                {
+                    "coverage_tier": "Unspecified",
+                    "decision": "Waived",
+                    "enrollment_id": "enrl_pending456def",
+                },
             ],
         )
 
@@ -241,9 +277,15 @@ class TestAsyncEnrollments:
             employee_id="empl_abc123def456",
             elections=[
                 {
+                    "coverage_tier": "EF",
                     "decision": "Enrolled",
-                    "enrollment_id": "enrollment_id",
-                }
+                    "enrollment_id": "enrl_pending123abc",
+                },
+                {
+                    "coverage_tier": "Unspecified",
+                    "decision": "Waived",
+                    "enrollment_id": "enrl_pending456def",
+                },
             ],
         ) as response:
             assert not response.is_closed
@@ -262,8 +304,14 @@ class TestAsyncEnrollments:
                 employee_id="",
                 elections=[
                     {
+                        "coverage_tier": "EF",
                         "decision": "Enrolled",
-                        "enrollment_id": "enrollment_id",
-                    }
+                        "enrollment_id": "enrl_pending123abc",
+                    },
+                    {
+                        "coverage_tier": "Unspecified",
+                        "decision": "Waived",
+                        "enrollment_id": "enrl_pending456def",
+                    },
                 ],
             )

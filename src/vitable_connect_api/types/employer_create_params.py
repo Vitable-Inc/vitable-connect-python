@@ -13,7 +13,10 @@ class EmployerCreateParams(TypedDict, total=False):
     """Employer address"""
 
     ein: Required[str]
-    """Employer Identification Number (format: XX-XXXXXXX or XXXXXXXXX)"""
+    """Employer Identification Number (format: XX-XXXXXXX)"""
+
+    email: Required[str]
+    """Email address for billing and communications"""
 
     legal_name: Required[str]
     """Legal business name"""
@@ -25,20 +28,17 @@ class EmployerCreateParams(TypedDict, total=False):
 class Address(TypedDict, total=False):
     """Employer address"""
 
+    address_line_1: Required[str]
+    """Primary street address"""
+
     city: Required[str]
     """City name"""
 
     state: Required[str]
     """Two-letter state code"""
 
-    street_1: Required[str]
-    """Primary street address"""
-
-    zip_code: Required[str]
+    zipcode: Required[str]
     """ZIP code"""
 
-    country: str
-    """Country code"""
-
-    street_2: Optional[str]
+    address_line_2: Optional[str]
     """Secondary street address"""

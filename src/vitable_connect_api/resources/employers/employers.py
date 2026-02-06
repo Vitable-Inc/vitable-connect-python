@@ -2,17 +2,11 @@
 
 from __future__ import annotations
 
-from typing import Union, Iterable, Optional
-from datetime import date
+from typing import Optional
 
 import httpx
 
-from ...types import (
-    employer_list_params,
-    employer_create_params,
-    employer_update_params,
-    employer_create_eligibility_policy_params,
-)
+from ...types import employer_list_params, employer_create_params, employer_update_params
 from ..._types import Body, Omit, Query, Headers, NotGiven, omit, not_given
 from ..._utils import maybe_transform, async_maybe_transform
 from ..._compat import cached_property
@@ -32,9 +26,10 @@ from ..._response import (
     async_to_streamed_response_wrapper,
 )
 from ..._base_client import make_request_options
-from ...types.employer import Employer
 from ...types.employer_list_response import EmployerListResponse
-from ...types.benefit_eligibility_policy import BenefitEligibilityPolicy
+from ...types.employer_create_response import EmployerCreateResponse
+from ...types.employer_update_response import EmployerUpdateResponse
+from ...types.employer_retrieve_response import EmployerRetrieveResponse
 
 __all__ = ["EmployersResource", "AsyncEmployersResource"]
 
@@ -68,6 +63,7 @@ class EmployersResource(SyncAPIResource):
         *,
         address: employer_create_params.Address,
         ein: str,
+        email: str,
         legal_name: str,
         name: str,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
@@ -76,17 +72,19 @@ class EmployersResource(SyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> Employer:
+    ) -> EmployerCreateResponse:
         """Creates a new employer for the authenticated organization.
 
         Requires employer
-        name, legal name, EIN, and address information. Returns the created employer
-        with its assigned ID.
+        name, legal name, EIN, email, and address information. Returns the created
+        employer with its assigned ID.
 
         Args:
           address: Employer address
 
-          ein: Employer Identification Number (format: XX-XXXXXXX or XXXXXXXXX)
+          ein: Employer Identification Number (format: XX-XXXXXXX)
+
+          email: Email address for billing and communications
 
           legal_name: Legal business name
 
@@ -106,6 +104,7 @@ class EmployersResource(SyncAPIResource):
                 {
                     "address": address,
                     "ein": ein,
+                    "email": email,
                     "legal_name": legal_name,
                     "name": name,
                 },
@@ -114,7 +113,7 @@ class EmployersResource(SyncAPIResource):
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
-            cast_to=Employer,
+            cast_to=EmployerCreateResponse,
         )
 
     def retrieve(
@@ -127,13 +126,15 @@ class EmployersResource(SyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> Employer:
+    ) -> EmployerRetrieveResponse:
         """Retrieves detailed information for a specific employer by ID.
 
         The employer must
         belong to the authenticated organization.
 
         Args:
+          employer_id: Filter by employer ID
+
           extra_headers: Send extra headers
 
           extra_query: Add additional query parameters to the request
@@ -149,7 +150,7 @@ class EmployersResource(SyncAPIResource):
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
-            cast_to=Employer,
+            cast_to=EmployerRetrieveResponse,
         )
 
     def update(
@@ -166,13 +167,15 @@ class EmployersResource(SyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> Employer:
+    ) -> EmployerUpdateResponse:
         """Updates an existing employer's information.
 
         All fields are optional - only
         provided fields will be updated. Note: EIN cannot be changed after creation.
 
         Args:
+          employer_id: Filter by employer ID
+
           active: Whether the employer is active
 
           address: Employer address
@@ -205,7 +208,7 @@ class EmployersResource(SyncAPIResource):
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
-            cast_to=Employer,
+            cast_to=EmployerUpdateResponse,
         )
 
     def list(
@@ -264,76 +267,6 @@ class EmployersResource(SyncAPIResource):
             cast_to=EmployerListResponse,
         )
 
-    def create_eligibility_policy(
-        self,
-        employer_id: str,
-        *,
-        effective_date: Union[str, date],
-        name: str,
-        rules: Iterable[employer_create_eligibility_policy_params.Rule],
-        policy_to_replace_id: str | Omit = omit,
-        description: Optional[str] | Omit = omit,
-        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
-        # The extra values given here take precedence over values defined on the client or passed to this method.
-        extra_headers: Headers | None = None,
-        extra_query: Query | None = None,
-        extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> BenefitEligibilityPolicy:
-        """Creates a new benefit eligibility policy for a specific employer.
-
-        Eligibility
-        policies define rules that determine which employees qualify for benefits based
-        on criteria such as employment status (full-time, part-time), hours worked per
-        week, waiting periods after hire date, or other custom requirements. Optionally
-        provide 'policy_to_replace_id' as a query parameter to replace an existing
-        policy.
-
-        Args:
-          effective_date: Date when policy becomes effective
-
-          name: Display name for the policy
-
-          rules: List of eligibility rules (at least one required)
-
-          policy_to_replace_id: ID of existing policy to replace (epol\\__\\**)
-
-          description: Detailed description
-
-          extra_headers: Send extra headers
-
-          extra_query: Add additional query parameters to the request
-
-          extra_body: Add additional JSON properties to the request
-
-          timeout: Override the client-level default timeout for this request, in seconds
-        """
-        if not employer_id:
-            raise ValueError(f"Expected a non-empty value for `employer_id` but received {employer_id!r}")
-        return self._post(
-            f"/v1/employers/{employer_id}/benefit-eligibility-policy",
-            body=maybe_transform(
-                {
-                    "effective_date": effective_date,
-                    "name": name,
-                    "rules": rules,
-                    "description": description,
-                },
-                employer_create_eligibility_policy_params.EmployerCreateEligibilityPolicyParams,
-            ),
-            options=make_request_options(
-                extra_headers=extra_headers,
-                extra_query=extra_query,
-                extra_body=extra_body,
-                timeout=timeout,
-                query=maybe_transform(
-                    {"policy_to_replace_id": policy_to_replace_id},
-                    employer_create_eligibility_policy_params.EmployerCreateEligibilityPolicyParams,
-                ),
-            ),
-            cast_to=BenefitEligibilityPolicy,
-        )
-
 
 class AsyncEmployersResource(AsyncAPIResource):
     @cached_property
@@ -364,6 +297,7 @@ class AsyncEmployersResource(AsyncAPIResource):
         *,
         address: employer_create_params.Address,
         ein: str,
+        email: str,
         legal_name: str,
         name: str,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
@@ -372,17 +306,19 @@ class AsyncEmployersResource(AsyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> Employer:
+    ) -> EmployerCreateResponse:
         """Creates a new employer for the authenticated organization.
 
         Requires employer
-        name, legal name, EIN, and address information. Returns the created employer
-        with its assigned ID.
+        name, legal name, EIN, email, and address information. Returns the created
+        employer with its assigned ID.
 
         Args:
           address: Employer address
 
-          ein: Employer Identification Number (format: XX-XXXXXXX or XXXXXXXXX)
+          ein: Employer Identification Number (format: XX-XXXXXXX)
+
+          email: Email address for billing and communications
 
           legal_name: Legal business name
 
@@ -402,6 +338,7 @@ class AsyncEmployersResource(AsyncAPIResource):
                 {
                     "address": address,
                     "ein": ein,
+                    "email": email,
                     "legal_name": legal_name,
                     "name": name,
                 },
@@ -410,7 +347,7 @@ class AsyncEmployersResource(AsyncAPIResource):
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
-            cast_to=Employer,
+            cast_to=EmployerCreateResponse,
         )
 
     async def retrieve(
@@ -423,13 +360,15 @@ class AsyncEmployersResource(AsyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> Employer:
+    ) -> EmployerRetrieveResponse:
         """Retrieves detailed information for a specific employer by ID.
 
         The employer must
         belong to the authenticated organization.
 
         Args:
+          employer_id: Filter by employer ID
+
           extra_headers: Send extra headers
 
           extra_query: Add additional query parameters to the request
@@ -445,7 +384,7 @@ class AsyncEmployersResource(AsyncAPIResource):
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
-            cast_to=Employer,
+            cast_to=EmployerRetrieveResponse,
         )
 
     async def update(
@@ -462,13 +401,15 @@ class AsyncEmployersResource(AsyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> Employer:
+    ) -> EmployerUpdateResponse:
         """Updates an existing employer's information.
 
         All fields are optional - only
         provided fields will be updated. Note: EIN cannot be changed after creation.
 
         Args:
+          employer_id: Filter by employer ID
+
           active: Whether the employer is active
 
           address: Employer address
@@ -501,7 +442,7 @@ class AsyncEmployersResource(AsyncAPIResource):
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
-            cast_to=Employer,
+            cast_to=EmployerUpdateResponse,
         )
 
     async def list(
@@ -560,76 +501,6 @@ class AsyncEmployersResource(AsyncAPIResource):
             cast_to=EmployerListResponse,
         )
 
-    async def create_eligibility_policy(
-        self,
-        employer_id: str,
-        *,
-        effective_date: Union[str, date],
-        name: str,
-        rules: Iterable[employer_create_eligibility_policy_params.Rule],
-        policy_to_replace_id: str | Omit = omit,
-        description: Optional[str] | Omit = omit,
-        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
-        # The extra values given here take precedence over values defined on the client or passed to this method.
-        extra_headers: Headers | None = None,
-        extra_query: Query | None = None,
-        extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> BenefitEligibilityPolicy:
-        """Creates a new benefit eligibility policy for a specific employer.
-
-        Eligibility
-        policies define rules that determine which employees qualify for benefits based
-        on criteria such as employment status (full-time, part-time), hours worked per
-        week, waiting periods after hire date, or other custom requirements. Optionally
-        provide 'policy_to_replace_id' as a query parameter to replace an existing
-        policy.
-
-        Args:
-          effective_date: Date when policy becomes effective
-
-          name: Display name for the policy
-
-          rules: List of eligibility rules (at least one required)
-
-          policy_to_replace_id: ID of existing policy to replace (epol\\__\\**)
-
-          description: Detailed description
-
-          extra_headers: Send extra headers
-
-          extra_query: Add additional query parameters to the request
-
-          extra_body: Add additional JSON properties to the request
-
-          timeout: Override the client-level default timeout for this request, in seconds
-        """
-        if not employer_id:
-            raise ValueError(f"Expected a non-empty value for `employer_id` but received {employer_id!r}")
-        return await self._post(
-            f"/v1/employers/{employer_id}/benefit-eligibility-policy",
-            body=await async_maybe_transform(
-                {
-                    "effective_date": effective_date,
-                    "name": name,
-                    "rules": rules,
-                    "description": description,
-                },
-                employer_create_eligibility_policy_params.EmployerCreateEligibilityPolicyParams,
-            ),
-            options=make_request_options(
-                extra_headers=extra_headers,
-                extra_query=extra_query,
-                extra_body=extra_body,
-                timeout=timeout,
-                query=await async_maybe_transform(
-                    {"policy_to_replace_id": policy_to_replace_id},
-                    employer_create_eligibility_policy_params.EmployerCreateEligibilityPolicyParams,
-                ),
-            ),
-            cast_to=BenefitEligibilityPolicy,
-        )
-
 
 class EmployersResourceWithRawResponse:
     def __init__(self, employers: EmployersResource) -> None:
@@ -646,9 +517,6 @@ class EmployersResourceWithRawResponse:
         )
         self.list = to_raw_response_wrapper(
             employers.list,
-        )
-        self.create_eligibility_policy = to_raw_response_wrapper(
-            employers.create_eligibility_policy,
         )
 
     @cached_property
@@ -672,9 +540,6 @@ class AsyncEmployersResourceWithRawResponse:
         self.list = async_to_raw_response_wrapper(
             employers.list,
         )
-        self.create_eligibility_policy = async_to_raw_response_wrapper(
-            employers.create_eligibility_policy,
-        )
 
     @cached_property
     def employees(self) -> AsyncEmployeesResourceWithRawResponse:
@@ -697,9 +562,6 @@ class EmployersResourceWithStreamingResponse:
         self.list = to_streamed_response_wrapper(
             employers.list,
         )
-        self.create_eligibility_policy = to_streamed_response_wrapper(
-            employers.create_eligibility_policy,
-        )
 
     @cached_property
     def employees(self) -> EmployeesResourceWithStreamingResponse:
@@ -721,9 +583,6 @@ class AsyncEmployersResourceWithStreamingResponse:
         )
         self.list = async_to_streamed_response_wrapper(
             employers.list,
-        )
-        self.create_eligibility_policy = async_to_streamed_response_wrapper(
-            employers.create_eligibility_policy,
         )
 
     @cached_property

@@ -11,8 +11,8 @@ from tests.utils import assert_matches_type
 from vitable_connect_api import VitableConnectAPI, AsyncVitableConnectAPI
 from vitable_connect_api._utils import parse_date
 from vitable_connect_api.types.benefit_products import (
-    PlanYear,
     PlanYearListResponse,
+    PlanYearCreateResponse,
 )
 
 base_url = os.environ.get("TEST_API_BASE_URL", "http://127.0.0.1:4010")
@@ -28,19 +28,25 @@ class TestPlanYears:
             benefit_product_id="bprd_abc123def456",
             contribution_classes=[
                 {
-                    "employee_contribution_cents": 0,
-                    "employer_contribution_cents": 0,
-                    "employment": "employment",
-                    "family_status": "Unspecified",
-                }
+                    "coverage_tier": "EE",
+                    "employee_contribution_cents": 20000,
+                    "employer_contribution_cents": 45000,
+                    "employment": "full_time",
+                },
+                {
+                    "coverage_tier": "EF",
+                    "employee_contribution_cents": 50000,
+                    "employer_contribution_cents": 60000,
+                    "employment": "full_time",
+                },
             ],
-            coverage_end=parse_date("2019-12-27"),
-            coverage_start=parse_date("2019-12-27"),
-            employer_id="employer_id",
-            open_enrollment_end=parse_date("2019-12-27"),
-            open_enrollment_start=parse_date("2019-12-27"),
+            coverage_end=parse_date("2026-12-31"),
+            coverage_start=parse_date("2026-01-01"),
+            employer_id="empr_abc123",
+            open_enrollment_end=parse_date("2025-11-30"),
+            open_enrollment_start=parse_date("2025-10-15"),
         )
-        assert_matches_type(PlanYear, plan_year, path=["response"])
+        assert_matches_type(PlanYearCreateResponse, plan_year, path=["response"])
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
@@ -49,23 +55,29 @@ class TestPlanYears:
             benefit_product_id="bprd_abc123def456",
             contribution_classes=[
                 {
-                    "employee_contribution_cents": 0,
-                    "employer_contribution_cents": 0,
-                    "employment": "employment",
-                    "family_status": "Unspecified",
-                }
+                    "coverage_tier": "EE",
+                    "employee_contribution_cents": 20000,
+                    "employer_contribution_cents": 45000,
+                    "employment": "full_time",
+                },
+                {
+                    "coverage_tier": "EF",
+                    "employee_contribution_cents": 50000,
+                    "employer_contribution_cents": 60000,
+                    "employment": "full_time",
+                },
             ],
-            coverage_end=parse_date("2019-12-27"),
-            coverage_start=parse_date("2019-12-27"),
-            employer_id="employer_id",
-            open_enrollment_end=parse_date("2019-12-27"),
-            open_enrollment_start=parse_date("2019-12-27"),
+            coverage_end=parse_date("2026-12-31"),
+            coverage_start=parse_date("2026-01-01"),
+            employer_id="empr_abc123",
+            open_enrollment_end=parse_date("2025-11-30"),
+            open_enrollment_start=parse_date("2025-10-15"),
         )
 
         assert response.is_closed is True
         assert response.http_request.headers.get("X-Stainless-Lang") == "python"
         plan_year = response.parse()
-        assert_matches_type(PlanYear, plan_year, path=["response"])
+        assert_matches_type(PlanYearCreateResponse, plan_year, path=["response"])
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
@@ -74,23 +86,29 @@ class TestPlanYears:
             benefit_product_id="bprd_abc123def456",
             contribution_classes=[
                 {
-                    "employee_contribution_cents": 0,
-                    "employer_contribution_cents": 0,
-                    "employment": "employment",
-                    "family_status": "Unspecified",
-                }
+                    "coverage_tier": "EE",
+                    "employee_contribution_cents": 20000,
+                    "employer_contribution_cents": 45000,
+                    "employment": "full_time",
+                },
+                {
+                    "coverage_tier": "EF",
+                    "employee_contribution_cents": 50000,
+                    "employer_contribution_cents": 60000,
+                    "employment": "full_time",
+                },
             ],
-            coverage_end=parse_date("2019-12-27"),
-            coverage_start=parse_date("2019-12-27"),
-            employer_id="employer_id",
-            open_enrollment_end=parse_date("2019-12-27"),
-            open_enrollment_start=parse_date("2019-12-27"),
+            coverage_end=parse_date("2026-12-31"),
+            coverage_start=parse_date("2026-01-01"),
+            employer_id="empr_abc123",
+            open_enrollment_end=parse_date("2025-11-30"),
+            open_enrollment_start=parse_date("2025-10-15"),
         ) as response:
             assert not response.is_closed
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
 
             plan_year = response.parse()
-            assert_matches_type(PlanYear, plan_year, path=["response"])
+            assert_matches_type(PlanYearCreateResponse, plan_year, path=["response"])
 
         assert cast(Any, response.is_closed) is True
 
@@ -102,17 +120,23 @@ class TestPlanYears:
                 benefit_product_id="",
                 contribution_classes=[
                     {
-                        "employee_contribution_cents": 0,
-                        "employer_contribution_cents": 0,
-                        "employment": "employment",
-                        "family_status": "Unspecified",
-                    }
+                        "coverage_tier": "EE",
+                        "employee_contribution_cents": 20000,
+                        "employer_contribution_cents": 45000,
+                        "employment": "full_time",
+                    },
+                    {
+                        "coverage_tier": "EF",
+                        "employee_contribution_cents": 50000,
+                        "employer_contribution_cents": 60000,
+                        "employment": "full_time",
+                    },
                 ],
-                coverage_end=parse_date("2019-12-27"),
-                coverage_start=parse_date("2019-12-27"),
-                employer_id="employer_id",
-                open_enrollment_end=parse_date("2019-12-27"),
-                open_enrollment_start=parse_date("2019-12-27"),
+                coverage_end=parse_date("2026-12-31"),
+                coverage_start=parse_date("2026-01-01"),
+                employer_id="empr_abc123",
+                open_enrollment_end=parse_date("2025-11-30"),
+                open_enrollment_start=parse_date("2025-10-15"),
             )
 
     @pytest.mark.skip(reason="Prism tests are disabled")
@@ -182,19 +206,25 @@ class TestAsyncPlanYears:
             benefit_product_id="bprd_abc123def456",
             contribution_classes=[
                 {
-                    "employee_contribution_cents": 0,
-                    "employer_contribution_cents": 0,
-                    "employment": "employment",
-                    "family_status": "Unspecified",
-                }
+                    "coverage_tier": "EE",
+                    "employee_contribution_cents": 20000,
+                    "employer_contribution_cents": 45000,
+                    "employment": "full_time",
+                },
+                {
+                    "coverage_tier": "EF",
+                    "employee_contribution_cents": 50000,
+                    "employer_contribution_cents": 60000,
+                    "employment": "full_time",
+                },
             ],
-            coverage_end=parse_date("2019-12-27"),
-            coverage_start=parse_date("2019-12-27"),
-            employer_id="employer_id",
-            open_enrollment_end=parse_date("2019-12-27"),
-            open_enrollment_start=parse_date("2019-12-27"),
+            coverage_end=parse_date("2026-12-31"),
+            coverage_start=parse_date("2026-01-01"),
+            employer_id="empr_abc123",
+            open_enrollment_end=parse_date("2025-11-30"),
+            open_enrollment_start=parse_date("2025-10-15"),
         )
-        assert_matches_type(PlanYear, plan_year, path=["response"])
+        assert_matches_type(PlanYearCreateResponse, plan_year, path=["response"])
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
@@ -203,23 +233,29 @@ class TestAsyncPlanYears:
             benefit_product_id="bprd_abc123def456",
             contribution_classes=[
                 {
-                    "employee_contribution_cents": 0,
-                    "employer_contribution_cents": 0,
-                    "employment": "employment",
-                    "family_status": "Unspecified",
-                }
+                    "coverage_tier": "EE",
+                    "employee_contribution_cents": 20000,
+                    "employer_contribution_cents": 45000,
+                    "employment": "full_time",
+                },
+                {
+                    "coverage_tier": "EF",
+                    "employee_contribution_cents": 50000,
+                    "employer_contribution_cents": 60000,
+                    "employment": "full_time",
+                },
             ],
-            coverage_end=parse_date("2019-12-27"),
-            coverage_start=parse_date("2019-12-27"),
-            employer_id="employer_id",
-            open_enrollment_end=parse_date("2019-12-27"),
-            open_enrollment_start=parse_date("2019-12-27"),
+            coverage_end=parse_date("2026-12-31"),
+            coverage_start=parse_date("2026-01-01"),
+            employer_id="empr_abc123",
+            open_enrollment_end=parse_date("2025-11-30"),
+            open_enrollment_start=parse_date("2025-10-15"),
         )
 
         assert response.is_closed is True
         assert response.http_request.headers.get("X-Stainless-Lang") == "python"
         plan_year = await response.parse()
-        assert_matches_type(PlanYear, plan_year, path=["response"])
+        assert_matches_type(PlanYearCreateResponse, plan_year, path=["response"])
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
@@ -228,23 +264,29 @@ class TestAsyncPlanYears:
             benefit_product_id="bprd_abc123def456",
             contribution_classes=[
                 {
-                    "employee_contribution_cents": 0,
-                    "employer_contribution_cents": 0,
-                    "employment": "employment",
-                    "family_status": "Unspecified",
-                }
+                    "coverage_tier": "EE",
+                    "employee_contribution_cents": 20000,
+                    "employer_contribution_cents": 45000,
+                    "employment": "full_time",
+                },
+                {
+                    "coverage_tier": "EF",
+                    "employee_contribution_cents": 50000,
+                    "employer_contribution_cents": 60000,
+                    "employment": "full_time",
+                },
             ],
-            coverage_end=parse_date("2019-12-27"),
-            coverage_start=parse_date("2019-12-27"),
-            employer_id="employer_id",
-            open_enrollment_end=parse_date("2019-12-27"),
-            open_enrollment_start=parse_date("2019-12-27"),
+            coverage_end=parse_date("2026-12-31"),
+            coverage_start=parse_date("2026-01-01"),
+            employer_id="empr_abc123",
+            open_enrollment_end=parse_date("2025-11-30"),
+            open_enrollment_start=parse_date("2025-10-15"),
         ) as response:
             assert not response.is_closed
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
 
             plan_year = await response.parse()
-            assert_matches_type(PlanYear, plan_year, path=["response"])
+            assert_matches_type(PlanYearCreateResponse, plan_year, path=["response"])
 
         assert cast(Any, response.is_closed) is True
 
@@ -256,17 +298,23 @@ class TestAsyncPlanYears:
                 benefit_product_id="",
                 contribution_classes=[
                     {
-                        "employee_contribution_cents": 0,
-                        "employer_contribution_cents": 0,
-                        "employment": "employment",
-                        "family_status": "Unspecified",
-                    }
+                        "coverage_tier": "EE",
+                        "employee_contribution_cents": 20000,
+                        "employer_contribution_cents": 45000,
+                        "employment": "full_time",
+                    },
+                    {
+                        "coverage_tier": "EF",
+                        "employee_contribution_cents": 50000,
+                        "employer_contribution_cents": 60000,
+                        "employment": "full_time",
+                    },
                 ],
-                coverage_end=parse_date("2019-12-27"),
-                coverage_start=parse_date("2019-12-27"),
-                employer_id="employer_id",
-                open_enrollment_end=parse_date("2019-12-27"),
-                open_enrollment_start=parse_date("2019-12-27"),
+                coverage_end=parse_date("2026-12-31"),
+                coverage_start=parse_date("2026-01-01"),
+                employer_id="empr_abc123",
+                open_enrollment_end=parse_date("2025-11-30"),
+                open_enrollment_start=parse_date("2025-10-15"),
             )
 
     @pytest.mark.skip(reason="Prism tests are disabled")
