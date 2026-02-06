@@ -8,11 +8,11 @@ from typing import Any, cast
 import pytest
 
 from tests.utils import assert_matches_type
-from vitable_connect_api import VitableConnectAPI, AsyncVitableConnectAPI
-from vitable_connect_api._utils import parse_date
-from vitable_connect_api.types.employers import (
+from vitable_connect import VitableConnect, AsyncVitableConnect
+from vitable_connect.types import EmployeeResponse
+from vitable_connect._utils import parse_date
+from vitable_connect.types.employers import (
     EmployeeListResponse,
-    EmployeeCreateResponse,
 )
 
 base_url = os.environ.get("TEST_API_BASE_URL", "http://127.0.0.1:4010")
@@ -23,7 +23,7 @@ class TestEmployees:
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
-    def test_method_create(self, client: VitableConnectAPI) -> None:
+    def test_method_create(self, client: VitableConnect) -> None:
         employee = client.employers.employees.create(
             employer_id="empr_abc123def456",
             date_of_birth=parse_date("1992-08-25"),
@@ -34,11 +34,11 @@ class TestEmployees:
             ssn="123-45-6789",
             start_date=parse_date("2024-12-01"),
         )
-        assert_matches_type(EmployeeCreateResponse, employee, path=["response"])
+        assert_matches_type(EmployeeResponse, employee, path=["response"])
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
-    def test_method_create_with_all_params(self, client: VitableConnectAPI) -> None:
+    def test_method_create_with_all_params(self, client: VitableConnect) -> None:
         employee = client.employers.employees.create(
             employer_id="empr_abc123def456",
             date_of_birth=parse_date("1992-08-25"),
@@ -61,11 +61,11 @@ class TestEmployees:
             phone="+1-555-222-3333",
             suffix="suffix",
         )
-        assert_matches_type(EmployeeCreateResponse, employee, path=["response"])
+        assert_matches_type(EmployeeResponse, employee, path=["response"])
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
-    def test_raw_response_create(self, client: VitableConnectAPI) -> None:
+    def test_raw_response_create(self, client: VitableConnect) -> None:
         response = client.employers.employees.with_raw_response.create(
             employer_id="empr_abc123def456",
             date_of_birth=parse_date("1992-08-25"),
@@ -80,11 +80,11 @@ class TestEmployees:
         assert response.is_closed is True
         assert response.http_request.headers.get("X-Stainless-Lang") == "python"
         employee = response.parse()
-        assert_matches_type(EmployeeCreateResponse, employee, path=["response"])
+        assert_matches_type(EmployeeResponse, employee, path=["response"])
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
-    def test_streaming_response_create(self, client: VitableConnectAPI) -> None:
+    def test_streaming_response_create(self, client: VitableConnect) -> None:
         with client.employers.employees.with_streaming_response.create(
             employer_id="empr_abc123def456",
             date_of_birth=parse_date("1992-08-25"),
@@ -99,13 +99,13 @@ class TestEmployees:
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
 
             employee = response.parse()
-            assert_matches_type(EmployeeCreateResponse, employee, path=["response"])
+            assert_matches_type(EmployeeResponse, employee, path=["response"])
 
         assert cast(Any, response.is_closed) is True
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
-    def test_path_params_create(self, client: VitableConnectAPI) -> None:
+    def test_path_params_create(self, client: VitableConnect) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `employer_id` but received ''"):
             client.employers.employees.with_raw_response.create(
                 employer_id="",
@@ -120,7 +120,7 @@ class TestEmployees:
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
-    def test_method_list(self, client: VitableConnectAPI) -> None:
+    def test_method_list(self, client: VitableConnect) -> None:
         employee = client.employers.employees.list(
             employer_id="empr_abc123def456",
         )
@@ -128,7 +128,7 @@ class TestEmployees:
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
-    def test_method_list_with_all_params(self, client: VitableConnectAPI) -> None:
+    def test_method_list_with_all_params(self, client: VitableConnect) -> None:
         employee = client.employers.employees.list(
             employer_id="empr_abc123def456",
             active_in=True,
@@ -140,7 +140,7 @@ class TestEmployees:
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
-    def test_raw_response_list(self, client: VitableConnectAPI) -> None:
+    def test_raw_response_list(self, client: VitableConnect) -> None:
         response = client.employers.employees.with_raw_response.list(
             employer_id="empr_abc123def456",
         )
@@ -152,7 +152,7 @@ class TestEmployees:
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
-    def test_streaming_response_list(self, client: VitableConnectAPI) -> None:
+    def test_streaming_response_list(self, client: VitableConnect) -> None:
         with client.employers.employees.with_streaming_response.list(
             employer_id="empr_abc123def456",
         ) as response:
@@ -166,7 +166,7 @@ class TestEmployees:
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
-    def test_path_params_list(self, client: VitableConnectAPI) -> None:
+    def test_path_params_list(self, client: VitableConnect) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `employer_id` but received ''"):
             client.employers.employees.with_raw_response.list(
                 employer_id="",
@@ -180,7 +180,7 @@ class TestAsyncEmployees:
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
-    async def test_method_create(self, async_client: AsyncVitableConnectAPI) -> None:
+    async def test_method_create(self, async_client: AsyncVitableConnect) -> None:
         employee = await async_client.employers.employees.create(
             employer_id="empr_abc123def456",
             date_of_birth=parse_date("1992-08-25"),
@@ -191,11 +191,11 @@ class TestAsyncEmployees:
             ssn="123-45-6789",
             start_date=parse_date("2024-12-01"),
         )
-        assert_matches_type(EmployeeCreateResponse, employee, path=["response"])
+        assert_matches_type(EmployeeResponse, employee, path=["response"])
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
-    async def test_method_create_with_all_params(self, async_client: AsyncVitableConnectAPI) -> None:
+    async def test_method_create_with_all_params(self, async_client: AsyncVitableConnect) -> None:
         employee = await async_client.employers.employees.create(
             employer_id="empr_abc123def456",
             date_of_birth=parse_date("1992-08-25"),
@@ -218,11 +218,11 @@ class TestAsyncEmployees:
             phone="+1-555-222-3333",
             suffix="suffix",
         )
-        assert_matches_type(EmployeeCreateResponse, employee, path=["response"])
+        assert_matches_type(EmployeeResponse, employee, path=["response"])
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
-    async def test_raw_response_create(self, async_client: AsyncVitableConnectAPI) -> None:
+    async def test_raw_response_create(self, async_client: AsyncVitableConnect) -> None:
         response = await async_client.employers.employees.with_raw_response.create(
             employer_id="empr_abc123def456",
             date_of_birth=parse_date("1992-08-25"),
@@ -237,11 +237,11 @@ class TestAsyncEmployees:
         assert response.is_closed is True
         assert response.http_request.headers.get("X-Stainless-Lang") == "python"
         employee = await response.parse()
-        assert_matches_type(EmployeeCreateResponse, employee, path=["response"])
+        assert_matches_type(EmployeeResponse, employee, path=["response"])
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
-    async def test_streaming_response_create(self, async_client: AsyncVitableConnectAPI) -> None:
+    async def test_streaming_response_create(self, async_client: AsyncVitableConnect) -> None:
         async with async_client.employers.employees.with_streaming_response.create(
             employer_id="empr_abc123def456",
             date_of_birth=parse_date("1992-08-25"),
@@ -256,13 +256,13 @@ class TestAsyncEmployees:
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
 
             employee = await response.parse()
-            assert_matches_type(EmployeeCreateResponse, employee, path=["response"])
+            assert_matches_type(EmployeeResponse, employee, path=["response"])
 
         assert cast(Any, response.is_closed) is True
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
-    async def test_path_params_create(self, async_client: AsyncVitableConnectAPI) -> None:
+    async def test_path_params_create(self, async_client: AsyncVitableConnect) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `employer_id` but received ''"):
             await async_client.employers.employees.with_raw_response.create(
                 employer_id="",
@@ -277,7 +277,7 @@ class TestAsyncEmployees:
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
-    async def test_method_list(self, async_client: AsyncVitableConnectAPI) -> None:
+    async def test_method_list(self, async_client: AsyncVitableConnect) -> None:
         employee = await async_client.employers.employees.list(
             employer_id="empr_abc123def456",
         )
@@ -285,7 +285,7 @@ class TestAsyncEmployees:
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
-    async def test_method_list_with_all_params(self, async_client: AsyncVitableConnectAPI) -> None:
+    async def test_method_list_with_all_params(self, async_client: AsyncVitableConnect) -> None:
         employee = await async_client.employers.employees.list(
             employer_id="empr_abc123def456",
             active_in=True,
@@ -297,7 +297,7 @@ class TestAsyncEmployees:
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
-    async def test_raw_response_list(self, async_client: AsyncVitableConnectAPI) -> None:
+    async def test_raw_response_list(self, async_client: AsyncVitableConnect) -> None:
         response = await async_client.employers.employees.with_raw_response.list(
             employer_id="empr_abc123def456",
         )
@@ -309,7 +309,7 @@ class TestAsyncEmployees:
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
-    async def test_streaming_response_list(self, async_client: AsyncVitableConnectAPI) -> None:
+    async def test_streaming_response_list(self, async_client: AsyncVitableConnect) -> None:
         async with async_client.employers.employees.with_streaming_response.list(
             employer_id="empr_abc123def456",
         ) as response:
@@ -323,7 +323,7 @@ class TestAsyncEmployees:
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
-    async def test_path_params_list(self, async_client: AsyncVitableConnectAPI) -> None:
+    async def test_path_params_list(self, async_client: AsyncVitableConnect) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `employer_id` but received ''"):
             await async_client.employers.employees.with_raw_response.list(
                 employer_id="",

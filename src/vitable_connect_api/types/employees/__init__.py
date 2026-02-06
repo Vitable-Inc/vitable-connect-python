@@ -1,9 +1,0 @@
-# File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
-
-from __future__ import annotations
-
-from .enrollment_status import EnrollmentStatus as EnrollmentStatus
-from .enrollment_list_params import EnrollmentListParams as EnrollmentListParams
-from .enrollment_list_response import EnrollmentListResponse as EnrollmentListResponse
-from .enrollment_submit_elections_params import EnrollmentSubmitElectionsParams as EnrollmentSubmitElectionsParams
-from .enrollment_submit_elections_response import EnrollmentSubmitElectionsResponse as EnrollmentSubmitElectionsResponse

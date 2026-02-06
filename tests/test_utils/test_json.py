@@ -5,8 +5,8 @@ from typing import Union
 
 import pydantic
 
-from vitable_connect_api import _compat
-from vitable_connect_api._utils._json import openapi_dumps
+from vitable_connect import _compat
+from vitable_connect._utils._json import openapi_dumps
 
 
 class TestOpenapiDumps:

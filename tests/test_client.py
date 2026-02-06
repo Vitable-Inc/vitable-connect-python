@@ -19,12 +19,12 @@ import pytest
 from respx import MockRouter
 from pydantic import ValidationError
 
-from vitable_connect_api import VitableConnectAPI, AsyncVitableConnectAPI, APIResponseValidationError
-from vitable_connect_api._types import Omit
-from vitable_connect_api._utils import asyncify
-from vitable_connect_api._models import BaseModel, FinalRequestOptions
-from vitable_connect_api._exceptions import APIStatusError, APITimeoutError, APIResponseValidationError
-from vitable_connect_api._base_client import (
+from vitable_connect import VitableConnect, AsyncVitableConnect, APIResponseValidationError
+from vitable_connect._types import Omit
+from vitable_connect._utils import asyncify
+from vitable_connect._models import BaseModel, FinalRequestOptions
+from vitable_connect._exceptions import APIStatusError, APITimeoutError, VitableConnectError, APIResponseValidationError
+from vitable_connect._base_client import (
     DEFAULT_TIMEOUT,
     HTTPX_DEFAULT_TIMEOUT,
     BaseClient,
@@ -103,7 +103,7 @@ async def _make_async_iterator(iterable: Iterable[T], counter: Optional[Counter]
         yield item
 
 
-def _get_open_connections(client: VitableConnectAPI | AsyncVitableConnectAPI) -> int:
+def _get_open_connections(client: VitableConnect | AsyncVitableConnect) -> int:
     transport = client._client._transport
     assert isinstance(transport, httpx.HTTPTransport) or isinstance(transport, httpx.AsyncHTTPTransport)
 
@@ -111,9 +111,9 @@ def _get_open_connections(client: VitableConnectAPI | AsyncVitableConnectAPI) ->
     return len(pool._requests)
 
 
-class TestVitableConnectAPI:
+class TestVitableConnect:
     @pytest.mark.respx(base_url=base_url)
-    def test_raw_response(self, respx_mock: MockRouter, client: VitableConnectAPI) -> None:
+    def test_raw_response(self, respx_mock: MockRouter, client: VitableConnect) -> None:
         respx_mock.post("/foo").mock(return_value=httpx.Response(200, json={"foo": "bar"}))
 
         response = client.post("/foo", cast_to=httpx.Response)
@@ -122,7 +122,7 @@ class TestVitableConnectAPI:
         assert response.json() == {"foo": "bar"}
 
     @pytest.mark.respx(base_url=base_url)
-    def test_raw_response_for_binary(self, respx_mock: MockRouter, client: VitableConnectAPI) -> None:
+    def test_raw_response_for_binary(self, respx_mock: MockRouter, client: VitableConnect) -> None:
         respx_mock.post("/foo").mock(
             return_value=httpx.Response(200, headers={"Content-Type": "application/binary"}, content='{"foo": "bar"}')
         )
@@ -132,7 +132,7 @@ class TestVitableConnectAPI:
         assert isinstance(response, httpx.Response)
         assert response.json() == {"foo": "bar"}
 
-    def test_copy(self, client: VitableConnectAPI) -> None:
+    def test_copy(self, client: VitableConnect) -> None:
         copied = client.copy()
         assert id(copied) != id(client)
 
@@ -140,7 +140,7 @@ class TestVitableConnectAPI:
         assert copied.api_key == "another My API Key"
         assert client.api_key == "My API Key"
 
-    def test_copy_default_options(self, client: VitableConnectAPI) -> None:
+    def test_copy_default_options(self, client: VitableConnect) -> None:
         # options that have a default are overridden correctly
         copied = client.copy(max_retries=7)
         assert copied.max_retries == 7
@@ -157,7 +157,7 @@ class TestVitableConnectAPI:
         assert isinstance(client.timeout, httpx.Timeout)
 
     def test_copy_default_headers(self) -> None:
-        client = VitableConnectAPI(
+        client = VitableConnect(
             base_url=base_url, api_key=api_key, _strict_response_validation=True, default_headers={"X-Foo": "bar"}
         )
         assert client.default_headers["X-Foo"] == "bar"
@@ -192,7 +192,7 @@ class TestVitableConnectAPI:
         client.close()
 
     def test_copy_default_query(self) -> None:
-        client = VitableConnectAPI(
+        client = VitableConnect(
             base_url=base_url, api_key=api_key, _strict_response_validation=True, default_query={"foo": "bar"}
         )
         assert _get_params(client)["foo"] == "bar"
@@ -229,7 +229,7 @@ class TestVitableConnectAPI:
 
         client.close()
 
-    def test_copy_signature(self, client: VitableConnectAPI) -> None:
+    def test_copy_signature(self, client: VitableConnect) -> None:
         # ensure the same parameters that can be passed to the client are defined in the `.copy()` method
         init_signature = inspect.signature(
             # mypy doesn't like that we access the `__init__` property.
@@ -246,7 +246,7 @@ class TestVitableConnectAPI:
             assert copy_param is not None, f"copy() signature is missing the {name} param"
 
     @pytest.mark.skipif(sys.version_info >= (3, 10), reason="fails because of a memory leak that started from 3.12")
-    def test_copy_build_request(self, client: VitableConnectAPI) -> None:
+    def test_copy_build_request(self, client: VitableConnect) -> None:
         options = FinalRequestOptions(method="get", url="/foo")
 
         def build_request(options: FinalRequestOptions) -> None:
@@ -286,10 +286,10 @@ class TestVitableConnectAPI:
                         # to_raw_response_wrapper leaks through the @functools.wraps() decorator.
                         #
                         # removing the decorator fixes the leak for reasons we don't understand.
-                        "vitable_connect_api/_legacy_response.py",
-                        "vitable_connect_api/_response.py",
+                        "vitable_connect/_legacy_response.py",
+                        "vitable_connect/_response.py",
                         # pydantic.BaseModel.model_dump || pydantic.BaseModel.dict leak memory for some reason.
-                        "vitable_connect_api/_compat.py",
+                        "vitable_connect/_compat.py",
                         # Standard library leaks we don't care about.
                         "/logging/__init__.py",
                     ]
@@ -308,7 +308,7 @@ class TestVitableConnectAPI:
                     print(frame)
             raise AssertionError()
 
-    def test_request_timeout(self, client: VitableConnectAPI) -> None:
+    def test_request_timeout(self, client: VitableConnect) -> None:
         request = client._build_request(FinalRequestOptions(method="get", url="/foo"))
         timeout = httpx.Timeout(**request.extensions["timeout"])  # type: ignore
         assert timeout == DEFAULT_TIMEOUT
@@ -318,7 +318,7 @@ class TestVitableConnectAPI:
         assert timeout == httpx.Timeout(100.0)
 
     def test_client_timeout_option(self) -> None:
-        client = VitableConnectAPI(
+        client = VitableConnect(
             base_url=base_url, api_key=api_key, _strict_response_validation=True, timeout=httpx.Timeout(0)
         )
 
@@ -331,7 +331,7 @@ class TestVitableConnectAPI:
     def test_http_client_timeout_option(self) -> None:
         # custom timeout given to the httpx client should be used
         with httpx.Client(timeout=None) as http_client:
-            client = VitableConnectAPI(
+            client = VitableConnect(
                 base_url=base_url, api_key=api_key, _strict_response_validation=True, http_client=http_client
             )
 
@@ -343,7 +343,7 @@ class TestVitableConnectAPI:
 
         # no timeout given to the httpx client should not use the httpx default
         with httpx.Client() as http_client:
-            client = VitableConnectAPI(
+            client = VitableConnect(
                 base_url=base_url, api_key=api_key, _strict_response_validation=True, http_client=http_client
             )
 
@@ -355,7 +355,7 @@ class TestVitableConnectAPI:
 
         # explicitly passing the default timeout currently results in it being ignored
         with httpx.Client(timeout=HTTPX_DEFAULT_TIMEOUT) as http_client:
-            client = VitableConnectAPI(
+            client = VitableConnect(
                 base_url=base_url, api_key=api_key, _strict_response_validation=True, http_client=http_client
             )
 
@@ -368,7 +368,7 @@ class TestVitableConnectAPI:
     async def test_invalid_http_client(self) -> None:
         with pytest.raises(TypeError, match="Invalid `http_client` arg"):
             async with httpx.AsyncClient() as http_client:
-                VitableConnectAPI(
+                VitableConnect(
                     base_url=base_url,
                     api_key=api_key,
                     _strict_response_validation=True,
@@ -376,14 +376,14 @@ class TestVitableConnectAPI:
                 )
 
     def test_default_headers_option(self) -> None:
-        test_client = VitableConnectAPI(
+        test_client = VitableConnect(
             base_url=base_url, api_key=api_key, _strict_response_validation=True, default_headers={"X-Foo": "bar"}
         )
         request = test_client._build_request(FinalRequestOptions(method="get", url="/foo"))
         assert request.headers.get("x-foo") == "bar"
         assert request.headers.get("x-stainless-lang") == "python"
 
-        test_client2 = VitableConnectAPI(
+        test_client2 = VitableConnect(
             base_url=base_url,
             api_key=api_key,
             _strict_response_validation=True,
@@ -399,8 +399,18 @@ class TestVitableConnectAPI:
         test_client.close()
         test_client2.close()
 
+    def test_validate_headers(self) -> None:
+        client = VitableConnect(base_url=base_url, api_key=api_key, _strict_response_validation=True)
+        request = client._build_request(FinalRequestOptions(method="get", url="/foo"))
+        assert request.headers.get("Authorization") == f"Bearer {api_key}"
+
+        with pytest.raises(VitableConnectError):
+            with update_env(**{"VITABLE_CONNECT_API_KEY": Omit()}):
+                client2 = VitableConnect(base_url=base_url, api_key=None, _strict_response_validation=True)
+            _ = client2
+
     def test_default_query_option(self) -> None:
-        client = VitableConnectAPI(
+        client = VitableConnect(
             base_url=base_url, api_key=api_key, _strict_response_validation=True, default_query={"query_param": "bar"}
         )
         request = client._build_request(FinalRequestOptions(method="get", url="/foo"))
@@ -419,7 +429,7 @@ class TestVitableConnectAPI:
 
         client.close()
 
-    def test_request_extra_json(self, client: VitableConnectAPI) -> None:
+    def test_request_extra_json(self, client: VitableConnect) -> None:
         request = client._build_request(
             FinalRequestOptions(
                 method="post",
@@ -453,7 +463,7 @@ class TestVitableConnectAPI:
         data = json.loads(request.content.decode("utf-8"))
         assert data == {"foo": "bar", "baz": None}
 
-    def test_request_extra_headers(self, client: VitableConnectAPI) -> None:
+    def test_request_extra_headers(self, client: VitableConnect) -> None:
         request = client._build_request(
             FinalRequestOptions(
                 method="post",
@@ -475,7 +485,7 @@ class TestVitableConnectAPI:
         )
         assert request.headers.get("X-Bar") == "false"
 
-    def test_request_extra_query(self, client: VitableConnectAPI) -> None:
+    def test_request_extra_query(self, client: VitableConnect) -> None:
         request = client._build_request(
             FinalRequestOptions(
                 method="post",
@@ -516,7 +526,7 @@ class TestVitableConnectAPI:
         params = dict(request.url.params)
         assert params == {"foo": "2"}
 
-    def test_multipart_repeating_array(self, client: VitableConnectAPI) -> None:
+    def test_multipart_repeating_array(self, client: VitableConnect) -> None:
         request = client._build_request(
             FinalRequestOptions.construct(
                 method="post",
@@ -546,7 +556,7 @@ class TestVitableConnectAPI:
         ]
 
     @pytest.mark.respx(base_url=base_url)
-    def test_binary_content_upload(self, respx_mock: MockRouter, client: VitableConnectAPI) -> None:
+    def test_binary_content_upload(self, respx_mock: MockRouter, client: VitableConnect) -> None:
         respx_mock.post("/upload").mock(side_effect=mirror_request_content)
 
         file_content = b"Hello, this is a test file."
@@ -571,7 +581,7 @@ class TestVitableConnectAPI:
             assert counter.value == 0, "the request body should not have been read"
             return httpx.Response(200, content=request.read())
 
-        with VitableConnectAPI(
+        with VitableConnect(
             base_url=base_url,
             api_key=api_key,
             _strict_response_validation=True,
@@ -591,7 +601,7 @@ class TestVitableConnectAPI:
 
     @pytest.mark.respx(base_url=base_url)
     def test_binary_content_upload_with_body_is_deprecated(
-        self, respx_mock: MockRouter, client: VitableConnectAPI
+        self, respx_mock: MockRouter, client: VitableConnect
     ) -> None:
         respx_mock.post("/upload").mock(side_effect=mirror_request_content)
 
@@ -612,7 +622,7 @@ class TestVitableConnectAPI:
         assert response.content == file_content
 
     @pytest.mark.respx(base_url=base_url)
-    def test_basic_union_response(self, respx_mock: MockRouter, client: VitableConnectAPI) -> None:
+    def test_basic_union_response(self, respx_mock: MockRouter, client: VitableConnect) -> None:
         class Model1(BaseModel):
             name: str
 
@@ -626,7 +636,7 @@ class TestVitableConnectAPI:
         assert response.foo == "bar"
 
     @pytest.mark.respx(base_url=base_url)
-    def test_union_response_different_types(self, respx_mock: MockRouter, client: VitableConnectAPI) -> None:
+    def test_union_response_different_types(self, respx_mock: MockRouter, client: VitableConnect) -> None:
         """Union of objects with the same field name using a different type"""
 
         class Model1(BaseModel):
@@ -649,7 +659,7 @@ class TestVitableConnectAPI:
 
     @pytest.mark.respx(base_url=base_url)
     def test_non_application_json_content_type_for_json_data(
-        self, respx_mock: MockRouter, client: VitableConnectAPI
+        self, respx_mock: MockRouter, client: VitableConnect
     ) -> None:
         """
         Response that sets Content-Type to something other than application/json but returns json data
@@ -671,7 +681,7 @@ class TestVitableConnectAPI:
         assert response.foo == 2
 
     def test_base_url_setter(self) -> None:
-        client = VitableConnectAPI(
+        client = VitableConnect(
             base_url="https://example.com/from_init", api_key=api_key, _strict_response_validation=True
         )
         assert client.base_url == "https://example.com/from_init/"
@@ -683,16 +693,16 @@ class TestVitableConnectAPI:
         client.close()
 
     def test_base_url_env(self) -> None:
-        with update_env(VITABLE_CONNECT_API_BASE_URL="http://localhost:5000/from/env"):
-            client = VitableConnectAPI(api_key=api_key, _strict_response_validation=True)
+        with update_env(VITABLE_CONNECT_BASE_URL="http://localhost:5000/from/env"):
+            client = VitableConnect(api_key=api_key, _strict_response_validation=True)
             assert client.base_url == "http://localhost:5000/from/env/"
 
         # explicit environment arg requires explicitness
-        with update_env(VITABLE_CONNECT_API_BASE_URL="http://localhost:5000/from/env"):
+        with update_env(VITABLE_CONNECT_BASE_URL="http://localhost:5000/from/env"):
             with pytest.raises(ValueError, match=r"you must pass base_url=None"):
-                VitableConnectAPI(api_key=api_key, _strict_response_validation=True, environment="production")
+                VitableConnect(api_key=api_key, _strict_response_validation=True, environment="production")
 
-            client = VitableConnectAPI(
+            client = VitableConnect(
                 base_url=None, api_key=api_key, _strict_response_validation=True, environment="production"
             )
             assert str(client.base_url).startswith("https://api.vitablehealth.com")
@@ -702,10 +712,10 @@ class TestVitableConnectAPI:
     @pytest.mark.parametrize(
         "client",
         [
-            VitableConnectAPI(
+            VitableConnect(
                 base_url="http://localhost:5000/custom/path/", api_key=api_key, _strict_response_validation=True
             ),
-            VitableConnectAPI(
+            VitableConnect(
                 base_url="http://localhost:5000/custom/path/",
                 api_key=api_key,
                 _strict_response_validation=True,
@@ -714,7 +724,7 @@ class TestVitableConnectAPI:
         ],
         ids=["standard", "custom http client"],
     )
-    def test_base_url_trailing_slash(self, client: VitableConnectAPI) -> None:
+    def test_base_url_trailing_slash(self, client: VitableConnect) -> None:
         request = client._build_request(
             FinalRequestOptions(
                 method="post",
@@ -728,10 +738,10 @@ class TestVitableConnectAPI:
     @pytest.mark.parametrize(
         "client",
         [
-            VitableConnectAPI(
+            VitableConnect(
                 base_url="http://localhost:5000/custom/path/", api_key=api_key, _strict_response_validation=True
             ),
-            VitableConnectAPI(
+            VitableConnect(
                 base_url="http://localhost:5000/custom/path/",
                 api_key=api_key,
                 _strict_response_validation=True,
@@ -740,7 +750,7 @@ class TestVitableConnectAPI:
         ],
         ids=["standard", "custom http client"],
     )
-    def test_base_url_no_trailing_slash(self, client: VitableConnectAPI) -> None:
+    def test_base_url_no_trailing_slash(self, client: VitableConnect) -> None:
         request = client._build_request(
             FinalRequestOptions(
                 method="post",
@@ -754,10 +764,10 @@ class TestVitableConnectAPI:
     @pytest.mark.parametrize(
         "client",
         [
-            VitableConnectAPI(
+            VitableConnect(
                 base_url="http://localhost:5000/custom/path/", api_key=api_key, _strict_response_validation=True
             ),
-            VitableConnectAPI(
+            VitableConnect(
                 base_url="http://localhost:5000/custom/path/",
                 api_key=api_key,
                 _strict_response_validation=True,
@@ -766,7 +776,7 @@ class TestVitableConnectAPI:
         ],
         ids=["standard", "custom http client"],
     )
-    def test_absolute_request_url(self, client: VitableConnectAPI) -> None:
+    def test_absolute_request_url(self, client: VitableConnect) -> None:
         request = client._build_request(
             FinalRequestOptions(
                 method="post",
@@ -778,7 +788,7 @@ class TestVitableConnectAPI:
         client.close()
 
     def test_copied_client_does_not_close_http(self) -> None:
-        test_client = VitableConnectAPI(base_url=base_url, api_key=api_key, _strict_response_validation=True)
+        test_client = VitableConnect(base_url=base_url, api_key=api_key, _strict_response_validation=True)
         assert not test_client.is_closed()
 
         copied = test_client.copy()
@@ -789,7 +799,7 @@ class TestVitableConnectAPI:
         assert not test_client.is_closed()
 
     def test_client_context_manager(self) -> None:
-        test_client = VitableConnectAPI(base_url=base_url, api_key=api_key, _strict_response_validation=True)
+        test_client = VitableConnect(base_url=base_url, api_key=api_key, _strict_response_validation=True)
         with test_client as c2:
             assert c2 is test_client
             assert not c2.is_closed()
@@ -797,7 +807,7 @@ class TestVitableConnectAPI:
         assert test_client.is_closed()
 
     @pytest.mark.respx(base_url=base_url)
-    def test_client_response_validation_error(self, respx_mock: MockRouter, client: VitableConnectAPI) -> None:
+    def test_client_response_validation_error(self, respx_mock: MockRouter, client: VitableConnect) -> None:
         class Model(BaseModel):
             foo: str
 
@@ -810,7 +820,7 @@ class TestVitableConnectAPI:
 
     def test_client_max_retries_validation(self) -> None:
         with pytest.raises(TypeError, match=r"max_retries cannot be None"):
-            VitableConnectAPI(
+            VitableConnect(
                 base_url=base_url, api_key=api_key, _strict_response_validation=True, max_retries=cast(Any, None)
             )
 
@@ -821,12 +831,12 @@ class TestVitableConnectAPI:
 
         respx_mock.get("/foo").mock(return_value=httpx.Response(200, text="my-custom-format"))
 
-        strict_client = VitableConnectAPI(base_url=base_url, api_key=api_key, _strict_response_validation=True)
+        strict_client = VitableConnect(base_url=base_url, api_key=api_key, _strict_response_validation=True)
 
         with pytest.raises(APIResponseValidationError):
             strict_client.get("/foo", cast_to=Model)
 
-        non_strict_client = VitableConnectAPI(base_url=base_url, api_key=api_key, _strict_response_validation=False)
+        non_strict_client = VitableConnect(base_url=base_url, api_key=api_key, _strict_response_validation=False)
 
         response = non_strict_client.get("/foo", cast_to=Model)
         assert isinstance(response, str)  # type: ignore[unreachable]
@@ -857,39 +867,39 @@ class TestVitableConnectAPI:
     )
     @mock.patch("time.time", mock.MagicMock(return_value=1696004797))
     def test_parse_retry_after_header(
-        self, remaining_retries: int, retry_after: str, timeout: float, client: VitableConnectAPI
+        self, remaining_retries: int, retry_after: str, timeout: float, client: VitableConnect
     ) -> None:
         headers = httpx.Headers({"retry-after": retry_after})
         options = FinalRequestOptions(method="get", url="/foo", max_retries=3)
         calculated = client._calculate_retry_timeout(remaining_retries, options, headers)
         assert calculated == pytest.approx(timeout, 0.5 * 0.875)  # pyright: ignore[reportUnknownMemberType]
 
-    @mock.patch("vitable_connect_api._base_client.BaseClient._calculate_retry_timeout", _low_retry_timeout)
+    @mock.patch("vitable_connect._base_client.BaseClient._calculate_retry_timeout", _low_retry_timeout)
     @pytest.mark.respx(base_url=base_url)
-    def test_retrying_timeout_errors_doesnt_leak(self, respx_mock: MockRouter, client: VitableConnectAPI) -> None:
-        respx_mock.get("/v1/benefit-products").mock(side_effect=httpx.TimeoutException("Test timeout error"))
+    def test_retrying_timeout_errors_doesnt_leak(self, respx_mock: MockRouter, client: VitableConnect) -> None:
+        respx_mock.post("/v1/auth/access-tokens").mock(side_effect=httpx.TimeoutException("Test timeout error"))
 
         with pytest.raises(APITimeoutError):
-            client.benefit_products.with_streaming_response.list().__enter__()
+            client.auth.with_streaming_response.issue_access_token(grant_type="client_credentials").__enter__()
 
         assert _get_open_connections(client) == 0
 
-    @mock.patch("vitable_connect_api._base_client.BaseClient._calculate_retry_timeout", _low_retry_timeout)
+    @mock.patch("vitable_connect._base_client.BaseClient._calculate_retry_timeout", _low_retry_timeout)
     @pytest.mark.respx(base_url=base_url)
-    def test_retrying_status_errors_doesnt_leak(self, respx_mock: MockRouter, client: VitableConnectAPI) -> None:
-        respx_mock.get("/v1/benefit-products").mock(return_value=httpx.Response(500))
+    def test_retrying_status_errors_doesnt_leak(self, respx_mock: MockRouter, client: VitableConnect) -> None:
+        respx_mock.post("/v1/auth/access-tokens").mock(return_value=httpx.Response(500))
 
         with pytest.raises(APIStatusError):
-            client.benefit_products.with_streaming_response.list().__enter__()
+            client.auth.with_streaming_response.issue_access_token(grant_type="client_credentials").__enter__()
         assert _get_open_connections(client) == 0
 
     @pytest.mark.parametrize("failures_before_success", [0, 2, 4])
-    @mock.patch("vitable_connect_api._base_client.BaseClient._calculate_retry_timeout", _low_retry_timeout)
+    @mock.patch("vitable_connect._base_client.BaseClient._calculate_retry_timeout", _low_retry_timeout)
     @pytest.mark.respx(base_url=base_url)
     @pytest.mark.parametrize("failure_mode", ["status", "exception"])
     def test_retries_taken(
         self,
-        client: VitableConnectAPI,
+        client: VitableConnect,
         failures_before_success: int,
         failure_mode: Literal["status", "exception"],
         respx_mock: MockRouter,
@@ -907,18 +917,18 @@ class TestVitableConnectAPI:
                 return httpx.Response(500)
             return httpx.Response(200)
 
-        respx_mock.get("/v1/benefit-products").mock(side_effect=retry_handler)
+        respx_mock.post("/v1/auth/access-tokens").mock(side_effect=retry_handler)
 
-        response = client.benefit_products.with_raw_response.list()
+        response = client.auth.with_raw_response.issue_access_token(grant_type="client_credentials")
 
         assert response.retries_taken == failures_before_success
         assert int(response.http_request.headers.get("x-stainless-retry-count")) == failures_before_success
 
     @pytest.mark.parametrize("failures_before_success", [0, 2, 4])
-    @mock.patch("vitable_connect_api._base_client.BaseClient._calculate_retry_timeout", _low_retry_timeout)
+    @mock.patch("vitable_connect._base_client.BaseClient._calculate_retry_timeout", _low_retry_timeout)
     @pytest.mark.respx(base_url=base_url)
     def test_omit_retry_count_header(
-        self, client: VitableConnectAPI, failures_before_success: int, respx_mock: MockRouter
+        self, client: VitableConnect, failures_before_success: int, respx_mock: MockRouter
     ) -> None:
         client = client.with_options(max_retries=4)
 
@@ -931,17 +941,19 @@ class TestVitableConnectAPI:
                 return httpx.Response(500)
             return httpx.Response(200)
 
-        respx_mock.get("/v1/benefit-products").mock(side_effect=retry_handler)
+        respx_mock.post("/v1/auth/access-tokens").mock(side_effect=retry_handler)
 
-        response = client.benefit_products.with_raw_response.list(extra_headers={"x-stainless-retry-count": Omit()})
+        response = client.auth.with_raw_response.issue_access_token(
+            grant_type="client_credentials", extra_headers={"x-stainless-retry-count": Omit()}
+        )
 
         assert len(response.http_request.headers.get_list("x-stainless-retry-count")) == 0
 
     @pytest.mark.parametrize("failures_before_success", [0, 2, 4])
-    @mock.patch("vitable_connect_api._base_client.BaseClient._calculate_retry_timeout", _low_retry_timeout)
+    @mock.patch("vitable_connect._base_client.BaseClient._calculate_retry_timeout", _low_retry_timeout)
     @pytest.mark.respx(base_url=base_url)
     def test_overwrite_retry_count_header(
-        self, client: VitableConnectAPI, failures_before_success: int, respx_mock: MockRouter
+        self, client: VitableConnect, failures_before_success: int, respx_mock: MockRouter
     ) -> None:
         client = client.with_options(max_retries=4)
 
@@ -954,9 +966,11 @@ class TestVitableConnectAPI:
                 return httpx.Response(500)
             return httpx.Response(200)
 
-        respx_mock.get("/v1/benefit-products").mock(side_effect=retry_handler)
+        respx_mock.post("/v1/auth/access-tokens").mock(side_effect=retry_handler)
 
-        response = client.benefit_products.with_raw_response.list(extra_headers={"x-stainless-retry-count": "42"})
+        response = client.auth.with_raw_response.issue_access_token(
+            grant_type="client_credentials", extra_headers={"x-stainless-retry-count": "42"}
+        )
 
         assert response.http_request.headers.get("x-stainless-retry-count") == "42"
 
@@ -983,7 +997,7 @@ class TestVitableConnectAPI:
         )
 
     @pytest.mark.respx(base_url=base_url)
-    def test_follow_redirects(self, respx_mock: MockRouter, client: VitableConnectAPI) -> None:
+    def test_follow_redirects(self, respx_mock: MockRouter, client: VitableConnect) -> None:
         # Test that the default follow_redirects=True allows following redirects
         respx_mock.post("/redirect").mock(
             return_value=httpx.Response(302, headers={"Location": f"{base_url}/redirected"})
@@ -995,7 +1009,7 @@ class TestVitableConnectAPI:
         assert response.json() == {"status": "ok"}
 
     @pytest.mark.respx(base_url=base_url)
-    def test_follow_redirects_disabled(self, respx_mock: MockRouter, client: VitableConnectAPI) -> None:
+    def test_follow_redirects_disabled(self, respx_mock: MockRouter, client: VitableConnect) -> None:
         # Test that follow_redirects=False prevents following redirects
         respx_mock.post("/redirect").mock(
             return_value=httpx.Response(302, headers={"Location": f"{base_url}/redirected"})
@@ -1008,9 +1022,9 @@ class TestVitableConnectAPI:
         assert exc_info.value.response.headers["Location"] == f"{base_url}/redirected"
 
 
-class TestAsyncVitableConnectAPI:
+class TestAsyncVitableConnect:
     @pytest.mark.respx(base_url=base_url)
-    async def test_raw_response(self, respx_mock: MockRouter, async_client: AsyncVitableConnectAPI) -> None:
+    async def test_raw_response(self, respx_mock: MockRouter, async_client: AsyncVitableConnect) -> None:
         respx_mock.post("/foo").mock(return_value=httpx.Response(200, json={"foo": "bar"}))
 
         response = await async_client.post("/foo", cast_to=httpx.Response)
@@ -1019,7 +1033,7 @@ class TestAsyncVitableConnectAPI:
         assert response.json() == {"foo": "bar"}
 
     @pytest.mark.respx(base_url=base_url)
-    async def test_raw_response_for_binary(self, respx_mock: MockRouter, async_client: AsyncVitableConnectAPI) -> None:
+    async def test_raw_response_for_binary(self, respx_mock: MockRouter, async_client: AsyncVitableConnect) -> None:
         respx_mock.post("/foo").mock(
             return_value=httpx.Response(200, headers={"Content-Type": "application/binary"}, content='{"foo": "bar"}')
         )
@@ -1029,7 +1043,7 @@ class TestAsyncVitableConnectAPI:
         assert isinstance(response, httpx.Response)
         assert response.json() == {"foo": "bar"}
 
-    def test_copy(self, async_client: AsyncVitableConnectAPI) -> None:
+    def test_copy(self, async_client: AsyncVitableConnect) -> None:
         copied = async_client.copy()
         assert id(copied) != id(async_client)
 
@@ -1037,7 +1051,7 @@ class TestAsyncVitableConnectAPI:
         assert copied.api_key == "another My API Key"
         assert async_client.api_key == "My API Key"
 
-    def test_copy_default_options(self, async_client: AsyncVitableConnectAPI) -> None:
+    def test_copy_default_options(self, async_client: AsyncVitableConnect) -> None:
         # options that have a default are overridden correctly
         copied = async_client.copy(max_retries=7)
         assert copied.max_retries == 7
@@ -1054,7 +1068,7 @@ class TestAsyncVitableConnectAPI:
         assert isinstance(async_client.timeout, httpx.Timeout)
 
     async def test_copy_default_headers(self) -> None:
-        client = AsyncVitableConnectAPI(
+        client = AsyncVitableConnect(
             base_url=base_url, api_key=api_key, _strict_response_validation=True, default_headers={"X-Foo": "bar"}
         )
         assert client.default_headers["X-Foo"] == "bar"
@@ -1089,7 +1103,7 @@ class TestAsyncVitableConnectAPI:
         await client.close()
 
     async def test_copy_default_query(self) -> None:
-        client = AsyncVitableConnectAPI(
+        client = AsyncVitableConnect(
             base_url=base_url, api_key=api_key, _strict_response_validation=True, default_query={"foo": "bar"}
         )
         assert _get_params(client)["foo"] == "bar"
@@ -1126,7 +1140,7 @@ class TestAsyncVitableConnectAPI:
 
         await client.close()
 
-    def test_copy_signature(self, async_client: AsyncVitableConnectAPI) -> None:
+    def test_copy_signature(self, async_client: AsyncVitableConnect) -> None:
         # ensure the same parameters that can be passed to the client are defined in the `.copy()` method
         init_signature = inspect.signature(
             # mypy doesn't like that we access the `__init__` property.
@@ -1143,7 +1157,7 @@ class TestAsyncVitableConnectAPI:
             assert copy_param is not None, f"copy() signature is missing the {name} param"
 
     @pytest.mark.skipif(sys.version_info >= (3, 10), reason="fails because of a memory leak that started from 3.12")
-    def test_copy_build_request(self, async_client: AsyncVitableConnectAPI) -> None:
+    def test_copy_build_request(self, async_client: AsyncVitableConnect) -> None:
         options = FinalRequestOptions(method="get", url="/foo")
 
         def build_request(options: FinalRequestOptions) -> None:
@@ -1183,10 +1197,10 @@ class TestAsyncVitableConnectAPI:
                         # to_raw_response_wrapper leaks through the @functools.wraps() decorator.
                         #
                         # removing the decorator fixes the leak for reasons we don't understand.
-                        "vitable_connect_api/_legacy_response.py",
-                        "vitable_connect_api/_response.py",
+                        "vitable_connect/_legacy_response.py",
+                        "vitable_connect/_response.py",
                         # pydantic.BaseModel.model_dump || pydantic.BaseModel.dict leak memory for some reason.
-                        "vitable_connect_api/_compat.py",
+                        "vitable_connect/_compat.py",
                         # Standard library leaks we don't care about.
                         "/logging/__init__.py",
                     ]
@@ -1205,7 +1219,7 @@ class TestAsyncVitableConnectAPI:
                     print(frame)
             raise AssertionError()
 
-    async def test_request_timeout(self, async_client: AsyncVitableConnectAPI) -> None:
+    async def test_request_timeout(self, async_client: AsyncVitableConnect) -> None:
         request = async_client._build_request(FinalRequestOptions(method="get", url="/foo"))
         timeout = httpx.Timeout(**request.extensions["timeout"])  # type: ignore
         assert timeout == DEFAULT_TIMEOUT
@@ -1217,7 +1231,7 @@ class TestAsyncVitableConnectAPI:
         assert timeout == httpx.Timeout(100.0)
 
     async def test_client_timeout_option(self) -> None:
-        client = AsyncVitableConnectAPI(
+        client = AsyncVitableConnect(
             base_url=base_url, api_key=api_key, _strict_response_validation=True, timeout=httpx.Timeout(0)
         )
 
@@ -1230,7 +1244,7 @@ class TestAsyncVitableConnectAPI:
     async def test_http_client_timeout_option(self) -> None:
         # custom timeout given to the httpx client should be used
         async with httpx.AsyncClient(timeout=None) as http_client:
-            client = AsyncVitableConnectAPI(
+            client = AsyncVitableConnect(
                 base_url=base_url, api_key=api_key, _strict_response_validation=True, http_client=http_client
             )
 
@@ -1242,7 +1256,7 @@ class TestAsyncVitableConnectAPI:
 
         # no timeout given to the httpx client should not use the httpx default
         async with httpx.AsyncClient() as http_client:
-            client = AsyncVitableConnectAPI(
+            client = AsyncVitableConnect(
                 base_url=base_url, api_key=api_key, _strict_response_validation=True, http_client=http_client
             )
 
@@ -1254,7 +1268,7 @@ class TestAsyncVitableConnectAPI:
 
         # explicitly passing the default timeout currently results in it being ignored
         async with httpx.AsyncClient(timeout=HTTPX_DEFAULT_TIMEOUT) as http_client:
-            client = AsyncVitableConnectAPI(
+            client = AsyncVitableConnect(
                 base_url=base_url, api_key=api_key, _strict_response_validation=True, http_client=http_client
             )
 
@@ -1267,7 +1281,7 @@ class TestAsyncVitableConnectAPI:
     def test_invalid_http_client(self) -> None:
         with pytest.raises(TypeError, match="Invalid `http_client` arg"):
             with httpx.Client() as http_client:
-                AsyncVitableConnectAPI(
+                AsyncVitableConnect(
                     base_url=base_url,
                     api_key=api_key,
                     _strict_response_validation=True,
@@ -1275,14 +1289,14 @@ class TestAsyncVitableConnectAPI:
                 )
 
     async def test_default_headers_option(self) -> None:
-        test_client = AsyncVitableConnectAPI(
+        test_client = AsyncVitableConnect(
             base_url=base_url, api_key=api_key, _strict_response_validation=True, default_headers={"X-Foo": "bar"}
         )
         request = test_client._build_request(FinalRequestOptions(method="get", url="/foo"))
         assert request.headers.get("x-foo") == "bar"
         assert request.headers.get("x-stainless-lang") == "python"
 
-        test_client2 = AsyncVitableConnectAPI(
+        test_client2 = AsyncVitableConnect(
             base_url=base_url,
             api_key=api_key,
             _strict_response_validation=True,
@@ -1298,8 +1312,18 @@ class TestAsyncVitableConnectAPI:
         await test_client.close()
         await test_client2.close()
 
+    def test_validate_headers(self) -> None:
+        client = AsyncVitableConnect(base_url=base_url, api_key=api_key, _strict_response_validation=True)
+        request = client._build_request(FinalRequestOptions(method="get", url="/foo"))
+        assert request.headers.get("Authorization") == f"Bearer {api_key}"
+
+        with pytest.raises(VitableConnectError):
+            with update_env(**{"VITABLE_CONNECT_API_KEY": Omit()}):
+                client2 = AsyncVitableConnect(base_url=base_url, api_key=None, _strict_response_validation=True)
+            _ = client2
+
     async def test_default_query_option(self) -> None:
-        client = AsyncVitableConnectAPI(
+        client = AsyncVitableConnect(
             base_url=base_url, api_key=api_key, _strict_response_validation=True, default_query={"query_param": "bar"}
         )
         request = client._build_request(FinalRequestOptions(method="get", url="/foo"))
@@ -1318,7 +1342,7 @@ class TestAsyncVitableConnectAPI:
 
         await client.close()
 
-    def test_request_extra_json(self, client: VitableConnectAPI) -> None:
+    def test_request_extra_json(self, client: VitableConnect) -> None:
         request = client._build_request(
             FinalRequestOptions(
                 method="post",
@@ -1352,7 +1376,7 @@ class TestAsyncVitableConnectAPI:
         data = json.loads(request.content.decode("utf-8"))
         assert data == {"foo": "bar", "baz": None}
 
-    def test_request_extra_headers(self, client: VitableConnectAPI) -> None:
+    def test_request_extra_headers(self, client: VitableConnect) -> None:
         request = client._build_request(
             FinalRequestOptions(
                 method="post",
@@ -1374,7 +1398,7 @@ class TestAsyncVitableConnectAPI:
         )
         assert request.headers.get("X-Bar") == "false"
 
-    def test_request_extra_query(self, client: VitableConnectAPI) -> None:
+    def test_request_extra_query(self, client: VitableConnect) -> None:
         request = client._build_request(
             FinalRequestOptions(
                 method="post",
@@ -1415,7 +1439,7 @@ class TestAsyncVitableConnectAPI:
         params = dict(request.url.params)
         assert params == {"foo": "2"}
 
-    def test_multipart_repeating_array(self, async_client: AsyncVitableConnectAPI) -> None:
+    def test_multipart_repeating_array(self, async_client: AsyncVitableConnect) -> None:
         request = async_client._build_request(
             FinalRequestOptions.construct(
                 method="post",
@@ -1445,7 +1469,7 @@ class TestAsyncVitableConnectAPI:
         ]
 
     @pytest.mark.respx(base_url=base_url)
-    async def test_binary_content_upload(self, respx_mock: MockRouter, async_client: AsyncVitableConnectAPI) -> None:
+    async def test_binary_content_upload(self, respx_mock: MockRouter, async_client: AsyncVitableConnect) -> None:
         respx_mock.post("/upload").mock(side_effect=mirror_request_content)
 
         file_content = b"Hello, this is a test file."
@@ -1470,7 +1494,7 @@ class TestAsyncVitableConnectAPI:
             assert counter.value == 0, "the request body should not have been read"
             return httpx.Response(200, content=await request.aread())
 
-        async with AsyncVitableConnectAPI(
+        async with AsyncVitableConnect(
             base_url=base_url,
             api_key=api_key,
             _strict_response_validation=True,
@@ -1490,7 +1514,7 @@ class TestAsyncVitableConnectAPI:
 
     @pytest.mark.respx(base_url=base_url)
     async def test_binary_content_upload_with_body_is_deprecated(
-        self, respx_mock: MockRouter, async_client: AsyncVitableConnectAPI
+        self, respx_mock: MockRouter, async_client: AsyncVitableConnect
     ) -> None:
         respx_mock.post("/upload").mock(side_effect=mirror_request_content)
 
@@ -1511,7 +1535,7 @@ class TestAsyncVitableConnectAPI:
         assert response.content == file_content
 
     @pytest.mark.respx(base_url=base_url)
-    async def test_basic_union_response(self, respx_mock: MockRouter, async_client: AsyncVitableConnectAPI) -> None:
+    async def test_basic_union_response(self, respx_mock: MockRouter, async_client: AsyncVitableConnect) -> None:
         class Model1(BaseModel):
             name: str
 
@@ -1526,7 +1550,7 @@ class TestAsyncVitableConnectAPI:
 
     @pytest.mark.respx(base_url=base_url)
     async def test_union_response_different_types(
-        self, respx_mock: MockRouter, async_client: AsyncVitableConnectAPI
+        self, respx_mock: MockRouter, async_client: AsyncVitableConnect
     ) -> None:
         """Union of objects with the same field name using a different type"""
 
@@ -1550,7 +1574,7 @@ class TestAsyncVitableConnectAPI:
 
     @pytest.mark.respx(base_url=base_url)
     async def test_non_application_json_content_type_for_json_data(
-        self, respx_mock: MockRouter, async_client: AsyncVitableConnectAPI
+        self, respx_mock: MockRouter, async_client: AsyncVitableConnect
     ) -> None:
         """
         Response that sets Content-Type to something other than application/json but returns json data
@@ -1572,7 +1596,7 @@ class TestAsyncVitableConnectAPI:
         assert response.foo == 2
 
     async def test_base_url_setter(self) -> None:
-        client = AsyncVitableConnectAPI(
+        client = AsyncVitableConnect(
             base_url="https://example.com/from_init", api_key=api_key, _strict_response_validation=True
         )
         assert client.base_url == "https://example.com/from_init/"
@@ -1584,16 +1608,16 @@ class TestAsyncVitableConnectAPI:
         await client.close()
 
     async def test_base_url_env(self) -> None:
-        with update_env(VITABLE_CONNECT_API_BASE_URL="http://localhost:5000/from/env"):
-            client = AsyncVitableConnectAPI(api_key=api_key, _strict_response_validation=True)
+        with update_env(VITABLE_CONNECT_BASE_URL="http://localhost:5000/from/env"):
+            client = AsyncVitableConnect(api_key=api_key, _strict_response_validation=True)
             assert client.base_url == "http://localhost:5000/from/env/"
 
         # explicit environment arg requires explicitness
-        with update_env(VITABLE_CONNECT_API_BASE_URL="http://localhost:5000/from/env"):
+        with update_env(VITABLE_CONNECT_BASE_URL="http://localhost:5000/from/env"):
             with pytest.raises(ValueError, match=r"you must pass base_url=None"):
-                AsyncVitableConnectAPI(api_key=api_key, _strict_response_validation=True, environment="production")
+                AsyncVitableConnect(api_key=api_key, _strict_response_validation=True, environment="production")
 
-            client = AsyncVitableConnectAPI(
+            client = AsyncVitableConnect(
                 base_url=None, api_key=api_key, _strict_response_validation=True, environment="production"
             )
             assert str(client.base_url).startswith("https://api.vitablehealth.com")
@@ -1603,10 +1627,10 @@ class TestAsyncVitableConnectAPI:
     @pytest.mark.parametrize(
         "client",
         [
-            AsyncVitableConnectAPI(
+            AsyncVitableConnect(
                 base_url="http://localhost:5000/custom/path/", api_key=api_key, _strict_response_validation=True
             ),
-            AsyncVitableConnectAPI(
+            AsyncVitableConnect(
                 base_url="http://localhost:5000/custom/path/",
                 api_key=api_key,
                 _strict_response_validation=True,
@@ -1615,7 +1639,7 @@ class TestAsyncVitableConnectAPI:
         ],
         ids=["standard", "custom http client"],
     )
-    async def test_base_url_trailing_slash(self, client: AsyncVitableConnectAPI) -> None:
+    async def test_base_url_trailing_slash(self, client: AsyncVitableConnect) -> None:
         request = client._build_request(
             FinalRequestOptions(
                 method="post",
@@ -1629,10 +1653,10 @@ class TestAsyncVitableConnectAPI:
     @pytest.mark.parametrize(
         "client",
         [
-            AsyncVitableConnectAPI(
+            AsyncVitableConnect(
                 base_url="http://localhost:5000/custom/path/", api_key=api_key, _strict_response_validation=True
             ),
-            AsyncVitableConnectAPI(
+            AsyncVitableConnect(
                 base_url="http://localhost:5000/custom/path/",
                 api_key=api_key,
                 _strict_response_validation=True,
@@ -1641,7 +1665,7 @@ class TestAsyncVitableConnectAPI:
         ],
         ids=["standard", "custom http client"],
     )
-    async def test_base_url_no_trailing_slash(self, client: AsyncVitableConnectAPI) -> None:
+    async def test_base_url_no_trailing_slash(self, client: AsyncVitableConnect) -> None:
         request = client._build_request(
             FinalRequestOptions(
                 method="post",
@@ -1655,10 +1679,10 @@ class TestAsyncVitableConnectAPI:
     @pytest.mark.parametrize(
         "client",
         [
-            AsyncVitableConnectAPI(
+            AsyncVitableConnect(
                 base_url="http://localhost:5000/custom/path/", api_key=api_key, _strict_response_validation=True
             ),
-            AsyncVitableConnectAPI(
+            AsyncVitableConnect(
                 base_url="http://localhost:5000/custom/path/",
                 api_key=api_key,
                 _strict_response_validation=True,
@@ -1667,7 +1691,7 @@ class TestAsyncVitableConnectAPI:
         ],
         ids=["standard", "custom http client"],
     )
-    async def test_absolute_request_url(self, client: AsyncVitableConnectAPI) -> None:
+    async def test_absolute_request_url(self, client: AsyncVitableConnect) -> None:
         request = client._build_request(
             FinalRequestOptions(
                 method="post",
@@ -1679,7 +1703,7 @@ class TestAsyncVitableConnectAPI:
         await client.close()
 
     async def test_copied_client_does_not_close_http(self) -> None:
-        test_client = AsyncVitableConnectAPI(base_url=base_url, api_key=api_key, _strict_response_validation=True)
+        test_client = AsyncVitableConnect(base_url=base_url, api_key=api_key, _strict_response_validation=True)
         assert not test_client.is_closed()
 
         copied = test_client.copy()
@@ -1691,7 +1715,7 @@ class TestAsyncVitableConnectAPI:
         assert not test_client.is_closed()
 
     async def test_client_context_manager(self) -> None:
-        test_client = AsyncVitableConnectAPI(base_url=base_url, api_key=api_key, _strict_response_validation=True)
+        test_client = AsyncVitableConnect(base_url=base_url, api_key=api_key, _strict_response_validation=True)
         async with test_client as c2:
             assert c2 is test_client
             assert not c2.is_closed()
@@ -1700,7 +1724,7 @@ class TestAsyncVitableConnectAPI:
 
     @pytest.mark.respx(base_url=base_url)
     async def test_client_response_validation_error(
-        self, respx_mock: MockRouter, async_client: AsyncVitableConnectAPI
+        self, respx_mock: MockRouter, async_client: AsyncVitableConnect
     ) -> None:
         class Model(BaseModel):
             foo: str
@@ -1714,7 +1738,7 @@ class TestAsyncVitableConnectAPI:
 
     async def test_client_max_retries_validation(self) -> None:
         with pytest.raises(TypeError, match=r"max_retries cannot be None"):
-            AsyncVitableConnectAPI(
+            AsyncVitableConnect(
                 base_url=base_url, api_key=api_key, _strict_response_validation=True, max_retries=cast(Any, None)
             )
 
@@ -1725,14 +1749,12 @@ class TestAsyncVitableConnectAPI:
 
         respx_mock.get("/foo").mock(return_value=httpx.Response(200, text="my-custom-format"))
 
-        strict_client = AsyncVitableConnectAPI(base_url=base_url, api_key=api_key, _strict_response_validation=True)
+        strict_client = AsyncVitableConnect(base_url=base_url, api_key=api_key, _strict_response_validation=True)
 
         with pytest.raises(APIResponseValidationError):
             await strict_client.get("/foo", cast_to=Model)
 
-        non_strict_client = AsyncVitableConnectAPI(
-            base_url=base_url, api_key=api_key, _strict_response_validation=False
-        )
+        non_strict_client = AsyncVitableConnect(base_url=base_url, api_key=api_key, _strict_response_validation=False)
 
         response = await non_strict_client.get("/foo", cast_to=Model)
         assert isinstance(response, str)  # type: ignore[unreachable]
@@ -1763,43 +1785,47 @@ class TestAsyncVitableConnectAPI:
     )
     @mock.patch("time.time", mock.MagicMock(return_value=1696004797))
     async def test_parse_retry_after_header(
-        self, remaining_retries: int, retry_after: str, timeout: float, async_client: AsyncVitableConnectAPI
+        self, remaining_retries: int, retry_after: str, timeout: float, async_client: AsyncVitableConnect
     ) -> None:
         headers = httpx.Headers({"retry-after": retry_after})
         options = FinalRequestOptions(method="get", url="/foo", max_retries=3)
         calculated = async_client._calculate_retry_timeout(remaining_retries, options, headers)
         assert calculated == pytest.approx(timeout, 0.5 * 0.875)  # pyright: ignore[reportUnknownMemberType]
 
-    @mock.patch("vitable_connect_api._base_client.BaseClient._calculate_retry_timeout", _low_retry_timeout)
+    @mock.patch("vitable_connect._base_client.BaseClient._calculate_retry_timeout", _low_retry_timeout)
     @pytest.mark.respx(base_url=base_url)
     async def test_retrying_timeout_errors_doesnt_leak(
-        self, respx_mock: MockRouter, async_client: AsyncVitableConnectAPI
+        self, respx_mock: MockRouter, async_client: AsyncVitableConnect
     ) -> None:
-        respx_mock.get("/v1/benefit-products").mock(side_effect=httpx.TimeoutException("Test timeout error"))
+        respx_mock.post("/v1/auth/access-tokens").mock(side_effect=httpx.TimeoutException("Test timeout error"))
 
         with pytest.raises(APITimeoutError):
-            await async_client.benefit_products.with_streaming_response.list().__aenter__()
+            await async_client.auth.with_streaming_response.issue_access_token(
+                grant_type="client_credentials"
+            ).__aenter__()
 
         assert _get_open_connections(async_client) == 0
 
-    @mock.patch("vitable_connect_api._base_client.BaseClient._calculate_retry_timeout", _low_retry_timeout)
+    @mock.patch("vitable_connect._base_client.BaseClient._calculate_retry_timeout", _low_retry_timeout)
     @pytest.mark.respx(base_url=base_url)
     async def test_retrying_status_errors_doesnt_leak(
-        self, respx_mock: MockRouter, async_client: AsyncVitableConnectAPI
+        self, respx_mock: MockRouter, async_client: AsyncVitableConnect
     ) -> None:
-        respx_mock.get("/v1/benefit-products").mock(return_value=httpx.Response(500))
+        respx_mock.post("/v1/auth/access-tokens").mock(return_value=httpx.Response(500))
 
         with pytest.raises(APIStatusError):
-            await async_client.benefit_products.with_streaming_response.list().__aenter__()
+            await async_client.auth.with_streaming_response.issue_access_token(
+                grant_type="client_credentials"
+            ).__aenter__()
         assert _get_open_connections(async_client) == 0
 
     @pytest.mark.parametrize("failures_before_success", [0, 2, 4])
-    @mock.patch("vitable_connect_api._base_client.BaseClient._calculate_retry_timeout", _low_retry_timeout)
+    @mock.patch("vitable_connect._base_client.BaseClient._calculate_retry_timeout", _low_retry_timeout)
     @pytest.mark.respx(base_url=base_url)
     @pytest.mark.parametrize("failure_mode", ["status", "exception"])
     async def test_retries_taken(
         self,
-        async_client: AsyncVitableConnectAPI,
+        async_client: AsyncVitableConnect,
         failures_before_success: int,
         failure_mode: Literal["status", "exception"],
         respx_mock: MockRouter,
@@ -1817,18 +1843,18 @@ class TestAsyncVitableConnectAPI:
                 return httpx.Response(500)
             return httpx.Response(200)
 
-        respx_mock.get("/v1/benefit-products").mock(side_effect=retry_handler)
+        respx_mock.post("/v1/auth/access-tokens").mock(side_effect=retry_handler)
 
-        response = await client.benefit_products.with_raw_response.list()
+        response = await client.auth.with_raw_response.issue_access_token(grant_type="client_credentials")
 
         assert response.retries_taken == failures_before_success
         assert int(response.http_request.headers.get("x-stainless-retry-count")) == failures_before_success
 
     @pytest.mark.parametrize("failures_before_success", [0, 2, 4])
-    @mock.patch("vitable_connect_api._base_client.BaseClient._calculate_retry_timeout", _low_retry_timeout)
+    @mock.patch("vitable_connect._base_client.BaseClient._calculate_retry_timeout", _low_retry_timeout)
     @pytest.mark.respx(base_url=base_url)
     async def test_omit_retry_count_header(
-        self, async_client: AsyncVitableConnectAPI, failures_before_success: int, respx_mock: MockRouter
+        self, async_client: AsyncVitableConnect, failures_before_success: int, respx_mock: MockRouter
     ) -> None:
         client = async_client.with_options(max_retries=4)
 
@@ -1841,19 +1867,19 @@ class TestAsyncVitableConnectAPI:
                 return httpx.Response(500)
             return httpx.Response(200)
 
-        respx_mock.get("/v1/benefit-products").mock(side_effect=retry_handler)
+        respx_mock.post("/v1/auth/access-tokens").mock(side_effect=retry_handler)
 
-        response = await client.benefit_products.with_raw_response.list(
-            extra_headers={"x-stainless-retry-count": Omit()}
+        response = await client.auth.with_raw_response.issue_access_token(
+            grant_type="client_credentials", extra_headers={"x-stainless-retry-count": Omit()}
         )
 
         assert len(response.http_request.headers.get_list("x-stainless-retry-count")) == 0
 
     @pytest.mark.parametrize("failures_before_success", [0, 2, 4])
-    @mock.patch("vitable_connect_api._base_client.BaseClient._calculate_retry_timeout", _low_retry_timeout)
+    @mock.patch("vitable_connect._base_client.BaseClient._calculate_retry_timeout", _low_retry_timeout)
     @pytest.mark.respx(base_url=base_url)
     async def test_overwrite_retry_count_header(
-        self, async_client: AsyncVitableConnectAPI, failures_before_success: int, respx_mock: MockRouter
+        self, async_client: AsyncVitableConnect, failures_before_success: int, respx_mock: MockRouter
     ) -> None:
         client = async_client.with_options(max_retries=4)
 
@@ -1866,9 +1892,11 @@ class TestAsyncVitableConnectAPI:
                 return httpx.Response(500)
             return httpx.Response(200)
 
-        respx_mock.get("/v1/benefit-products").mock(side_effect=retry_handler)
+        respx_mock.post("/v1/auth/access-tokens").mock(side_effect=retry_handler)
 
-        response = await client.benefit_products.with_raw_response.list(extra_headers={"x-stainless-retry-count": "42"})
+        response = await client.auth.with_raw_response.issue_access_token(
+            grant_type="client_credentials", extra_headers={"x-stainless-retry-count": "42"}
+        )
 
         assert response.http_request.headers.get("x-stainless-retry-count") == "42"
 
@@ -1899,7 +1927,7 @@ class TestAsyncVitableConnectAPI:
         )
 
     @pytest.mark.respx(base_url=base_url)
-    async def test_follow_redirects(self, respx_mock: MockRouter, async_client: AsyncVitableConnectAPI) -> None:
+    async def test_follow_redirects(self, respx_mock: MockRouter, async_client: AsyncVitableConnect) -> None:
         # Test that the default follow_redirects=True allows following redirects
         respx_mock.post("/redirect").mock(
             return_value=httpx.Response(302, headers={"Location": f"{base_url}/redirected"})
@@ -1911,9 +1939,7 @@ class TestAsyncVitableConnectAPI:
         assert response.json() == {"status": "ok"}
 
     @pytest.mark.respx(base_url=base_url)
-    async def test_follow_redirects_disabled(
-        self, respx_mock: MockRouter, async_client: AsyncVitableConnectAPI
-    ) -> None:
+    async def test_follow_redirects_disabled(self, respx_mock: MockRouter, async_client: AsyncVitableConnect) -> None:
         # Test that follow_redirects=False prevents following redirects
         respx_mock.post("/redirect").mock(
             return_value=httpx.Response(302, headers={"Location": f"{base_url}/redirected"})

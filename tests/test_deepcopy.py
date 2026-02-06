@@ -1,4 +1,4 @@
-from vitable_connect_api._utils import deepcopy_minimal
+from vitable_connect._utils import deepcopy_minimal
 
 
 def assert_different_identities(obj1: object, obj2: object) -> None:

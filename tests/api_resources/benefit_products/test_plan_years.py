@@ -8,11 +8,11 @@ from typing import Any, cast
 import pytest
 
 from tests.utils import assert_matches_type
-from vitable_connect_api import VitableConnectAPI, AsyncVitableConnectAPI
-from vitable_connect_api._utils import parse_date
-from vitable_connect_api.types.benefit_products import (
+from vitable_connect import VitableConnect, AsyncVitableConnect
+from vitable_connect._utils import parse_date
+from vitable_connect.types.benefit_products import (
+    PlanYearResponse,
     PlanYearListResponse,
-    PlanYearCreateResponse,
 )
 
 base_url = os.environ.get("TEST_API_BASE_URL", "http://127.0.0.1:4010")
@@ -23,7 +23,7 @@ class TestPlanYears:
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
-    def test_method_create(self, client: VitableConnectAPI) -> None:
+    def test_method_create(self, client: VitableConnect) -> None:
         plan_year = client.benefit_products.plan_years.create(
             benefit_product_id="bprd_abc123def456",
             contribution_classes=[
@@ -46,11 +46,11 @@ class TestPlanYears:
             open_enrollment_end=parse_date("2025-11-30"),
             open_enrollment_start=parse_date("2025-10-15"),
         )
-        assert_matches_type(PlanYearCreateResponse, plan_year, path=["response"])
+        assert_matches_type(PlanYearResponse, plan_year, path=["response"])
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
-    def test_raw_response_create(self, client: VitableConnectAPI) -> None:
+    def test_raw_response_create(self, client: VitableConnect) -> None:
         response = client.benefit_products.plan_years.with_raw_response.create(
             benefit_product_id="bprd_abc123def456",
             contribution_classes=[
@@ -77,11 +77,11 @@ class TestPlanYears:
         assert response.is_closed is True
         assert response.http_request.headers.get("X-Stainless-Lang") == "python"
         plan_year = response.parse()
-        assert_matches_type(PlanYearCreateResponse, plan_year, path=["response"])
+        assert_matches_type(PlanYearResponse, plan_year, path=["response"])
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
-    def test_streaming_response_create(self, client: VitableConnectAPI) -> None:
+    def test_streaming_response_create(self, client: VitableConnect) -> None:
         with client.benefit_products.plan_years.with_streaming_response.create(
             benefit_product_id="bprd_abc123def456",
             contribution_classes=[
@@ -108,13 +108,13 @@ class TestPlanYears:
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
 
             plan_year = response.parse()
-            assert_matches_type(PlanYearCreateResponse, plan_year, path=["response"])
+            assert_matches_type(PlanYearResponse, plan_year, path=["response"])
 
         assert cast(Any, response.is_closed) is True
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
-    def test_path_params_create(self, client: VitableConnectAPI) -> None:
+    def test_path_params_create(self, client: VitableConnect) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `benefit_product_id` but received ''"):
             client.benefit_products.plan_years.with_raw_response.create(
                 benefit_product_id="",
@@ -141,7 +141,7 @@ class TestPlanYears:
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
-    def test_method_list(self, client: VitableConnectAPI) -> None:
+    def test_method_list(self, client: VitableConnect) -> None:
         plan_year = client.benefit_products.plan_years.list(
             benefit_product_id="bprd_abc123def456",
         )
@@ -149,7 +149,7 @@ class TestPlanYears:
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
-    def test_method_list_with_all_params(self, client: VitableConnectAPI) -> None:
+    def test_method_list_with_all_params(self, client: VitableConnect) -> None:
         plan_year = client.benefit_products.plan_years.list(
             benefit_product_id="bprd_abc123def456",
             employer_id="empr_abc123def456",
@@ -161,7 +161,7 @@ class TestPlanYears:
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
-    def test_raw_response_list(self, client: VitableConnectAPI) -> None:
+    def test_raw_response_list(self, client: VitableConnect) -> None:
         response = client.benefit_products.plan_years.with_raw_response.list(
             benefit_product_id="bprd_abc123def456",
         )
@@ -173,7 +173,7 @@ class TestPlanYears:
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
-    def test_streaming_response_list(self, client: VitableConnectAPI) -> None:
+    def test_streaming_response_list(self, client: VitableConnect) -> None:
         with client.benefit_products.plan_years.with_streaming_response.list(
             benefit_product_id="bprd_abc123def456",
         ) as response:
@@ -187,7 +187,7 @@ class TestPlanYears:
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
-    def test_path_params_list(self, client: VitableConnectAPI) -> None:
+    def test_path_params_list(self, client: VitableConnect) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `benefit_product_id` but received ''"):
             client.benefit_products.plan_years.with_raw_response.list(
                 benefit_product_id="",
@@ -201,7 +201,7 @@ class TestAsyncPlanYears:
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
-    async def test_method_create(self, async_client: AsyncVitableConnectAPI) -> None:
+    async def test_method_create(self, async_client: AsyncVitableConnect) -> None:
         plan_year = await async_client.benefit_products.plan_years.create(
             benefit_product_id="bprd_abc123def456",
             contribution_classes=[
@@ -224,11 +224,11 @@ class TestAsyncPlanYears:
             open_enrollment_end=parse_date("2025-11-30"),
             open_enrollment_start=parse_date("2025-10-15"),
         )
-        assert_matches_type(PlanYearCreateResponse, plan_year, path=["response"])
+        assert_matches_type(PlanYearResponse, plan_year, path=["response"])
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
-    async def test_raw_response_create(self, async_client: AsyncVitableConnectAPI) -> None:
+    async def test_raw_response_create(self, async_client: AsyncVitableConnect) -> None:
         response = await async_client.benefit_products.plan_years.with_raw_response.create(
             benefit_product_id="bprd_abc123def456",
             contribution_classes=[
@@ -255,11 +255,11 @@ class TestAsyncPlanYears:
         assert response.is_closed is True
         assert response.http_request.headers.get("X-Stainless-Lang") == "python"
         plan_year = await response.parse()
-        assert_matches_type(PlanYearCreateResponse, plan_year, path=["response"])
+        assert_matches_type(PlanYearResponse, plan_year, path=["response"])
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
-    async def test_streaming_response_create(self, async_client: AsyncVitableConnectAPI) -> None:
+    async def test_streaming_response_create(self, async_client: AsyncVitableConnect) -> None:
         async with async_client.benefit_products.plan_years.with_streaming_response.create(
             benefit_product_id="bprd_abc123def456",
             contribution_classes=[
@@ -286,13 +286,13 @@ class TestAsyncPlanYears:
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
 
             plan_year = await response.parse()
-            assert_matches_type(PlanYearCreateResponse, plan_year, path=["response"])
+            assert_matches_type(PlanYearResponse, plan_year, path=["response"])
 
         assert cast(Any, response.is_closed) is True
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
-    async def test_path_params_create(self, async_client: AsyncVitableConnectAPI) -> None:
+    async def test_path_params_create(self, async_client: AsyncVitableConnect) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `benefit_product_id` but received ''"):
             await async_client.benefit_products.plan_years.with_raw_response.create(
                 benefit_product_id="",
@@ -319,7 +319,7 @@ class TestAsyncPlanYears:
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
-    async def test_method_list(self, async_client: AsyncVitableConnectAPI) -> None:
+    async def test_method_list(self, async_client: AsyncVitableConnect) -> None:
         plan_year = await async_client.benefit_products.plan_years.list(
             benefit_product_id="bprd_abc123def456",
         )
@@ -327,7 +327,7 @@ class TestAsyncPlanYears:
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
-    async def test_method_list_with_all_params(self, async_client: AsyncVitableConnectAPI) -> None:
+    async def test_method_list_with_all_params(self, async_client: AsyncVitableConnect) -> None:
         plan_year = await async_client.benefit_products.plan_years.list(
             benefit_product_id="bprd_abc123def456",
             employer_id="empr_abc123def456",
@@ -339,7 +339,7 @@ class TestAsyncPlanYears:
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
-    async def test_raw_response_list(self, async_client: AsyncVitableConnectAPI) -> None:
+    async def test_raw_response_list(self, async_client: AsyncVitableConnect) -> None:
         response = await async_client.benefit_products.plan_years.with_raw_response.list(
             benefit_product_id="bprd_abc123def456",
         )
@@ -351,7 +351,7 @@ class TestAsyncPlanYears:
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
-    async def test_streaming_response_list(self, async_client: AsyncVitableConnectAPI) -> None:
+    async def test_streaming_response_list(self, async_client: AsyncVitableConnect) -> None:
         async with async_client.benefit_products.plan_years.with_streaming_response.list(
             benefit_product_id="bprd_abc123def456",
         ) as response:
@@ -365,7 +365,7 @@ class TestAsyncPlanYears:
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
-    async def test_path_params_list(self, async_client: AsyncVitableConnectAPI) -> None:
+    async def test_path_params_list(self, async_client: AsyncVitableConnect) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `benefit_product_id` but received ''"):
             await async_client.benefit_products.plan_years.with_raw_response.list(
                 benefit_product_id="",

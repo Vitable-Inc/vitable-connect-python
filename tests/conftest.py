@@ -10,15 +10,15 @@ import httpx
 import pytest
 from pytest_asyncio import is_async_test
 
-from vitable_connect_api import VitableConnectAPI, DefaultAioHttpClient, AsyncVitableConnectAPI
-from vitable_connect_api._utils import is_dict
+from vitable_connect import VitableConnect, AsyncVitableConnect, DefaultAioHttpClient
+from vitable_connect._utils import is_dict
 
 if TYPE_CHECKING:
     from _pytest.fixtures import FixtureRequest  # pyright: ignore[reportPrivateImportUsage]
 
 pytest.register_assert_rewrite("tests.utils")
 
-logging.getLogger("vitable_connect_api").setLevel(logging.DEBUG)
+logging.getLogger("vitable_connect").setLevel(logging.DEBUG)
 
 
 # automatically add `pytest.mark.asyncio()` to all of our async tests
@@ -49,17 +49,17 @@ api_key = "My API Key"
 
 
 @pytest.fixture(scope="session")
-def client(request: FixtureRequest) -> Iterator[VitableConnectAPI]:
+def client(request: FixtureRequest) -> Iterator[VitableConnect]:
     strict = getattr(request, "param", True)
     if not isinstance(strict, bool):
         raise TypeError(f"Unexpected fixture parameter type {type(strict)}, expected {bool}")
 
-    with VitableConnectAPI(base_url=base_url, api_key=api_key, _strict_response_validation=strict) as client:
+    with VitableConnect(base_url=base_url, api_key=api_key, _strict_response_validation=strict) as client:
         yield client
 
 
 @pytest.fixture(scope="session")
-async def async_client(request: FixtureRequest) -> AsyncIterator[AsyncVitableConnectAPI]:
+async def async_client(request: FixtureRequest) -> AsyncIterator[AsyncVitableConnect]:
     param = getattr(request, "param", True)
 
     # defaults
@@ -78,7 +78,7 @@ async def async_client(request: FixtureRequest) -> AsyncIterator[AsyncVitableCon
     else:
         raise TypeError(f"Unexpected fixture parameter type {type(param)}, expected bool or dict")
 
-    async with AsyncVitableConnectAPI(
+    async with AsyncVitableConnect(
         base_url=base_url, api_key=api_key, _strict_response_validation=strict, http_client=http_client
     ) as client:
         yield client

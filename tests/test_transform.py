@@ -8,15 +8,15 @@ from typing_extensions import Required, Annotated, TypedDict
 
 import pytest
 
-from vitable_connect_api._types import Base64FileInput, omit, not_given
-from vitable_connect_api._utils import (
+from vitable_connect._types import Base64FileInput, omit, not_given
+from vitable_connect._utils import (
     PropertyInfo,
     transform as _transform,
     parse_datetime,
     async_transform as _async_transform,
 )
-from vitable_connect_api._compat import PYDANTIC_V1
-from vitable_connect_api._models import BaseModel
+from vitable_connect._compat import PYDANTIC_V1
+from vitable_connect._models import BaseModel
 
 _T = TypeVar("_T")
 
