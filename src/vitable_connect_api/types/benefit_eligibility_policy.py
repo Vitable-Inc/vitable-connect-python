@@ -33,7 +33,7 @@ class BenefitEligibilityPolicy(BaseModel):
     id: str
     """Unique eligibility policy identifier with 'epol\\__' prefix"""
 
-    active: bool
+    active_in: bool
     """Whether this policy is currently active"""
 
     created_at: datetime

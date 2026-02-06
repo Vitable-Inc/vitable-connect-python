@@ -20,7 +20,7 @@ class Dependent(BaseModel):
     id: str
     """Unique dependent identifier with 'dpnd\\__' prefix"""
 
-    active: bool
+    active_in: bool
     """Whether the dependent is currently active"""
 
     created_at: datetime

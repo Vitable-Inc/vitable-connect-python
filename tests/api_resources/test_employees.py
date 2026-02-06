@@ -9,7 +9,7 @@ import pytest
 
 from tests.utils import assert_matches_type
 from vitable_connect_api import VitableConnectAPI, AsyncVitableConnectAPI
-from vitable_connect_api.types import Employee
+from vitable_connect_api.types import EmployeeUpdateResponse, EmployeeRetrieveResponse
 from vitable_connect_api._utils import parse_date
 
 base_url = os.environ.get("TEST_API_BASE_URL", "http://127.0.0.1:4010")
@@ -24,7 +24,7 @@ class TestEmployees:
         employee = client.employees.retrieve(
             "empl_abc123def456",
         )
-        assert_matches_type(Employee, employee, path=["response"])
+        assert_matches_type(EmployeeRetrieveResponse, employee, path=["response"])
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
@@ -36,7 +36,7 @@ class TestEmployees:
         assert response.is_closed is True
         assert response.http_request.headers.get("X-Stainless-Lang") == "python"
         employee = response.parse()
-        assert_matches_type(Employee, employee, path=["response"])
+        assert_matches_type(EmployeeRetrieveResponse, employee, path=["response"])
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
@@ -48,7 +48,7 @@ class TestEmployees:
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
 
             employee = response.parse()
-            assert_matches_type(Employee, employee, path=["response"])
+            assert_matches_type(EmployeeRetrieveResponse, employee, path=["response"])
 
         assert cast(Any, response.is_closed) is True
 
@@ -66,7 +66,7 @@ class TestEmployees:
         employee = client.employees.update(
             employee_id="empl_abc123def456",
         )
-        assert_matches_type(Employee, employee, path=["response"])
+        assert_matches_type(EmployeeUpdateResponse, employee, path=["response"])
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
@@ -74,20 +74,20 @@ class TestEmployees:
         employee = client.employees.update(
             employee_id="empl_abc123def456",
             address={
-                "city": "city",
-                "state": "xx",
-                "street_1": "street_1",
-                "zip_code": "zip_code",
-                "country": "country",
+                "city": "Los Angeles",
+                "state": "CA",
+                "street_1": "123 New Street",
+                "zip_code": "90001",
+                "country": "US",
                 "street_2": "street_2",
             },
-            email="dev@stainless.com",
-            employee_class="Full Time",
+            email="john.doe.updated@example.com",
+            employee_class="Part Time",
             gender="gender",
-            phone="phone",
+            phone="+1-555-999-8888",
             termination_date=parse_date("2019-12-27"),
         )
-        assert_matches_type(Employee, employee, path=["response"])
+        assert_matches_type(EmployeeUpdateResponse, employee, path=["response"])
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
@@ -99,7 +99,7 @@ class TestEmployees:
         assert response.is_closed is True
         assert response.http_request.headers.get("X-Stainless-Lang") == "python"
         employee = response.parse()
-        assert_matches_type(Employee, employee, path=["response"])
+        assert_matches_type(EmployeeUpdateResponse, employee, path=["response"])
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
@@ -111,7 +111,7 @@ class TestEmployees:
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
 
             employee = response.parse()
-            assert_matches_type(Employee, employee, path=["response"])
+            assert_matches_type(EmployeeUpdateResponse, employee, path=["response"])
 
         assert cast(Any, response.is_closed) is True
 
@@ -177,7 +177,7 @@ class TestAsyncEmployees:
         employee = await async_client.employees.retrieve(
             "empl_abc123def456",
         )
-        assert_matches_type(Employee, employee, path=["response"])
+        assert_matches_type(EmployeeRetrieveResponse, employee, path=["response"])
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
@@ -189,7 +189,7 @@ class TestAsyncEmployees:
         assert response.is_closed is True
         assert response.http_request.headers.get("X-Stainless-Lang") == "python"
         employee = await response.parse()
-        assert_matches_type(Employee, employee, path=["response"])
+        assert_matches_type(EmployeeRetrieveResponse, employee, path=["response"])
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
@@ -201,7 +201,7 @@ class TestAsyncEmployees:
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
 
             employee = await response.parse()
-            assert_matches_type(Employee, employee, path=["response"])
+            assert_matches_type(EmployeeRetrieveResponse, employee, path=["response"])
 
         assert cast(Any, response.is_closed) is True
 
@@ -219,7 +219,7 @@ class TestAsyncEmployees:
         employee = await async_client.employees.update(
             employee_id="empl_abc123def456",
         )
-        assert_matches_type(Employee, employee, path=["response"])
+        assert_matches_type(EmployeeUpdateResponse, employee, path=["response"])
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
@@ -227,20 +227,20 @@ class TestAsyncEmployees:
         employee = await async_client.employees.update(
             employee_id="empl_abc123def456",
             address={
-                "city": "city",
-                "state": "xx",
-                "street_1": "street_1",
-                "zip_code": "zip_code",
-                "country": "country",
+                "city": "Los Angeles",
+                "state": "CA",
+                "street_1": "123 New Street",
+                "zip_code": "90001",
+                "country": "US",
                 "street_2": "street_2",
             },
-            email="dev@stainless.com",
-            employee_class="Full Time",
+            email="john.doe.updated@example.com",
+            employee_class="Part Time",
             gender="gender",
-            phone="phone",
+            phone="+1-555-999-8888",
             termination_date=parse_date("2019-12-27"),
         )
-        assert_matches_type(Employee, employee, path=["response"])
+        assert_matches_type(EmployeeUpdateResponse, employee, path=["response"])
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
@@ -252,7 +252,7 @@ class TestAsyncEmployees:
         assert response.is_closed is True
         assert response.http_request.headers.get("X-Stainless-Lang") == "python"
         employee = await response.parse()
-        assert_matches_type(Employee, employee, path=["response"])
+        assert_matches_type(EmployeeUpdateResponse, employee, path=["response"])
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
@@ -264,7 +264,7 @@ class TestAsyncEmployees:
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
 
             employee = await response.parse()
-            assert_matches_type(Employee, employee, path=["response"])
+            assert_matches_type(EmployeeUpdateResponse, employee, path=["response"])
 
         assert cast(Any, response.is_closed) is True
 

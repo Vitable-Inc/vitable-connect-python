@@ -21,9 +21,9 @@ from ..._response import (
 from ...types.sex import Sex
 from ..._base_client import make_request_options
 from ...types.members import Relationship, dependent_list_params, dependent_create_params
-from ...types.dependent import Dependent
 from ...types.members.relationship import Relationship
 from ...types.members.dependent_list_response import DependentListResponse
+from ...types.members.dependent_create_response import DependentCreateResponse
 
 __all__ = ["DependentsResource", "AsyncDependentsResource"]
 
@@ -66,7 +66,7 @@ class DependentsResource(SyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> Dependent:
+    ) -> DependentCreateResponse:
         """Creates a new dependent record for a member.
 
         Required: first name, last name,
@@ -74,6 +74,8 @@ class DependentsResource(SyncAPIResource):
         coverage verification.
 
         Args:
+          member_id: Unique member identifier (mbr\\__\\**)
+
           date_of_birth: Date of birth (YYYY-MM-DD)
 
           first_name: Dependent's legal first name
@@ -122,7 +124,7 @@ class DependentsResource(SyncAPIResource):
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
-            cast_to=Dependent,
+            cast_to=DependentCreateResponse,
         )
 
     def list(
@@ -147,6 +149,8 @@ class DependentsResource(SyncAPIResource):
         coverage.
 
         Args:
+          member_id: Unique member identifier (mbr\\__\\**)
+
           active_in: Filter by active status
 
           limit: Items per page (default: 20, max: 100)
@@ -224,7 +228,7 @@ class AsyncDependentsResource(AsyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> Dependent:
+    ) -> DependentCreateResponse:
         """Creates a new dependent record for a member.
 
         Required: first name, last name,
@@ -232,6 +236,8 @@ class AsyncDependentsResource(AsyncAPIResource):
         coverage verification.
 
         Args:
+          member_id: Unique member identifier (mbr\\__\\**)
+
           date_of_birth: Date of birth (YYYY-MM-DD)
 
           first_name: Dependent's legal first name
@@ -280,7 +286,7 @@ class AsyncDependentsResource(AsyncAPIResource):
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
-            cast_to=Dependent,
+            cast_to=DependentCreateResponse,
         )
 
     async def list(
@@ -305,6 +311,8 @@ class AsyncDependentsResource(AsyncAPIResource):
         coverage.
 
         Args:
+          member_id: Unique member identifier (mbr\\__\\**)
+
           active_in: Filter by active status
 
           limit: Items per page (default: 20, max: 100)

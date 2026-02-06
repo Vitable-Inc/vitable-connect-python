@@ -18,7 +18,8 @@ from .._response import (
     async_to_streamed_response_wrapper,
 )
 from .._base_client import make_request_options
-from ..types.enrollment import Enrollment
+from ..types.enrollment_reissue_response import EnrollmentReissueResponse
+from ..types.enrollment_retrieve_response import EnrollmentRetrieveResponse
 from ..types.enrollment_list_plans_response import EnrollmentListPlansResponse
 
 __all__ = ["EnrollmentsResource", "AsyncEnrollmentsResource"]
@@ -54,7 +55,7 @@ class EnrollmentsResource(SyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> Enrollment:
+    ) -> EnrollmentRetrieveResponse:
         """Retrieves detailed information for a specific enrollment by ID.
 
         Returns selected
@@ -62,6 +63,8 @@ class EnrollmentsResource(SyncAPIResource):
         endpoint is critical for viewing comprehensive enrollment information.
 
         Args:
+          enrollment_id: Unique enrollment identifier (enrl\\__\\**)
+
           extra_headers: Send extra headers
 
           extra_query: Add additional query parameters to the request
@@ -77,7 +80,7 @@ class EnrollmentsResource(SyncAPIResource):
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
-            cast_to=Enrollment,
+            cast_to=EnrollmentRetrieveResponse,
         )
 
     def list_plans(
@@ -92,12 +95,14 @@ class EnrollmentsResource(SyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> EnrollmentListPlansResponse:
         """
-        Retrieves all insurance plans eligible for selection for a specific enrollment.
+        Retrieves all benefit plans eligible for selection for a specific enrollment.
         Returns available plan options with coverage tiers, premium costs, deductibles,
         and carrier info. Use during enrollment process to show employees their plan
         choices.
 
         Args:
+          enrollment_id: Unique enrollment identifier (enrl\\__\\**)
+
           extra_headers: Send extra headers
 
           extra_query: Add additional query parameters to the request
@@ -128,7 +133,7 @@ class EnrollmentsResource(SyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> Enrollment:
+    ) -> EnrollmentReissueResponse:
         """
         Reissues an enrollment due to a qualifying life event, allowing mid-year benefit
         changes. Enables employees to modify benefit selections outside open enrollment
@@ -136,6 +141,8 @@ class EnrollmentsResource(SyncAPIResource):
         new spouse, adjusting coverage after losing other coverage.
 
         Args:
+          enrollment_id: Unique enrollment identifier (enrl\\__\\**)
+
           qle_id: ID of the qualifying life event (qle\\__\\**)
 
           reason: Optional reason for reissue
@@ -162,7 +169,7 @@ class EnrollmentsResource(SyncAPIResource):
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
-            cast_to=Enrollment,
+            cast_to=EnrollmentReissueResponse,
         )
 
 
@@ -196,7 +203,7 @@ class AsyncEnrollmentsResource(AsyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> Enrollment:
+    ) -> EnrollmentRetrieveResponse:
         """Retrieves detailed information for a specific enrollment by ID.
 
         Returns selected
@@ -204,6 +211,8 @@ class AsyncEnrollmentsResource(AsyncAPIResource):
         endpoint is critical for viewing comprehensive enrollment information.
 
         Args:
+          enrollment_id: Unique enrollment identifier (enrl\\__\\**)
+
           extra_headers: Send extra headers
 
           extra_query: Add additional query parameters to the request
@@ -219,7 +228,7 @@ class AsyncEnrollmentsResource(AsyncAPIResource):
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
-            cast_to=Enrollment,
+            cast_to=EnrollmentRetrieveResponse,
         )
 
     async def list_plans(
@@ -234,12 +243,14 @@ class AsyncEnrollmentsResource(AsyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> EnrollmentListPlansResponse:
         """
-        Retrieves all insurance plans eligible for selection for a specific enrollment.
+        Retrieves all benefit plans eligible for selection for a specific enrollment.
         Returns available plan options with coverage tiers, premium costs, deductibles,
         and carrier info. Use during enrollment process to show employees their plan
         choices.
 
         Args:
+          enrollment_id: Unique enrollment identifier (enrl\\__\\**)
+
           extra_headers: Send extra headers
 
           extra_query: Add additional query parameters to the request
@@ -270,7 +281,7 @@ class AsyncEnrollmentsResource(AsyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> Enrollment:
+    ) -> EnrollmentReissueResponse:
         """
         Reissues an enrollment due to a qualifying life event, allowing mid-year benefit
         changes. Enables employees to modify benefit selections outside open enrollment
@@ -278,6 +289,8 @@ class AsyncEnrollmentsResource(AsyncAPIResource):
         new spouse, adjusting coverage after losing other coverage.
 
         Args:
+          enrollment_id: Unique enrollment identifier (enrl\\__\\**)
+
           qle_id: ID of the qualifying life event (qle\\__\\**)
 
           reason: Optional reason for reissue
@@ -304,7 +317,7 @@ class AsyncEnrollmentsResource(AsyncAPIResource):
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
-            cast_to=Enrollment,
+            cast_to=EnrollmentReissueResponse,
         )
 
 

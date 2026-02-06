@@ -9,7 +9,7 @@ import pytest
 
 from tests.utils import assert_matches_type
 from vitable_connect_api import VitableConnectAPI, AsyncVitableConnectAPI
-from vitable_connect_api.types import Dependent
+from vitable_connect_api.types import DependentUpdateResponse, DependentRetrieveResponse
 
 base_url = os.environ.get("TEST_API_BASE_URL", "http://127.0.0.1:4010")
 
@@ -23,7 +23,7 @@ class TestDependents:
         dependent = client.dependents.retrieve(
             "dpnd_abc123def456",
         )
-        assert_matches_type(Dependent, dependent, path=["response"])
+        assert_matches_type(DependentRetrieveResponse, dependent, path=["response"])
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
@@ -35,7 +35,7 @@ class TestDependents:
         assert response.is_closed is True
         assert response.http_request.headers.get("X-Stainless-Lang") == "python"
         dependent = response.parse()
-        assert_matches_type(Dependent, dependent, path=["response"])
+        assert_matches_type(DependentRetrieveResponse, dependent, path=["response"])
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
@@ -47,7 +47,7 @@ class TestDependents:
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
 
             dependent = response.parse()
-            assert_matches_type(Dependent, dependent, path=["response"])
+            assert_matches_type(DependentRetrieveResponse, dependent, path=["response"])
 
         assert cast(Any, response.is_closed) is True
 
@@ -65,7 +65,7 @@ class TestDependents:
         dependent = client.dependents.update(
             dependent_id="dpnd_abc123def456",
         )
-        assert_matches_type(Dependent, dependent, path=["response"])
+        assert_matches_type(DependentUpdateResponse, dependent, path=["response"])
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
@@ -76,7 +76,7 @@ class TestDependents:
             gender="gender",
             relationship="Spouse",
         )
-        assert_matches_type(Dependent, dependent, path=["response"])
+        assert_matches_type(DependentUpdateResponse, dependent, path=["response"])
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
@@ -88,7 +88,7 @@ class TestDependents:
         assert response.is_closed is True
         assert response.http_request.headers.get("X-Stainless-Lang") == "python"
         dependent = response.parse()
-        assert_matches_type(Dependent, dependent, path=["response"])
+        assert_matches_type(DependentUpdateResponse, dependent, path=["response"])
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
@@ -100,7 +100,7 @@ class TestDependents:
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
 
             dependent = response.parse()
-            assert_matches_type(Dependent, dependent, path=["response"])
+            assert_matches_type(DependentUpdateResponse, dependent, path=["response"])
 
         assert cast(Any, response.is_closed) is True
 
@@ -124,7 +124,7 @@ class TestAsyncDependents:
         dependent = await async_client.dependents.retrieve(
             "dpnd_abc123def456",
         )
-        assert_matches_type(Dependent, dependent, path=["response"])
+        assert_matches_type(DependentRetrieveResponse, dependent, path=["response"])
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
@@ -136,7 +136,7 @@ class TestAsyncDependents:
         assert response.is_closed is True
         assert response.http_request.headers.get("X-Stainless-Lang") == "python"
         dependent = await response.parse()
-        assert_matches_type(Dependent, dependent, path=["response"])
+        assert_matches_type(DependentRetrieveResponse, dependent, path=["response"])
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
@@ -148,7 +148,7 @@ class TestAsyncDependents:
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
 
             dependent = await response.parse()
-            assert_matches_type(Dependent, dependent, path=["response"])
+            assert_matches_type(DependentRetrieveResponse, dependent, path=["response"])
 
         assert cast(Any, response.is_closed) is True
 
@@ -166,7 +166,7 @@ class TestAsyncDependents:
         dependent = await async_client.dependents.update(
             dependent_id="dpnd_abc123def456",
         )
-        assert_matches_type(Dependent, dependent, path=["response"])
+        assert_matches_type(DependentUpdateResponse, dependent, path=["response"])
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
@@ -177,7 +177,7 @@ class TestAsyncDependents:
             gender="gender",
             relationship="Spouse",
         )
-        assert_matches_type(Dependent, dependent, path=["response"])
+        assert_matches_type(DependentUpdateResponse, dependent, path=["response"])
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
@@ -189,7 +189,7 @@ class TestAsyncDependents:
         assert response.is_closed is True
         assert response.http_request.headers.get("X-Stainless-Lang") == "python"
         dependent = await response.parse()
-        assert_matches_type(Dependent, dependent, path=["response"])
+        assert_matches_type(DependentUpdateResponse, dependent, path=["response"])
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
@@ -201,7 +201,7 @@ class TestAsyncDependents:
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
 
             dependent = await response.parse()
-            assert_matches_type(Dependent, dependent, path=["response"])
+            assert_matches_type(DependentUpdateResponse, dependent, path=["response"])
 
         assert cast(Any, response.is_closed) is True
 

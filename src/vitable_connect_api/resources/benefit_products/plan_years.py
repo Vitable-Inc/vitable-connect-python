@@ -19,9 +19,9 @@ from ..._response import (
 )
 from ..._base_client import make_request_options
 from ...types.benefit_products import PlanYearStatus, plan_year_list_params, plan_year_create_params
-from ...types.benefit_products.plan_year import PlanYear
 from ...types.benefit_products.plan_year_status import PlanYearStatus
 from ...types.benefit_products.plan_year_list_response import PlanYearListResponse
+from ...types.benefit_products.plan_year_create_response import PlanYearCreateResponse
 
 __all__ = ["PlanYearsResource", "AsyncPlanYearsResource"]
 
@@ -62,13 +62,15 @@ class PlanYearsResource(SyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> PlanYear:
+    ) -> PlanYearCreateResponse:
         """
         Creates a new plan year configuration for a benefit product and employer.
         Configures coverage period dates, open enrollment window, and contribution
         structure. All monetary values must be in cents.
 
         Args:
+          benefit_product_id: Unique benefit product identifier (bprd\\__\\**)
+
           contribution_classes: List of contribution classes (at least one required)
 
           coverage_end: Coverage end date
@@ -107,7 +109,7 @@ class PlanYearsResource(SyncAPIResource):
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
-            cast_to=PlanYear,
+            cast_to=PlanYearCreateResponse,
         )
 
     def list(
@@ -132,6 +134,8 @@ class PlanYearsResource(SyncAPIResource):
         Results are sorted by most recent plan year first.
 
         Args:
+          benefit_product_id: Unique benefit product identifier (bprd\\__\\**)
+
           employer_id: Filter by employer ID
 
           limit: Items per page (default: 20, max: 100)
@@ -207,13 +211,15 @@ class AsyncPlanYearsResource(AsyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> PlanYear:
+    ) -> PlanYearCreateResponse:
         """
         Creates a new plan year configuration for a benefit product and employer.
         Configures coverage period dates, open enrollment window, and contribution
         structure. All monetary values must be in cents.
 
         Args:
+          benefit_product_id: Unique benefit product identifier (bprd\\__\\**)
+
           contribution_classes: List of contribution classes (at least one required)
 
           coverage_end: Coverage end date
@@ -252,7 +258,7 @@ class AsyncPlanYearsResource(AsyncAPIResource):
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
-            cast_to=PlanYear,
+            cast_to=PlanYearCreateResponse,
         )
 
     async def list(
@@ -277,6 +283,8 @@ class AsyncPlanYearsResource(AsyncAPIResource):
         Results are sorted by most recent plan year first.
 
         Args:
+          benefit_product_id: Unique benefit product identifier (bprd\\__\\**)
+
           employer_id: Filter by employer ID
 
           limit: Items per page (default: 20, max: 100)

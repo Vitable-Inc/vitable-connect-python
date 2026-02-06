@@ -1,16 +1,15 @@
 # File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
 from typing import List, Optional
-from typing_extensions import TypeAlias
 
 from .._models import BaseModel
 from .plan_tier import PlanTier
 from .coverage_tier import CoverageTier
 
-__all__ = ["EnrollmentListPlansResponse", "EnrollmentListPlansResponseItem", "EnrollmentListPlansResponseItemCost"]
+__all__ = ["EnrollmentListPlansResponse", "Data", "DataCost", "Pagination"]
 
 
-class EnrollmentListPlansResponseItemCost(BaseModel):
+class DataCost(BaseModel):
     """Cost breakdown for a plan option."""
 
     coverage_tier: CoverageTier
@@ -32,7 +31,7 @@ class EnrollmentListPlansResponseItemCost(BaseModel):
     """Total monthly premium in cents"""
 
 
-class EnrollmentListPlansResponseItem(BaseModel):
+class Data(BaseModel):
     """Serializer for plan options available for enrollment selection.
 
     Returns plan details with cost breakdowns for each coverage tier.
@@ -41,14 +40,14 @@ class EnrollmentListPlansResponseItem(BaseModel):
     id: str
     """Unique plan identifier (plan\\__\\**)"""
 
-    costs: List[EnrollmentListPlansResponseItemCost]
+    costs: List[DataCost]
     """Cost breakdown by coverage tier"""
 
     name: str
     """Display name of the plan"""
 
     carrier_name: Optional[str] = None
-    """Name of the insurance carrier"""
+    """Name of the carrier"""
 
     deductible_cents: Optional[int] = None
     """Annual deductible in cents"""
@@ -68,4 +67,26 @@ class EnrollmentListPlansResponseItem(BaseModel):
     """
 
 
-EnrollmentListPlansResponse: TypeAlias = List[EnrollmentListPlansResponseItem]
+class Pagination(BaseModel):
+    """Pagination metadata for list responses."""
+
+    limit: int
+    """Items per page"""
+
+    page: int
+    """Current page number"""
+
+    total: int
+    """Total number of items"""
+
+    total_pages: int
+    """Total number of pages"""
+
+
+class EnrollmentListPlansResponse(BaseModel):
+    """Paginated list response containing plan option resources."""
+
+    data: List[Data]
+
+    pagination: Pagination
+    """Pagination metadata for list responses."""

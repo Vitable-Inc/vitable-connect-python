@@ -21,6 +21,15 @@ class ContributionClass(BaseModel):
     id: str
     """Unique contribution class identifier"""
 
+    coverage_tier: CoverageTier
+    """
+    - `Unspecified` - Unspecified
+    - `EE` - Ee
+    - `ES` - Es
+    - `EC` - Ec
+    - `EF` - Ef
+    """
+
     employee_contribution_cents: int
     """Employee's monthly contribution amount in cents"""
 
@@ -29,15 +38,6 @@ class ContributionClass(BaseModel):
 
     employment: str
     """Employment type for this contribution class (e.g., 'full_time', 'part_time')"""
-
-    family_status: CoverageTier
-    """
-    - `Unspecified` - Unspecified
-    - `EE` - Ee
-    - `ES` - Es
-    - `EC` - Ec
-    - `EF` - Ef
-    """
 
 
 class Plan(BaseModel):
@@ -53,7 +53,7 @@ class Plan(BaseModel):
     """Base monthly premium in cents"""
 
     name: str
-    """Display name of the insurance plan"""
+    """Display name of the benefit plan"""
 
     deductible_cents: Optional[int] = None
     """Annual deductible amount in cents"""
@@ -105,7 +105,7 @@ class PlanYear(BaseModel):
     """Date when open enrollment period begins"""
 
     plans: List[Plan]
-    """List of insurance plans available in this plan year"""
+    """List of benefit plans available in this plan year"""
 
     status: PlanYearStatus
     """

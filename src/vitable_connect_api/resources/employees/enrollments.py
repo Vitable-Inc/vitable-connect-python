@@ -69,6 +69,8 @@ class EnrollmentsResource(SyncAPIResource):
         or coverage year.
 
         Args:
+          employee_id: Unique employee identifier (empl\\__\\**)
+
           coverage_effective_start_year: Filter by coverage year
 
           limit: Items per page (default: 20, max: 100)
@@ -129,6 +131,8 @@ class EnrollmentsResource(SyncAPIResource):
         or waived status based on elections.
 
         Args:
+          employee_id: Unique employee identifier (empl\\__\\**)
+
           elections: List of enrollment elections
 
           extra_headers: Send extra headers
@@ -197,6 +201,8 @@ class AsyncEnrollmentsResource(AsyncAPIResource):
         or coverage year.
 
         Args:
+          employee_id: Unique employee identifier (empl\\__\\**)
+
           coverage_effective_start_year: Filter by coverage year
 
           limit: Items per page (default: 20, max: 100)
@@ -257,6 +263,8 @@ class AsyncEnrollmentsResource(AsyncAPIResource):
         or waived status based on elections.
 
         Args:
+          employee_id: Unique employee identifier (empl\\__\\**)
+
           elections: List of enrollment elections
 
           extra_headers: Send extra headers

@@ -27,9 +27,10 @@ from .enrollments import (
     AsyncEnrollmentsResourceWithStreamingResponse,
 )
 from ..._base_client import make_request_options
-from ...types.employee import Employee
 from ...types.employers import EmployeeClass
+from ...types.employee_update_response import EmployeeUpdateResponse
 from ...types.employers.employee_class import EmployeeClass
+from ...types.employee_retrieve_response import EmployeeRetrieveResponse
 
 __all__ = ["EmployeesResource", "AsyncEmployeesResource"]
 
@@ -68,13 +69,15 @@ class EmployeesResource(SyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> Employee:
+    ) -> EmployeeRetrieveResponse:
         """Retrieves detailed information for a specific employee by ID.
 
         Returns employee
         details including personal information and employment status.
 
         Args:
+          employee_id: Unique employee identifier (empl\\__\\**)
+
           extra_headers: Send extra headers
 
           extra_query: Add additional query parameters to the request
@@ -90,7 +93,7 @@ class EmployeesResource(SyncAPIResource):
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
-            cast_to=Employee,
+            cast_to=EmployeeRetrieveResponse,
         )
 
     def update(
@@ -109,7 +112,7 @@ class EmployeesResource(SyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> Employee:
+    ) -> EmployeeUpdateResponse:
         """Updates an existing employee's information.
 
         All fields are optional - only
@@ -117,6 +120,8 @@ class EmployeesResource(SyncAPIResource):
         be changed after creation.
 
         Args:
+          employee_id: Unique employee identifier (empl\\__\\**)
+
           address: Employee's residential address
 
           email: Email address
@@ -160,7 +165,7 @@ class EmployeesResource(SyncAPIResource):
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
-            cast_to=Employee,
+            cast_to=EmployeeUpdateResponse,
         )
 
     def terminate(
@@ -181,6 +186,8 @@ class EmployeesResource(SyncAPIResource):
         for compliance reasons.
 
         Args:
+          employee_id: Unique employee identifier (empl\\__\\**)
+
           extra_headers: Send extra headers
 
           extra_query: Add additional query parameters to the request
@@ -235,13 +242,15 @@ class AsyncEmployeesResource(AsyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> Employee:
+    ) -> EmployeeRetrieveResponse:
         """Retrieves detailed information for a specific employee by ID.
 
         Returns employee
         details including personal information and employment status.
 
         Args:
+          employee_id: Unique employee identifier (empl\\__\\**)
+
           extra_headers: Send extra headers
 
           extra_query: Add additional query parameters to the request
@@ -257,7 +266,7 @@ class AsyncEmployeesResource(AsyncAPIResource):
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
-            cast_to=Employee,
+            cast_to=EmployeeRetrieveResponse,
         )
 
     async def update(
@@ -276,7 +285,7 @@ class AsyncEmployeesResource(AsyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> Employee:
+    ) -> EmployeeUpdateResponse:
         """Updates an existing employee's information.
 
         All fields are optional - only
@@ -284,6 +293,8 @@ class AsyncEmployeesResource(AsyncAPIResource):
         be changed after creation.
 
         Args:
+          employee_id: Unique employee identifier (empl\\__\\**)
+
           address: Employee's residential address
 
           email: Email address
@@ -327,7 +338,7 @@ class AsyncEmployeesResource(AsyncAPIResource):
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
-            cast_to=Employee,
+            cast_to=EmployeeUpdateResponse,
         )
 
     async def terminate(
@@ -348,6 +359,8 @@ class AsyncEmployeesResource(AsyncAPIResource):
         for compliance reasons.
 
         Args:
+          employee_id: Unique employee identifier (empl\\__\\**)
+
           extra_headers: Send extra headers
 
           extra_query: Add additional query parameters to the request

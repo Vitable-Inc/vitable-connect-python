@@ -25,9 +25,9 @@ from ...types.members import (
     qualifying_life_event_record_params,
 )
 from ...types.members.event_type import EventType
-from ...types.members.qualifying_life_event import QualifyingLifeEvent
 from ...types.members.qualifying_life_event_status import QualifyingLifeEventStatus
 from ...types.members.qualifying_life_event_list_response import QualifyingLifeEventListResponse
+from ...types.members.qualifying_life_event_record_response import QualifyingLifeEventRecordResponse
 
 __all__ = ["QualifyingLifeEventsResource", "AsyncQualifyingLifeEventsResource"]
 
@@ -74,6 +74,8 @@ class QualifyingLifeEventsResource(SyncAPIResource):
         allow benefit enrollment changes outside open enrollment.
 
         Args:
+          member_id: Unique member identifier (mbr\\__\\**)
+
           event_type: Filter by QLE type
 
           limit: Items per page (default: 20, max: 100)
@@ -125,7 +127,7 @@ class QualifyingLifeEventsResource(SyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> QualifyingLifeEvent:
+    ) -> QualifyingLifeEventRecordResponse:
         """Records a qualifying life event occurrence for a member.
 
         Opens a special
@@ -133,6 +135,8 @@ class QualifyingLifeEventsResource(SyncAPIResource):
         typically have 30-60 days from the event date to complete enrollment changes.
 
         Args:
+          member_id: Unique member identifier (mbr\\__\\**)
+
           event_date: Date when the event occurred
 
           event_type: - `Marriage` - Marriage
@@ -172,7 +176,7 @@ class QualifyingLifeEventsResource(SyncAPIResource):
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
-            cast_to=QualifyingLifeEvent,
+            cast_to=QualifyingLifeEventRecordResponse,
         )
 
 
@@ -218,6 +222,8 @@ class AsyncQualifyingLifeEventsResource(AsyncAPIResource):
         allow benefit enrollment changes outside open enrollment.
 
         Args:
+          member_id: Unique member identifier (mbr\\__\\**)
+
           event_type: Filter by QLE type
 
           limit: Items per page (default: 20, max: 100)
@@ -269,7 +275,7 @@ class AsyncQualifyingLifeEventsResource(AsyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> QualifyingLifeEvent:
+    ) -> QualifyingLifeEventRecordResponse:
         """Records a qualifying life event occurrence for a member.
 
         Opens a special
@@ -277,6 +283,8 @@ class AsyncQualifyingLifeEventsResource(AsyncAPIResource):
         typically have 30-60 days from the event date to complete enrollment changes.
 
         Args:
+          member_id: Unique member identifier (mbr\\__\\**)
+
           event_date: Date when the event occurred
 
           event_type: - `Marriage` - Marriage
@@ -316,7 +324,7 @@ class AsyncQualifyingLifeEventsResource(AsyncAPIResource):
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
-            cast_to=QualifyingLifeEvent,
+            cast_to=QualifyingLifeEventRecordResponse,
         )
 
 

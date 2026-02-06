@@ -2,16 +2,15 @@
 
 from typing import List, Optional
 from datetime import datetime
-from typing_extensions import TypeAlias
 
 from .._models import BaseModel
 from .category import Category
 from .product_code import ProductCode
 
-__all__ = ["BenefitProductListResponse", "BenefitProductListResponseItem"]
+__all__ = ["BenefitProductListResponse", "Data", "Pagination"]
 
 
-class BenefitProductListResponseItem(BaseModel):
+class Data(BaseModel):
     """Serializer for Benefit Product entity in public API responses.
 
     Benefit Products represent types of benefits (dental, vision, medical, etc.)
@@ -21,7 +20,7 @@ class BenefitProductListResponseItem(BaseModel):
     id: str
     """Unique benefit product identifier with 'bprd\\__' prefix"""
 
-    active: bool
+    active_in: bool
     """Whether this product is currently available for offering"""
 
     category: Category
@@ -61,10 +60,32 @@ class BenefitProductListResponseItem(BaseModel):
     """Timestamp when the product was last updated"""
 
     carrier_name: Optional[str] = None
-    """Name of the insurance carrier providing this product"""
+    """Name of the carrier providing this product"""
 
     description: Optional[str] = None
     """Detailed description of the benefit product"""
 
 
-BenefitProductListResponse: TypeAlias = List[BenefitProductListResponseItem]
+class Pagination(BaseModel):
+    """Pagination metadata for list responses."""
+
+    limit: int
+    """Items per page"""
+
+    page: int
+    """Current page number"""
+
+    total: int
+    """Total number of items"""
+
+    total_pages: int
+    """Total number of pages"""
+
+
+class BenefitProductListResponse(BaseModel):
+    """Paginated list response containing benefit product resources."""
+
+    data: List[Data]
+
+    pagination: Pagination
+    """Pagination metadata for list responses."""

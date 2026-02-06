@@ -56,30 +56,8 @@ from .benefit_products import (
     BenefitProductsResourceWithStreamingResponse,
     AsyncBenefitProductsResourceWithStreamingResponse,
 )
-from .qualifying_life_events import (
-    QualifyingLifeEventsResource,
-    AsyncQualifyingLifeEventsResource,
-    QualifyingLifeEventsResourceWithRawResponse,
-    AsyncQualifyingLifeEventsResourceWithRawResponse,
-    QualifyingLifeEventsResourceWithStreamingResponse,
-    AsyncQualifyingLifeEventsResourceWithStreamingResponse,
-)
-from .benefit_eligibility_policy import (
-    BenefitEligibilityPolicyResource,
-    AsyncBenefitEligibilityPolicyResource,
-    BenefitEligibilityPolicyResourceWithRawResponse,
-    AsyncBenefitEligibilityPolicyResourceWithRawResponse,
-    BenefitEligibilityPolicyResourceWithStreamingResponse,
-    AsyncBenefitEligibilityPolicyResourceWithStreamingResponse,
-)
 
 __all__ = [
-    "BenefitEligibilityPolicyResource",
-    "AsyncBenefitEligibilityPolicyResource",
-    "BenefitEligibilityPolicyResourceWithRawResponse",
-    "AsyncBenefitEligibilityPolicyResourceWithRawResponse",
-    "BenefitEligibilityPolicyResourceWithStreamingResponse",
-    "AsyncBenefitEligibilityPolicyResourceWithStreamingResponse",
     "BenefitProductsResource",
     "AsyncBenefitProductsResource",
     "BenefitProductsResourceWithRawResponse",
@@ -122,10 +100,4 @@ __all__ = [
     "AsyncPlanYearsResourceWithRawResponse",
     "PlanYearsResourceWithStreamingResponse",
     "AsyncPlanYearsResourceWithStreamingResponse",
-    "QualifyingLifeEventsResource",
-    "AsyncQualifyingLifeEventsResource",
-    "QualifyingLifeEventsResourceWithRawResponse",
-    "AsyncQualifyingLifeEventsResourceWithRawResponse",
-    "QualifyingLifeEventsResourceWithStreamingResponse",
-    "AsyncQualifyingLifeEventsResourceWithStreamingResponse",
 ]

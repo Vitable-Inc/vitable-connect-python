@@ -20,10 +20,10 @@ from ..._response import (
 )
 from ...types.sex import Sex
 from ..._base_client import make_request_options
-from ...types.employee import Employee
 from ...types.employers import EmployeeClass, employee_list_params, employee_create_params
 from ...types.employers.employee_class import EmployeeClass
 from ...types.employers.employee_list_response import EmployeeListResponse
+from ...types.employers.employee_create_response import EmployeeCreateResponse
 
 __all__ = ["EmployeesResource", "AsyncEmployeesResource"]
 
@@ -70,7 +70,7 @@ class EmployeesResource(SyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> Employee:
+    ) -> EmployeeCreateResponse:
         """Creates a new employee for a specific employer.
 
         Requires personal information
@@ -79,6 +79,8 @@ class EmployeesResource(SyncAPIResource):
         employee with assigned ID.
 
         Args:
+          employer_id: Filter by employer ID
+
           date_of_birth: Date of birth (YYYY-MM-DD)
 
           email: Email address
@@ -143,7 +145,7 @@ class EmployeesResource(SyncAPIResource):
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
-            cast_to=Employee,
+            cast_to=EmployeeCreateResponse,
         )
 
     def list(
@@ -168,6 +170,8 @@ class EmployeesResource(SyncAPIResource):
         paginated using page and limit parameters.
 
         Args:
+          employer_id: Filter by employer ID
+
           active_in: Filter by active status
 
           employee_class: Filter by employment classification
@@ -249,7 +253,7 @@ class AsyncEmployeesResource(AsyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> Employee:
+    ) -> EmployeeCreateResponse:
         """Creates a new employee for a specific employer.
 
         Requires personal information
@@ -258,6 +262,8 @@ class AsyncEmployeesResource(AsyncAPIResource):
         employee with assigned ID.
 
         Args:
+          employer_id: Filter by employer ID
+
           date_of_birth: Date of birth (YYYY-MM-DD)
 
           email: Email address
@@ -322,7 +328,7 @@ class AsyncEmployeesResource(AsyncAPIResource):
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
-            cast_to=Employee,
+            cast_to=EmployeeCreateResponse,
         )
 
     async def list(
@@ -347,6 +353,8 @@ class AsyncEmployeesResource(AsyncAPIResource):
         paginated using page and limit parameters.
 
         Args:
+          employer_id: Filter by employer ID
+
           active_in: Filter by active status
 
           employee_class: Filter by employment classification

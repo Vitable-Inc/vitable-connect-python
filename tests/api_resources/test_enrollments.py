@@ -9,7 +9,11 @@ import pytest
 
 from tests.utils import assert_matches_type
 from vitable_connect_api import VitableConnectAPI, AsyncVitableConnectAPI
-from vitable_connect_api.types import Enrollment, EnrollmentListPlansResponse
+from vitable_connect_api.types import (
+    EnrollmentReissueResponse,
+    EnrollmentRetrieveResponse,
+    EnrollmentListPlansResponse,
+)
 
 base_url = os.environ.get("TEST_API_BASE_URL", "http://127.0.0.1:4010")
 
@@ -23,7 +27,7 @@ class TestEnrollments:
         enrollment = client.enrollments.retrieve(
             "enrl_abc123def456",
         )
-        assert_matches_type(Enrollment, enrollment, path=["response"])
+        assert_matches_type(EnrollmentRetrieveResponse, enrollment, path=["response"])
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
@@ -35,7 +39,7 @@ class TestEnrollments:
         assert response.is_closed is True
         assert response.http_request.headers.get("X-Stainless-Lang") == "python"
         enrollment = response.parse()
-        assert_matches_type(Enrollment, enrollment, path=["response"])
+        assert_matches_type(EnrollmentRetrieveResponse, enrollment, path=["response"])
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
@@ -47,7 +51,7 @@ class TestEnrollments:
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
 
             enrollment = response.parse()
-            assert_matches_type(Enrollment, enrollment, path=["response"])
+            assert_matches_type(EnrollmentRetrieveResponse, enrollment, path=["response"])
 
         assert cast(Any, response.is_closed) is True
 
@@ -106,45 +110,45 @@ class TestEnrollments:
     def test_method_reissue(self, client: VitableConnectAPI) -> None:
         enrollment = client.enrollments.reissue(
             enrollment_id="enrl_abc123def456",
-            qle_id="qle_id",
+            qle_id="qle_marriage123abc",
         )
-        assert_matches_type(Enrollment, enrollment, path=["response"])
+        assert_matches_type(EnrollmentReissueResponse, enrollment, path=["response"])
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     def test_method_reissue_with_all_params(self, client: VitableConnectAPI) -> None:
         enrollment = client.enrollments.reissue(
             enrollment_id="enrl_abc123def456",
-            qle_id="qle_id",
+            qle_id="qle_marriage123abc",
             reason="reason",
         )
-        assert_matches_type(Enrollment, enrollment, path=["response"])
+        assert_matches_type(EnrollmentReissueResponse, enrollment, path=["response"])
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     def test_raw_response_reissue(self, client: VitableConnectAPI) -> None:
         response = client.enrollments.with_raw_response.reissue(
             enrollment_id="enrl_abc123def456",
-            qle_id="qle_id",
+            qle_id="qle_marriage123abc",
         )
 
         assert response.is_closed is True
         assert response.http_request.headers.get("X-Stainless-Lang") == "python"
         enrollment = response.parse()
-        assert_matches_type(Enrollment, enrollment, path=["response"])
+        assert_matches_type(EnrollmentReissueResponse, enrollment, path=["response"])
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     def test_streaming_response_reissue(self, client: VitableConnectAPI) -> None:
         with client.enrollments.with_streaming_response.reissue(
             enrollment_id="enrl_abc123def456",
-            qle_id="qle_id",
+            qle_id="qle_marriage123abc",
         ) as response:
             assert not response.is_closed
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
 
             enrollment = response.parse()
-            assert_matches_type(Enrollment, enrollment, path=["response"])
+            assert_matches_type(EnrollmentReissueResponse, enrollment, path=["response"])
 
         assert cast(Any, response.is_closed) is True
 
@@ -154,7 +158,7 @@ class TestEnrollments:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `enrollment_id` but received ''"):
             client.enrollments.with_raw_response.reissue(
                 enrollment_id="",
-                qle_id="qle_id",
+                qle_id="qle_marriage123abc",
             )
 
 
@@ -169,7 +173,7 @@ class TestAsyncEnrollments:
         enrollment = await async_client.enrollments.retrieve(
             "enrl_abc123def456",
         )
-        assert_matches_type(Enrollment, enrollment, path=["response"])
+        assert_matches_type(EnrollmentRetrieveResponse, enrollment, path=["response"])
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
@@ -181,7 +185,7 @@ class TestAsyncEnrollments:
         assert response.is_closed is True
         assert response.http_request.headers.get("X-Stainless-Lang") == "python"
         enrollment = await response.parse()
-        assert_matches_type(Enrollment, enrollment, path=["response"])
+        assert_matches_type(EnrollmentRetrieveResponse, enrollment, path=["response"])
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
@@ -193,7 +197,7 @@ class TestAsyncEnrollments:
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
 
             enrollment = await response.parse()
-            assert_matches_type(Enrollment, enrollment, path=["response"])
+            assert_matches_type(EnrollmentRetrieveResponse, enrollment, path=["response"])
 
         assert cast(Any, response.is_closed) is True
 
@@ -252,45 +256,45 @@ class TestAsyncEnrollments:
     async def test_method_reissue(self, async_client: AsyncVitableConnectAPI) -> None:
         enrollment = await async_client.enrollments.reissue(
             enrollment_id="enrl_abc123def456",
-            qle_id="qle_id",
+            qle_id="qle_marriage123abc",
         )
-        assert_matches_type(Enrollment, enrollment, path=["response"])
+        assert_matches_type(EnrollmentReissueResponse, enrollment, path=["response"])
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     async def test_method_reissue_with_all_params(self, async_client: AsyncVitableConnectAPI) -> None:
         enrollment = await async_client.enrollments.reissue(
             enrollment_id="enrl_abc123def456",
-            qle_id="qle_id",
+            qle_id="qle_marriage123abc",
             reason="reason",
         )
-        assert_matches_type(Enrollment, enrollment, path=["response"])
+        assert_matches_type(EnrollmentReissueResponse, enrollment, path=["response"])
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     async def test_raw_response_reissue(self, async_client: AsyncVitableConnectAPI) -> None:
         response = await async_client.enrollments.with_raw_response.reissue(
             enrollment_id="enrl_abc123def456",
-            qle_id="qle_id",
+            qle_id="qle_marriage123abc",
         )
 
         assert response.is_closed is True
         assert response.http_request.headers.get("X-Stainless-Lang") == "python"
         enrollment = await response.parse()
-        assert_matches_type(Enrollment, enrollment, path=["response"])
+        assert_matches_type(EnrollmentReissueResponse, enrollment, path=["response"])
 
     @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     async def test_streaming_response_reissue(self, async_client: AsyncVitableConnectAPI) -> None:
         async with async_client.enrollments.with_streaming_response.reissue(
             enrollment_id="enrl_abc123def456",
-            qle_id="qle_id",
+            qle_id="qle_marriage123abc",
         ) as response:
             assert not response.is_closed
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
 
             enrollment = await response.parse()
-            assert_matches_type(Enrollment, enrollment, path=["response"])
+            assert_matches_type(EnrollmentReissueResponse, enrollment, path=["response"])
 
         assert cast(Any, response.is_closed) is True
 
@@ -300,5 +304,5 @@ class TestAsyncEnrollments:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `enrollment_id` but received ''"):
             await async_client.enrollments.with_raw_response.reissue(
                 enrollment_id="",
-                qle_id="qle_id",
+                qle_id="qle_marriage123abc",
             )

@@ -31,28 +31,13 @@ from ._base_client import (
 )
 
 if TYPE_CHECKING:
-    from .resources import (
-        members,
-        employees,
-        employers,
-        dependents,
-        plan_years,
-        enrollments,
-        benefit_products,
-        qualifying_life_events,
-        benefit_eligibility_policy,
-    )
+    from .resources import members, employees, employers, dependents, plan_years, enrollments, benefit_products
     from .resources.dependents import DependentsResource, AsyncDependentsResource
     from .resources.plan_years import PlanYearsResource, AsyncPlanYearsResource
     from .resources.enrollments import EnrollmentsResource, AsyncEnrollmentsResource
     from .resources.members.members import MembersResource, AsyncMembersResource
     from .resources.employees.employees import EmployeesResource, AsyncEmployeesResource
     from .resources.employers.employers import EmployersResource, AsyncEmployersResource
-    from .resources.qualifying_life_events import QualifyingLifeEventsResource, AsyncQualifyingLifeEventsResource
-    from .resources.benefit_eligibility_policy import (
-        BenefitEligibilityPolicyResource,
-        AsyncBenefitEligibilityPolicyResource,
-    )
     from .resources.benefit_products.benefit_products import BenefitProductsResource, AsyncBenefitProductsResource
 
 __all__ = [
@@ -153,12 +138,6 @@ class VitableConnectAPI(SyncAPIClient):
         )
 
     @cached_property
-    def benefit_eligibility_policy(self) -> BenefitEligibilityPolicyResource:
-        from .resources.benefit_eligibility_policy import BenefitEligibilityPolicyResource
-
-        return BenefitEligibilityPolicyResource(self)
-
-    @cached_property
     def benefit_products(self) -> BenefitProductsResource:
         from .resources.benefit_products import BenefitProductsResource
 
@@ -201,12 +180,6 @@ class VitableConnectAPI(SyncAPIClient):
         return PlanYearsResource(self)
 
     @cached_property
-    def qualifying_life_events(self) -> QualifyingLifeEventsResource:
-        from .resources.qualifying_life_events import QualifyingLifeEventsResource
-
-        return QualifyingLifeEventsResource(self)
-
-    @cached_property
     def with_raw_response(self) -> VitableConnectAPIWithRawResponse:
         return VitableConnectAPIWithRawResponse(self)
 
@@ -218,12 +191,6 @@ class VitableConnectAPI(SyncAPIClient):
     @override
     def qs(self) -> Querystring:
         return Querystring(array_format="comma")
-
-    @property
-    @override
-    def auth_headers(self) -> dict[str, str]:
-        api_key = self.api_key
-        return {"Authorization": f"Bearer {api_key}"}
 
     @property
     @override
@@ -401,12 +368,6 @@ class AsyncVitableConnectAPI(AsyncAPIClient):
         )
 
     @cached_property
-    def benefit_eligibility_policy(self) -> AsyncBenefitEligibilityPolicyResource:
-        from .resources.benefit_eligibility_policy import AsyncBenefitEligibilityPolicyResource
-
-        return AsyncBenefitEligibilityPolicyResource(self)
-
-    @cached_property
     def benefit_products(self) -> AsyncBenefitProductsResource:
         from .resources.benefit_products import AsyncBenefitProductsResource
 
@@ -449,12 +410,6 @@ class AsyncVitableConnectAPI(AsyncAPIClient):
         return AsyncPlanYearsResource(self)
 
     @cached_property
-    def qualifying_life_events(self) -> AsyncQualifyingLifeEventsResource:
-        from .resources.qualifying_life_events import AsyncQualifyingLifeEventsResource
-
-        return AsyncQualifyingLifeEventsResource(self)
-
-    @cached_property
     def with_raw_response(self) -> AsyncVitableConnectAPIWithRawResponse:
         return AsyncVitableConnectAPIWithRawResponse(self)
 
@@ -466,12 +421,6 @@ class AsyncVitableConnectAPI(AsyncAPIClient):
     @override
     def qs(self) -> Querystring:
         return Querystring(array_format="comma")
-
-    @property
-    @override
-    def auth_headers(self) -> dict[str, str]:
-        api_key = self.api_key
-        return {"Authorization": f"Bearer {api_key}"}
 
     @property
     @override
@@ -576,12 +525,6 @@ class VitableConnectAPIWithRawResponse:
         self._client = client
 
     @cached_property
-    def benefit_eligibility_policy(self) -> benefit_eligibility_policy.BenefitEligibilityPolicyResourceWithRawResponse:
-        from .resources.benefit_eligibility_policy import BenefitEligibilityPolicyResourceWithRawResponse
-
-        return BenefitEligibilityPolicyResourceWithRawResponse(self._client.benefit_eligibility_policy)
-
-    @cached_property
     def benefit_products(self) -> benefit_products.BenefitProductsResourceWithRawResponse:
         from .resources.benefit_products import BenefitProductsResourceWithRawResponse
 
@@ -623,26 +566,12 @@ class VitableConnectAPIWithRawResponse:
 
         return PlanYearsResourceWithRawResponse(self._client.plan_years)
 
-    @cached_property
-    def qualifying_life_events(self) -> qualifying_life_events.QualifyingLifeEventsResourceWithRawResponse:
-        from .resources.qualifying_life_events import QualifyingLifeEventsResourceWithRawResponse
-
-        return QualifyingLifeEventsResourceWithRawResponse(self._client.qualifying_life_events)
-
 
 class AsyncVitableConnectAPIWithRawResponse:
     _client: AsyncVitableConnectAPI
 
     def __init__(self, client: AsyncVitableConnectAPI) -> None:
         self._client = client
-
-    @cached_property
-    def benefit_eligibility_policy(
-        self,
-    ) -> benefit_eligibility_policy.AsyncBenefitEligibilityPolicyResourceWithRawResponse:
-        from .resources.benefit_eligibility_policy import AsyncBenefitEligibilityPolicyResourceWithRawResponse
-
-        return AsyncBenefitEligibilityPolicyResourceWithRawResponse(self._client.benefit_eligibility_policy)
 
     @cached_property
     def benefit_products(self) -> benefit_products.AsyncBenefitProductsResourceWithRawResponse:
@@ -686,26 +615,12 @@ class AsyncVitableConnectAPIWithRawResponse:
 
         return AsyncPlanYearsResourceWithRawResponse(self._client.plan_years)
 
-    @cached_property
-    def qualifying_life_events(self) -> qualifying_life_events.AsyncQualifyingLifeEventsResourceWithRawResponse:
-        from .resources.qualifying_life_events import AsyncQualifyingLifeEventsResourceWithRawResponse
-
-        return AsyncQualifyingLifeEventsResourceWithRawResponse(self._client.qualifying_life_events)
-
 
 class VitableConnectAPIWithStreamedResponse:
     _client: VitableConnectAPI
 
     def __init__(self, client: VitableConnectAPI) -> None:
         self._client = client
-
-    @cached_property
-    def benefit_eligibility_policy(
-        self,
-    ) -> benefit_eligibility_policy.BenefitEligibilityPolicyResourceWithStreamingResponse:
-        from .resources.benefit_eligibility_policy import BenefitEligibilityPolicyResourceWithStreamingResponse
-
-        return BenefitEligibilityPolicyResourceWithStreamingResponse(self._client.benefit_eligibility_policy)
 
     @cached_property
     def benefit_products(self) -> benefit_products.BenefitProductsResourceWithStreamingResponse:
@@ -749,26 +664,12 @@ class VitableConnectAPIWithStreamedResponse:
 
         return PlanYearsResourceWithStreamingResponse(self._client.plan_years)
 
-    @cached_property
-    def qualifying_life_events(self) -> qualifying_life_events.QualifyingLifeEventsResourceWithStreamingResponse:
-        from .resources.qualifying_life_events import QualifyingLifeEventsResourceWithStreamingResponse
-
-        return QualifyingLifeEventsResourceWithStreamingResponse(self._client.qualifying_life_events)
-
 
 class AsyncVitableConnectAPIWithStreamedResponse:
     _client: AsyncVitableConnectAPI
 
     def __init__(self, client: AsyncVitableConnectAPI) -> None:
         self._client = client
-
-    @cached_property
-    def benefit_eligibility_policy(
-        self,
-    ) -> benefit_eligibility_policy.AsyncBenefitEligibilityPolicyResourceWithStreamingResponse:
-        from .resources.benefit_eligibility_policy import AsyncBenefitEligibilityPolicyResourceWithStreamingResponse
-
-        return AsyncBenefitEligibilityPolicyResourceWithStreamingResponse(self._client.benefit_eligibility_policy)
 
     @cached_property
     def benefit_products(self) -> benefit_products.AsyncBenefitProductsResourceWithStreamingResponse:
@@ -811,12 +712,6 @@ class AsyncVitableConnectAPIWithStreamedResponse:
         from .resources.plan_years import AsyncPlanYearsResourceWithStreamingResponse
 
         return AsyncPlanYearsResourceWithStreamingResponse(self._client.plan_years)
-
-    @cached_property
-    def qualifying_life_events(self) -> qualifying_life_events.AsyncQualifyingLifeEventsResourceWithStreamingResponse:
-        from .resources.qualifying_life_events import AsyncQualifyingLifeEventsResourceWithStreamingResponse
-
-        return AsyncQualifyingLifeEventsResourceWithStreamingResponse(self._client.qualifying_life_events)
 
 
 Client = VitableConnectAPI
