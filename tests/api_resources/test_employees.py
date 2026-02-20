@@ -18,7 +18,7 @@ base_url = os.environ.get("TEST_API_BASE_URL", "http://127.0.0.1:4010")
 class TestEmployees:
     parametrize = pytest.mark.parametrize("client", [False, True], indirect=True, ids=["loose", "strict"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_method_retrieve(self, client: VitableConnect) -> None:
         employee = client.employees.retrieve(
@@ -26,7 +26,7 @@ class TestEmployees:
         )
         assert_matches_type(EmployeeResponse, employee, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_raw_response_retrieve(self, client: VitableConnect) -> None:
         response = client.employees.with_raw_response.retrieve(
@@ -38,7 +38,7 @@ class TestEmployees:
         employee = response.parse()
         assert_matches_type(EmployeeResponse, employee, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_streaming_response_retrieve(self, client: VitableConnect) -> None:
         with client.employees.with_streaming_response.retrieve(
@@ -52,7 +52,7 @@ class TestEmployees:
 
         assert cast(Any, response.is_closed) is True
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_path_params_retrieve(self, client: VitableConnect) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `employee_id` but received ''"):
@@ -60,7 +60,7 @@ class TestEmployees:
                 "",
             )
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_method_update(self, client: VitableConnect) -> None:
         employee = client.employees.update(
@@ -68,7 +68,7 @@ class TestEmployees:
         )
         assert_matches_type(EmployeeResponse, employee, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_method_update_with_all_params(self, client: VitableConnect) -> None:
         employee = client.employees.update(
@@ -89,7 +89,7 @@ class TestEmployees:
         )
         assert_matches_type(EmployeeResponse, employee, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_raw_response_update(self, client: VitableConnect) -> None:
         response = client.employees.with_raw_response.update(
@@ -101,7 +101,7 @@ class TestEmployees:
         employee = response.parse()
         assert_matches_type(EmployeeResponse, employee, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_streaming_response_update(self, client: VitableConnect) -> None:
         with client.employees.with_streaming_response.update(
@@ -115,7 +115,7 @@ class TestEmployees:
 
         assert cast(Any, response.is_closed) is True
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_path_params_update(self, client: VitableConnect) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `employee_id` but received ''"):
@@ -123,7 +123,7 @@ class TestEmployees:
                 employee_id="",
             )
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_method_terminate(self, client: VitableConnect) -> None:
         employee = client.employees.terminate(
@@ -131,7 +131,7 @@ class TestEmployees:
         )
         assert employee is None
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_raw_response_terminate(self, client: VitableConnect) -> None:
         response = client.employees.with_raw_response.terminate(
@@ -143,7 +143,7 @@ class TestEmployees:
         employee = response.parse()
         assert employee is None
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_streaming_response_terminate(self, client: VitableConnect) -> None:
         with client.employees.with_streaming_response.terminate(
@@ -157,7 +157,7 @@ class TestEmployees:
 
         assert cast(Any, response.is_closed) is True
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_path_params_terminate(self, client: VitableConnect) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `employee_id` but received ''"):
@@ -171,7 +171,7 @@ class TestAsyncEmployees:
         "async_client", [False, True, {"http_client": "aiohttp"}], indirect=True, ids=["loose", "strict", "aiohttp"]
     )
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_method_retrieve(self, async_client: AsyncVitableConnect) -> None:
         employee = await async_client.employees.retrieve(
@@ -179,7 +179,7 @@ class TestAsyncEmployees:
         )
         assert_matches_type(EmployeeResponse, employee, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_raw_response_retrieve(self, async_client: AsyncVitableConnect) -> None:
         response = await async_client.employees.with_raw_response.retrieve(
@@ -191,7 +191,7 @@ class TestAsyncEmployees:
         employee = await response.parse()
         assert_matches_type(EmployeeResponse, employee, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_streaming_response_retrieve(self, async_client: AsyncVitableConnect) -> None:
         async with async_client.employees.with_streaming_response.retrieve(
@@ -205,7 +205,7 @@ class TestAsyncEmployees:
 
         assert cast(Any, response.is_closed) is True
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_path_params_retrieve(self, async_client: AsyncVitableConnect) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `employee_id` but received ''"):
@@ -213,7 +213,7 @@ class TestAsyncEmployees:
                 "",
             )
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_method_update(self, async_client: AsyncVitableConnect) -> None:
         employee = await async_client.employees.update(
@@ -221,7 +221,7 @@ class TestAsyncEmployees:
         )
         assert_matches_type(EmployeeResponse, employee, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_method_update_with_all_params(self, async_client: AsyncVitableConnect) -> None:
         employee = await async_client.employees.update(
@@ -242,7 +242,7 @@ class TestAsyncEmployees:
         )
         assert_matches_type(EmployeeResponse, employee, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_raw_response_update(self, async_client: AsyncVitableConnect) -> None:
         response = await async_client.employees.with_raw_response.update(
@@ -254,7 +254,7 @@ class TestAsyncEmployees:
         employee = await response.parse()
         assert_matches_type(EmployeeResponse, employee, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_streaming_response_update(self, async_client: AsyncVitableConnect) -> None:
         async with async_client.employees.with_streaming_response.update(
@@ -268,7 +268,7 @@ class TestAsyncEmployees:
 
         assert cast(Any, response.is_closed) is True
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_path_params_update(self, async_client: AsyncVitableConnect) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `employee_id` but received ''"):
@@ -276,7 +276,7 @@ class TestAsyncEmployees:
                 employee_id="",
             )
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_method_terminate(self, async_client: AsyncVitableConnect) -> None:
         employee = await async_client.employees.terminate(
@@ -284,7 +284,7 @@ class TestAsyncEmployees:
         )
         assert employee is None
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_raw_response_terminate(self, async_client: AsyncVitableConnect) -> None:
         response = await async_client.employees.with_raw_response.terminate(
@@ -296,7 +296,7 @@ class TestAsyncEmployees:
         employee = await response.parse()
         assert employee is None
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_streaming_response_terminate(self, async_client: AsyncVitableConnect) -> None:
         async with async_client.employees.with_streaming_response.terminate(
@@ -310,7 +310,7 @@ class TestAsyncEmployees:
 
         assert cast(Any, response.is_closed) is True
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_path_params_terminate(self, async_client: AsyncVitableConnect) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `employee_id` but received ''"):
