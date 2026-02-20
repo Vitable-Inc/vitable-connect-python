@@ -17,7 +17,7 @@ base_url = os.environ.get("TEST_API_BASE_URL", "http://127.0.0.1:4010")
 class TestDependents:
     parametrize = pytest.mark.parametrize("client", [False, True], indirect=True, ids=["loose", "strict"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_method_retrieve(self, client: VitableConnect) -> None:
         dependent = client.dependents.retrieve(
@@ -25,7 +25,7 @@ class TestDependents:
         )
         assert_matches_type(DependentResponse, dependent, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_raw_response_retrieve(self, client: VitableConnect) -> None:
         response = client.dependents.with_raw_response.retrieve(
@@ -37,7 +37,7 @@ class TestDependents:
         dependent = response.parse()
         assert_matches_type(DependentResponse, dependent, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_streaming_response_retrieve(self, client: VitableConnect) -> None:
         with client.dependents.with_streaming_response.retrieve(
@@ -51,7 +51,7 @@ class TestDependents:
 
         assert cast(Any, response.is_closed) is True
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_path_params_retrieve(self, client: VitableConnect) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `dependent_id` but received ''"):
@@ -59,7 +59,7 @@ class TestDependents:
                 "",
             )
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_method_update(self, client: VitableConnect) -> None:
         dependent = client.dependents.update(
@@ -67,7 +67,7 @@ class TestDependents:
         )
         assert_matches_type(DependentResponse, dependent, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_method_update_with_all_params(self, client: VitableConnect) -> None:
         dependent = client.dependents.update(
@@ -78,7 +78,7 @@ class TestDependents:
         )
         assert_matches_type(DependentResponse, dependent, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_raw_response_update(self, client: VitableConnect) -> None:
         response = client.dependents.with_raw_response.update(
@@ -90,7 +90,7 @@ class TestDependents:
         dependent = response.parse()
         assert_matches_type(DependentResponse, dependent, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_streaming_response_update(self, client: VitableConnect) -> None:
         with client.dependents.with_streaming_response.update(
@@ -104,7 +104,7 @@ class TestDependents:
 
         assert cast(Any, response.is_closed) is True
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_path_params_update(self, client: VitableConnect) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `dependent_id` but received ''"):
@@ -118,7 +118,7 @@ class TestAsyncDependents:
         "async_client", [False, True, {"http_client": "aiohttp"}], indirect=True, ids=["loose", "strict", "aiohttp"]
     )
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_method_retrieve(self, async_client: AsyncVitableConnect) -> None:
         dependent = await async_client.dependents.retrieve(
@@ -126,7 +126,7 @@ class TestAsyncDependents:
         )
         assert_matches_type(DependentResponse, dependent, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_raw_response_retrieve(self, async_client: AsyncVitableConnect) -> None:
         response = await async_client.dependents.with_raw_response.retrieve(
@@ -138,7 +138,7 @@ class TestAsyncDependents:
         dependent = await response.parse()
         assert_matches_type(DependentResponse, dependent, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_streaming_response_retrieve(self, async_client: AsyncVitableConnect) -> None:
         async with async_client.dependents.with_streaming_response.retrieve(
@@ -152,7 +152,7 @@ class TestAsyncDependents:
 
         assert cast(Any, response.is_closed) is True
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_path_params_retrieve(self, async_client: AsyncVitableConnect) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `dependent_id` but received ''"):
@@ -160,7 +160,7 @@ class TestAsyncDependents:
                 "",
             )
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_method_update(self, async_client: AsyncVitableConnect) -> None:
         dependent = await async_client.dependents.update(
@@ -168,7 +168,7 @@ class TestAsyncDependents:
         )
         assert_matches_type(DependentResponse, dependent, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_method_update_with_all_params(self, async_client: AsyncVitableConnect) -> None:
         dependent = await async_client.dependents.update(
@@ -179,7 +179,7 @@ class TestAsyncDependents:
         )
         assert_matches_type(DependentResponse, dependent, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_raw_response_update(self, async_client: AsyncVitableConnect) -> None:
         response = await async_client.dependents.with_raw_response.update(
@@ -191,7 +191,7 @@ class TestAsyncDependents:
         dependent = await response.parse()
         assert_matches_type(DependentResponse, dependent, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_streaming_response_update(self, async_client: AsyncVitableConnect) -> None:
         async with async_client.dependents.with_streaming_response.update(
@@ -205,7 +205,7 @@ class TestAsyncDependents:
 
         assert cast(Any, response.is_closed) is True
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_path_params_update(self, async_client: AsyncVitableConnect) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `dependent_id` but received ''"):

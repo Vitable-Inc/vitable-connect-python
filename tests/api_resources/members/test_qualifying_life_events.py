@@ -21,7 +21,7 @@ base_url = os.environ.get("TEST_API_BASE_URL", "http://127.0.0.1:4010")
 class TestQualifyingLifeEvents:
     parametrize = pytest.mark.parametrize("client", [False, True], indirect=True, ids=["loose", "strict"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_method_retrieve(self, client: VitableConnect) -> None:
         qualifying_life_event = client.members.qualifying_life_events.retrieve(
@@ -30,7 +30,7 @@ class TestQualifyingLifeEvents:
         )
         assert_matches_type(QualifyingLifeEventResponse, qualifying_life_event, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_raw_response_retrieve(self, client: VitableConnect) -> None:
         response = client.members.qualifying_life_events.with_raw_response.retrieve(
@@ -43,7 +43,7 @@ class TestQualifyingLifeEvents:
         qualifying_life_event = response.parse()
         assert_matches_type(QualifyingLifeEventResponse, qualifying_life_event, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_streaming_response_retrieve(self, client: VitableConnect) -> None:
         with client.members.qualifying_life_events.with_streaming_response.retrieve(
@@ -58,7 +58,7 @@ class TestQualifyingLifeEvents:
 
         assert cast(Any, response.is_closed) is True
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_path_params_retrieve(self, client: VitableConnect) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `member_id` but received ''"):
@@ -73,7 +73,7 @@ class TestQualifyingLifeEvents:
                 member_id="mbr_abc123def456",
             )
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_method_list(self, client: VitableConnect) -> None:
         qualifying_life_event = client.members.qualifying_life_events.list(
@@ -81,7 +81,7 @@ class TestQualifyingLifeEvents:
         )
         assert_matches_type(QualifyingLifeEventListResponse, qualifying_life_event, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_method_list_with_all_params(self, client: VitableConnect) -> None:
         qualifying_life_event = client.members.qualifying_life_events.list(
@@ -93,7 +93,7 @@ class TestQualifyingLifeEvents:
         )
         assert_matches_type(QualifyingLifeEventListResponse, qualifying_life_event, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_raw_response_list(self, client: VitableConnect) -> None:
         response = client.members.qualifying_life_events.with_raw_response.list(
@@ -105,7 +105,7 @@ class TestQualifyingLifeEvents:
         qualifying_life_event = response.parse()
         assert_matches_type(QualifyingLifeEventListResponse, qualifying_life_event, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_streaming_response_list(self, client: VitableConnect) -> None:
         with client.members.qualifying_life_events.with_streaming_response.list(
@@ -119,7 +119,7 @@ class TestQualifyingLifeEvents:
 
         assert cast(Any, response.is_closed) is True
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_path_params_list(self, client: VitableConnect) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `member_id` but received ''"):
@@ -127,7 +127,7 @@ class TestQualifyingLifeEvents:
                 member_id="",
             )
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_method_record(self, client: VitableConnect) -> None:
         qualifying_life_event = client.members.qualifying_life_events.record(
@@ -137,7 +137,7 @@ class TestQualifyingLifeEvents:
         )
         assert_matches_type(QualifyingLifeEventResponse, qualifying_life_event, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_method_record_with_all_params(self, client: VitableConnect) -> None:
         qualifying_life_event = client.members.qualifying_life_events.record(
@@ -148,7 +148,7 @@ class TestQualifyingLifeEvents:
         )
         assert_matches_type(QualifyingLifeEventResponse, qualifying_life_event, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_raw_response_record(self, client: VitableConnect) -> None:
         response = client.members.qualifying_life_events.with_raw_response.record(
@@ -162,7 +162,7 @@ class TestQualifyingLifeEvents:
         qualifying_life_event = response.parse()
         assert_matches_type(QualifyingLifeEventResponse, qualifying_life_event, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_streaming_response_record(self, client: VitableConnect) -> None:
         with client.members.qualifying_life_events.with_streaming_response.record(
@@ -178,7 +178,7 @@ class TestQualifyingLifeEvents:
 
         assert cast(Any, response.is_closed) is True
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_path_params_record(self, client: VitableConnect) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `member_id` but received ''"):
@@ -194,7 +194,7 @@ class TestAsyncQualifyingLifeEvents:
         "async_client", [False, True, {"http_client": "aiohttp"}], indirect=True, ids=["loose", "strict", "aiohttp"]
     )
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_method_retrieve(self, async_client: AsyncVitableConnect) -> None:
         qualifying_life_event = await async_client.members.qualifying_life_events.retrieve(
@@ -203,7 +203,7 @@ class TestAsyncQualifyingLifeEvents:
         )
         assert_matches_type(QualifyingLifeEventResponse, qualifying_life_event, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_raw_response_retrieve(self, async_client: AsyncVitableConnect) -> None:
         response = await async_client.members.qualifying_life_events.with_raw_response.retrieve(
@@ -216,7 +216,7 @@ class TestAsyncQualifyingLifeEvents:
         qualifying_life_event = await response.parse()
         assert_matches_type(QualifyingLifeEventResponse, qualifying_life_event, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_streaming_response_retrieve(self, async_client: AsyncVitableConnect) -> None:
         async with async_client.members.qualifying_life_events.with_streaming_response.retrieve(
@@ -231,7 +231,7 @@ class TestAsyncQualifyingLifeEvents:
 
         assert cast(Any, response.is_closed) is True
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_path_params_retrieve(self, async_client: AsyncVitableConnect) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `member_id` but received ''"):
@@ -246,7 +246,7 @@ class TestAsyncQualifyingLifeEvents:
                 member_id="mbr_abc123def456",
             )
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_method_list(self, async_client: AsyncVitableConnect) -> None:
         qualifying_life_event = await async_client.members.qualifying_life_events.list(
@@ -254,7 +254,7 @@ class TestAsyncQualifyingLifeEvents:
         )
         assert_matches_type(QualifyingLifeEventListResponse, qualifying_life_event, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_method_list_with_all_params(self, async_client: AsyncVitableConnect) -> None:
         qualifying_life_event = await async_client.members.qualifying_life_events.list(
@@ -266,7 +266,7 @@ class TestAsyncQualifyingLifeEvents:
         )
         assert_matches_type(QualifyingLifeEventListResponse, qualifying_life_event, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_raw_response_list(self, async_client: AsyncVitableConnect) -> None:
         response = await async_client.members.qualifying_life_events.with_raw_response.list(
@@ -278,7 +278,7 @@ class TestAsyncQualifyingLifeEvents:
         qualifying_life_event = await response.parse()
         assert_matches_type(QualifyingLifeEventListResponse, qualifying_life_event, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_streaming_response_list(self, async_client: AsyncVitableConnect) -> None:
         async with async_client.members.qualifying_life_events.with_streaming_response.list(
@@ -292,7 +292,7 @@ class TestAsyncQualifyingLifeEvents:
 
         assert cast(Any, response.is_closed) is True
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_path_params_list(self, async_client: AsyncVitableConnect) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `member_id` but received ''"):
@@ -300,7 +300,7 @@ class TestAsyncQualifyingLifeEvents:
                 member_id="",
             )
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_method_record(self, async_client: AsyncVitableConnect) -> None:
         qualifying_life_event = await async_client.members.qualifying_life_events.record(
@@ -310,7 +310,7 @@ class TestAsyncQualifyingLifeEvents:
         )
         assert_matches_type(QualifyingLifeEventResponse, qualifying_life_event, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_method_record_with_all_params(self, async_client: AsyncVitableConnect) -> None:
         qualifying_life_event = await async_client.members.qualifying_life_events.record(
@@ -321,7 +321,7 @@ class TestAsyncQualifyingLifeEvents:
         )
         assert_matches_type(QualifyingLifeEventResponse, qualifying_life_event, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_raw_response_record(self, async_client: AsyncVitableConnect) -> None:
         response = await async_client.members.qualifying_life_events.with_raw_response.record(
@@ -335,7 +335,7 @@ class TestAsyncQualifyingLifeEvents:
         qualifying_life_event = await response.parse()
         assert_matches_type(QualifyingLifeEventResponse, qualifying_life_event, path=["response"])
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_streaming_response_record(self, async_client: AsyncVitableConnect) -> None:
         async with async_client.members.qualifying_life_events.with_streaming_response.record(
@@ -351,7 +351,7 @@ class TestAsyncQualifyingLifeEvents:
 
         assert cast(Any, response.is_closed) is True
 
-    @pytest.mark.skip(reason="Prism tests are disabled")
+    @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_path_params_record(self, async_client: AsyncVitableConnect) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `member_id` but received ''"):
