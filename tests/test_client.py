@@ -977,6 +977,8 @@ class TestVitableConnect:
     def test_proxy_environment_variables(self, monkeypatch: pytest.MonkeyPatch) -> None:
         # Test that the proxy environment variables are set correctly
         monkeypatch.setenv("HTTPS_PROXY", "https://example.org")
+        # Delete in case our environment has this set
+        monkeypatch.delenv("HTTP_PROXY", raising=False)
 
         client = DefaultHttpxClient()
 
@@ -1907,6 +1909,8 @@ class TestAsyncVitableConnect:
     async def test_proxy_environment_variables(self, monkeypatch: pytest.MonkeyPatch) -> None:
         # Test that the proxy environment variables are set correctly
         monkeypatch.setenv("HTTPS_PROXY", "https://example.org")
+        # Delete in case our environment has this set
+        monkeypatch.delenv("HTTP_PROXY", raising=False)
 
         client = DefaultAsyncHttpxClient()
 
