@@ -25,6 +25,8 @@ __all__ = ["EnrollmentsResource", "AsyncEnrollmentsResource"]
 
 
 class EnrollmentsResource(SyncAPIResource):
+    """Manage benefit enrollments and elections for employees"""
+
     @cached_property
     def with_raw_response(self) -> EnrollmentsResourceWithRawResponse:
         """
@@ -157,6 +159,8 @@ class EnrollmentsResource(SyncAPIResource):
 
 
 class AsyncEnrollmentsResource(AsyncAPIResource):
+    """Manage benefit enrollments and elections for employees"""
+
     @cached_property
     def with_raw_response(self) -> AsyncEnrollmentsResourceWithRawResponse:
         """

@@ -32,8 +32,11 @@ __all__ = ["BenefitProductsResource", "AsyncBenefitProductsResource"]
 
 
 class BenefitProductsResource(SyncAPIResource):
+    """Browse available benefit products that can be offered to employers"""
+
     @cached_property
     def plan_years(self) -> PlanYearsResource:
+        """Configure annual benefit periods with coverage dates and contribution settings"""
         return PlanYearsResource(self._client)
 
     @cached_property
@@ -117,8 +120,11 @@ class BenefitProductsResource(SyncAPIResource):
 
 
 class AsyncBenefitProductsResource(AsyncAPIResource):
+    """Browse available benefit products that can be offered to employers"""
+
     @cached_property
     def plan_years(self) -> AsyncPlanYearsResource:
+        """Configure annual benefit periods with coverage dates and contribution settings"""
         return AsyncPlanYearsResource(self._client)
 
     @cached_property
@@ -211,6 +217,7 @@ class BenefitProductsResourceWithRawResponse:
 
     @cached_property
     def plan_years(self) -> PlanYearsResourceWithRawResponse:
+        """Configure annual benefit periods with coverage dates and contribution settings"""
         return PlanYearsResourceWithRawResponse(self._benefit_products.plan_years)
 
 
@@ -224,6 +231,7 @@ class AsyncBenefitProductsResourceWithRawResponse:
 
     @cached_property
     def plan_years(self) -> AsyncPlanYearsResourceWithRawResponse:
+        """Configure annual benefit periods with coverage dates and contribution settings"""
         return AsyncPlanYearsResourceWithRawResponse(self._benefit_products.plan_years)
 
 
@@ -237,6 +245,7 @@ class BenefitProductsResourceWithStreamingResponse:
 
     @cached_property
     def plan_years(self) -> PlanYearsResourceWithStreamingResponse:
+        """Configure annual benefit periods with coverage dates and contribution settings"""
         return PlanYearsResourceWithStreamingResponse(self._benefit_products.plan_years)
 
 
@@ -250,4 +259,5 @@ class AsyncBenefitProductsResourceWithStreamingResponse:
 
     @cached_property
     def plan_years(self) -> AsyncPlanYearsResourceWithStreamingResponse:
+        """Configure annual benefit periods with coverage dates and contribution settings"""
         return AsyncPlanYearsResourceWithStreamingResponse(self._benefit_products.plan_years)

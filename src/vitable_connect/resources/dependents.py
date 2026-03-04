@@ -26,6 +26,8 @@ __all__ = ["DependentsResource", "AsyncDependentsResource"]
 
 
 class DependentsResource(SyncAPIResource):
+    """Manage dependent records (spouses, children) for employees"""
+
     @cached_property
     def with_raw_response(self) -> DependentsResourceWithRawResponse:
         """
@@ -140,6 +142,8 @@ class DependentsResource(SyncAPIResource):
 
 
 class AsyncDependentsResource(AsyncAPIResource):
+    """Manage dependent records (spouses, children) for employees"""
+
     @cached_property
     def with_raw_response(self) -> AsyncDependentsResourceWithRawResponse:
         """

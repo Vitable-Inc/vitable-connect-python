@@ -33,6 +33,8 @@ __all__ = ["QualifyingLifeEventsResource", "AsyncQualifyingLifeEventsResource"]
 
 
 class QualifyingLifeEventsResource(SyncAPIResource):
+    """Record life events that trigger special enrollment periods"""
+
     @cached_property
     def with_raw_response(self) -> QualifyingLifeEventsResourceWithRawResponse:
         """
@@ -223,6 +225,8 @@ class QualifyingLifeEventsResource(SyncAPIResource):
 
 
 class AsyncQualifyingLifeEventsResource(AsyncAPIResource):
+    """Record life events that trigger special enrollment periods"""
+
     @cached_property
     def with_raw_response(self) -> AsyncQualifyingLifeEventsResourceWithRawResponse:
         """

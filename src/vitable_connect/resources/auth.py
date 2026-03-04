@@ -25,6 +25,8 @@ __all__ = ["AuthResource", "AsyncAuthResource"]
 
 
 class AuthResource(SyncAPIResource):
+    """Issue short-lived access tokens for scoped API access"""
+
     @cached_property
     def with_raw_response(self) -> AuthResourceWithRawResponse:
         """
@@ -92,6 +94,8 @@ class AuthResource(SyncAPIResource):
 
 
 class AsyncAuthResource(AsyncAPIResource):
+    """Issue short-lived access tokens for scoped API access"""
+
     @cached_property
     def with_raw_response(self) -> AsyncAuthResourceWithRawResponse:
         """

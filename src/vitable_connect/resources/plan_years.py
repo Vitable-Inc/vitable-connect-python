@@ -25,6 +25,8 @@ __all__ = ["PlanYearsResource", "AsyncPlanYearsResource"]
 
 
 class PlanYearsResource(SyncAPIResource):
+    """Configure annual benefit periods with coverage dates and contribution settings"""
+
     @cached_property
     def with_raw_response(self) -> PlanYearsResourceWithRawResponse:
         """
@@ -143,6 +145,8 @@ class PlanYearsResource(SyncAPIResource):
 
 
 class AsyncPlanYearsResource(AsyncAPIResource):
+    """Configure annual benefit periods with coverage dates and contribution settings"""
+
     @cached_property
     def with_raw_response(self) -> AsyncPlanYearsResourceWithRawResponse:
         """

@@ -42,6 +42,7 @@ __all__ = ["EmployersResource", "AsyncEmployersResource"]
 class EmployersResource(SyncAPIResource):
     @cached_property
     def employees(self) -> EmployeesResource:
+        """Manage employee records for employers"""
         return EmployeesResource(self._client)
 
     @cached_property
@@ -348,6 +349,7 @@ class EmployersResource(SyncAPIResource):
 class AsyncEmployersResource(AsyncAPIResource):
     @cached_property
     def employees(self) -> AsyncEmployeesResource:
+        """Manage employee records for employers"""
         return AsyncEmployeesResource(self._client)
 
     @cached_property
@@ -673,6 +675,7 @@ class EmployersResourceWithRawResponse:
 
     @cached_property
     def employees(self) -> EmployeesResourceWithRawResponse:
+        """Manage employee records for employers"""
         return EmployeesResourceWithRawResponse(self._employers.employees)
 
 
@@ -698,6 +701,7 @@ class AsyncEmployersResourceWithRawResponse:
 
     @cached_property
     def employees(self) -> AsyncEmployeesResourceWithRawResponse:
+        """Manage employee records for employers"""
         return AsyncEmployeesResourceWithRawResponse(self._employers.employees)
 
 
@@ -723,6 +727,7 @@ class EmployersResourceWithStreamingResponse:
 
     @cached_property
     def employees(self) -> EmployeesResourceWithStreamingResponse:
+        """Manage employee records for employers"""
         return EmployeesResourceWithStreamingResponse(self._employers.employees)
 
 
@@ -748,4 +753,5 @@ class AsyncEmployersResourceWithStreamingResponse:
 
     @cached_property
     def employees(self) -> AsyncEmployeesResourceWithStreamingResponse:
+        """Manage employee records for employers"""
         return AsyncEmployeesResourceWithStreamingResponse(self._employers.employees)

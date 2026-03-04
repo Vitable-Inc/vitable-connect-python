@@ -35,8 +35,11 @@ __all__ = ["EmployeesResource", "AsyncEmployeesResource"]
 
 
 class EmployeesResource(SyncAPIResource):
+    """Manage employee records for employers"""
+
     @cached_property
     def enrollments(self) -> EnrollmentsResource:
+        """Manage benefit enrollments and elections for employees"""
         return EnrollmentsResource(self._client)
 
     @cached_property
@@ -208,8 +211,11 @@ class EmployeesResource(SyncAPIResource):
 
 
 class AsyncEmployeesResource(AsyncAPIResource):
+    """Manage employee records for employers"""
+
     @cached_property
     def enrollments(self) -> AsyncEnrollmentsResource:
+        """Manage benefit enrollments and elections for employees"""
         return AsyncEnrollmentsResource(self._client)
 
     @cached_property
@@ -396,6 +402,7 @@ class EmployeesResourceWithRawResponse:
 
     @cached_property
     def enrollments(self) -> EnrollmentsResourceWithRawResponse:
+        """Manage benefit enrollments and elections for employees"""
         return EnrollmentsResourceWithRawResponse(self._employees.enrollments)
 
 
@@ -415,6 +422,7 @@ class AsyncEmployeesResourceWithRawResponse:
 
     @cached_property
     def enrollments(self) -> AsyncEnrollmentsResourceWithRawResponse:
+        """Manage benefit enrollments and elections for employees"""
         return AsyncEnrollmentsResourceWithRawResponse(self._employees.enrollments)
 
 
@@ -434,6 +442,7 @@ class EmployeesResourceWithStreamingResponse:
 
     @cached_property
     def enrollments(self) -> EnrollmentsResourceWithStreamingResponse:
+        """Manage benefit enrollments and elections for employees"""
         return EnrollmentsResourceWithStreamingResponse(self._employees.enrollments)
 
 
@@ -453,4 +462,5 @@ class AsyncEmployeesResourceWithStreamingResponse:
 
     @cached_property
     def enrollments(self) -> AsyncEnrollmentsResourceWithStreamingResponse:
+        """Manage benefit enrollments and elections for employees"""
         return AsyncEnrollmentsResourceWithStreamingResponse(self._employees.enrollments)

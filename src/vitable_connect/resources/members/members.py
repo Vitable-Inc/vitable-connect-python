@@ -27,10 +27,12 @@ __all__ = ["MembersResource", "AsyncMembersResource"]
 class MembersResource(SyncAPIResource):
     @cached_property
     def dependents(self) -> DependentsResource:
+        """Manage dependent records (spouses, children) for employees"""
         return DependentsResource(self._client)
 
     @cached_property
     def qualifying_life_events(self) -> QualifyingLifeEventsResource:
+        """Record life events that trigger special enrollment periods"""
         return QualifyingLifeEventsResource(self._client)
 
     @cached_property
@@ -56,10 +58,12 @@ class MembersResource(SyncAPIResource):
 class AsyncMembersResource(AsyncAPIResource):
     @cached_property
     def dependents(self) -> AsyncDependentsResource:
+        """Manage dependent records (spouses, children) for employees"""
         return AsyncDependentsResource(self._client)
 
     @cached_property
     def qualifying_life_events(self) -> AsyncQualifyingLifeEventsResource:
+        """Record life events that trigger special enrollment periods"""
         return AsyncQualifyingLifeEventsResource(self._client)
 
     @cached_property
@@ -88,10 +92,12 @@ class MembersResourceWithRawResponse:
 
     @cached_property
     def dependents(self) -> DependentsResourceWithRawResponse:
+        """Manage dependent records (spouses, children) for employees"""
         return DependentsResourceWithRawResponse(self._members.dependents)
 
     @cached_property
     def qualifying_life_events(self) -> QualifyingLifeEventsResourceWithRawResponse:
+        """Record life events that trigger special enrollment periods"""
         return QualifyingLifeEventsResourceWithRawResponse(self._members.qualifying_life_events)
 
 
@@ -101,10 +107,12 @@ class AsyncMembersResourceWithRawResponse:
 
     @cached_property
     def dependents(self) -> AsyncDependentsResourceWithRawResponse:
+        """Manage dependent records (spouses, children) for employees"""
         return AsyncDependentsResourceWithRawResponse(self._members.dependents)
 
     @cached_property
     def qualifying_life_events(self) -> AsyncQualifyingLifeEventsResourceWithRawResponse:
+        """Record life events that trigger special enrollment periods"""
         return AsyncQualifyingLifeEventsResourceWithRawResponse(self._members.qualifying_life_events)
 
 
@@ -114,10 +122,12 @@ class MembersResourceWithStreamingResponse:
 
     @cached_property
     def dependents(self) -> DependentsResourceWithStreamingResponse:
+        """Manage dependent records (spouses, children) for employees"""
         return DependentsResourceWithStreamingResponse(self._members.dependents)
 
     @cached_property
     def qualifying_life_events(self) -> QualifyingLifeEventsResourceWithStreamingResponse:
+        """Record life events that trigger special enrollment periods"""
         return QualifyingLifeEventsResourceWithStreamingResponse(self._members.qualifying_life_events)
 
 
@@ -127,8 +137,10 @@ class AsyncMembersResourceWithStreamingResponse:
 
     @cached_property
     def dependents(self) -> AsyncDependentsResourceWithStreamingResponse:
+        """Manage dependent records (spouses, children) for employees"""
         return AsyncDependentsResourceWithStreamingResponse(self._members.dependents)
 
     @cached_property
     def qualifying_life_events(self) -> AsyncQualifyingLifeEventsResourceWithStreamingResponse:
+        """Record life events that trigger special enrollment periods"""
         return AsyncQualifyingLifeEventsResourceWithStreamingResponse(self._members.qualifying_life_events)
