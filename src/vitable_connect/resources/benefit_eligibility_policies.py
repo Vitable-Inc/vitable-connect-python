@@ -20,6 +20,8 @@ __all__ = ["BenefitEligibilityPoliciesResource", "AsyncBenefitEligibilityPolicie
 
 
 class BenefitEligibilityPoliciesResource(SyncAPIResource):
+    """Define rules that determine which employees qualify for benefits"""
+
     @cached_property
     def with_raw_response(self) -> BenefitEligibilityPoliciesResourceWithRawResponse:
         """
@@ -79,6 +81,8 @@ class BenefitEligibilityPoliciesResource(SyncAPIResource):
 
 
 class AsyncBenefitEligibilityPoliciesResource(AsyncAPIResource):
+    """Define rules that determine which employees qualify for benefits"""
+
     @cached_property
     def with_raw_response(self) -> AsyncBenefitEligibilityPoliciesResourceWithRawResponse:
         """

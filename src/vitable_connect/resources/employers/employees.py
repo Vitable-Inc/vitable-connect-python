@@ -28,6 +28,8 @@ __all__ = ["EmployeesResource", "AsyncEmployeesResource"]
 
 
 class EmployeesResource(SyncAPIResource):
+    """Manage employee records for employers"""
+
     @cached_property
     def with_raw_response(self) -> EmployeesResourceWithRawResponse:
         """
@@ -211,6 +213,8 @@ class EmployeesResource(SyncAPIResource):
 
 
 class AsyncEmployeesResource(AsyncAPIResource):
+    """Manage employee records for employers"""
+
     @cached_property
     def with_raw_response(self) -> AsyncEmployeesResourceWithRawResponse:
         """
