@@ -7,7 +7,7 @@ from datetime import date
 from typing_extensions import Required, Annotated, TypedDict
 
 from .._utils import PropertyInfo
-from .employers.employee_class import EmployeeClass
+from .employee_class import EmployeeClass
 
 __all__ = ["EmployeeUpdateParams", "Address"]
 

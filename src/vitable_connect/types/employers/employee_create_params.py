@@ -6,9 +6,9 @@ from typing import Union, Optional
 from datetime import date
 from typing_extensions import Required, Annotated, TypedDict
 
-from .sex import Sex
+from ..sex import Sex
 from ..._utils import PropertyInfo
-from .employee_class import EmployeeClass
+from ..employee_class import EmployeeClass
 
 __all__ = ["EmployeeCreateParams", "Address"]
 

@@ -4,9 +4,9 @@ from typing import List, Optional
 from datetime import date, datetime
 
 from .._models import BaseModel
+from .relationship import Relationship
 from .coverage_tier import CoverageTier
-from .members.relationship import Relationship
-from .employees.enrollment_status import EnrollmentStatus
+from .enrollment_status import EnrollmentStatus
 
 __all__ = ["Enrollment", "EnrolledDependent"]
 

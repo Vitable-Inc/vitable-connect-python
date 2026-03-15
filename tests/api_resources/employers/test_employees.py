@@ -11,9 +11,7 @@ from tests.utils import assert_matches_type
 from vitable_connect import VitableConnect, AsyncVitableConnect
 from vitable_connect.types import EmployeeResponse
 from vitable_connect._utils import parse_date
-from vitable_connect.types.employers import (
-    EmployeeListResponse,
-)
+from vitable_connect.types.employers import EmployeeListResponse
 
 base_url = os.environ.get("TEST_API_BASE_URL", "http://127.0.0.1:4010")
 

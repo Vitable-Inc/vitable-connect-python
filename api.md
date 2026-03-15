@@ -57,7 +57,7 @@ Methods:
 Types:
 
 ```python
-from vitable_connect.types import Dependent, DependentResponse
+from vitable_connect.types import Dependent, DependentResponse, Relationship
 ```
 
 Methods:
@@ -70,7 +70,7 @@ Methods:
 Types:
 
 ```python
-from vitable_connect.types import Employee, EmployeeResponse
+from vitable_connect.types import Employee, EmployeeClass, EmployeeResponse, Sex
 ```
 
 Methods:
@@ -84,7 +84,7 @@ Methods:
 Types:
 
 ```python
-from vitable_connect.types.employees import EnrollmentList, EnrollmentStatus
+from vitable_connect.types.employees import EnrollmentList
 ```
 
 Methods:
@@ -113,7 +113,7 @@ Methods:
 Types:
 
 ```python
-from vitable_connect.types.employers import EmployeeClass, Sex, EmployeeListResponse
+from vitable_connect.types.employers import EmployeeListResponse
 ```
 
 Methods:
@@ -130,6 +130,7 @@ from vitable_connect.types import (
     CoverageTier,
     Enrollment,
     EnrollmentResponse,
+    EnrollmentStatus,
     PlanTier,
     EnrollmentListPlansResponse,
 )
@@ -148,7 +149,7 @@ Methods:
 Types:
 
 ```python
-from vitable_connect.types.members import Relationship, DependentListResponse
+from vitable_connect.types.members import DependentListResponse
 ```
 
 Methods:

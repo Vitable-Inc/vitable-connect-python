@@ -7,6 +7,7 @@ from datetime import date
 
 import httpx
 
+from ...types import Sex, Relationship
 from ..._types import Body, Omit, Query, Headers, NotGiven, omit, not_given
 from ..._utils import maybe_transform, async_maybe_transform
 from ..._compat import cached_property
@@ -17,12 +18,11 @@ from ..._response import (
     async_to_raw_response_wrapper,
     async_to_streamed_response_wrapper,
 )
+from ...types.sex import Sex
 from ..._base_client import make_request_options
-from ...types.members import Relationship, dependent_list_params, dependent_create_params
-from ...types.employers import Sex
-from ...types.employers.sex import Sex
+from ...types.members import dependent_list_params, dependent_create_params
+from ...types.relationship import Relationship
 from ...types.dependent_response import DependentResponse
-from ...types.members.relationship import Relationship
 from ...types.members.dependent_list_response import DependentListResponse
 
 __all__ = ["DependentsResource", "AsyncDependentsResource"]

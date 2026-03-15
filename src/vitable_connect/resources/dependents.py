@@ -6,7 +6,7 @@ from typing import Optional
 
 import httpx
 
-from ..types import dependent_update_params
+from ..types import Relationship, dependent_update_params
 from .._types import Body, Omit, Query, Headers, NotGiven, omit, not_given
 from .._utils import maybe_transform, async_maybe_transform
 from .._compat import cached_property
@@ -18,9 +18,8 @@ from .._response import (
     async_to_streamed_response_wrapper,
 )
 from .._base_client import make_request_options
-from ..types.members import Relationship
+from ..types.relationship import Relationship
 from ..types.dependent_response import DependentResponse
-from ..types.members.relationship import Relationship
 
 __all__ = ["DependentsResource", "AsyncDependentsResource"]
 
