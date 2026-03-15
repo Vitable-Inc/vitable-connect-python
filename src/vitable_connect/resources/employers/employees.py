@@ -7,6 +7,7 @@ from datetime import date
 
 import httpx
 
+from ...types import Sex, EmployeeClass
 from ..._types import Body, Omit, Query, Headers, NotGiven, omit, not_given
 from ..._utils import maybe_transform, async_maybe_transform
 from ..._compat import cached_property
@@ -17,24 +18,26 @@ from ..._response import (
     async_to_raw_response_wrapper,
     async_to_streamed_response_wrapper,
 )
+from ...types.sex import Sex
 from ..._base_client import make_request_options
-from ...types.employers import Sex, EmployeeClass, employee_list_params, employee_create_params
-from ...types.employers.sex import Sex
+from ...types.employers import employee_list_params, employee_create_params
+from ...types.employee_class import EmployeeClass
 from ...types.employee_response import EmployeeResponse
-from ...types.employers.employee_class import EmployeeClass
 from ...types.employers.employee_list_response import EmployeeListResponse
 
 __all__ = ["EmployeesResource", "AsyncEmployeesResource"]
 
 
 class EmployeesResource(SyncAPIResource):
+    """Manage employee records for employers"""
+
     @cached_property
     def with_raw_response(self) -> EmployeesResourceWithRawResponse:
         """
         This property can be used as a prefix for any HTTP method call to return
         the raw response object instead of the parsed content.
 
-        For more information, see https://www.github.com/stainless-sdks/vitable-connect-python#accessing-raw-response-data-eg-headers
+        For more information, see https://www.github.com/Vitable-Inc/vitable-connect-python#accessing-raw-response-data-eg-headers
         """
         return EmployeesResourceWithRawResponse(self)
 
@@ -43,7 +46,7 @@ class EmployeesResource(SyncAPIResource):
         """
         An alternative to `.with_raw_response` that doesn't eagerly read the response body.
 
-        For more information, see https://www.github.com/stainless-sdks/vitable-connect-python#with_streaming_response
+        For more information, see https://www.github.com/Vitable-Inc/vitable-connect-python#with_streaming_response
         """
         return EmployeesResourceWithStreamingResponse(self)
 
@@ -211,13 +214,15 @@ class EmployeesResource(SyncAPIResource):
 
 
 class AsyncEmployeesResource(AsyncAPIResource):
+    """Manage employee records for employers"""
+
     @cached_property
     def with_raw_response(self) -> AsyncEmployeesResourceWithRawResponse:
         """
         This property can be used as a prefix for any HTTP method call to return
         the raw response object instead of the parsed content.
 
-        For more information, see https://www.github.com/stainless-sdks/vitable-connect-python#accessing-raw-response-data-eg-headers
+        For more information, see https://www.github.com/Vitable-Inc/vitable-connect-python#accessing-raw-response-data-eg-headers
         """
         return AsyncEmployeesResourceWithRawResponse(self)
 
@@ -226,7 +231,7 @@ class AsyncEmployeesResource(AsyncAPIResource):
         """
         An alternative to `.with_raw_response` that doesn't eagerly read the response body.
 
-        For more information, see https://www.github.com/stainless-sdks/vitable-connect-python#with_streaming_response
+        For more information, see https://www.github.com/Vitable-Inc/vitable-connect-python#with_streaming_response
         """
         return AsyncEmployeesResourceWithStreamingResponse(self)
 

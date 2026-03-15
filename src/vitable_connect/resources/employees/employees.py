@@ -7,7 +7,7 @@ from datetime import date
 
 import httpx
 
-from ...types import employee_update_params
+from ...types import EmployeeClass, employee_update_params
 from ..._types import Body, Omit, Query, Headers, NoneType, NotGiven, omit, not_given
 from ..._utils import maybe_transform, async_maybe_transform
 from ..._compat import cached_property
@@ -27,16 +27,18 @@ from .enrollments import (
     AsyncEnrollmentsResourceWithStreamingResponse,
 )
 from ..._base_client import make_request_options
-from ...types.employers import EmployeeClass
+from ...types.employee_class import EmployeeClass
 from ...types.employee_response import EmployeeResponse
-from ...types.employers.employee_class import EmployeeClass
 
 __all__ = ["EmployeesResource", "AsyncEmployeesResource"]
 
 
 class EmployeesResource(SyncAPIResource):
+    """Manage employee records for employers"""
+
     @cached_property
     def enrollments(self) -> EnrollmentsResource:
+        """Manage benefit enrollments and elections for employees"""
         return EnrollmentsResource(self._client)
 
     @cached_property
@@ -45,7 +47,7 @@ class EmployeesResource(SyncAPIResource):
         This property can be used as a prefix for any HTTP method call to return
         the raw response object instead of the parsed content.
 
-        For more information, see https://www.github.com/stainless-sdks/vitable-connect-python#accessing-raw-response-data-eg-headers
+        For more information, see https://www.github.com/Vitable-Inc/vitable-connect-python#accessing-raw-response-data-eg-headers
         """
         return EmployeesResourceWithRawResponse(self)
 
@@ -54,7 +56,7 @@ class EmployeesResource(SyncAPIResource):
         """
         An alternative to `.with_raw_response` that doesn't eagerly read the response body.
 
-        For more information, see https://www.github.com/stainless-sdks/vitable-connect-python#with_streaming_response
+        For more information, see https://www.github.com/Vitable-Inc/vitable-connect-python#with_streaming_response
         """
         return EmployeesResourceWithStreamingResponse(self)
 
@@ -208,8 +210,11 @@ class EmployeesResource(SyncAPIResource):
 
 
 class AsyncEmployeesResource(AsyncAPIResource):
+    """Manage employee records for employers"""
+
     @cached_property
     def enrollments(self) -> AsyncEnrollmentsResource:
+        """Manage benefit enrollments and elections for employees"""
         return AsyncEnrollmentsResource(self._client)
 
     @cached_property
@@ -218,7 +223,7 @@ class AsyncEmployeesResource(AsyncAPIResource):
         This property can be used as a prefix for any HTTP method call to return
         the raw response object instead of the parsed content.
 
-        For more information, see https://www.github.com/stainless-sdks/vitable-connect-python#accessing-raw-response-data-eg-headers
+        For more information, see https://www.github.com/Vitable-Inc/vitable-connect-python#accessing-raw-response-data-eg-headers
         """
         return AsyncEmployeesResourceWithRawResponse(self)
 
@@ -227,7 +232,7 @@ class AsyncEmployeesResource(AsyncAPIResource):
         """
         An alternative to `.with_raw_response` that doesn't eagerly read the response body.
 
-        For more information, see https://www.github.com/stainless-sdks/vitable-connect-python#with_streaming_response
+        For more information, see https://www.github.com/Vitable-Inc/vitable-connect-python#with_streaming_response
         """
         return AsyncEmployeesResourceWithStreamingResponse(self)
 
@@ -396,6 +401,7 @@ class EmployeesResourceWithRawResponse:
 
     @cached_property
     def enrollments(self) -> EnrollmentsResourceWithRawResponse:
+        """Manage benefit enrollments and elections for employees"""
         return EnrollmentsResourceWithRawResponse(self._employees.enrollments)
 
 
@@ -415,6 +421,7 @@ class AsyncEmployeesResourceWithRawResponse:
 
     @cached_property
     def enrollments(self) -> AsyncEnrollmentsResourceWithRawResponse:
+        """Manage benefit enrollments and elections for employees"""
         return AsyncEnrollmentsResourceWithRawResponse(self._employees.enrollments)
 
 
@@ -434,6 +441,7 @@ class EmployeesResourceWithStreamingResponse:
 
     @cached_property
     def enrollments(self) -> EnrollmentsResourceWithStreamingResponse:
+        """Manage benefit enrollments and elections for employees"""
         return EnrollmentsResourceWithStreamingResponse(self._employees.enrollments)
 
 
@@ -453,4 +461,5 @@ class AsyncEmployeesResourceWithStreamingResponse:
 
     @cached_property
     def enrollments(self) -> AsyncEnrollmentsResourceWithStreamingResponse:
+        """Manage benefit enrollments and elections for employees"""
         return AsyncEnrollmentsResourceWithStreamingResponse(self._employees.enrollments)

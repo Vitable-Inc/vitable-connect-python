@@ -6,6 +6,7 @@ from typing import Iterable
 
 import httpx
 
+from ...types import EnrollmentStatus
 from ..._types import Body, Omit, Query, Headers, NotGiven, omit, not_given
 from ..._utils import maybe_transform, async_maybe_transform
 from ..._compat import cached_property
@@ -17,21 +18,23 @@ from ..._response import (
     async_to_streamed_response_wrapper,
 )
 from ..._base_client import make_request_options
-from ...types.employees import EnrollmentStatus, enrollment_list_params, enrollment_submit_elections_params
+from ...types.employees import enrollment_list_params, enrollment_submit_elections_params
+from ...types.enrollment_status import EnrollmentStatus
 from ...types.employees.enrollment_list import EnrollmentList
-from ...types.employees.enrollment_status import EnrollmentStatus
 
 __all__ = ["EnrollmentsResource", "AsyncEnrollmentsResource"]
 
 
 class EnrollmentsResource(SyncAPIResource):
+    """Manage benefit enrollments and elections for employees"""
+
     @cached_property
     def with_raw_response(self) -> EnrollmentsResourceWithRawResponse:
         """
         This property can be used as a prefix for any HTTP method call to return
         the raw response object instead of the parsed content.
 
-        For more information, see https://www.github.com/stainless-sdks/vitable-connect-python#accessing-raw-response-data-eg-headers
+        For more information, see https://www.github.com/Vitable-Inc/vitable-connect-python#accessing-raw-response-data-eg-headers
         """
         return EnrollmentsResourceWithRawResponse(self)
 
@@ -40,7 +43,7 @@ class EnrollmentsResource(SyncAPIResource):
         """
         An alternative to `.with_raw_response` that doesn't eagerly read the response body.
 
-        For more information, see https://www.github.com/stainless-sdks/vitable-connect-python#with_streaming_response
+        For more information, see https://www.github.com/Vitable-Inc/vitable-connect-python#with_streaming_response
         """
         return EnrollmentsResourceWithStreamingResponse(self)
 
@@ -157,13 +160,15 @@ class EnrollmentsResource(SyncAPIResource):
 
 
 class AsyncEnrollmentsResource(AsyncAPIResource):
+    """Manage benefit enrollments and elections for employees"""
+
     @cached_property
     def with_raw_response(self) -> AsyncEnrollmentsResourceWithRawResponse:
         """
         This property can be used as a prefix for any HTTP method call to return
         the raw response object instead of the parsed content.
 
-        For more information, see https://www.github.com/stainless-sdks/vitable-connect-python#accessing-raw-response-data-eg-headers
+        For more information, see https://www.github.com/Vitable-Inc/vitable-connect-python#accessing-raw-response-data-eg-headers
         """
         return AsyncEnrollmentsResourceWithRawResponse(self)
 
@@ -172,7 +177,7 @@ class AsyncEnrollmentsResource(AsyncAPIResource):
         """
         An alternative to `.with_raw_response` that doesn't eagerly read the response body.
 
-        For more information, see https://www.github.com/stainless-sdks/vitable-connect-python#with_streaming_response
+        For more information, see https://www.github.com/Vitable-Inc/vitable-connect-python#with_streaming_response
         """
         return AsyncEnrollmentsResourceWithStreamingResponse(self)
 

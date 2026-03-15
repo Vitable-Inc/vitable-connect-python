@@ -4,7 +4,7 @@ from __future__ import annotations
 
 from typing_extensions import TypedDict
 
-from .relationship import Relationship
+from ..relationship import Relationship
 
 __all__ = ["DependentListParams"]
 

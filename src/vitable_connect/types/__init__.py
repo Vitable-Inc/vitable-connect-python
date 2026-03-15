@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+from .sex import Sex as Sex
 from .type import Type as Type
 from .category import Category as Category
 from .employee import Employee as Employee
@@ -11,9 +12,12 @@ from .plan_tier import PlanTier as PlanTier
 from .enrollment import Enrollment as Enrollment
 from .pagination import Pagination as Pagination
 from .product_code import ProductCode as ProductCode
+from .relationship import Relationship as Relationship
 from .coverage_tier import CoverageTier as CoverageTier
+from .employee_class import EmployeeClass as EmployeeClass
 from .employee_response import EmployeeResponse as EmployeeResponse
 from .employer_response import EmployerResponse as EmployerResponse
+from .enrollment_status import EnrollmentStatus as EnrollmentStatus
 from .dependent_response import DependentResponse as DependentResponse
 from .enrollment_response import EnrollmentResponse as EnrollmentResponse
 from .employer_list_params import EmployerListParams as EmployerListParams

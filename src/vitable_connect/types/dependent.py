@@ -3,9 +3,9 @@
 from typing import Optional
 from datetime import date, datetime
 
+from .sex import Sex
 from .._models import BaseModel
-from .employers.sex import Sex
-from .members.relationship import Relationship
+from .relationship import Relationship
 
 __all__ = ["Dependent"]
 

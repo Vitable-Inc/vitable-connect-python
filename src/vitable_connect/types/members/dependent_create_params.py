@@ -6,9 +6,9 @@ from typing import Union, Optional
 from datetime import date
 from typing_extensions import Required, Annotated, TypedDict
 
+from ..sex import Sex
 from ..._utils import PropertyInfo
-from .relationship import Relationship
-from ..employers.sex import Sex
+from ..relationship import Relationship
 
 __all__ = ["DependentCreateParams"]
 

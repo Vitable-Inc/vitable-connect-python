@@ -27,10 +27,12 @@ __all__ = ["MembersResource", "AsyncMembersResource"]
 class MembersResource(SyncAPIResource):
     @cached_property
     def dependents(self) -> DependentsResource:
+        """Manage dependent records (spouses, children) for employees"""
         return DependentsResource(self._client)
 
     @cached_property
     def qualifying_life_events(self) -> QualifyingLifeEventsResource:
+        """Record life events that trigger special enrollment periods"""
         return QualifyingLifeEventsResource(self._client)
 
     @cached_property
@@ -39,7 +41,7 @@ class MembersResource(SyncAPIResource):
         This property can be used as a prefix for any HTTP method call to return
         the raw response object instead of the parsed content.
 
-        For more information, see https://www.github.com/stainless-sdks/vitable-connect-python#accessing-raw-response-data-eg-headers
+        For more information, see https://www.github.com/Vitable-Inc/vitable-connect-python#accessing-raw-response-data-eg-headers
         """
         return MembersResourceWithRawResponse(self)
 
@@ -48,7 +50,7 @@ class MembersResource(SyncAPIResource):
         """
         An alternative to `.with_raw_response` that doesn't eagerly read the response body.
 
-        For more information, see https://www.github.com/stainless-sdks/vitable-connect-python#with_streaming_response
+        For more information, see https://www.github.com/Vitable-Inc/vitable-connect-python#with_streaming_response
         """
         return MembersResourceWithStreamingResponse(self)
 
@@ -56,10 +58,12 @@ class MembersResource(SyncAPIResource):
 class AsyncMembersResource(AsyncAPIResource):
     @cached_property
     def dependents(self) -> AsyncDependentsResource:
+        """Manage dependent records (spouses, children) for employees"""
         return AsyncDependentsResource(self._client)
 
     @cached_property
     def qualifying_life_events(self) -> AsyncQualifyingLifeEventsResource:
+        """Record life events that trigger special enrollment periods"""
         return AsyncQualifyingLifeEventsResource(self._client)
 
     @cached_property
@@ -68,7 +72,7 @@ class AsyncMembersResource(AsyncAPIResource):
         This property can be used as a prefix for any HTTP method call to return
         the raw response object instead of the parsed content.
 
-        For more information, see https://www.github.com/stainless-sdks/vitable-connect-python#accessing-raw-response-data-eg-headers
+        For more information, see https://www.github.com/Vitable-Inc/vitable-connect-python#accessing-raw-response-data-eg-headers
         """
         return AsyncMembersResourceWithRawResponse(self)
 
@@ -77,7 +81,7 @@ class AsyncMembersResource(AsyncAPIResource):
         """
         An alternative to `.with_raw_response` that doesn't eagerly read the response body.
 
-        For more information, see https://www.github.com/stainless-sdks/vitable-connect-python#with_streaming_response
+        For more information, see https://www.github.com/Vitable-Inc/vitable-connect-python#with_streaming_response
         """
         return AsyncMembersResourceWithStreamingResponse(self)
 
@@ -88,10 +92,12 @@ class MembersResourceWithRawResponse:
 
     @cached_property
     def dependents(self) -> DependentsResourceWithRawResponse:
+        """Manage dependent records (spouses, children) for employees"""
         return DependentsResourceWithRawResponse(self._members.dependents)
 
     @cached_property
     def qualifying_life_events(self) -> QualifyingLifeEventsResourceWithRawResponse:
+        """Record life events that trigger special enrollment periods"""
         return QualifyingLifeEventsResourceWithRawResponse(self._members.qualifying_life_events)
 
 
@@ -101,10 +107,12 @@ class AsyncMembersResourceWithRawResponse:
 
     @cached_property
     def dependents(self) -> AsyncDependentsResourceWithRawResponse:
+        """Manage dependent records (spouses, children) for employees"""
         return AsyncDependentsResourceWithRawResponse(self._members.dependents)
 
     @cached_property
     def qualifying_life_events(self) -> AsyncQualifyingLifeEventsResourceWithRawResponse:
+        """Record life events that trigger special enrollment periods"""
         return AsyncQualifyingLifeEventsResourceWithRawResponse(self._members.qualifying_life_events)
 
 
@@ -114,10 +122,12 @@ class MembersResourceWithStreamingResponse:
 
     @cached_property
     def dependents(self) -> DependentsResourceWithStreamingResponse:
+        """Manage dependent records (spouses, children) for employees"""
         return DependentsResourceWithStreamingResponse(self._members.dependents)
 
     @cached_property
     def qualifying_life_events(self) -> QualifyingLifeEventsResourceWithStreamingResponse:
+        """Record life events that trigger special enrollment periods"""
         return QualifyingLifeEventsResourceWithStreamingResponse(self._members.qualifying_life_events)
 
 
@@ -127,8 +137,10 @@ class AsyncMembersResourceWithStreamingResponse:
 
     @cached_property
     def dependents(self) -> AsyncDependentsResourceWithStreamingResponse:
+        """Manage dependent records (spouses, children) for employees"""
         return AsyncDependentsResourceWithStreamingResponse(self._members.dependents)
 
     @cached_property
     def qualifying_life_events(self) -> AsyncQualifyingLifeEventsResourceWithStreamingResponse:
+        """Record life events that trigger special enrollment periods"""
         return AsyncQualifyingLifeEventsResourceWithStreamingResponse(self._members.qualifying_life_events)

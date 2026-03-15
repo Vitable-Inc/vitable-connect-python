@@ -42,6 +42,7 @@ __all__ = ["EmployersResource", "AsyncEmployersResource"]
 class EmployersResource(SyncAPIResource):
     @cached_property
     def employees(self) -> EmployeesResource:
+        """Manage employee records for employers"""
         return EmployeesResource(self._client)
 
     @cached_property
@@ -50,7 +51,7 @@ class EmployersResource(SyncAPIResource):
         This property can be used as a prefix for any HTTP method call to return
         the raw response object instead of the parsed content.
 
-        For more information, see https://www.github.com/stainless-sdks/vitable-connect-python#accessing-raw-response-data-eg-headers
+        For more information, see https://www.github.com/Vitable-Inc/vitable-connect-python#accessing-raw-response-data-eg-headers
         """
         return EmployersResourceWithRawResponse(self)
 
@@ -59,7 +60,7 @@ class EmployersResource(SyncAPIResource):
         """
         An alternative to `.with_raw_response` that doesn't eagerly read the response body.
 
-        For more information, see https://www.github.com/stainless-sdks/vitable-connect-python#with_streaming_response
+        For more information, see https://www.github.com/Vitable-Inc/vitable-connect-python#with_streaming_response
         """
         return EmployersResourceWithStreamingResponse(self)
 
@@ -348,6 +349,7 @@ class EmployersResource(SyncAPIResource):
 class AsyncEmployersResource(AsyncAPIResource):
     @cached_property
     def employees(self) -> AsyncEmployeesResource:
+        """Manage employee records for employers"""
         return AsyncEmployeesResource(self._client)
 
     @cached_property
@@ -356,7 +358,7 @@ class AsyncEmployersResource(AsyncAPIResource):
         This property can be used as a prefix for any HTTP method call to return
         the raw response object instead of the parsed content.
 
-        For more information, see https://www.github.com/stainless-sdks/vitable-connect-python#accessing-raw-response-data-eg-headers
+        For more information, see https://www.github.com/Vitable-Inc/vitable-connect-python#accessing-raw-response-data-eg-headers
         """
         return AsyncEmployersResourceWithRawResponse(self)
 
@@ -365,7 +367,7 @@ class AsyncEmployersResource(AsyncAPIResource):
         """
         An alternative to `.with_raw_response` that doesn't eagerly read the response body.
 
-        For more information, see https://www.github.com/stainless-sdks/vitable-connect-python#with_streaming_response
+        For more information, see https://www.github.com/Vitable-Inc/vitable-connect-python#with_streaming_response
         """
         return AsyncEmployersResourceWithStreamingResponse(self)
 
@@ -673,6 +675,7 @@ class EmployersResourceWithRawResponse:
 
     @cached_property
     def employees(self) -> EmployeesResourceWithRawResponse:
+        """Manage employee records for employers"""
         return EmployeesResourceWithRawResponse(self._employers.employees)
 
 
@@ -698,6 +701,7 @@ class AsyncEmployersResourceWithRawResponse:
 
     @cached_property
     def employees(self) -> AsyncEmployeesResourceWithRawResponse:
+        """Manage employee records for employers"""
         return AsyncEmployeesResourceWithRawResponse(self._employers.employees)
 
 
@@ -723,6 +727,7 @@ class EmployersResourceWithStreamingResponse:
 
     @cached_property
     def employees(self) -> EmployeesResourceWithStreamingResponse:
+        """Manage employee records for employers"""
         return EmployeesResourceWithStreamingResponse(self._employers.employees)
 
 
@@ -748,4 +753,5 @@ class AsyncEmployersResourceWithStreamingResponse:
 
     @cached_property
     def employees(self) -> AsyncEmployeesResourceWithStreamingResponse:
+        """Manage employee records for employers"""
         return AsyncEmployeesResourceWithStreamingResponse(self._employers.employees)

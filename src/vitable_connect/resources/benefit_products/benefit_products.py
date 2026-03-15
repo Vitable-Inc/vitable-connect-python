@@ -32,8 +32,11 @@ __all__ = ["BenefitProductsResource", "AsyncBenefitProductsResource"]
 
 
 class BenefitProductsResource(SyncAPIResource):
+    """Browse available benefit products that can be offered to employers"""
+
     @cached_property
     def plan_years(self) -> PlanYearsResource:
+        """Configure annual benefit periods with coverage dates and contribution settings"""
         return PlanYearsResource(self._client)
 
     @cached_property
@@ -42,7 +45,7 @@ class BenefitProductsResource(SyncAPIResource):
         This property can be used as a prefix for any HTTP method call to return
         the raw response object instead of the parsed content.
 
-        For more information, see https://www.github.com/stainless-sdks/vitable-connect-python#accessing-raw-response-data-eg-headers
+        For more information, see https://www.github.com/Vitable-Inc/vitable-connect-python#accessing-raw-response-data-eg-headers
         """
         return BenefitProductsResourceWithRawResponse(self)
 
@@ -51,7 +54,7 @@ class BenefitProductsResource(SyncAPIResource):
         """
         An alternative to `.with_raw_response` that doesn't eagerly read the response body.
 
-        For more information, see https://www.github.com/stainless-sdks/vitable-connect-python#with_streaming_response
+        For more information, see https://www.github.com/Vitable-Inc/vitable-connect-python#with_streaming_response
         """
         return BenefitProductsResourceWithStreamingResponse(self)
 
@@ -117,8 +120,11 @@ class BenefitProductsResource(SyncAPIResource):
 
 
 class AsyncBenefitProductsResource(AsyncAPIResource):
+    """Browse available benefit products that can be offered to employers"""
+
     @cached_property
     def plan_years(self) -> AsyncPlanYearsResource:
+        """Configure annual benefit periods with coverage dates and contribution settings"""
         return AsyncPlanYearsResource(self._client)
 
     @cached_property
@@ -127,7 +133,7 @@ class AsyncBenefitProductsResource(AsyncAPIResource):
         This property can be used as a prefix for any HTTP method call to return
         the raw response object instead of the parsed content.
 
-        For more information, see https://www.github.com/stainless-sdks/vitable-connect-python#accessing-raw-response-data-eg-headers
+        For more information, see https://www.github.com/Vitable-Inc/vitable-connect-python#accessing-raw-response-data-eg-headers
         """
         return AsyncBenefitProductsResourceWithRawResponse(self)
 
@@ -136,7 +142,7 @@ class AsyncBenefitProductsResource(AsyncAPIResource):
         """
         An alternative to `.with_raw_response` that doesn't eagerly read the response body.
 
-        For more information, see https://www.github.com/stainless-sdks/vitable-connect-python#with_streaming_response
+        For more information, see https://www.github.com/Vitable-Inc/vitable-connect-python#with_streaming_response
         """
         return AsyncBenefitProductsResourceWithStreamingResponse(self)
 
@@ -211,6 +217,7 @@ class BenefitProductsResourceWithRawResponse:
 
     @cached_property
     def plan_years(self) -> PlanYearsResourceWithRawResponse:
+        """Configure annual benefit periods with coverage dates and contribution settings"""
         return PlanYearsResourceWithRawResponse(self._benefit_products.plan_years)
 
 
@@ -224,6 +231,7 @@ class AsyncBenefitProductsResourceWithRawResponse:
 
     @cached_property
     def plan_years(self) -> AsyncPlanYearsResourceWithRawResponse:
+        """Configure annual benefit periods with coverage dates and contribution settings"""
         return AsyncPlanYearsResourceWithRawResponse(self._benefit_products.plan_years)
 
 
@@ -237,6 +245,7 @@ class BenefitProductsResourceWithStreamingResponse:
 
     @cached_property
     def plan_years(self) -> PlanYearsResourceWithStreamingResponse:
+        """Configure annual benefit periods with coverage dates and contribution settings"""
         return PlanYearsResourceWithStreamingResponse(self._benefit_products.plan_years)
 
 
@@ -250,4 +259,5 @@ class AsyncBenefitProductsResourceWithStreamingResponse:
 
     @cached_property
     def plan_years(self) -> AsyncPlanYearsResourceWithStreamingResponse:
+        """Configure annual benefit periods with coverage dates and contribution settings"""
         return AsyncPlanYearsResourceWithStreamingResponse(self._benefit_products.plan_years)
