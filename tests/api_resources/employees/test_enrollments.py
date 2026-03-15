@@ -9,9 +9,7 @@ import pytest
 
 from tests.utils import assert_matches_type
 from vitable_connect import VitableConnect, AsyncVitableConnect
-from vitable_connect.types.employees import (
-    EnrollmentList,
-)
+from vitable_connect.types.employees import EnrollmentList
 
 base_url = os.environ.get("TEST_API_BASE_URL", "http://127.0.0.1:4010")
 

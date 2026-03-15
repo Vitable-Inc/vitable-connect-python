@@ -5,7 +5,7 @@ from __future__ import annotations
 from typing import Optional
 from typing_extensions import TypedDict
 
-from .members.relationship import Relationship
+from .relationship import Relationship
 
 __all__ = ["DependentUpdateParams"]
 

@@ -3,7 +3,6 @@
 from __future__ import annotations
 
 from .event_type import EventType as EventType
-from .relationship import Relationship as Relationship
 from .dependent_list_params import DependentListParams as DependentListParams
 from .qualifying_life_event import QualifyingLifeEvent as QualifyingLifeEvent
 from .dependent_create_params import DependentCreateParams as DependentCreateParams

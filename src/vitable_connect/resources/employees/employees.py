@@ -7,7 +7,7 @@ from datetime import date
 
 import httpx
 
-from ...types import employee_update_params
+from ...types import EmployeeClass, employee_update_params
 from ..._types import Body, Omit, Query, Headers, NoneType, NotGiven, omit, not_given
 from ..._utils import maybe_transform, async_maybe_transform
 from ..._compat import cached_property
@@ -27,9 +27,8 @@ from .enrollments import (
     AsyncEnrollmentsResourceWithStreamingResponse,
 )
 from ..._base_client import make_request_options
-from ...types.employers import EmployeeClass
+from ...types.employee_class import EmployeeClass
 from ...types.employee_response import EmployeeResponse
-from ...types.employers.employee_class import EmployeeClass
 
 __all__ = ["EmployeesResource", "AsyncEmployeesResource"]
 
