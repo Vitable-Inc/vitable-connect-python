@@ -1,5 +1,14 @@
 # Changelog
 
+## 0.1.2 (2026-03-15)
+
+Full Changelog: [v0.1.1...v0.1.2](https://github.com/Vitable-Inc/vitable-connect-python/compare/v0.1.1...v0.1.2)
+
+### Chores
+
+* update SDK settings ([edacf2c](https://github.com/Vitable-Inc/vitable-connect-python/commit/edacf2c85b5c78a54c3691223d181da0c4b2d27e))
+* update SDK settings ([5462ee2](https://github.com/Vitable-Inc/vitable-connect-python/commit/5462ee2a354f9d756ba2e03cdca95ab44850e352))
+
 ## 0.1.1 (2026-03-15)
 
 Full Changelog: [v0.1.0...v0.1.1](https://github.com/Vitable-Inc/vitable-connect-python/compare/v0.1.0...v0.1.1)
