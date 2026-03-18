@@ -10,8 +10,3 @@ class EmployeeResponse(BaseModel):
     """Response containing a single employee resource."""
 
     data: Employee
-    """Serializer for Employee entity in public API responses.
-
-    Note: Employee is in the company module but exposed via account public API.
-    Contains nested MemberEntity with personal identity information.
-    """

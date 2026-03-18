@@ -3,5 +3,4 @@
 from __future__ import annotations
 
 from .employee_list_params import EmployeeListParams as EmployeeListParams
-from .employee_create_params import EmployeeCreateParams as EmployeeCreateParams
 from .employee_list_response import EmployeeListResponse as EmployeeListResponse

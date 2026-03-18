@@ -10,8 +10,3 @@ class EnrollmentResponse(BaseModel):
     """Response containing a single enrollment resource."""
 
     data: Enrollment
-    """Serializer for Enrollment entity in public API responses.
-
-    An Enrollment represents an employee's benefit enrollment for a specific plan
-    year.
-    """
