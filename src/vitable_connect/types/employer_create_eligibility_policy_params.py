@@ -2,38 +2,17 @@
 
 from __future__ import annotations
 
-from typing import Union, Iterable, Optional
-from datetime import date
-from typing_extensions import Required, Annotated, TypedDict
+from typing_extensions import Required, TypedDict
 
-from .._utils import PropertyInfo
-
-__all__ = ["EmployerCreateEligibilityPolicyParams", "Rule"]
+__all__ = ["EmployerCreateEligibilityPolicyParams"]
 
 
 class EmployerCreateEligibilityPolicyParams(TypedDict, total=False):
-    effective_date: Required[Annotated[Union[str, date], PropertyInfo(format="iso8601")]]
-    """Date when policy becomes effective"""
+    classification: Required[str]
+    """Which employee classifications are eligible. One of: full_time, part_time, all"""
 
-    name: Required[str]
-    """Display name for the policy"""
+    waiting_period: Required[str]
+    """Waiting period before eligibility.
 
-    rules: Required[Iterable[Rule]]
-    """List of eligibility rules (at least one required)"""
-
-    policy_to_replace_id: str
-    """ID of existing policy to replace (epol\\__\\**)"""
-
-    description: Optional[str]
-    """Detailed description"""
-
-
-class Rule(TypedDict, total=False):
-    operator: Required[str]
-    """Comparison operator"""
-
-    rule_type: Required[str]
-    """Type of eligibility rule"""
-
-    value: Required[str]
-    """Value to compare against (can be string, number, boolean, or list)"""
+    One of: first_of_following_month, 30_days, 60_days, none
+    """

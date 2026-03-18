@@ -2,11 +2,8 @@
 
 from __future__ import annotations
 
-from typing import Iterable
-
 import httpx
 
-from ...types import EnrollmentStatus
 from ..._types import Body, Omit, Query, Headers, NotGiven, omit, not_given
 from ..._utils import maybe_transform, async_maybe_transform
 from ..._compat import cached_property
@@ -18,8 +15,7 @@ from ..._response import (
     async_to_streamed_response_wrapper,
 )
 from ..._base_client import make_request_options
-from ...types.employees import enrollment_list_params, enrollment_submit_elections_params
-from ...types.enrollment_status import EnrollmentStatus
+from ...types.employees import enrollment_list_params
 from ...types.employees.enrollment_list import EnrollmentList
 
 __all__ = ["EnrollmentsResource", "AsyncEnrollmentsResource"]
@@ -51,11 +47,8 @@ class EnrollmentsResource(SyncAPIResource):
         self,
         employee_id: str,
         *,
-        coverage_effective_start_year: int | Omit = omit,
         limit: int | Omit = omit,
         page: int | Omit = omit,
-        plan_year: int | Omit = omit,
-        status: EnrollmentStatus | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -63,25 +56,15 @@ class EnrollmentsResource(SyncAPIResource):
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> EnrollmentList:
-        """Retrieves a paginated list of benefit enrollments for an employee.
-
-        Enrollments
-        have statuses: 'pending' (in enrollment period), 'enrolled' (active coverage),
-        or 'inactive' (terminated, expired, or unanswered). Filter by status, plan year,
-        or coverage year.
+        """
+        Retrieves a paginated list of benefit enrollments for an employee.
 
         Args:
           employee_id: Unique employee identifier (empl\\__\\**)
 
-          coverage_effective_start_year: Filter by coverage year
-
           limit: Items per page (default: 20, max: 100)
 
           page: Page number (default: 1)
-
-          plan_year: Filter by plan year start (YYYY)
-
-          status: Filter by enrollment status
 
           extra_headers: Send extra headers
 
@@ -102,58 +85,11 @@ class EnrollmentsResource(SyncAPIResource):
                 timeout=timeout,
                 query=maybe_transform(
                     {
-                        "coverage_effective_start_year": coverage_effective_start_year,
                         "limit": limit,
                         "page": page,
-                        "plan_year": plan_year,
-                        "status": status,
                     },
                     enrollment_list_params.EnrollmentListParams,
                 ),
-            ),
-            cast_to=EnrollmentList,
-        )
-
-    def submit_elections(
-        self,
-        employee_id: str,
-        *,
-        elections: Iterable[enrollment_submit_elections_params.Election],
-        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
-        # The extra values given here take precedence over values defined on the client or passed to this method.
-        extra_headers: Headers | None = None,
-        extra_query: Query | None = None,
-        extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> EnrollmentList:
-        """
-        Completes the benefits election process for all pending enrollments for an
-        employee. Processes enrollment decisions: which benefits to enroll/waive, plan
-        selections, and dependent coverage. Pending enrollments transition to enrolled
-        or waived status based on elections.
-
-        Args:
-          employee_id: Unique employee identifier (empl\\__\\**)
-
-          elections: List of enrollment elections
-
-          extra_headers: Send extra headers
-
-          extra_query: Add additional query parameters to the request
-
-          extra_body: Add additional JSON properties to the request
-
-          timeout: Override the client-level default timeout for this request, in seconds
-        """
-        if not employee_id:
-            raise ValueError(f"Expected a non-empty value for `employee_id` but received {employee_id!r}")
-        return self._post(
-            f"/v1/employees/{employee_id}/enrollments/elect",
-            body=maybe_transform(
-                {"elections": elections}, enrollment_submit_elections_params.EnrollmentSubmitElectionsParams
-            ),
-            options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
             cast_to=EnrollmentList,
         )
@@ -185,11 +121,8 @@ class AsyncEnrollmentsResource(AsyncAPIResource):
         self,
         employee_id: str,
         *,
-        coverage_effective_start_year: int | Omit = omit,
         limit: int | Omit = omit,
         page: int | Omit = omit,
-        plan_year: int | Omit = omit,
-        status: EnrollmentStatus | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -197,25 +130,15 @@ class AsyncEnrollmentsResource(AsyncAPIResource):
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> EnrollmentList:
-        """Retrieves a paginated list of benefit enrollments for an employee.
-
-        Enrollments
-        have statuses: 'pending' (in enrollment period), 'enrolled' (active coverage),
-        or 'inactive' (terminated, expired, or unanswered). Filter by status, plan year,
-        or coverage year.
+        """
+        Retrieves a paginated list of benefit enrollments for an employee.
 
         Args:
           employee_id: Unique employee identifier (empl\\__\\**)
 
-          coverage_effective_start_year: Filter by coverage year
-
           limit: Items per page (default: 20, max: 100)
 
           page: Page number (default: 1)
-
-          plan_year: Filter by plan year start (YYYY)
-
-          status: Filter by enrollment status
 
           extra_headers: Send extra headers
 
@@ -236,58 +159,11 @@ class AsyncEnrollmentsResource(AsyncAPIResource):
                 timeout=timeout,
                 query=await async_maybe_transform(
                     {
-                        "coverage_effective_start_year": coverage_effective_start_year,
                         "limit": limit,
                         "page": page,
-                        "plan_year": plan_year,
-                        "status": status,
                     },
                     enrollment_list_params.EnrollmentListParams,
                 ),
-            ),
-            cast_to=EnrollmentList,
-        )
-
-    async def submit_elections(
-        self,
-        employee_id: str,
-        *,
-        elections: Iterable[enrollment_submit_elections_params.Election],
-        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
-        # The extra values given here take precedence over values defined on the client or passed to this method.
-        extra_headers: Headers | None = None,
-        extra_query: Query | None = None,
-        extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> EnrollmentList:
-        """
-        Completes the benefits election process for all pending enrollments for an
-        employee. Processes enrollment decisions: which benefits to enroll/waive, plan
-        selections, and dependent coverage. Pending enrollments transition to enrolled
-        or waived status based on elections.
-
-        Args:
-          employee_id: Unique employee identifier (empl\\__\\**)
-
-          elections: List of enrollment elections
-
-          extra_headers: Send extra headers
-
-          extra_query: Add additional query parameters to the request
-
-          extra_body: Add additional JSON properties to the request
-
-          timeout: Override the client-level default timeout for this request, in seconds
-        """
-        if not employee_id:
-            raise ValueError(f"Expected a non-empty value for `employee_id` but received {employee_id!r}")
-        return await self._post(
-            f"/v1/employees/{employee_id}/enrollments/elect",
-            body=await async_maybe_transform(
-                {"elections": elections}, enrollment_submit_elections_params.EnrollmentSubmitElectionsParams
-            ),
-            options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
             cast_to=EnrollmentList,
         )
@@ -300,9 +176,6 @@ class EnrollmentsResourceWithRawResponse:
         self.list = to_raw_response_wrapper(
             enrollments.list,
         )
-        self.submit_elections = to_raw_response_wrapper(
-            enrollments.submit_elections,
-        )
 
 
 class AsyncEnrollmentsResourceWithRawResponse:
@@ -311,9 +184,6 @@ class AsyncEnrollmentsResourceWithRawResponse:
 
         self.list = async_to_raw_response_wrapper(
             enrollments.list,
-        )
-        self.submit_elections = async_to_raw_response_wrapper(
-            enrollments.submit_elections,
         )
 
 
@@ -324,9 +194,6 @@ class EnrollmentsResourceWithStreamingResponse:
         self.list = to_streamed_response_wrapper(
             enrollments.list,
         )
-        self.submit_elections = to_streamed_response_wrapper(
-            enrollments.submit_elections,
-        )
 
 
 class AsyncEnrollmentsResourceWithStreamingResponse:
@@ -335,7 +202,4 @@ class AsyncEnrollmentsResourceWithStreamingResponse:
 
         self.list = async_to_streamed_response_wrapper(
             enrollments.list,
-        )
-        self.submit_elections = async_to_streamed_response_wrapper(
-            enrollments.submit_elections,
         )

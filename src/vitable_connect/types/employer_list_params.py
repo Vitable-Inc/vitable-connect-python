@@ -8,14 +8,8 @@ __all__ = ["EmployerListParams"]
 
 
 class EmployerListParams(TypedDict, total=False):
-    active_in: bool
-    """Filter by active status"""
-
     limit: int
     """Items per page (default: 20, max: 100)"""
-
-    name: str
-    """Filter by employer name (partial match)"""
 
     page: int
     """Page number (default: 1)"""

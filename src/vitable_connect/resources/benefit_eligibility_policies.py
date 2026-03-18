@@ -53,10 +53,7 @@ class BenefitEligibilityPoliciesResource(SyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> BenefitEligibilityPolicy:
         """
-        Retrieves detailed information for a specific benefit eligibility policy by ID.
-        Returns the complete policy configuration including all eligibility rules,
-        effective dates, associated employer information, and any waiting period
-        requirements.
+        Retrieves a benefit eligibility policy by ID.
 
         Args:
           policy_id: Unique benefit eligibility policy identifier (epol\\__\\**)
@@ -114,10 +111,7 @@ class AsyncBenefitEligibilityPoliciesResource(AsyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> BenefitEligibilityPolicy:
         """
-        Retrieves detailed information for a specific benefit eligibility policy by ID.
-        Returns the complete policy configuration including all eligibility rules,
-        effective dates, associated employer information, and any waiting period
-        requirements.
+        Retrieves a benefit eligibility policy by ID.
 
         Args:
           policy_id: Unique benefit eligibility policy identifier (epol\\__\\**)

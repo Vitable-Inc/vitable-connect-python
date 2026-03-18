@@ -2,17 +2,9 @@
 
 from __future__ import annotations
 
-from typing import Union, Iterable, Optional
-from datetime import date
-
 import httpx
 
-from ...types import (
-    employer_list_params,
-    employer_create_params,
-    employer_update_params,
-    employer_create_eligibility_policy_params,
-)
+from ...types import employer_list_params, employer_create_params, employer_create_eligibility_policy_params
 from ..._types import Body, Omit, Query, Headers, NotGiven, omit, not_given
 from ..._utils import maybe_transform, async_maybe_transform
 from ..._compat import cached_property
@@ -139,7 +131,7 @@ class EmployersResource(SyncAPIResource):
         belong to the authenticated organization.
 
         Args:
-          employer_id: Filter by employer ID
+          employer_id: Unique employer identifier (empr\\__\\**)
 
           extra_headers: Send extra headers
 
@@ -159,70 +151,10 @@ class EmployersResource(SyncAPIResource):
             cast_to=EmployerResponse,
         )
 
-    def update(
-        self,
-        employer_id: str,
-        *,
-        active: Optional[bool] | Omit = omit,
-        address: Optional[employer_update_params.Address] | Omit = omit,
-        legal_name: Optional[str] | Omit = omit,
-        name: Optional[str] | Omit = omit,
-        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
-        # The extra values given here take precedence over values defined on the client or passed to this method.
-        extra_headers: Headers | None = None,
-        extra_query: Query | None = None,
-        extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> EmployerResponse:
-        """Updates an existing employer's information.
-
-        All fields are optional - only
-        provided fields will be updated. Note: EIN cannot be changed after creation.
-
-        Args:
-          employer_id: Filter by employer ID
-
-          active: Whether the employer is active
-
-          address: Employer address
-
-          legal_name: Legal business name
-
-          name: Employer display name
-
-          extra_headers: Send extra headers
-
-          extra_query: Add additional query parameters to the request
-
-          extra_body: Add additional JSON properties to the request
-
-          timeout: Override the client-level default timeout for this request, in seconds
-        """
-        if not employer_id:
-            raise ValueError(f"Expected a non-empty value for `employer_id` but received {employer_id!r}")
-        return self._put(
-            f"/v1/employers/{employer_id}",
-            body=maybe_transform(
-                {
-                    "active": active,
-                    "address": address,
-                    "legal_name": legal_name,
-                    "name": name,
-                },
-                employer_update_params.EmployerUpdateParams,
-            ),
-            options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
-            ),
-            cast_to=EmployerResponse,
-        )
-
     def list(
         self,
         *,
-        active_in: bool | Omit = omit,
         limit: int | Omit = omit,
-        name: str | Omit = omit,
         page: int | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
@@ -232,16 +164,12 @@ class EmployersResource(SyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> EmployerListResponse:
         """
-        Retrieves a paginated list of all employers that the authenticated organization
-        has access to. Use query parameters to filter by name or active status. Results
-        are paginated using page and limit parameters.
+        Retrieves a paginated list of all employers belonging to the authenticated
+        organization. Results are sorted by creation date (newest first) and paginated
+        using page and limit parameters.
 
         Args:
-          active_in: Filter by active status
-
           limit: Items per page (default: 20, max: 100)
-
-          name: Filter by employer name (partial match)
 
           page: Page number (default: 1)
 
@@ -262,9 +190,7 @@ class EmployersResource(SyncAPIResource):
                 timeout=timeout,
                 query=maybe_transform(
                     {
-                        "active_in": active_in,
                         "limit": limit,
-                        "name": name,
                         "page": page,
                     },
                     employer_list_params.EmployerListParams,
@@ -277,11 +203,8 @@ class EmployersResource(SyncAPIResource):
         self,
         employer_id: str,
         *,
-        effective_date: Union[str, date],
-        name: str,
-        rules: Iterable[employer_create_eligibility_policy_params.Rule],
-        policy_to_replace_id: str | Omit = omit,
-        description: Optional[str] | Omit = omit,
+        classification: str,
+        waiting_period: str,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -289,27 +212,16 @@ class EmployersResource(SyncAPIResource):
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> BenefitEligibilityPolicy:
-        """Creates a new benefit eligibility policy for a specific employer.
-
-        Eligibility
-        policies define rules that determine which employees qualify for benefits based
-        on criteria such as employment status (full-time, part-time), hours worked per
-        week, waiting periods after hire date, or other custom requirements. Optionally
-        provide 'policy_to_replace_id' as a query parameter to replace an existing
-        policy.
+        """
+        Creates a benefit eligibility policy for the specified employer.
 
         Args:
-          employer_id: Filter by employer ID
+          employer_id: Unique employer identifier (empr\\__\\**)
 
-          effective_date: Date when policy becomes effective
+          classification: Which employee classifications are eligible. One of: full_time, part_time, all
 
-          name: Display name for the policy
-
-          rules: List of eligibility rules (at least one required)
-
-          policy_to_replace_id: ID of existing policy to replace (epol\\__\\**)
-
-          description: Detailed description
+          waiting_period: Waiting period before eligibility. One of: first_of_following_month, 30_days,
+              60_days, none
 
           extra_headers: Send extra headers
 
@@ -325,22 +237,13 @@ class EmployersResource(SyncAPIResource):
             f"/v1/employers/{employer_id}/benefit-eligibility-policies",
             body=maybe_transform(
                 {
-                    "effective_date": effective_date,
-                    "name": name,
-                    "rules": rules,
-                    "description": description,
+                    "classification": classification,
+                    "waiting_period": waiting_period,
                 },
                 employer_create_eligibility_policy_params.EmployerCreateEligibilityPolicyParams,
             ),
             options=make_request_options(
-                extra_headers=extra_headers,
-                extra_query=extra_query,
-                extra_body=extra_body,
-                timeout=timeout,
-                query=maybe_transform(
-                    {"policy_to_replace_id": policy_to_replace_id},
-                    employer_create_eligibility_policy_params.EmployerCreateEligibilityPolicyParams,
-                ),
+                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
             cast_to=BenefitEligibilityPolicy,
         )
@@ -446,7 +349,7 @@ class AsyncEmployersResource(AsyncAPIResource):
         belong to the authenticated organization.
 
         Args:
-          employer_id: Filter by employer ID
+          employer_id: Unique employer identifier (empr\\__\\**)
 
           extra_headers: Send extra headers
 
@@ -466,70 +369,10 @@ class AsyncEmployersResource(AsyncAPIResource):
             cast_to=EmployerResponse,
         )
 
-    async def update(
-        self,
-        employer_id: str,
-        *,
-        active: Optional[bool] | Omit = omit,
-        address: Optional[employer_update_params.Address] | Omit = omit,
-        legal_name: Optional[str] | Omit = omit,
-        name: Optional[str] | Omit = omit,
-        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
-        # The extra values given here take precedence over values defined on the client or passed to this method.
-        extra_headers: Headers | None = None,
-        extra_query: Query | None = None,
-        extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> EmployerResponse:
-        """Updates an existing employer's information.
-
-        All fields are optional - only
-        provided fields will be updated. Note: EIN cannot be changed after creation.
-
-        Args:
-          employer_id: Filter by employer ID
-
-          active: Whether the employer is active
-
-          address: Employer address
-
-          legal_name: Legal business name
-
-          name: Employer display name
-
-          extra_headers: Send extra headers
-
-          extra_query: Add additional query parameters to the request
-
-          extra_body: Add additional JSON properties to the request
-
-          timeout: Override the client-level default timeout for this request, in seconds
-        """
-        if not employer_id:
-            raise ValueError(f"Expected a non-empty value for `employer_id` but received {employer_id!r}")
-        return await self._put(
-            f"/v1/employers/{employer_id}",
-            body=await async_maybe_transform(
-                {
-                    "active": active,
-                    "address": address,
-                    "legal_name": legal_name,
-                    "name": name,
-                },
-                employer_update_params.EmployerUpdateParams,
-            ),
-            options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
-            ),
-            cast_to=EmployerResponse,
-        )
-
     async def list(
         self,
         *,
-        active_in: bool | Omit = omit,
         limit: int | Omit = omit,
-        name: str | Omit = omit,
         page: int | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
@@ -539,16 +382,12 @@ class AsyncEmployersResource(AsyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> EmployerListResponse:
         """
-        Retrieves a paginated list of all employers that the authenticated organization
-        has access to. Use query parameters to filter by name or active status. Results
-        are paginated using page and limit parameters.
+        Retrieves a paginated list of all employers belonging to the authenticated
+        organization. Results are sorted by creation date (newest first) and paginated
+        using page and limit parameters.
 
         Args:
-          active_in: Filter by active status
-
           limit: Items per page (default: 20, max: 100)
-
-          name: Filter by employer name (partial match)
 
           page: Page number (default: 1)
 
@@ -569,9 +408,7 @@ class AsyncEmployersResource(AsyncAPIResource):
                 timeout=timeout,
                 query=await async_maybe_transform(
                     {
-                        "active_in": active_in,
                         "limit": limit,
-                        "name": name,
                         "page": page,
                     },
                     employer_list_params.EmployerListParams,
@@ -584,11 +421,8 @@ class AsyncEmployersResource(AsyncAPIResource):
         self,
         employer_id: str,
         *,
-        effective_date: Union[str, date],
-        name: str,
-        rules: Iterable[employer_create_eligibility_policy_params.Rule],
-        policy_to_replace_id: str | Omit = omit,
-        description: Optional[str] | Omit = omit,
+        classification: str,
+        waiting_period: str,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -596,27 +430,16 @@ class AsyncEmployersResource(AsyncAPIResource):
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> BenefitEligibilityPolicy:
-        """Creates a new benefit eligibility policy for a specific employer.
-
-        Eligibility
-        policies define rules that determine which employees qualify for benefits based
-        on criteria such as employment status (full-time, part-time), hours worked per
-        week, waiting periods after hire date, or other custom requirements. Optionally
-        provide 'policy_to_replace_id' as a query parameter to replace an existing
-        policy.
+        """
+        Creates a benefit eligibility policy for the specified employer.
 
         Args:
-          employer_id: Filter by employer ID
+          employer_id: Unique employer identifier (empr\\__\\**)
 
-          effective_date: Date when policy becomes effective
+          classification: Which employee classifications are eligible. One of: full_time, part_time, all
 
-          name: Display name for the policy
-
-          rules: List of eligibility rules (at least one required)
-
-          policy_to_replace_id: ID of existing policy to replace (epol\\__\\**)
-
-          description: Detailed description
+          waiting_period: Waiting period before eligibility. One of: first_of_following_month, 30_days,
+              60_days, none
 
           extra_headers: Send extra headers
 
@@ -632,22 +455,13 @@ class AsyncEmployersResource(AsyncAPIResource):
             f"/v1/employers/{employer_id}/benefit-eligibility-policies",
             body=await async_maybe_transform(
                 {
-                    "effective_date": effective_date,
-                    "name": name,
-                    "rules": rules,
-                    "description": description,
+                    "classification": classification,
+                    "waiting_period": waiting_period,
                 },
                 employer_create_eligibility_policy_params.EmployerCreateEligibilityPolicyParams,
             ),
             options=make_request_options(
-                extra_headers=extra_headers,
-                extra_query=extra_query,
-                extra_body=extra_body,
-                timeout=timeout,
-                query=await async_maybe_transform(
-                    {"policy_to_replace_id": policy_to_replace_id},
-                    employer_create_eligibility_policy_params.EmployerCreateEligibilityPolicyParams,
-                ),
+                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
             cast_to=BenefitEligibilityPolicy,
         )
@@ -662,9 +476,6 @@ class EmployersResourceWithRawResponse:
         )
         self.retrieve = to_raw_response_wrapper(
             employers.retrieve,
-        )
-        self.update = to_raw_response_wrapper(
-            employers.update,
         )
         self.list = to_raw_response_wrapper(
             employers.list,
@@ -689,9 +500,6 @@ class AsyncEmployersResourceWithRawResponse:
         self.retrieve = async_to_raw_response_wrapper(
             employers.retrieve,
         )
-        self.update = async_to_raw_response_wrapper(
-            employers.update,
-        )
         self.list = async_to_raw_response_wrapper(
             employers.list,
         )
@@ -715,9 +523,6 @@ class EmployersResourceWithStreamingResponse:
         self.retrieve = to_streamed_response_wrapper(
             employers.retrieve,
         )
-        self.update = to_streamed_response_wrapper(
-            employers.update,
-        )
         self.list = to_streamed_response_wrapper(
             employers.list,
         )
@@ -740,9 +545,6 @@ class AsyncEmployersResourceWithStreamingResponse:
         )
         self.retrieve = async_to_streamed_response_wrapper(
             employers.retrieve,
-        )
-        self.update = async_to_streamed_response_wrapper(
-            employers.update,
         )
         self.list = async_to_streamed_response_wrapper(
             employers.list,

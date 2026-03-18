@@ -32,29 +32,15 @@ from ._base_client import (
 )
 
 if TYPE_CHECKING:
-    from .resources import (
-        auth,
-        members,
-        employees,
-        employers,
-        dependents,
-        plan_years,
-        enrollments,
-        benefit_products,
-        benefit_eligibility_policies,
-    )
+    from .resources import auth, employees, employers, enrollments, benefit_eligibility_policies
     from .resources.auth import AuthResource, AsyncAuthResource
-    from .resources.dependents import DependentsResource, AsyncDependentsResource
-    from .resources.plan_years import PlanYearsResource, AsyncPlanYearsResource
     from .resources.enrollments import EnrollmentsResource, AsyncEnrollmentsResource
-    from .resources.members.members import MembersResource, AsyncMembersResource
     from .resources.employees.employees import EmployeesResource, AsyncEmployeesResource
     from .resources.employers.employers import EmployersResource, AsyncEmployersResource
     from .resources.benefit_eligibility_policies import (
         BenefitEligibilityPoliciesResource,
         AsyncBenefitEligibilityPoliciesResource,
     )
-    from .resources.benefit_products.benefit_products import BenefitProductsResource, AsyncBenefitProductsResource
 
 __all__ = [
     "ENVIRONMENTS",
@@ -168,20 +154,6 @@ class VitableConnect(SyncAPIClient):
         return BenefitEligibilityPoliciesResource(self)
 
     @cached_property
-    def benefit_products(self) -> BenefitProductsResource:
-        """Browse available benefit products that can be offered to employers"""
-        from .resources.benefit_products import BenefitProductsResource
-
-        return BenefitProductsResource(self)
-
-    @cached_property
-    def dependents(self) -> DependentsResource:
-        """Manage dependent records (spouses, children) for employees"""
-        from .resources.dependents import DependentsResource
-
-        return DependentsResource(self)
-
-    @cached_property
     def employees(self) -> EmployeesResource:
         """Manage employee records for employers"""
         from .resources.employees import EmployeesResource
@@ -200,19 +172,6 @@ class VitableConnect(SyncAPIClient):
         from .resources.enrollments import EnrollmentsResource
 
         return EnrollmentsResource(self)
-
-    @cached_property
-    def members(self) -> MembersResource:
-        from .resources.members import MembersResource
-
-        return MembersResource(self)
-
-    @cached_property
-    def plan_years(self) -> PlanYearsResource:
-        """Configure annual benefit periods with coverage dates and contribution settings"""
-        from .resources.plan_years import PlanYearsResource
-
-        return PlanYearsResource(self)
 
     @cached_property
     def with_raw_response(self) -> VitableConnectWithRawResponse:
@@ -428,20 +387,6 @@ class AsyncVitableConnect(AsyncAPIClient):
         return AsyncBenefitEligibilityPoliciesResource(self)
 
     @cached_property
-    def benefit_products(self) -> AsyncBenefitProductsResource:
-        """Browse available benefit products that can be offered to employers"""
-        from .resources.benefit_products import AsyncBenefitProductsResource
-
-        return AsyncBenefitProductsResource(self)
-
-    @cached_property
-    def dependents(self) -> AsyncDependentsResource:
-        """Manage dependent records (spouses, children) for employees"""
-        from .resources.dependents import AsyncDependentsResource
-
-        return AsyncDependentsResource(self)
-
-    @cached_property
     def employees(self) -> AsyncEmployeesResource:
         """Manage employee records for employers"""
         from .resources.employees import AsyncEmployeesResource
@@ -460,19 +405,6 @@ class AsyncVitableConnect(AsyncAPIClient):
         from .resources.enrollments import AsyncEnrollmentsResource
 
         return AsyncEnrollmentsResource(self)
-
-    @cached_property
-    def members(self) -> AsyncMembersResource:
-        from .resources.members import AsyncMembersResource
-
-        return AsyncMembersResource(self)
-
-    @cached_property
-    def plan_years(self) -> AsyncPlanYearsResource:
-        """Configure annual benefit periods with coverage dates and contribution settings"""
-        from .resources.plan_years import AsyncPlanYearsResource
-
-        return AsyncPlanYearsResource(self)
 
     @cached_property
     def with_raw_response(self) -> AsyncVitableConnectWithRawResponse:
@@ -617,20 +549,6 @@ class VitableConnectWithRawResponse:
         return BenefitEligibilityPoliciesResourceWithRawResponse(self._client.benefit_eligibility_policies)
 
     @cached_property
-    def benefit_products(self) -> benefit_products.BenefitProductsResourceWithRawResponse:
-        """Browse available benefit products that can be offered to employers"""
-        from .resources.benefit_products import BenefitProductsResourceWithRawResponse
-
-        return BenefitProductsResourceWithRawResponse(self._client.benefit_products)
-
-    @cached_property
-    def dependents(self) -> dependents.DependentsResourceWithRawResponse:
-        """Manage dependent records (spouses, children) for employees"""
-        from .resources.dependents import DependentsResourceWithRawResponse
-
-        return DependentsResourceWithRawResponse(self._client.dependents)
-
-    @cached_property
     def employees(self) -> employees.EmployeesResourceWithRawResponse:
         """Manage employee records for employers"""
         from .resources.employees import EmployeesResourceWithRawResponse
@@ -649,19 +567,6 @@ class VitableConnectWithRawResponse:
         from .resources.enrollments import EnrollmentsResourceWithRawResponse
 
         return EnrollmentsResourceWithRawResponse(self._client.enrollments)
-
-    @cached_property
-    def members(self) -> members.MembersResourceWithRawResponse:
-        from .resources.members import MembersResourceWithRawResponse
-
-        return MembersResourceWithRawResponse(self._client.members)
-
-    @cached_property
-    def plan_years(self) -> plan_years.PlanYearsResourceWithRawResponse:
-        """Configure annual benefit periods with coverage dates and contribution settings"""
-        from .resources.plan_years import PlanYearsResourceWithRawResponse
-
-        return PlanYearsResourceWithRawResponse(self._client.plan_years)
 
 
 class AsyncVitableConnectWithRawResponse:
@@ -687,20 +592,6 @@ class AsyncVitableConnectWithRawResponse:
         return AsyncBenefitEligibilityPoliciesResourceWithRawResponse(self._client.benefit_eligibility_policies)
 
     @cached_property
-    def benefit_products(self) -> benefit_products.AsyncBenefitProductsResourceWithRawResponse:
-        """Browse available benefit products that can be offered to employers"""
-        from .resources.benefit_products import AsyncBenefitProductsResourceWithRawResponse
-
-        return AsyncBenefitProductsResourceWithRawResponse(self._client.benefit_products)
-
-    @cached_property
-    def dependents(self) -> dependents.AsyncDependentsResourceWithRawResponse:
-        """Manage dependent records (spouses, children) for employees"""
-        from .resources.dependents import AsyncDependentsResourceWithRawResponse
-
-        return AsyncDependentsResourceWithRawResponse(self._client.dependents)
-
-    @cached_property
     def employees(self) -> employees.AsyncEmployeesResourceWithRawResponse:
         """Manage employee records for employers"""
         from .resources.employees import AsyncEmployeesResourceWithRawResponse
@@ -719,19 +610,6 @@ class AsyncVitableConnectWithRawResponse:
         from .resources.enrollments import AsyncEnrollmentsResourceWithRawResponse
 
         return AsyncEnrollmentsResourceWithRawResponse(self._client.enrollments)
-
-    @cached_property
-    def members(self) -> members.AsyncMembersResourceWithRawResponse:
-        from .resources.members import AsyncMembersResourceWithRawResponse
-
-        return AsyncMembersResourceWithRawResponse(self._client.members)
-
-    @cached_property
-    def plan_years(self) -> plan_years.AsyncPlanYearsResourceWithRawResponse:
-        """Configure annual benefit periods with coverage dates and contribution settings"""
-        from .resources.plan_years import AsyncPlanYearsResourceWithRawResponse
-
-        return AsyncPlanYearsResourceWithRawResponse(self._client.plan_years)
 
 
 class VitableConnectWithStreamedResponse:
@@ -757,20 +635,6 @@ class VitableConnectWithStreamedResponse:
         return BenefitEligibilityPoliciesResourceWithStreamingResponse(self._client.benefit_eligibility_policies)
 
     @cached_property
-    def benefit_products(self) -> benefit_products.BenefitProductsResourceWithStreamingResponse:
-        """Browse available benefit products that can be offered to employers"""
-        from .resources.benefit_products import BenefitProductsResourceWithStreamingResponse
-
-        return BenefitProductsResourceWithStreamingResponse(self._client.benefit_products)
-
-    @cached_property
-    def dependents(self) -> dependents.DependentsResourceWithStreamingResponse:
-        """Manage dependent records (spouses, children) for employees"""
-        from .resources.dependents import DependentsResourceWithStreamingResponse
-
-        return DependentsResourceWithStreamingResponse(self._client.dependents)
-
-    @cached_property
     def employees(self) -> employees.EmployeesResourceWithStreamingResponse:
         """Manage employee records for employers"""
         from .resources.employees import EmployeesResourceWithStreamingResponse
@@ -789,19 +653,6 @@ class VitableConnectWithStreamedResponse:
         from .resources.enrollments import EnrollmentsResourceWithStreamingResponse
 
         return EnrollmentsResourceWithStreamingResponse(self._client.enrollments)
-
-    @cached_property
-    def members(self) -> members.MembersResourceWithStreamingResponse:
-        from .resources.members import MembersResourceWithStreamingResponse
-
-        return MembersResourceWithStreamingResponse(self._client.members)
-
-    @cached_property
-    def plan_years(self) -> plan_years.PlanYearsResourceWithStreamingResponse:
-        """Configure annual benefit periods with coverage dates and contribution settings"""
-        from .resources.plan_years import PlanYearsResourceWithStreamingResponse
-
-        return PlanYearsResourceWithStreamingResponse(self._client.plan_years)
 
 
 class AsyncVitableConnectWithStreamedResponse:
@@ -827,20 +678,6 @@ class AsyncVitableConnectWithStreamedResponse:
         return AsyncBenefitEligibilityPoliciesResourceWithStreamingResponse(self._client.benefit_eligibility_policies)
 
     @cached_property
-    def benefit_products(self) -> benefit_products.AsyncBenefitProductsResourceWithStreamingResponse:
-        """Browse available benefit products that can be offered to employers"""
-        from .resources.benefit_products import AsyncBenefitProductsResourceWithStreamingResponse
-
-        return AsyncBenefitProductsResourceWithStreamingResponse(self._client.benefit_products)
-
-    @cached_property
-    def dependents(self) -> dependents.AsyncDependentsResourceWithStreamingResponse:
-        """Manage dependent records (spouses, children) for employees"""
-        from .resources.dependents import AsyncDependentsResourceWithStreamingResponse
-
-        return AsyncDependentsResourceWithStreamingResponse(self._client.dependents)
-
-    @cached_property
     def employees(self) -> employees.AsyncEmployeesResourceWithStreamingResponse:
         """Manage employee records for employers"""
         from .resources.employees import AsyncEmployeesResourceWithStreamingResponse
@@ -859,19 +696,6 @@ class AsyncVitableConnectWithStreamedResponse:
         from .resources.enrollments import AsyncEnrollmentsResourceWithStreamingResponse
 
         return AsyncEnrollmentsResourceWithStreamingResponse(self._client.enrollments)
-
-    @cached_property
-    def members(self) -> members.AsyncMembersResourceWithStreamingResponse:
-        from .resources.members import AsyncMembersResourceWithStreamingResponse
-
-        return AsyncMembersResourceWithStreamingResponse(self._client.members)
-
-    @cached_property
-    def plan_years(self) -> plan_years.AsyncPlanYearsResourceWithStreamingResponse:
-        """Configure annual benefit periods with coverage dates and contribution settings"""
-        from .resources.plan_years import AsyncPlanYearsResourceWithStreamingResponse
-
-        return AsyncPlanYearsResourceWithStreamingResponse(self._client.plan_years)
 
 
 Client = VitableConnect

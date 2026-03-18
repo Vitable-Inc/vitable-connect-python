@@ -1,109 +1,83 @@
 # File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
-from typing import Optional
+from typing import List, Optional
 from datetime import date, datetime
 
-from .sex import Sex
 from .._models import BaseModel
 from .employee_class import EmployeeClass
+from .enrollment_status import EnrollmentStatus
 
-__all__ = ["Employee", "Member", "Address"]
+__all__ = ["Employee", "Enrollment", "Address"]
 
 
-class Member(BaseModel):
-    """Nested member entity containing personal identity information.
-
-    Matches MemberEntity from account module domain.
-    """
-
+class Enrollment(BaseModel):
     id: str
-    """Unique member identifier with 'mbr\\__' prefix"""
+    """Unique enrollment identifier with 'enrl\\__' prefix"""
 
-    date_of_birth: date
-    """Member's date of birth (YYYY-MM-DD)"""
-
-    first_name: str
-    """Member's legal first name"""
-
-    last_name: str
-    """Member's legal last name"""
-
-    sex: Sex
+    status: EnrollmentStatus
     """
-    - `Male` - Male
-    - `Female` - Female
-    - `Other` - Other
-    - `Unknown` - Unknown
+    - `pending` - Pending
+    - `enrolled` - Enrolled
+    - `waived` - Waived
+    - `inactive` - Inactive
     """
 
-    email: Optional[str] = None
-    """Email address for communications"""
-
-    gender: Optional[str] = None
-    """Gender identity, if provided"""
-
-    phone: Optional[str] = None
-    """Phone number"""
-
-    suffix: Optional[str] = None
-    """Name suffix (e.g., Jr., Sr., III)"""
+    answered_at: Optional[datetime] = None
+    """Timestamp when the enrollment decision was made"""
 
 
 class Address(BaseModel):
-    """Nested address for employee."""
+    """Employee's residential address"""
+
+    address_line_1: str
+    """Primary street address"""
 
     city: str
     """City name"""
 
     state: str
-    """Two-letter state code"""
+    """Two-letter state code (e.g., CA, NY)"""
 
-    street_1: str
-    """Primary street address"""
+    zipcode: str
+    """ZIP code (5 or 9 digit)"""
 
-    zip_code: str
-    """ZIP code"""
-
-    country: Optional[str] = None
-    """Country code"""
-
-    street_2: Optional[str] = None
-    """Secondary street address"""
+    address_line_2: Optional[str] = None
+    """Secondary street address (apt, suite, etc.)"""
 
 
 class Employee(BaseModel):
-    """Serializer for Employee entity in public API responses.
-
-    Note: Employee is in the company module but exposed via account public API.
-    Contains nested MemberEntity with personal identity information.
-    """
-
     id: str
     """Unique employee identifier with 'empl\\__' prefix"""
-
-    active_in: bool
-    """Whether the employee is currently active"""
 
     created_at: datetime
     """Timestamp when the employee was created"""
 
-    employer_id: str
-    """ID of the employer this employee works for (empr\\__\\**)"""
+    date_of_birth: date
+    """Date of birth (YYYY-MM-DD)"""
 
-    member: Member
-    """Nested member entity containing personal identity information.
+    email: str
+    """Email address"""
 
-    Matches MemberEntity from account module domain.
-    """
+    enrollments: List[Enrollment]
+    """Benefit enrollments for this employee"""
 
-    start_date: date
-    """Employee's start/hire date with the employer"""
+    first_name: str
+    """Employee's legal first name"""
+
+    last_name: str
+    """Employee's legal last name"""
+
+    member_id: str
+    """Unique member identifier with 'mbr\\__' prefix"""
+
+    status: str
+    """Employee status (active or terminated)"""
 
     updated_at: datetime
     """Timestamp when the employee was last updated"""
 
     address: Optional[Address] = None
-    """Nested address for employee."""
+    """Employee's residential address"""
 
     employee_class: Optional[EmployeeClass] = None
     """
@@ -114,6 +88,21 @@ class Employee(BaseModel):
     - `Seasonal` - Seasonal
     - `Individual Contractor` - Individual Contractor
     """
+
+    gender: Optional[str] = None
+    """Gender identity, if provided"""
+
+    hire_date: Optional[date] = None
+    """Employee's hire date with the employer"""
+
+    phone: Optional[str] = None
+    """Phone number (10-digit US domestic string)"""
+
+    reference_id: Optional[str] = None
+    """Partner-assigned reference ID for the employee"""
+
+    suffix: Optional[str] = None
+    """Name suffix (e.g., Jr., Sr., III)"""
 
     termination_date: Optional[date] = None
     """Employee's termination date, if terminated"""
