@@ -1,5 +1,24 @@
 # Changelog
 
+## 0.2.0 (2026-03-18)
+
+Full Changelog: [v0.1.2...v0.2.0](https://github.com/Vitable-Inc/vitable-connect-python/compare/v0.1.2...v0.2.0)
+
+### Features
+
+* **api:** api update ([2d17eba](https://github.com/Vitable-Inc/vitable-connect-python/commit/2d17ebab7f730aa1a9a9cba0044d7bd1f05ef3d7))
+
+
+### Bug Fixes
+
+* **deps:** bump minimum typing-extensions version ([4f315a4](https://github.com/Vitable-Inc/vitable-connect-python/commit/4f315a4488437d128364f288ae1a2e526aceb639))
+* **pydantic:** do not pass `by_alias` unless set ([7d698a1](https://github.com/Vitable-Inc/vitable-connect-python/commit/7d698a13ec079a12c7681ce236abf4aa9ea765fa))
+
+
+### Chores
+
+* **internal:** tweak CI branches ([96b210d](https://github.com/Vitable-Inc/vitable-connect-python/commit/96b210d9f4ace8c61d48775f1cf840e8fcb18d44))
+
 ## 0.1.2 (2026-03-15)
 
 Full Changelog: [v0.1.1...v0.1.2](https://github.com/Vitable-Inc/vitable-connect-python/compare/v0.1.1...v0.1.2)
