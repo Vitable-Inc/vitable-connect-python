@@ -2,14 +2,14 @@
 
 from typing import List
 
-from ..._models import BaseModel
-from ..enrollment import Enrollment
-from ..pagination import Pagination
+from .._models import BaseModel
+from .enrollment import Enrollment
+from .pagination import Pagination
 
-__all__ = ["EnrollmentList"]
+__all__ = ["EmployeeListEnrollmentsResponse"]
 
 
-class EnrollmentList(BaseModel):
+class EmployeeListEnrollmentsResponse(BaseModel):
     """Paginated list response containing enrollment resources."""
 
     data: List[Enrollment]

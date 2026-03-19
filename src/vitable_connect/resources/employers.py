@@ -2,48 +2,45 @@
 
 from __future__ import annotations
 
+from typing import Iterable
+
 import httpx
 
-from ...types import employer_list_params, employer_create_params, employer_create_eligibility_policy_params
-from ..._types import Body, Omit, Query, Headers, NotGiven, omit, not_given
-from ..._utils import maybe_transform, async_maybe_transform
-from ..._compat import cached_property
-from .employees import (
-    EmployeesResource,
-    AsyncEmployeesResource,
-    EmployeesResourceWithRawResponse,
-    AsyncEmployeesResourceWithRawResponse,
-    EmployeesResourceWithStreamingResponse,
-    AsyncEmployeesResourceWithStreamingResponse,
+from ..types import (
+    employer_list_params,
+    employer_create_params,
+    employer_list_employees_params,
+    employer_submit_census_sync_params,
+    employer_create_benefit_eligibility_policy_params,
 )
-from ..._resource import SyncAPIResource, AsyncAPIResource
-from ..._response import (
+from .._types import Body, Omit, Query, Headers, NotGiven, omit, not_given
+from .._utils import maybe_transform, async_maybe_transform
+from .._compat import cached_property
+from .._resource import SyncAPIResource, AsyncAPIResource
+from .._response import (
     to_raw_response_wrapper,
     to_streamed_response_wrapper,
     async_to_raw_response_wrapper,
     async_to_streamed_response_wrapper,
 )
-from ..._base_client import make_request_options
-from ...types.employer_response import EmployerResponse
-from ...types.employer_list_response import EmployerListResponse
-from ...types.benefit_eligibility_policy import BenefitEligibilityPolicy
+from .._base_client import make_request_options
+from ..types.employer_response import EmployerResponse
+from ..types.employer_list_response import EmployerListResponse
+from ..types.benefit_eligibility_policy import BenefitEligibilityPolicy
+from ..types.employer_list_employees_response import EmployerListEmployeesResponse
+from ..types.employer_submit_census_sync_response import EmployerSubmitCensusSyncResponse
 
 __all__ = ["EmployersResource", "AsyncEmployersResource"]
 
 
 class EmployersResource(SyncAPIResource):
     @cached_property
-    def employees(self) -> EmployeesResource:
-        """Manage employee records for employers"""
-        return EmployeesResource(self._client)
-
-    @cached_property
     def with_raw_response(self) -> EmployersResourceWithRawResponse:
         """
         This property can be used as a prefix for any HTTP method call to return
         the raw response object instead of the parsed content.
 
-        For more information, see https://www.github.com/Vitable-Inc/vitable-connect-python#accessing-raw-response-data-eg-headers
+        For more information, see https://www.github.com/stainless-sdks/vitable-connect-python#accessing-raw-response-data-eg-headers
         """
         return EmployersResourceWithRawResponse(self)
 
@@ -52,7 +49,7 @@ class EmployersResource(SyncAPIResource):
         """
         An alternative to `.with_raw_response` that doesn't eagerly read the response body.
 
-        For more information, see https://www.github.com/Vitable-Inc/vitable-connect-python#with_streaming_response
+        For more information, see https://www.github.com/stainless-sdks/vitable-connect-python#with_streaming_response
         """
         return EmployersResourceWithStreamingResponse(self)
 
@@ -199,7 +196,7 @@ class EmployersResource(SyncAPIResource):
             cast_to=EmployerListResponse,
         )
 
-    def create_eligibility_policy(
+    def create_benefit_eligibility_policy(
         self,
         employer_id: str,
         *,
@@ -240,7 +237,7 @@ class EmployersResource(SyncAPIResource):
                     "classification": classification,
                     "waiting_period": waiting_period,
                 },
-                employer_create_eligibility_policy_params.EmployerCreateEligibilityPolicyParams,
+                employer_create_benefit_eligibility_policy_params.EmployerCreateBenefitEligibilityPolicyParams,
             ),
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
@@ -248,20 +245,110 @@ class EmployersResource(SyncAPIResource):
             cast_to=BenefitEligibilityPolicy,
         )
 
+    def list_employees(
+        self,
+        employer_id: str,
+        *,
+        limit: int | Omit = omit,
+        page: int | Omit = omit,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
+    ) -> EmployerListEmployeesResponse:
+        """Retrieves a paginated list of all employees for a specific employer.
+
+        Results are
+        paginated using page and limit parameters.
+
+        Args:
+          employer_id: Unique employer identifier (empr\\__\\**)
+
+          limit: Items per page (default: 20, max: 100)
+
+          page: Page number (default: 1)
+
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        if not employer_id:
+            raise ValueError(f"Expected a non-empty value for `employer_id` but received {employer_id!r}")
+        return self._get(
+            f"/v1/employers/{employer_id}/employees",
+            options=make_request_options(
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
+                query=maybe_transform(
+                    {
+                        "limit": limit,
+                        "page": page,
+                    },
+                    employer_list_employees_params.EmployerListEmployeesParams,
+                ),
+            ),
+            cast_to=EmployerListEmployeesResponse,
+        )
+
+    def submit_census_sync(
+        self,
+        employer_id: str,
+        *,
+        employees: Iterable[employer_submit_census_sync_params.Employee],
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
+    ) -> EmployerSubmitCensusSyncResponse:
+        """Submits a census sync payload for the specified employer.
+
+        The employees in the
+        payload will be queued for processing. Returns an accepted response with the
+        timestamp of acceptance.
+
+        Args:
+          employer_id: Unique employer identifier (empr\\__\\**)
+
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        if not employer_id:
+            raise ValueError(f"Expected a non-empty value for `employer_id` but received {employer_id!r}")
+        return self._post(
+            f"/v1/employers/{employer_id}/census-sync",
+            body=maybe_transform(
+                {"employees": employees}, employer_submit_census_sync_params.EmployerSubmitCensusSyncParams
+            ),
+            options=make_request_options(
+                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+            ),
+            cast_to=EmployerSubmitCensusSyncResponse,
+        )
+
 
 class AsyncEmployersResource(AsyncAPIResource):
-    @cached_property
-    def employees(self) -> AsyncEmployeesResource:
-        """Manage employee records for employers"""
-        return AsyncEmployeesResource(self._client)
-
     @cached_property
     def with_raw_response(self) -> AsyncEmployersResourceWithRawResponse:
         """
         This property can be used as a prefix for any HTTP method call to return
         the raw response object instead of the parsed content.
 
-        For more information, see https://www.github.com/Vitable-Inc/vitable-connect-python#accessing-raw-response-data-eg-headers
+        For more information, see https://www.github.com/stainless-sdks/vitable-connect-python#accessing-raw-response-data-eg-headers
         """
         return AsyncEmployersResourceWithRawResponse(self)
 
@@ -270,7 +357,7 @@ class AsyncEmployersResource(AsyncAPIResource):
         """
         An alternative to `.with_raw_response` that doesn't eagerly read the response body.
 
-        For more information, see https://www.github.com/Vitable-Inc/vitable-connect-python#with_streaming_response
+        For more information, see https://www.github.com/stainless-sdks/vitable-connect-python#with_streaming_response
         """
         return AsyncEmployersResourceWithStreamingResponse(self)
 
@@ -417,7 +504,7 @@ class AsyncEmployersResource(AsyncAPIResource):
             cast_to=EmployerListResponse,
         )
 
-    async def create_eligibility_policy(
+    async def create_benefit_eligibility_policy(
         self,
         employer_id: str,
         *,
@@ -458,12 +545,107 @@ class AsyncEmployersResource(AsyncAPIResource):
                     "classification": classification,
                     "waiting_period": waiting_period,
                 },
-                employer_create_eligibility_policy_params.EmployerCreateEligibilityPolicyParams,
+                employer_create_benefit_eligibility_policy_params.EmployerCreateBenefitEligibilityPolicyParams,
             ),
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
             cast_to=BenefitEligibilityPolicy,
+        )
+
+    async def list_employees(
+        self,
+        employer_id: str,
+        *,
+        limit: int | Omit = omit,
+        page: int | Omit = omit,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
+    ) -> EmployerListEmployeesResponse:
+        """Retrieves a paginated list of all employees for a specific employer.
+
+        Results are
+        paginated using page and limit parameters.
+
+        Args:
+          employer_id: Unique employer identifier (empr\\__\\**)
+
+          limit: Items per page (default: 20, max: 100)
+
+          page: Page number (default: 1)
+
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        if not employer_id:
+            raise ValueError(f"Expected a non-empty value for `employer_id` but received {employer_id!r}")
+        return await self._get(
+            f"/v1/employers/{employer_id}/employees",
+            options=make_request_options(
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
+                query=await async_maybe_transform(
+                    {
+                        "limit": limit,
+                        "page": page,
+                    },
+                    employer_list_employees_params.EmployerListEmployeesParams,
+                ),
+            ),
+            cast_to=EmployerListEmployeesResponse,
+        )
+
+    async def submit_census_sync(
+        self,
+        employer_id: str,
+        *,
+        employees: Iterable[employer_submit_census_sync_params.Employee],
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
+    ) -> EmployerSubmitCensusSyncResponse:
+        """Submits a census sync payload for the specified employer.
+
+        The employees in the
+        payload will be queued for processing. Returns an accepted response with the
+        timestamp of acceptance.
+
+        Args:
+          employer_id: Unique employer identifier (empr\\__\\**)
+
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        if not employer_id:
+            raise ValueError(f"Expected a non-empty value for `employer_id` but received {employer_id!r}")
+        return await self._post(
+            f"/v1/employers/{employer_id}/census-sync",
+            body=await async_maybe_transform(
+                {"employees": employees}, employer_submit_census_sync_params.EmployerSubmitCensusSyncParams
+            ),
+            options=make_request_options(
+                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+            ),
+            cast_to=EmployerSubmitCensusSyncResponse,
         )
 
 
@@ -480,14 +662,15 @@ class EmployersResourceWithRawResponse:
         self.list = to_raw_response_wrapper(
             employers.list,
         )
-        self.create_eligibility_policy = to_raw_response_wrapper(
-            employers.create_eligibility_policy,
+        self.create_benefit_eligibility_policy = to_raw_response_wrapper(
+            employers.create_benefit_eligibility_policy,
         )
-
-    @cached_property
-    def employees(self) -> EmployeesResourceWithRawResponse:
-        """Manage employee records for employers"""
-        return EmployeesResourceWithRawResponse(self._employers.employees)
+        self.list_employees = to_raw_response_wrapper(
+            employers.list_employees,
+        )
+        self.submit_census_sync = to_raw_response_wrapper(
+            employers.submit_census_sync,
+        )
 
 
 class AsyncEmployersResourceWithRawResponse:
@@ -503,14 +686,15 @@ class AsyncEmployersResourceWithRawResponse:
         self.list = async_to_raw_response_wrapper(
             employers.list,
         )
-        self.create_eligibility_policy = async_to_raw_response_wrapper(
-            employers.create_eligibility_policy,
+        self.create_benefit_eligibility_policy = async_to_raw_response_wrapper(
+            employers.create_benefit_eligibility_policy,
         )
-
-    @cached_property
-    def employees(self) -> AsyncEmployeesResourceWithRawResponse:
-        """Manage employee records for employers"""
-        return AsyncEmployeesResourceWithRawResponse(self._employers.employees)
+        self.list_employees = async_to_raw_response_wrapper(
+            employers.list_employees,
+        )
+        self.submit_census_sync = async_to_raw_response_wrapper(
+            employers.submit_census_sync,
+        )
 
 
 class EmployersResourceWithStreamingResponse:
@@ -526,14 +710,15 @@ class EmployersResourceWithStreamingResponse:
         self.list = to_streamed_response_wrapper(
             employers.list,
         )
-        self.create_eligibility_policy = to_streamed_response_wrapper(
-            employers.create_eligibility_policy,
+        self.create_benefit_eligibility_policy = to_streamed_response_wrapper(
+            employers.create_benefit_eligibility_policy,
         )
-
-    @cached_property
-    def employees(self) -> EmployeesResourceWithStreamingResponse:
-        """Manage employee records for employers"""
-        return EmployeesResourceWithStreamingResponse(self._employers.employees)
+        self.list_employees = to_streamed_response_wrapper(
+            employers.list_employees,
+        )
+        self.submit_census_sync = to_streamed_response_wrapper(
+            employers.submit_census_sync,
+        )
 
 
 class AsyncEmployersResourceWithStreamingResponse:
@@ -549,11 +734,12 @@ class AsyncEmployersResourceWithStreamingResponse:
         self.list = async_to_streamed_response_wrapper(
             employers.list,
         )
-        self.create_eligibility_policy = async_to_streamed_response_wrapper(
-            employers.create_eligibility_policy,
+        self.create_benefit_eligibility_policy = async_to_streamed_response_wrapper(
+            employers.create_benefit_eligibility_policy,
         )
-
-    @cached_property
-    def employees(self) -> AsyncEmployeesResourceWithStreamingResponse:
-        """Manage employee records for employers"""
-        return AsyncEmployeesResourceWithStreamingResponse(self._employers.employees)
+        self.list_employees = async_to_streamed_response_wrapper(
+            employers.list_employees,
+        )
+        self.submit_census_sync = async_to_streamed_response_wrapper(
+            employers.submit_census_sync,
+        )

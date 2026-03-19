@@ -4,10 +4,10 @@ from __future__ import annotations
 
 from typing_extensions import TypedDict
 
-__all__ = ["EnrollmentListParams"]
+__all__ = ["EmployerListEmployeesParams"]
 
 
-class EnrollmentListParams(TypedDict, total=False):
+class EmployerListEmployeesParams(TypedDict, total=False):
     limit: int
     """Items per page (default: 20, max: 100)"""
 

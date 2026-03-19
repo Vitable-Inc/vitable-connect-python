@@ -3,10 +3,10 @@
 from .._models import BaseModel
 from .employee import Employee
 
-__all__ = ["EmployeeResponse"]
+__all__ = ["EmployeeRetrieveResponse"]
 
 
-class EmployeeResponse(BaseModel):
+class EmployeeRetrieveResponse(BaseModel):
     """Response containing a single employee resource."""
 
     data: Employee

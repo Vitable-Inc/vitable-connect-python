@@ -4,10 +4,10 @@ from __future__ import annotations
 
 from typing_extensions import Required, TypedDict
 
-__all__ = ["EmployerCreateEligibilityPolicyParams"]
+__all__ = ["EmployerCreateBenefitEligibilityPolicyParams"]
 
 
-class EmployerCreateEligibilityPolicyParams(TypedDict, total=False):
+class EmployerCreateBenefitEligibilityPolicyParams(TypedDict, total=False):
     classification: Required[str]
     """Which employee classifications are eligible. One of: full_time, part_time, all"""
 

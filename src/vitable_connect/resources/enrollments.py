@@ -14,7 +14,7 @@ from .._response import (
     async_to_streamed_response_wrapper,
 )
 from .._base_client import make_request_options
-from ..types.enrollment_response import EnrollmentResponse
+from ..types.enrollment_retrieve_response import EnrollmentRetrieveResponse
 
 __all__ = ["EnrollmentsResource", "AsyncEnrollmentsResource"]
 
@@ -28,7 +28,7 @@ class EnrollmentsResource(SyncAPIResource):
         This property can be used as a prefix for any HTTP method call to return
         the raw response object instead of the parsed content.
 
-        For more information, see https://www.github.com/Vitable-Inc/vitable-connect-python#accessing-raw-response-data-eg-headers
+        For more information, see https://www.github.com/stainless-sdks/vitable-connect-python#accessing-raw-response-data-eg-headers
         """
         return EnrollmentsResourceWithRawResponse(self)
 
@@ -37,7 +37,7 @@ class EnrollmentsResource(SyncAPIResource):
         """
         An alternative to `.with_raw_response` that doesn't eagerly read the response body.
 
-        For more information, see https://www.github.com/Vitable-Inc/vitable-connect-python#with_streaming_response
+        For more information, see https://www.github.com/stainless-sdks/vitable-connect-python#with_streaming_response
         """
         return EnrollmentsResourceWithStreamingResponse(self)
 
@@ -51,7 +51,7 @@ class EnrollmentsResource(SyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> EnrollmentResponse:
+    ) -> EnrollmentRetrieveResponse:
         """
         Retrieves detailed information for a specific enrollment by ID.
 
@@ -73,7 +73,7 @@ class EnrollmentsResource(SyncAPIResource):
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
-            cast_to=EnrollmentResponse,
+            cast_to=EnrollmentRetrieveResponse,
         )
 
 
@@ -86,7 +86,7 @@ class AsyncEnrollmentsResource(AsyncAPIResource):
         This property can be used as a prefix for any HTTP method call to return
         the raw response object instead of the parsed content.
 
-        For more information, see https://www.github.com/Vitable-Inc/vitable-connect-python#accessing-raw-response-data-eg-headers
+        For more information, see https://www.github.com/stainless-sdks/vitable-connect-python#accessing-raw-response-data-eg-headers
         """
         return AsyncEnrollmentsResourceWithRawResponse(self)
 
@@ -95,7 +95,7 @@ class AsyncEnrollmentsResource(AsyncAPIResource):
         """
         An alternative to `.with_raw_response` that doesn't eagerly read the response body.
 
-        For more information, see https://www.github.com/Vitable-Inc/vitable-connect-python#with_streaming_response
+        For more information, see https://www.github.com/stainless-sdks/vitable-connect-python#with_streaming_response
         """
         return AsyncEnrollmentsResourceWithStreamingResponse(self)
 
@@ -109,7 +109,7 @@ class AsyncEnrollmentsResource(AsyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> EnrollmentResponse:
+    ) -> EnrollmentRetrieveResponse:
         """
         Retrieves detailed information for a specific enrollment by ID.
 
@@ -131,7 +131,7 @@ class AsyncEnrollmentsResource(AsyncAPIResource):
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
-            cast_to=EnrollmentResponse,
+            cast_to=EnrollmentRetrieveResponse,
         )
 
 

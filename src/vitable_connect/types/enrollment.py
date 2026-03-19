@@ -2,10 +2,9 @@
 
 from typing import Optional
 from datetime import date, datetime
+from typing_extensions import Literal
 
 from .._models import BaseModel
-from .category import Category
-from .product_code import ProductCode
 from .enrollment_status import EnrollmentStatus
 
 __all__ = ["Enrollment", "Benefit"]
@@ -17,7 +16,7 @@ class Benefit(BaseModel):
     id: str
     """Benefit product ID (bprd\\__\\**)"""
 
-    category: Category
+    category: Literal["Medical", "Dental", "Vision", "Hospital"]
     """
     - `Medical` - Medical
     - `Dental` - Dental
@@ -28,7 +27,23 @@ class Benefit(BaseModel):
     name: str
     """Display name of the benefit product"""
 
-    product_code: ProductCode
+    product_code: Literal[
+        "EBA",
+        "VPC",
+        "VPC_CORE",
+        "MEC",
+        "MEC2",
+        "MEC_PLUS",
+        "MVP",
+        "MVP2",
+        "MVPSL",
+        "MVPSL2",
+        "VD",
+        "VV",
+        "ICHRA",
+        "ICHRA_PREMIUM_PLUS",
+        "ICHRA_REIMBURSEMENT_ONLY",
+    ]
     """
     - `EBA` - Eba Mec
     - `VPC` - Vpc Enhanced

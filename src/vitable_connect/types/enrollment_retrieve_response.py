@@ -3,10 +3,10 @@
 from .._models import BaseModel
 from .enrollment import Enrollment
 
-__all__ = ["EnrollmentResponse"]
+__all__ = ["EnrollmentRetrieveResponse"]
 
 
-class EnrollmentResponse(BaseModel):
+class EnrollmentRetrieveResponse(BaseModel):
     """Response containing a single enrollment resource."""
 
     data: Enrollment
