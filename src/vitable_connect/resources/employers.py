@@ -23,11 +23,12 @@ from .._response import (
     async_to_raw_response_wrapper,
     async_to_streamed_response_wrapper,
 )
-from .._base_client import make_request_options
+from ..pagination import SyncPageNumberPage, AsyncPageNumberPage
+from .._base_client import AsyncPaginator, make_request_options
+from ..types.employee import Employee
+from ..types.employer import Employer
 from ..types.employer_response import EmployerResponse
-from ..types.employer_list_response import EmployerListResponse
-from ..types.benefit_eligibility_policy import BenefitEligibilityPolicy
-from ..types.employer_list_employees_response import EmployerListEmployeesResponse
+from ..types.benefit_eligibility_policy_response import BenefitEligibilityPolicyResponse
 from ..types.employer_submit_census_sync_response import EmployerSubmitCensusSyncResponse
 
 __all__ = ["EmployersResource", "AsyncEmployersResource"]
@@ -159,7 +160,7 @@ class EmployersResource(SyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> EmployerListResponse:
+    ) -> SyncPageNumberPage[Employer]:
         """
         Retrieves a paginated list of all employers belonging to the authenticated
         organization. Results are sorted by creation date (newest first) and paginated
@@ -178,8 +179,9 @@ class EmployersResource(SyncAPIResource):
 
           timeout: Override the client-level default timeout for this request, in seconds
         """
-        return self._get(
+        return self._get_api_list(
             "/v1/employers",
+            page=SyncPageNumberPage[Employer],
             options=make_request_options(
                 extra_headers=extra_headers,
                 extra_query=extra_query,
@@ -193,7 +195,7 @@ class EmployersResource(SyncAPIResource):
                     employer_list_params.EmployerListParams,
                 ),
             ),
-            cast_to=EmployerListResponse,
+            model=Employer,
         )
 
     def create_benefit_eligibility_policy(
@@ -208,7 +210,7 @@ class EmployersResource(SyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> BenefitEligibilityPolicy:
+    ) -> BenefitEligibilityPolicyResponse:
         """
         Creates a benefit eligibility policy for the specified employer.
 
@@ -242,7 +244,7 @@ class EmployersResource(SyncAPIResource):
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
-            cast_to=BenefitEligibilityPolicy,
+            cast_to=BenefitEligibilityPolicyResponse,
         )
 
     def list_employees(
@@ -257,7 +259,7 @@ class EmployersResource(SyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> EmployerListEmployeesResponse:
+    ) -> SyncPageNumberPage[Employee]:
         """Retrieves a paginated list of all employees for a specific employer.
 
         Results are
@@ -280,8 +282,9 @@ class EmployersResource(SyncAPIResource):
         """
         if not employer_id:
             raise ValueError(f"Expected a non-empty value for `employer_id` but received {employer_id!r}")
-        return self._get(
+        return self._get_api_list(
             f"/v1/employers/{employer_id}/employees",
+            page=SyncPageNumberPage[Employee],
             options=make_request_options(
                 extra_headers=extra_headers,
                 extra_query=extra_query,
@@ -295,7 +298,7 @@ class EmployersResource(SyncAPIResource):
                     employer_list_employees_params.EmployerListEmployeesParams,
                 ),
             ),
-            cast_to=EmployerListEmployeesResponse,
+            model=Employee,
         )
 
     def submit_census_sync(
@@ -456,7 +459,7 @@ class AsyncEmployersResource(AsyncAPIResource):
             cast_to=EmployerResponse,
         )
 
-    async def list(
+    def list(
         self,
         *,
         limit: int | Omit = omit,
@@ -467,7 +470,7 @@ class AsyncEmployersResource(AsyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> EmployerListResponse:
+    ) -> AsyncPaginator[Employer, AsyncPageNumberPage[Employer]]:
         """
         Retrieves a paginated list of all employers belonging to the authenticated
         organization. Results are sorted by creation date (newest first) and paginated
@@ -486,14 +489,15 @@ class AsyncEmployersResource(AsyncAPIResource):
 
           timeout: Override the client-level default timeout for this request, in seconds
         """
-        return await self._get(
+        return self._get_api_list(
             "/v1/employers",
+            page=AsyncPageNumberPage[Employer],
             options=make_request_options(
                 extra_headers=extra_headers,
                 extra_query=extra_query,
                 extra_body=extra_body,
                 timeout=timeout,
-                query=await async_maybe_transform(
+                query=maybe_transform(
                     {
                         "limit": limit,
                         "page": page,
@@ -501,7 +505,7 @@ class AsyncEmployersResource(AsyncAPIResource):
                     employer_list_params.EmployerListParams,
                 ),
             ),
-            cast_to=EmployerListResponse,
+            model=Employer,
         )
 
     async def create_benefit_eligibility_policy(
@@ -516,7 +520,7 @@ class AsyncEmployersResource(AsyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> BenefitEligibilityPolicy:
+    ) -> BenefitEligibilityPolicyResponse:
         """
         Creates a benefit eligibility policy for the specified employer.
 
@@ -550,10 +554,10 @@ class AsyncEmployersResource(AsyncAPIResource):
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
-            cast_to=BenefitEligibilityPolicy,
+            cast_to=BenefitEligibilityPolicyResponse,
         )
 
-    async def list_employees(
+    def list_employees(
         self,
         employer_id: str,
         *,
@@ -565,7 +569,7 @@ class AsyncEmployersResource(AsyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> EmployerListEmployeesResponse:
+    ) -> AsyncPaginator[Employee, AsyncPageNumberPage[Employee]]:
         """Retrieves a paginated list of all employees for a specific employer.
 
         Results are
@@ -588,14 +592,15 @@ class AsyncEmployersResource(AsyncAPIResource):
         """
         if not employer_id:
             raise ValueError(f"Expected a non-empty value for `employer_id` but received {employer_id!r}")
-        return await self._get(
+        return self._get_api_list(
             f"/v1/employers/{employer_id}/employees",
+            page=AsyncPageNumberPage[Employee],
             options=make_request_options(
                 extra_headers=extra_headers,
                 extra_query=extra_query,
                 extra_body=extra_body,
                 timeout=timeout,
-                query=await async_maybe_transform(
+                query=maybe_transform(
                     {
                         "limit": limit,
                         "page": page,
@@ -603,7 +608,7 @@ class AsyncEmployersResource(AsyncAPIResource):
                     employer_list_employees_params.EmployerListEmployeesParams,
                 ),
             ),
-            cast_to=EmployerListEmployeesResponse,
+            model=Employee,
         )
 
     async def submit_census_sync(

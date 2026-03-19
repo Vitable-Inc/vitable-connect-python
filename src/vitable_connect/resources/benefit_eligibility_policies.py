@@ -14,7 +14,7 @@ from .._response import (
     async_to_streamed_response_wrapper,
 )
 from .._base_client import make_request_options
-from ..types.benefit_eligibility_policy import BenefitEligibilityPolicy
+from ..types.benefit_eligibility_policy_response import BenefitEligibilityPolicyResponse
 
 __all__ = ["BenefitEligibilityPoliciesResource", "AsyncBenefitEligibilityPoliciesResource"]
 
@@ -51,7 +51,7 @@ class BenefitEligibilityPoliciesResource(SyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> BenefitEligibilityPolicy:
+    ) -> BenefitEligibilityPolicyResponse:
         """
         Retrieves a benefit eligibility policy by ID.
 
@@ -73,7 +73,7 @@ class BenefitEligibilityPoliciesResource(SyncAPIResource):
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
-            cast_to=BenefitEligibilityPolicy,
+            cast_to=BenefitEligibilityPolicyResponse,
         )
 
 
@@ -109,7 +109,7 @@ class AsyncBenefitEligibilityPoliciesResource(AsyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> BenefitEligibilityPolicy:
+    ) -> BenefitEligibilityPolicyResponse:
         """
         Retrieves a benefit eligibility policy by ID.
 
@@ -131,7 +131,7 @@ class AsyncBenefitEligibilityPoliciesResource(AsyncAPIResource):
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
-            cast_to=BenefitEligibilityPolicy,
+            cast_to=BenefitEligibilityPolicyResponse,
         )
 
 

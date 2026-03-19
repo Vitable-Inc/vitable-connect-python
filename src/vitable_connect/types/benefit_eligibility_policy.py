@@ -4,10 +4,10 @@ from datetime import datetime
 
 from .._models import BaseModel
 
-__all__ = ["BenefitEligibilityPolicy", "Data"]
+__all__ = ["BenefitEligibilityPolicy"]
 
 
-class Data(BaseModel):
+class BenefitEligibilityPolicy(BaseModel):
     id: str
 
     active: bool
@@ -21,9 +21,3 @@ class Data(BaseModel):
     updated_at: datetime
 
     waiting_period: str
-
-
-class BenefitEligibilityPolicy(BaseModel):
-    """Response containing a single benefit eligibility policy resource."""
-
-    data: Data

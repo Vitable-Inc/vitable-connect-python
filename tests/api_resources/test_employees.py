@@ -9,10 +9,8 @@ import pytest
 
 from tests.utils import assert_matches_type
 from vitable_connect import VitableConnect, AsyncVitableConnect
-from vitable_connect.types import (
-    EmployeeRetrieveResponse,
-    EmployeeListEnrollmentsResponse,
-)
+from vitable_connect.types import Enrollment, EmployeeRetrieveResponse
+from vitable_connect.pagination import SyncPageNumberPage, AsyncPageNumberPage
 
 base_url = os.environ.get("TEST_API_BASE_URL", "http://127.0.0.1:4010")
 
@@ -68,7 +66,7 @@ class TestEmployees:
         employee = client.employees.list_enrollments(
             employee_id="empl_abc123def456",
         )
-        assert_matches_type(EmployeeListEnrollmentsResponse, employee, path=["response"])
+        assert_matches_type(SyncPageNumberPage[Enrollment], employee, path=["response"])
 
     @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
@@ -78,7 +76,7 @@ class TestEmployees:
             limit=20,
             page=1,
         )
-        assert_matches_type(EmployeeListEnrollmentsResponse, employee, path=["response"])
+        assert_matches_type(SyncPageNumberPage[Enrollment], employee, path=["response"])
 
     @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
@@ -90,7 +88,7 @@ class TestEmployees:
         assert response.is_closed is True
         assert response.http_request.headers.get("X-Stainless-Lang") == "python"
         employee = response.parse()
-        assert_matches_type(EmployeeListEnrollmentsResponse, employee, path=["response"])
+        assert_matches_type(SyncPageNumberPage[Enrollment], employee, path=["response"])
 
     @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
@@ -102,7 +100,7 @@ class TestEmployees:
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
 
             employee = response.parse()
-            assert_matches_type(EmployeeListEnrollmentsResponse, employee, path=["response"])
+            assert_matches_type(SyncPageNumberPage[Enrollment], employee, path=["response"])
 
         assert cast(Any, response.is_closed) is True
 
@@ -168,7 +166,7 @@ class TestAsyncEmployees:
         employee = await async_client.employees.list_enrollments(
             employee_id="empl_abc123def456",
         )
-        assert_matches_type(EmployeeListEnrollmentsResponse, employee, path=["response"])
+        assert_matches_type(AsyncPageNumberPage[Enrollment], employee, path=["response"])
 
     @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
@@ -178,7 +176,7 @@ class TestAsyncEmployees:
             limit=20,
             page=1,
         )
-        assert_matches_type(EmployeeListEnrollmentsResponse, employee, path=["response"])
+        assert_matches_type(AsyncPageNumberPage[Enrollment], employee, path=["response"])
 
     @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
@@ -190,7 +188,7 @@ class TestAsyncEmployees:
         assert response.is_closed is True
         assert response.http_request.headers.get("X-Stainless-Lang") == "python"
         employee = await response.parse()
-        assert_matches_type(EmployeeListEnrollmentsResponse, employee, path=["response"])
+        assert_matches_type(AsyncPageNumberPage[Enrollment], employee, path=["response"])
 
     @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
@@ -202,7 +200,7 @@ class TestAsyncEmployees:
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
 
             employee = await response.parse()
-            assert_matches_type(EmployeeListEnrollmentsResponse, employee, path=["response"])
+            assert_matches_type(AsyncPageNumberPage[Enrollment], employee, path=["response"])
 
         assert cast(Any, response.is_closed) is True
 
