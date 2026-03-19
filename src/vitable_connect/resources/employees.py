@@ -6,7 +6,7 @@ import httpx
 
 from ..types import employee_list_enrollments_params
 from .._types import Body, Omit, Query, Headers, NotGiven, omit, not_given
-from .._utils import maybe_transform, async_maybe_transform
+from .._utils import maybe_transform
 from .._compat import cached_property
 from .._resource import SyncAPIResource, AsyncAPIResource
 from .._response import (
@@ -15,9 +15,10 @@ from .._response import (
     async_to_raw_response_wrapper,
     async_to_streamed_response_wrapper,
 )
-from .._base_client import make_request_options
+from ..pagination import SyncPageNumberPage, AsyncPageNumberPage
+from .._base_client import AsyncPaginator, make_request_options
+from ..types.enrollment import Enrollment
 from ..types.employee_retrieve_response import EmployeeRetrieveResponse
-from ..types.employee_list_enrollments_response import EmployeeListEnrollmentsResponse
 
 __all__ = ["EmployeesResource", "AsyncEmployeesResource"]
 
@@ -91,7 +92,7 @@ class EmployeesResource(SyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> EmployeeListEnrollmentsResponse:
+    ) -> SyncPageNumberPage[Enrollment]:
         """
         Retrieves a paginated list of benefit enrollments for an employee.
 
@@ -112,8 +113,9 @@ class EmployeesResource(SyncAPIResource):
         """
         if not employee_id:
             raise ValueError(f"Expected a non-empty value for `employee_id` but received {employee_id!r}")
-        return self._get(
+        return self._get_api_list(
             f"/v1/employees/{employee_id}/enrollments",
+            page=SyncPageNumberPage[Enrollment],
             options=make_request_options(
                 extra_headers=extra_headers,
                 extra_query=extra_query,
@@ -127,7 +129,7 @@ class EmployeesResource(SyncAPIResource):
                     employee_list_enrollments_params.EmployeeListEnrollmentsParams,
                 ),
             ),
-            cast_to=EmployeeListEnrollmentsResponse,
+            model=Enrollment,
         )
 
 
@@ -188,7 +190,7 @@ class AsyncEmployeesResource(AsyncAPIResource):
             cast_to=EmployeeRetrieveResponse,
         )
 
-    async def list_enrollments(
+    def list_enrollments(
         self,
         employee_id: str,
         *,
@@ -200,7 +202,7 @@ class AsyncEmployeesResource(AsyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> EmployeeListEnrollmentsResponse:
+    ) -> AsyncPaginator[Enrollment, AsyncPageNumberPage[Enrollment]]:
         """
         Retrieves a paginated list of benefit enrollments for an employee.
 
@@ -221,14 +223,15 @@ class AsyncEmployeesResource(AsyncAPIResource):
         """
         if not employee_id:
             raise ValueError(f"Expected a non-empty value for `employee_id` but received {employee_id!r}")
-        return await self._get(
+        return self._get_api_list(
             f"/v1/employees/{employee_id}/enrollments",
+            page=AsyncPageNumberPage[Enrollment],
             options=make_request_options(
                 extra_headers=extra_headers,
                 extra_query=extra_query,
                 extra_body=extra_body,
                 timeout=timeout,
-                query=await async_maybe_transform(
+                query=maybe_transform(
                     {
                         "limit": limit,
                         "page": page,
@@ -236,7 +239,7 @@ class AsyncEmployeesResource(AsyncAPIResource):
                     employee_list_enrollments_params.EmployeeListEnrollmentsParams,
                 ),
             ),
-            cast_to=EmployeeListEnrollmentsResponse,
+            model=Enrollment,
         )
 
 

@@ -9,7 +9,7 @@ import pytest
 
 from tests.utils import assert_matches_type
 from vitable_connect import VitableConnect, AsyncVitableConnect
-from vitable_connect.types import BenefitEligibilityPolicy
+from vitable_connect.types import BenefitEligibilityPolicyResponse
 
 base_url = os.environ.get("TEST_API_BASE_URL", "http://127.0.0.1:4010")
 
@@ -23,7 +23,7 @@ class TestBenefitEligibilityPolicies:
         benefit_eligibility_policy = client.benefit_eligibility_policies.retrieve(
             "epol_abc123def456",
         )
-        assert_matches_type(BenefitEligibilityPolicy, benefit_eligibility_policy, path=["response"])
+        assert_matches_type(BenefitEligibilityPolicyResponse, benefit_eligibility_policy, path=["response"])
 
     @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
@@ -35,7 +35,7 @@ class TestBenefitEligibilityPolicies:
         assert response.is_closed is True
         assert response.http_request.headers.get("X-Stainless-Lang") == "python"
         benefit_eligibility_policy = response.parse()
-        assert_matches_type(BenefitEligibilityPolicy, benefit_eligibility_policy, path=["response"])
+        assert_matches_type(BenefitEligibilityPolicyResponse, benefit_eligibility_policy, path=["response"])
 
     @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
@@ -47,7 +47,7 @@ class TestBenefitEligibilityPolicies:
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
 
             benefit_eligibility_policy = response.parse()
-            assert_matches_type(BenefitEligibilityPolicy, benefit_eligibility_policy, path=["response"])
+            assert_matches_type(BenefitEligibilityPolicyResponse, benefit_eligibility_policy, path=["response"])
 
         assert cast(Any, response.is_closed) is True
 
@@ -71,7 +71,7 @@ class TestAsyncBenefitEligibilityPolicies:
         benefit_eligibility_policy = await async_client.benefit_eligibility_policies.retrieve(
             "epol_abc123def456",
         )
-        assert_matches_type(BenefitEligibilityPolicy, benefit_eligibility_policy, path=["response"])
+        assert_matches_type(BenefitEligibilityPolicyResponse, benefit_eligibility_policy, path=["response"])
 
     @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
@@ -83,7 +83,7 @@ class TestAsyncBenefitEligibilityPolicies:
         assert response.is_closed is True
         assert response.http_request.headers.get("X-Stainless-Lang") == "python"
         benefit_eligibility_policy = await response.parse()
-        assert_matches_type(BenefitEligibilityPolicy, benefit_eligibility_policy, path=["response"])
+        assert_matches_type(BenefitEligibilityPolicyResponse, benefit_eligibility_policy, path=["response"])
 
     @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
@@ -95,7 +95,7 @@ class TestAsyncBenefitEligibilityPolicies:
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
 
             benefit_eligibility_policy = await response.parse()
-            assert_matches_type(BenefitEligibilityPolicy, benefit_eligibility_policy, path=["response"])
+            assert_matches_type(BenefitEligibilityPolicyResponse, benefit_eligibility_policy, path=["response"])
 
         assert cast(Any, response.is_closed) is True
 
