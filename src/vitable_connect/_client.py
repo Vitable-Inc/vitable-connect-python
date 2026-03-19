@@ -34,9 +34,9 @@ from ._base_client import (
 if TYPE_CHECKING:
     from .resources import auth, employees, employers, enrollments, benefit_eligibility_policies
     from .resources.auth import AuthResource, AsyncAuthResource
+    from .resources.employees import EmployeesResource, AsyncEmployeesResource
+    from .resources.employers import EmployersResource, AsyncEmployersResource
     from .resources.enrollments import EnrollmentsResource, AsyncEnrollmentsResource
-    from .resources.employees.employees import EmployeesResource, AsyncEmployeesResource
-    from .resources.employers.employers import EmployersResource, AsyncEmployersResource
     from .resources.benefit_eligibility_policies import (
         BenefitEligibilityPoliciesResource,
         AsyncBenefitEligibilityPoliciesResource,
@@ -155,7 +155,6 @@ class VitableConnect(SyncAPIClient):
 
     @cached_property
     def employees(self) -> EmployeesResource:
-        """Manage employee records for employers"""
         from .resources.employees import EmployeesResource
 
         return EmployeesResource(self)
@@ -388,7 +387,6 @@ class AsyncVitableConnect(AsyncAPIClient):
 
     @cached_property
     def employees(self) -> AsyncEmployeesResource:
-        """Manage employee records for employers"""
         from .resources.employees import AsyncEmployeesResource
 
         return AsyncEmployeesResource(self)
@@ -550,7 +548,6 @@ class VitableConnectWithRawResponse:
 
     @cached_property
     def employees(self) -> employees.EmployeesResourceWithRawResponse:
-        """Manage employee records for employers"""
         from .resources.employees import EmployeesResourceWithRawResponse
 
         return EmployeesResourceWithRawResponse(self._client.employees)
@@ -593,7 +590,6 @@ class AsyncVitableConnectWithRawResponse:
 
     @cached_property
     def employees(self) -> employees.AsyncEmployeesResourceWithRawResponse:
-        """Manage employee records for employers"""
         from .resources.employees import AsyncEmployeesResourceWithRawResponse
 
         return AsyncEmployeesResourceWithRawResponse(self._client.employees)
@@ -636,7 +632,6 @@ class VitableConnectWithStreamedResponse:
 
     @cached_property
     def employees(self) -> employees.EmployeesResourceWithStreamingResponse:
-        """Manage employee records for employers"""
         from .resources.employees import EmployeesResourceWithStreamingResponse
 
         return EmployeesResourceWithStreamingResponse(self._client.employees)
@@ -679,7 +674,6 @@ class AsyncVitableConnectWithStreamedResponse:
 
     @cached_property
     def employees(self) -> employees.AsyncEmployeesResourceWithStreamingResponse:
-        """Manage employee records for employers"""
         from .resources.employees import AsyncEmployeesResourceWithStreamingResponse
 
         return AsyncEmployeesResourceWithStreamingResponse(self._client.employees)

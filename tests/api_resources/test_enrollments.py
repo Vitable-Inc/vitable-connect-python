@@ -9,7 +9,7 @@ import pytest
 
 from tests.utils import assert_matches_type
 from vitable_connect import VitableConnect, AsyncVitableConnect
-from vitable_connect.types import EnrollmentResponse
+from vitable_connect.types import EnrollmentRetrieveResponse
 
 base_url = os.environ.get("TEST_API_BASE_URL", "http://127.0.0.1:4010")
 
@@ -23,7 +23,7 @@ class TestEnrollments:
         enrollment = client.enrollments.retrieve(
             "enrl_abc123def456",
         )
-        assert_matches_type(EnrollmentResponse, enrollment, path=["response"])
+        assert_matches_type(EnrollmentRetrieveResponse, enrollment, path=["response"])
 
     @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
@@ -35,7 +35,7 @@ class TestEnrollments:
         assert response.is_closed is True
         assert response.http_request.headers.get("X-Stainless-Lang") == "python"
         enrollment = response.parse()
-        assert_matches_type(EnrollmentResponse, enrollment, path=["response"])
+        assert_matches_type(EnrollmentRetrieveResponse, enrollment, path=["response"])
 
     @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
@@ -47,7 +47,7 @@ class TestEnrollments:
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
 
             enrollment = response.parse()
-            assert_matches_type(EnrollmentResponse, enrollment, path=["response"])
+            assert_matches_type(EnrollmentRetrieveResponse, enrollment, path=["response"])
 
         assert cast(Any, response.is_closed) is True
 
@@ -71,7 +71,7 @@ class TestAsyncEnrollments:
         enrollment = await async_client.enrollments.retrieve(
             "enrl_abc123def456",
         )
-        assert_matches_type(EnrollmentResponse, enrollment, path=["response"])
+        assert_matches_type(EnrollmentRetrieveResponse, enrollment, path=["response"])
 
     @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
@@ -83,7 +83,7 @@ class TestAsyncEnrollments:
         assert response.is_closed is True
         assert response.http_request.headers.get("X-Stainless-Lang") == "python"
         enrollment = await response.parse()
-        assert_matches_type(EnrollmentResponse, enrollment, path=["response"])
+        assert_matches_type(EnrollmentRetrieveResponse, enrollment, path=["response"])
 
     @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
@@ -95,7 +95,7 @@ class TestAsyncEnrollments:
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
 
             enrollment = await response.parse()
-            assert_matches_type(EnrollmentResponse, enrollment, path=["response"])
+            assert_matches_type(EnrollmentRetrieveResponse, enrollment, path=["response"])
 
         assert cast(Any, response.is_closed) is True
 
