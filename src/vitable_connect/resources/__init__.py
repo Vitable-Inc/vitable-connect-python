@@ -32,6 +32,14 @@ from .enrollments import (
     EnrollmentsResourceWithStreamingResponse,
     AsyncEnrollmentsResourceWithStreamingResponse,
 )
+from .webhook_events import (
+    WebhookEventsResource,
+    AsyncWebhookEventsResource,
+    WebhookEventsResourceWithRawResponse,
+    AsyncWebhookEventsResourceWithRawResponse,
+    WebhookEventsResourceWithStreamingResponse,
+    AsyncWebhookEventsResourceWithStreamingResponse,
+)
 from .benefit_eligibility_policies import (
     BenefitEligibilityPoliciesResource,
     AsyncBenefitEligibilityPoliciesResource,
@@ -72,4 +80,10 @@ __all__ = [
     "AsyncEnrollmentsResourceWithRawResponse",
     "EnrollmentsResourceWithStreamingResponse",
     "AsyncEnrollmentsResourceWithStreamingResponse",
+    "WebhookEventsResource",
+    "AsyncWebhookEventsResource",
+    "WebhookEventsResourceWithRawResponse",
+    "AsyncWebhookEventsResourceWithRawResponse",
+    "WebhookEventsResourceWithStreamingResponse",
+    "AsyncWebhookEventsResourceWithStreamingResponse",
 ]

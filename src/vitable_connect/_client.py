@@ -32,11 +32,12 @@ from ._base_client import (
 )
 
 if TYPE_CHECKING:
-    from .resources import auth, employees, employers, enrollments, benefit_eligibility_policies
+    from .resources import auth, employees, employers, enrollments, webhook_events, benefit_eligibility_policies
     from .resources.auth import AuthResource, AsyncAuthResource
     from .resources.employees import EmployeesResource, AsyncEmployeesResource
     from .resources.employers import EmployersResource, AsyncEmployersResource
     from .resources.enrollments import EnrollmentsResource, AsyncEnrollmentsResource
+    from .resources.webhook_events import WebhookEventsResource, AsyncWebhookEventsResource
     from .resources.benefit_eligibility_policies import (
         BenefitEligibilityPoliciesResource,
         AsyncBenefitEligibilityPoliciesResource,
@@ -171,6 +172,12 @@ class VitableConnect(SyncAPIClient):
         from .resources.enrollments import EnrollmentsResource
 
         return EnrollmentsResource(self)
+
+    @cached_property
+    def webhook_events(self) -> WebhookEventsResource:
+        from .resources.webhook_events import WebhookEventsResource
+
+        return WebhookEventsResource(self)
 
     @cached_property
     def with_raw_response(self) -> VitableConnectWithRawResponse:
@@ -405,6 +412,12 @@ class AsyncVitableConnect(AsyncAPIClient):
         return AsyncEnrollmentsResource(self)
 
     @cached_property
+    def webhook_events(self) -> AsyncWebhookEventsResource:
+        from .resources.webhook_events import AsyncWebhookEventsResource
+
+        return AsyncWebhookEventsResource(self)
+
+    @cached_property
     def with_raw_response(self) -> AsyncVitableConnectWithRawResponse:
         return AsyncVitableConnectWithRawResponse(self)
 
@@ -565,6 +578,12 @@ class VitableConnectWithRawResponse:
 
         return EnrollmentsResourceWithRawResponse(self._client.enrollments)
 
+    @cached_property
+    def webhook_events(self) -> webhook_events.WebhookEventsResourceWithRawResponse:
+        from .resources.webhook_events import WebhookEventsResourceWithRawResponse
+
+        return WebhookEventsResourceWithRawResponse(self._client.webhook_events)
+
 
 class AsyncVitableConnectWithRawResponse:
     _client: AsyncVitableConnect
@@ -606,6 +625,12 @@ class AsyncVitableConnectWithRawResponse:
         from .resources.enrollments import AsyncEnrollmentsResourceWithRawResponse
 
         return AsyncEnrollmentsResourceWithRawResponse(self._client.enrollments)
+
+    @cached_property
+    def webhook_events(self) -> webhook_events.AsyncWebhookEventsResourceWithRawResponse:
+        from .resources.webhook_events import AsyncWebhookEventsResourceWithRawResponse
+
+        return AsyncWebhookEventsResourceWithRawResponse(self._client.webhook_events)
 
 
 class VitableConnectWithStreamedResponse:
@@ -649,6 +674,12 @@ class VitableConnectWithStreamedResponse:
 
         return EnrollmentsResourceWithStreamingResponse(self._client.enrollments)
 
+    @cached_property
+    def webhook_events(self) -> webhook_events.WebhookEventsResourceWithStreamingResponse:
+        from .resources.webhook_events import WebhookEventsResourceWithStreamingResponse
+
+        return WebhookEventsResourceWithStreamingResponse(self._client.webhook_events)
+
 
 class AsyncVitableConnectWithStreamedResponse:
     _client: AsyncVitableConnect
@@ -690,6 +721,12 @@ class AsyncVitableConnectWithStreamedResponse:
         from .resources.enrollments import AsyncEnrollmentsResourceWithStreamingResponse
 
         return AsyncEnrollmentsResourceWithStreamingResponse(self._client.enrollments)
+
+    @cached_property
+    def webhook_events(self) -> webhook_events.AsyncWebhookEventsResourceWithStreamingResponse:
+        from .resources.webhook_events import AsyncWebhookEventsResourceWithStreamingResponse
+
+        return AsyncWebhookEventsResourceWithStreamingResponse(self._client.webhook_events)
 
 
 Client = VitableConnect
