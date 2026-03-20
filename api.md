@@ -63,3 +63,21 @@ from vitable_connect.types import Enrollment, EnrollmentStatus, EnrollmentRetrie
 Methods:
 
 - <code title="get /v1/enrollments/{enrollment_id}">client.enrollments.<a href="./src/vitable_connect/resources/enrollments.py">retrieve</a>(enrollment_id) -> <a href="./src/vitable_connect/types/enrollment_retrieve_response.py">EnrollmentRetrieveResponse</a></code>
+
+# WebhookEvents
+
+Types:
+
+```python
+from vitable_connect.types import (
+    WebhookEvent,
+    WebhookEventRetrieveResponse,
+    WebhookEventListDeliveriesResponse,
+)
+```
+
+Methods:
+
+- <code title="get /v1/webhook-events/{event_id}">client.webhook_events.<a href="./src/vitable_connect/resources/webhook_events.py">retrieve</a>(event_id) -> <a href="./src/vitable_connect/types/webhook_event_retrieve_response.py">WebhookEventRetrieveResponse</a></code>
+- <code title="get /v1/webhook-events">client.webhook_events.<a href="./src/vitable_connect/resources/webhook_events.py">list</a>(\*\*<a href="src/vitable_connect/types/webhook_event_list_params.py">params</a>) -> <a href="./src/vitable_connect/types/webhook_event.py">SyncPageNumberPage[WebhookEvent]</a></code>
+- <code title="get /v1/webhook-events/{event_id}/deliveries">client.webhook_events.<a href="./src/vitable_connect/resources/webhook_events.py">list_deliveries</a>(event_id) -> <a href="./src/vitable_connect/types/webhook_event_list_deliveries_response.py">WebhookEventListDeliveriesResponse</a></code>
