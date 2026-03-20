@@ -1,5 +1,31 @@
 # Changelog
 
+## 0.2.0 (2026-03-20)
+
+Full Changelog: [v0.1.2...v0.2.0](https://github.com/Vitable-Inc/vitable-connect-python/compare/v0.1.2...v0.2.0)
+
+### Features
+
+* **api:** api update ([2d17eba](https://github.com/Vitable-Inc/vitable-connect-python/commit/2d17ebab7f730aa1a9a9cba0044d7bd1f05ef3d7))
+* **api:** manual updates ([61e9959](https://github.com/Vitable-Inc/vitable-connect-python/commit/61e9959f83e9d2de1c974e9d04349efba0c03589))
+* **api:** manual updates ([311d294](https://github.com/Vitable-Inc/vitable-connect-python/commit/311d294e50fb62fde627e0e0619064ff05018cb7))
+* **api:** manual updates ([81fa03e](https://github.com/Vitable-Inc/vitable-connect-python/commit/81fa03e7036aeb56052384dfbd31de5f554d2d74))
+
+
+### Bug Fixes
+
+* **deps:** bump minimum typing-extensions version ([4f315a4](https://github.com/Vitable-Inc/vitable-connect-python/commit/4f315a4488437d128364f288ae1a2e526aceb639))
+* **pydantic:** do not pass `by_alias` unless set ([7d698a1](https://github.com/Vitable-Inc/vitable-connect-python/commit/7d698a13ec079a12c7681ce236abf4aa9ea765fa))
+* sanitize endpoint path params ([5d252df](https://github.com/Vitable-Inc/vitable-connect-python/commit/5d252df080bd65d8227cff938a47fc2c0be43c64))
+
+
+### Chores
+
+* **internal:** tweak CI branches ([96b210d](https://github.com/Vitable-Inc/vitable-connect-python/commit/96b210d9f4ace8c61d48775f1cf840e8fcb18d44))
+* update SDK settings ([b5d7c3a](https://github.com/Vitable-Inc/vitable-connect-python/commit/b5d7c3a4a61e8b7beb84a7c2c184d1c4237b324a))
+* update SDK settings ([5749036](https://github.com/Vitable-Inc/vitable-connect-python/commit/57490368bcb31217dc0c9ca08d7757f1c3f03400))
+* update SDK settings ([f29a924](https://github.com/Vitable-Inc/vitable-connect-python/commit/f29a9244a92c5205cd978c2adc176b9428c0be4f))
+
 ## 0.1.2 (2026-03-15)
 
 Full Changelog: [v0.1.1...v0.1.2](https://github.com/Vitable-Inc/vitable-connect-python/compare/v0.1.1...v0.1.2)
