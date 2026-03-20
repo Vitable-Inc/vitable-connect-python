@@ -6,7 +6,7 @@ import httpx
 
 from ..types import employee_list_enrollments_params
 from .._types import Body, Omit, Query, Headers, NotGiven, omit, not_given
-from .._utils import maybe_transform
+from .._utils import path_template, maybe_transform
 from .._compat import cached_property
 from .._resource import SyncAPIResource, AsyncAPIResource
 from .._response import (
@@ -73,7 +73,7 @@ class EmployeesResource(SyncAPIResource):
         if not employee_id:
             raise ValueError(f"Expected a non-empty value for `employee_id` but received {employee_id!r}")
         return self._get(
-            f"/v1/employees/{employee_id}",
+            path_template("/v1/employees/{employee_id}", employee_id=employee_id),
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
@@ -114,7 +114,7 @@ class EmployeesResource(SyncAPIResource):
         if not employee_id:
             raise ValueError(f"Expected a non-empty value for `employee_id` but received {employee_id!r}")
         return self._get_api_list(
-            f"/v1/employees/{employee_id}/enrollments",
+            path_template("/v1/employees/{employee_id}/enrollments", employee_id=employee_id),
             page=SyncPageNumberPage[Enrollment],
             options=make_request_options(
                 extra_headers=extra_headers,
@@ -183,7 +183,7 @@ class AsyncEmployeesResource(AsyncAPIResource):
         if not employee_id:
             raise ValueError(f"Expected a non-empty value for `employee_id` but received {employee_id!r}")
         return await self._get(
-            f"/v1/employees/{employee_id}",
+            path_template("/v1/employees/{employee_id}", employee_id=employee_id),
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
@@ -224,7 +224,7 @@ class AsyncEmployeesResource(AsyncAPIResource):
         if not employee_id:
             raise ValueError(f"Expected a non-empty value for `employee_id` but received {employee_id!r}")
         return self._get_api_list(
-            f"/v1/employees/{employee_id}/enrollments",
+            path_template("/v1/employees/{employee_id}/enrollments", employee_id=employee_id),
             page=AsyncPageNumberPage[Enrollment],
             options=make_request_options(
                 extra_headers=extra_headers,
