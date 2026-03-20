@@ -9,8 +9,8 @@ import pytest
 
 from tests.utils import assert_matches_type
 from vitable_connect import VitableConnect, AsyncVitableConnect
-from vitable_connect.types import EmployeeResponse
-from vitable_connect._utils import parse_date
+from vitable_connect.types import Enrollment, EmployeeRetrieveResponse
+from vitable_connect.pagination import SyncPageNumberPage, AsyncPageNumberPage
 
 base_url = os.environ.get("TEST_API_BASE_URL", "http://127.0.0.1:4010")
 
@@ -24,7 +24,7 @@ class TestEmployees:
         employee = client.employees.retrieve(
             "empl_abc123def456",
         )
-        assert_matches_type(EmployeeResponse, employee, path=["response"])
+        assert_matches_type(EmployeeRetrieveResponse, employee, path=["response"])
 
     @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
@@ -36,7 +36,7 @@ class TestEmployees:
         assert response.is_closed is True
         assert response.http_request.headers.get("X-Stainless-Lang") == "python"
         employee = response.parse()
-        assert_matches_type(EmployeeResponse, employee, path=["response"])
+        assert_matches_type(EmployeeRetrieveResponse, employee, path=["response"])
 
     @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
@@ -48,7 +48,7 @@ class TestEmployees:
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
 
             employee = response.parse()
-            assert_matches_type(EmployeeResponse, employee, path=["response"])
+            assert_matches_type(EmployeeRetrieveResponse, employee, path=["response"])
 
         assert cast(Any, response.is_closed) is True
 
@@ -62,107 +62,54 @@ class TestEmployees:
 
     @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
-    def test_method_update(self, client: VitableConnect) -> None:
-        employee = client.employees.update(
+    def test_method_list_enrollments(self, client: VitableConnect) -> None:
+        employee = client.employees.list_enrollments(
             employee_id="empl_abc123def456",
         )
-        assert_matches_type(EmployeeResponse, employee, path=["response"])
+        assert_matches_type(SyncPageNumberPage[Enrollment], employee, path=["response"])
 
     @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
-    def test_method_update_with_all_params(self, client: VitableConnect) -> None:
-        employee = client.employees.update(
+    def test_method_list_enrollments_with_all_params(self, client: VitableConnect) -> None:
+        employee = client.employees.list_enrollments(
             employee_id="empl_abc123def456",
-            address={
-                "city": "Los Angeles",
-                "state": "CA",
-                "street_1": "123 New Street",
-                "zip_code": "90001",
-                "country": "US",
-                "street_2": "street_2",
-            },
-            email="john.doe.updated@example.com",
-            employee_class="Part Time",
-            gender="gender",
-            phone="+1-555-999-8888",
-            termination_date=parse_date("2019-12-27"),
+            limit=20,
+            page=1,
         )
-        assert_matches_type(EmployeeResponse, employee, path=["response"])
+        assert_matches_type(SyncPageNumberPage[Enrollment], employee, path=["response"])
 
     @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
-    def test_raw_response_update(self, client: VitableConnect) -> None:
-        response = client.employees.with_raw_response.update(
+    def test_raw_response_list_enrollments(self, client: VitableConnect) -> None:
+        response = client.employees.with_raw_response.list_enrollments(
             employee_id="empl_abc123def456",
         )
 
         assert response.is_closed is True
         assert response.http_request.headers.get("X-Stainless-Lang") == "python"
         employee = response.parse()
-        assert_matches_type(EmployeeResponse, employee, path=["response"])
+        assert_matches_type(SyncPageNumberPage[Enrollment], employee, path=["response"])
 
     @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
-    def test_streaming_response_update(self, client: VitableConnect) -> None:
-        with client.employees.with_streaming_response.update(
+    def test_streaming_response_list_enrollments(self, client: VitableConnect) -> None:
+        with client.employees.with_streaming_response.list_enrollments(
             employee_id="empl_abc123def456",
         ) as response:
             assert not response.is_closed
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
 
             employee = response.parse()
-            assert_matches_type(EmployeeResponse, employee, path=["response"])
+            assert_matches_type(SyncPageNumberPage[Enrollment], employee, path=["response"])
 
         assert cast(Any, response.is_closed) is True
 
     @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
-    def test_path_params_update(self, client: VitableConnect) -> None:
+    def test_path_params_list_enrollments(self, client: VitableConnect) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `employee_id` but received ''"):
-            client.employees.with_raw_response.update(
+            client.employees.with_raw_response.list_enrollments(
                 employee_id="",
-            )
-
-    @pytest.mark.skip(reason="Mock server tests are disabled")
-    @parametrize
-    def test_method_terminate(self, client: VitableConnect) -> None:
-        employee = client.employees.terminate(
-            "empl_abc123def456",
-        )
-        assert employee is None
-
-    @pytest.mark.skip(reason="Mock server tests are disabled")
-    @parametrize
-    def test_raw_response_terminate(self, client: VitableConnect) -> None:
-        response = client.employees.with_raw_response.terminate(
-            "empl_abc123def456",
-        )
-
-        assert response.is_closed is True
-        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
-        employee = response.parse()
-        assert employee is None
-
-    @pytest.mark.skip(reason="Mock server tests are disabled")
-    @parametrize
-    def test_streaming_response_terminate(self, client: VitableConnect) -> None:
-        with client.employees.with_streaming_response.terminate(
-            "empl_abc123def456",
-        ) as response:
-            assert not response.is_closed
-            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
-
-            employee = response.parse()
-            assert employee is None
-
-        assert cast(Any, response.is_closed) is True
-
-    @pytest.mark.skip(reason="Mock server tests are disabled")
-    @parametrize
-    def test_path_params_terminate(self, client: VitableConnect) -> None:
-        with pytest.raises(ValueError, match=r"Expected a non-empty value for `employee_id` but received ''"):
-            client.employees.with_raw_response.terminate(
-                "",
             )
 
 
@@ -177,7 +124,7 @@ class TestAsyncEmployees:
         employee = await async_client.employees.retrieve(
             "empl_abc123def456",
         )
-        assert_matches_type(EmployeeResponse, employee, path=["response"])
+        assert_matches_type(EmployeeRetrieveResponse, employee, path=["response"])
 
     @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
@@ -189,7 +136,7 @@ class TestAsyncEmployees:
         assert response.is_closed is True
         assert response.http_request.headers.get("X-Stainless-Lang") == "python"
         employee = await response.parse()
-        assert_matches_type(EmployeeResponse, employee, path=["response"])
+        assert_matches_type(EmployeeRetrieveResponse, employee, path=["response"])
 
     @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
@@ -201,7 +148,7 @@ class TestAsyncEmployees:
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
 
             employee = await response.parse()
-            assert_matches_type(EmployeeResponse, employee, path=["response"])
+            assert_matches_type(EmployeeRetrieveResponse, employee, path=["response"])
 
         assert cast(Any, response.is_closed) is True
 
@@ -215,105 +162,52 @@ class TestAsyncEmployees:
 
     @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
-    async def test_method_update(self, async_client: AsyncVitableConnect) -> None:
-        employee = await async_client.employees.update(
+    async def test_method_list_enrollments(self, async_client: AsyncVitableConnect) -> None:
+        employee = await async_client.employees.list_enrollments(
             employee_id="empl_abc123def456",
         )
-        assert_matches_type(EmployeeResponse, employee, path=["response"])
+        assert_matches_type(AsyncPageNumberPage[Enrollment], employee, path=["response"])
 
     @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
-    async def test_method_update_with_all_params(self, async_client: AsyncVitableConnect) -> None:
-        employee = await async_client.employees.update(
+    async def test_method_list_enrollments_with_all_params(self, async_client: AsyncVitableConnect) -> None:
+        employee = await async_client.employees.list_enrollments(
             employee_id="empl_abc123def456",
-            address={
-                "city": "Los Angeles",
-                "state": "CA",
-                "street_1": "123 New Street",
-                "zip_code": "90001",
-                "country": "US",
-                "street_2": "street_2",
-            },
-            email="john.doe.updated@example.com",
-            employee_class="Part Time",
-            gender="gender",
-            phone="+1-555-999-8888",
-            termination_date=parse_date("2019-12-27"),
+            limit=20,
+            page=1,
         )
-        assert_matches_type(EmployeeResponse, employee, path=["response"])
+        assert_matches_type(AsyncPageNumberPage[Enrollment], employee, path=["response"])
 
     @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
-    async def test_raw_response_update(self, async_client: AsyncVitableConnect) -> None:
-        response = await async_client.employees.with_raw_response.update(
+    async def test_raw_response_list_enrollments(self, async_client: AsyncVitableConnect) -> None:
+        response = await async_client.employees.with_raw_response.list_enrollments(
             employee_id="empl_abc123def456",
         )
 
         assert response.is_closed is True
         assert response.http_request.headers.get("X-Stainless-Lang") == "python"
         employee = await response.parse()
-        assert_matches_type(EmployeeResponse, employee, path=["response"])
+        assert_matches_type(AsyncPageNumberPage[Enrollment], employee, path=["response"])
 
     @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
-    async def test_streaming_response_update(self, async_client: AsyncVitableConnect) -> None:
-        async with async_client.employees.with_streaming_response.update(
+    async def test_streaming_response_list_enrollments(self, async_client: AsyncVitableConnect) -> None:
+        async with async_client.employees.with_streaming_response.list_enrollments(
             employee_id="empl_abc123def456",
         ) as response:
             assert not response.is_closed
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
 
             employee = await response.parse()
-            assert_matches_type(EmployeeResponse, employee, path=["response"])
+            assert_matches_type(AsyncPageNumberPage[Enrollment], employee, path=["response"])
 
         assert cast(Any, response.is_closed) is True
 
     @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
-    async def test_path_params_update(self, async_client: AsyncVitableConnect) -> None:
+    async def test_path_params_list_enrollments(self, async_client: AsyncVitableConnect) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `employee_id` but received ''"):
-            await async_client.employees.with_raw_response.update(
+            await async_client.employees.with_raw_response.list_enrollments(
                 employee_id="",
-            )
-
-    @pytest.mark.skip(reason="Mock server tests are disabled")
-    @parametrize
-    async def test_method_terminate(self, async_client: AsyncVitableConnect) -> None:
-        employee = await async_client.employees.terminate(
-            "empl_abc123def456",
-        )
-        assert employee is None
-
-    @pytest.mark.skip(reason="Mock server tests are disabled")
-    @parametrize
-    async def test_raw_response_terminate(self, async_client: AsyncVitableConnect) -> None:
-        response = await async_client.employees.with_raw_response.terminate(
-            "empl_abc123def456",
-        )
-
-        assert response.is_closed is True
-        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
-        employee = await response.parse()
-        assert employee is None
-
-    @pytest.mark.skip(reason="Mock server tests are disabled")
-    @parametrize
-    async def test_streaming_response_terminate(self, async_client: AsyncVitableConnect) -> None:
-        async with async_client.employees.with_streaming_response.terminate(
-            "empl_abc123def456",
-        ) as response:
-            assert not response.is_closed
-            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
-
-            employee = await response.parse()
-            assert employee is None
-
-        assert cast(Any, response.is_closed) is True
-
-    @pytest.mark.skip(reason="Mock server tests are disabled")
-    @parametrize
-    async def test_path_params_terminate(self, async_client: AsyncVitableConnect) -> None:
-        with pytest.raises(ValueError, match=r"Expected a non-empty value for `employee_id` but received ''"):
-            await async_client.employees.with_raw_response.terminate(
-                "",
             )

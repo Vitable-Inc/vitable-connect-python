@@ -54,7 +54,7 @@ class Employer(BaseModel):
     name: str
     """Display name of the employer"""
 
-    organization_id: str
+    organization_id: Optional[str] = None
     """ID of the parent organization (org\\__\\**)"""
 
     updated_at: datetime
@@ -62,3 +62,9 @@ class Employer(BaseModel):
 
     email: Optional[str] = None
     """Email address for billing and communications"""
+
+    phone_number: Optional[str] = None
+    """Employer phone number (E.164 format recommended)"""
+
+    reference_id: Optional[str] = None
+    """Partner-assigned reference ID for the employer"""
