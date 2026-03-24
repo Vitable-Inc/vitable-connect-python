@@ -24,6 +24,12 @@ class EmployerCreateParams(TypedDict, total=False):
     name: Required[str]
     """Employer display name"""
 
+    phone_number: Optional[str]
+    """Employer phone number (10-digit US format, e.g. 5551234567)"""
+
+    reference_id: Optional[str]
+    """External reference ID for this employer"""
+
 
 class Address(TypedDict, total=False):
     """Employer address"""

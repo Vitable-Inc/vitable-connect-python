@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 
-from typing import Iterable
+from typing import Iterable, Optional
 
 import httpx
 
@@ -62,6 +62,8 @@ class EmployersResource(SyncAPIResource):
         email: str,
         legal_name: str,
         name: str,
+        phone_number: Optional[str] | Omit = omit,
+        reference_id: Optional[str] | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -86,6 +88,10 @@ class EmployersResource(SyncAPIResource):
 
           name: Employer display name
 
+          phone_number: Employer phone number (10-digit US format, e.g. 5551234567)
+
+          reference_id: External reference ID for this employer
+
           extra_headers: Send extra headers
 
           extra_query: Add additional query parameters to the request
@@ -103,6 +109,8 @@ class EmployersResource(SyncAPIResource):
                     "email": email,
                     "legal_name": legal_name,
                     "name": name,
+                    "phone_number": phone_number,
+                    "reference_id": reference_id,
                 },
                 employer_create_params.EmployerCreateParams,
             ),
@@ -372,6 +380,8 @@ class AsyncEmployersResource(AsyncAPIResource):
         email: str,
         legal_name: str,
         name: str,
+        phone_number: Optional[str] | Omit = omit,
+        reference_id: Optional[str] | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -396,6 +406,10 @@ class AsyncEmployersResource(AsyncAPIResource):
 
           name: Employer display name
 
+          phone_number: Employer phone number (10-digit US format, e.g. 5551234567)
+
+          reference_id: External reference ID for this employer
+
           extra_headers: Send extra headers
 
           extra_query: Add additional query parameters to the request
@@ -413,6 +427,8 @@ class AsyncEmployersResource(AsyncAPIResource):
                     "email": email,
                     "legal_name": legal_name,
                     "name": name,
+                    "phone_number": phone_number,
+                    "reference_id": reference_id,
                 },
                 employer_create_params.EmployerCreateParams,
             ),
