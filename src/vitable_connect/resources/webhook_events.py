@@ -99,7 +99,7 @@ class WebhookEventsResource(SyncAPIResource):
             "employee.eligibility_terminated",
             "employee.deactivated",
             "payroll_deduction.created",
-            "plan_year.eligibility_policy_created",
+            "employer.eligibility_policy_created",
         ]
         | Omit = omit,
         limit: int | Omit = omit,
@@ -129,7 +129,7 @@ class WebhookEventsResource(SyncAPIResource):
               - `employee.eligibility_terminated` - Employee Eligibility Terminated
               - `employee.deactivated` - Employee Deactivated
               - `payroll_deduction.created` - Payroll Deduction Created
-              - `plan_year.eligibility_policy_created` - Plan Year Eligibility Policy Created
+              - `employer.eligibility_policy_created` - Employer Eligibility Policy Created
 
           limit: Items per page (default: 20, max: 100)
 
@@ -282,7 +282,7 @@ class AsyncWebhookEventsResource(AsyncAPIResource):
             "employee.eligibility_terminated",
             "employee.deactivated",
             "payroll_deduction.created",
-            "plan_year.eligibility_policy_created",
+            "employer.eligibility_policy_created",
         ]
         | Omit = omit,
         limit: int | Omit = omit,
@@ -312,7 +312,7 @@ class AsyncWebhookEventsResource(AsyncAPIResource):
               - `employee.eligibility_terminated` - Employee Eligibility Terminated
               - `employee.deactivated` - Employee Deactivated
               - `payroll_deduction.created` - Payroll Deduction Created
-              - `plan_year.eligibility_policy_created` - Plan Year Eligibility Policy Created
+              - `employer.eligibility_policy_created` - Employer Eligibility Policy Created
 
           limit: Items per page (default: 20, max: 100)
 

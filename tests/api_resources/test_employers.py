@@ -57,6 +57,8 @@ class TestEmployers:
             email="hr@newco.com",
             legal_name="NewCo Industries LLC",
             name="NewCo Industries",
+            phone_number="2065550100",
+            reference_id="partner-emp-001",
         )
         assert_matches_type(EmployerResponse, employer, path=["response"])
 
@@ -429,6 +431,8 @@ class TestAsyncEmployers:
             email="hr@newco.com",
             legal_name="NewCo Industries LLC",
             name="NewCo Industries",
+            phone_number="2065550100",
+            reference_id="partner-emp-001",
         )
         assert_matches_type(EmployerResponse, employer, path=["response"])
 
