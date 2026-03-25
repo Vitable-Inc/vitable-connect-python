@@ -2,12 +2,40 @@
 
 from typing import List, Optional
 from datetime import date, datetime
+from typing_extensions import Literal
 
 from .._models import BaseModel
 from .employee_class import EmployeeClass
 from .enrollment_status import EnrollmentStatus
 
-__all__ = ["Employee", "Enrollment", "Address"]
+__all__ = ["Employee", "Deduction", "Enrollment", "Address"]
+
+
+class Deduction(BaseModel):
+    benefit_name: str
+    """Name of the benefit plan"""
+
+    deduction_amount_in_cents: int
+    """Employee deduction amount in cents"""
+
+    deduction_category: Optional[str] = None
+    """Deduction category (reserved for future use)"""
+
+    frequency: Literal["monthly"]
+    """- `monthly` - Monthly"""
+
+    period_end_date: date
+    """Period end date (YYYY-MM-DD)"""
+
+    period_start_date: date
+    """Period start date (YYYY-MM-DD)"""
+
+    tax_classification: Literal["Unknown", "Pre-tax", "Post-tax"]
+    """
+    - `Unknown` - Unknown
+    - `Pre-tax` - Pre Tax
+    - `Post-tax` - Post Tax
+    """
 
 
 class Enrollment(BaseModel):
@@ -54,6 +82,12 @@ class Employee(BaseModel):
 
     date_of_birth: date
     """Date of birth (YYYY-MM-DD)"""
+
+    deductions: List[Deduction]
+    """Payroll deductions from the most recent statement period.
+
+    Replaced when a new statement is generated.
+    """
 
     email: str
     """Email address"""
