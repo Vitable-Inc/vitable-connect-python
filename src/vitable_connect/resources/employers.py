@@ -271,7 +271,9 @@ class EmployersResource(SyncAPIResource):
         """Retrieves a paginated list of all employees for a specific employer.
 
         Results are
-        paginated using page and limit parameters.
+        paginated using page and limit parameters. Each employee includes payroll
+        deductions from the most recent statement period. When a new deduction statement
+        is generated, previous period deductions are replaced.
 
         Args:
           employer_id: Unique employer identifier (empr\\__\\**)
@@ -589,7 +591,9 @@ class AsyncEmployersResource(AsyncAPIResource):
         """Retrieves a paginated list of all employees for a specific employer.
 
         Results are
-        paginated using page and limit parameters.
+        paginated using page and limit parameters. Each employee includes payroll
+        deductions from the most recent statement period. When a new deduction statement
+        is generated, previous period deductions are replaced.
 
         Args:
           employer_id: Unique employer identifier (empr\\__\\**)
