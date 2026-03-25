@@ -57,7 +57,9 @@ class EmployeesResource(SyncAPIResource):
         """Retrieves detailed information for a specific employee by ID.
 
         Returns employee
-        details including personal information and employment status.
+        details including personal information, employment status, and payroll
+        deductions from the most recent statement period. Deductions reflect a snapshot
+        of the current period and are replaced when a new statement is generated.
 
         Args:
           employee_id: Unique employee identifier (empl\\__\\**)
@@ -167,7 +169,9 @@ class AsyncEmployeesResource(AsyncAPIResource):
         """Retrieves detailed information for a specific employee by ID.
 
         Returns employee
-        details including personal information and employment status.
+        details including personal information, employment status, and payroll
+        deductions from the most recent statement period. Deductions reflect a snapshot
+        of the current period and are replaced when a new statement is generated.
 
         Args:
           employee_id: Unique employee identifier (empl\\__\\**)
