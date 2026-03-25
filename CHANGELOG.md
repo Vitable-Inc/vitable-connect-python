@@ -1,5 +1,18 @@
 # Changelog
 
+## 0.4.0 (2026-03-25)
+
+Full Changelog: [v0.3.0...v0.4.0](https://github.com/Vitable-Inc/vitable-connect-python/compare/v0.3.0...v0.4.0)
+
+### Features
+
+* **api:** api update ([cbeb23a](https://github.com/Vitable-Inc/vitable-connect-python/commit/cbeb23af9f69f3d6601a572ca1ad477e3a0a7604))
+
+
+### Chores
+
+* **ci:** skip lint on metadata-only changes ([ae2ea7a](https://github.com/Vitable-Inc/vitable-connect-python/commit/ae2ea7a1799256a5647a1361e5290f1ac0a3053f))
+
 ## 0.3.0 (2026-03-24)
 
 Full Changelog: [v0.2.0...v0.3.0](https://github.com/Vitable-Inc/vitable-connect-python/compare/v0.2.0...v0.3.0)
