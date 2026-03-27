@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.5.0 (2026-03-27)
+
+Full Changelog: [v0.4.0...v0.5.0](https://github.com/Vitable-Inc/vitable-connect-python/compare/v0.4.0...v0.5.0)
+
+### Features
+
+* **internal:** implement indices array format for query and form serialization ([20179b1](https://github.com/Vitable-Inc/vitable-connect-python/commit/20179b1aa30918ed29ef03f6e577546a893f9a7a))
+
 ## 0.4.0 (2026-03-25)
 
 Full Changelog: [v0.3.0...v0.4.0](https://github.com/Vitable-Inc/vitable-connect-python/compare/v0.3.0...v0.4.0)
