@@ -1,5 +1,14 @@
 # Changelog
 
+## 0.5.1 (2026-04-11)
+
+Full Changelog: [v0.5.0...v0.5.1](https://github.com/Vitable-Inc/vitable-connect-python/compare/v0.5.0...v0.5.1)
+
+### Bug Fixes
+
+* **client:** preserve hardcoded query params when merging with user params ([a146ca8](https://github.com/Vitable-Inc/vitable-connect-python/commit/a146ca8b4396978eb085d9e35669b8de9b88eea6))
+* ensure file data are only sent as 1 parameter ([4f40996](https://github.com/Vitable-Inc/vitable-connect-python/commit/4f409963112717020cd8f0cd8a9cfd3938e56fc8))
+
 ## 0.5.0 (2026-03-27)
 
 Full Changelog: [v0.4.0...v0.5.0](https://github.com/Vitable-Inc/vitable-connect-python/compare/v0.4.0...v0.5.0)
