@@ -1,5 +1,24 @@
 # Changelog
 
+## 0.6.0 (2026-04-18)
+
+Full Changelog: [v0.5.0...v0.6.0](https://github.com/Vitable-Inc/vitable-connect-python/compare/v0.5.0...v0.6.0)
+
+### Features
+
+* **api:** api update ([ce09b27](https://github.com/Vitable-Inc/vitable-connect-python/commit/ce09b27923e4d550edf0090b17de2471a2b9487e))
+
+
+### Bug Fixes
+
+* **client:** preserve hardcoded query params when merging with user params ([a146ca8](https://github.com/Vitable-Inc/vitable-connect-python/commit/a146ca8b4396978eb085d9e35669b8de9b88eea6))
+* ensure file data are only sent as 1 parameter ([4f40996](https://github.com/Vitable-Inc/vitable-connect-python/commit/4f409963112717020cd8f0cd8a9cfd3938e56fc8))
+
+
+### Performance Improvements
+
+* **client:** optimize file structure copying in multipart requests ([ef0dd2c](https://github.com/Vitable-Inc/vitable-connect-python/commit/ef0dd2c111eb6c05a486150ea8b6243768b0d7d9))
+
 ## 0.5.0 (2026-03-27)
 
 Full Changelog: [v0.4.0...v0.5.0](https://github.com/Vitable-Inc/vitable-connect-python/compare/v0.4.0...v0.5.0)
