@@ -21,8 +21,13 @@ class Deduction(BaseModel):
     deduction_category: Optional[str] = None
     """Deduction category (reserved for future use)"""
 
-    frequency: Literal["monthly"]
-    """- `monthly` - Monthly"""
+    frequency: Literal["weekly", "bi_weekly", "semi_monthly", "monthly"]
+    """
+    - `weekly` - Weekly
+    - `bi_weekly` - Bi Weekly
+    - `semi_monthly` - Semi Monthly
+    - `monthly` - Monthly
+    """
 
     period_end_date: date
     """Period end date (YYYY-MM-DD)"""
