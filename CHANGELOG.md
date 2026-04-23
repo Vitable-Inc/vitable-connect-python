@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.6.1 (2026-04-23)
+
+Full Changelog: [v0.6.0...v0.6.1](https://github.com/Vitable-Inc/vitable-connect-python/compare/v0.6.0...v0.6.1)
+
+### Chores
+
+* **internal:** more robust bootstrap script ([0a150fe](https://github.com/Vitable-Inc/vitable-connect-python/commit/0a150fea1af9f9c0e41ef27d8b3dd87b16e20900))
+
 ## 0.6.0 (2026-04-18)
 
 Full Changelog: [v0.5.0...v0.6.0](https://github.com/Vitable-Inc/vitable-connect-python/compare/v0.5.0...v0.6.0)
