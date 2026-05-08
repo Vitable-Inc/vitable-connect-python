@@ -6,9 +6,8 @@ from typing_extensions import Literal
 
 from .._models import BaseModel
 from .employee_class import EmployeeClass
-from .enrollment_status import EnrollmentStatus
 
-__all__ = ["Employee", "Deduction", "Enrollment", "Address"]
+__all__ = ["Employee", "Deduction", "Address"]
 
 
 class Deduction(BaseModel):
@@ -41,22 +40,6 @@ class Deduction(BaseModel):
     - `Pre-tax` - Pre Tax
     - `Post-tax` - Post Tax
     """
-
-
-class Enrollment(BaseModel):
-    id: str
-    """Unique enrollment identifier with 'enrl\\__' prefix"""
-
-    status: EnrollmentStatus
-    """
-    - `pending` - Pending
-    - `enrolled` - Enrolled
-    - `waived` - Waived
-    - `inactive` - Inactive
-    """
-
-    answered_at: Optional[datetime] = None
-    """Timestamp when the enrollment decision was made"""
 
 
 class Address(BaseModel):
@@ -96,9 +79,6 @@ class Employee(BaseModel):
 
     email: str
     """Email address"""
-
-    enrollments: List[Enrollment]
-    """Benefit enrollments for this employee"""
 
     first_name: str
     """Employee's legal first name"""
