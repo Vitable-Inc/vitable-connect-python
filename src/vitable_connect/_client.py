@@ -36,11 +36,22 @@ from ._base_client import (
 )
 
 if TYPE_CHECKING:
-    from .resources import auth, employees, employers, enrollments, webhook_events, benefit_eligibility_policies
+    from .resources import (
+        auth,
+        plans,
+        groups,
+        employees,
+        employers,
+        enrollments,
+        webhook_events,
+        benefit_eligibility_policies,
+    )
     from .resources.auth import AuthResource, AsyncAuthResource
+    from .resources.plans import PlansResource, AsyncPlansResource
     from .resources.employees import EmployeesResource, AsyncEmployeesResource
     from .resources.employers import EmployersResource, AsyncEmployersResource
     from .resources.enrollments import EnrollmentsResource, AsyncEnrollmentsResource
+    from .resources.groups.groups import GroupsResource, AsyncGroupsResource
     from .resources.webhook_events import WebhookEventsResource, AsyncWebhookEventsResource
     from .resources.benefit_eligibility_policies import (
         BenefitEligibilityPoliciesResource,
@@ -191,6 +202,18 @@ class VitableConnect(SyncAPIClient):
         from .resources.webhook_events import WebhookEventsResource
 
         return WebhookEventsResource(self)
+
+    @cached_property
+    def groups(self) -> GroupsResource:
+        from .resources.groups import GroupsResource
+
+        return GroupsResource(self)
+
+    @cached_property
+    def plans(self) -> PlansResource:
+        from .resources.plans import PlansResource
+
+        return PlansResource(self)
 
     @cached_property
     def with_raw_response(self) -> VitableConnectWithRawResponse:
@@ -440,6 +463,18 @@ class AsyncVitableConnect(AsyncAPIClient):
         return AsyncWebhookEventsResource(self)
 
     @cached_property
+    def groups(self) -> AsyncGroupsResource:
+        from .resources.groups import AsyncGroupsResource
+
+        return AsyncGroupsResource(self)
+
+    @cached_property
+    def plans(self) -> AsyncPlansResource:
+        from .resources.plans import AsyncPlansResource
+
+        return AsyncPlansResource(self)
+
+    @cached_property
     def with_raw_response(self) -> AsyncVitableConnectWithRawResponse:
         return AsyncVitableConnectWithRawResponse(self)
 
@@ -606,6 +641,18 @@ class VitableConnectWithRawResponse:
 
         return WebhookEventsResourceWithRawResponse(self._client.webhook_events)
 
+    @cached_property
+    def groups(self) -> groups.GroupsResourceWithRawResponse:
+        from .resources.groups import GroupsResourceWithRawResponse
+
+        return GroupsResourceWithRawResponse(self._client.groups)
+
+    @cached_property
+    def plans(self) -> plans.PlansResourceWithRawResponse:
+        from .resources.plans import PlansResourceWithRawResponse
+
+        return PlansResourceWithRawResponse(self._client.plans)
+
 
 class AsyncVitableConnectWithRawResponse:
     _client: AsyncVitableConnect
@@ -653,6 +700,18 @@ class AsyncVitableConnectWithRawResponse:
         from .resources.webhook_events import AsyncWebhookEventsResourceWithRawResponse
 
         return AsyncWebhookEventsResourceWithRawResponse(self._client.webhook_events)
+
+    @cached_property
+    def groups(self) -> groups.AsyncGroupsResourceWithRawResponse:
+        from .resources.groups import AsyncGroupsResourceWithRawResponse
+
+        return AsyncGroupsResourceWithRawResponse(self._client.groups)
+
+    @cached_property
+    def plans(self) -> plans.AsyncPlansResourceWithRawResponse:
+        from .resources.plans import AsyncPlansResourceWithRawResponse
+
+        return AsyncPlansResourceWithRawResponse(self._client.plans)
 
 
 class VitableConnectWithStreamedResponse:
@@ -702,6 +761,18 @@ class VitableConnectWithStreamedResponse:
 
         return WebhookEventsResourceWithStreamingResponse(self._client.webhook_events)
 
+    @cached_property
+    def groups(self) -> groups.GroupsResourceWithStreamingResponse:
+        from .resources.groups import GroupsResourceWithStreamingResponse
+
+        return GroupsResourceWithStreamingResponse(self._client.groups)
+
+    @cached_property
+    def plans(self) -> plans.PlansResourceWithStreamingResponse:
+        from .resources.plans import PlansResourceWithStreamingResponse
+
+        return PlansResourceWithStreamingResponse(self._client.plans)
+
 
 class AsyncVitableConnectWithStreamedResponse:
     _client: AsyncVitableConnect
@@ -749,6 +820,18 @@ class AsyncVitableConnectWithStreamedResponse:
         from .resources.webhook_events import AsyncWebhookEventsResourceWithStreamingResponse
 
         return AsyncWebhookEventsResourceWithStreamingResponse(self._client.webhook_events)
+
+    @cached_property
+    def groups(self) -> groups.AsyncGroupsResourceWithStreamingResponse:
+        from .resources.groups import AsyncGroupsResourceWithStreamingResponse
+
+        return AsyncGroupsResourceWithStreamingResponse(self._client.groups)
+
+    @cached_property
+    def plans(self) -> plans.AsyncPlansResourceWithStreamingResponse:
+        from .resources.plans import AsyncPlansResourceWithStreamingResponse
+
+        return AsyncPlansResourceWithStreamingResponse(self._client.plans)
 
 
 Client = VitableConnect
