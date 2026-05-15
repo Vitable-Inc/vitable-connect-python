@@ -87,7 +87,7 @@ class TestSync:
                     "first_name": "first_name",
                     "last_name": "last_name",
                     "phone": "phone",
-                    "plan_id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+                    "plan_id": "x",
                     "reference_id": "x",
                 }
             ],
@@ -111,7 +111,7 @@ class TestSync:
                     "first_name": "first_name",
                     "last_name": "last_name",
                     "phone": "phone",
-                    "plan_id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+                    "plan_id": "x",
                     "reference_id": "x",
                 }
             ],
@@ -139,7 +139,7 @@ class TestSync:
                     "first_name": "first_name",
                     "last_name": "last_name",
                     "phone": "phone",
-                    "plan_id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+                    "plan_id": "x",
                     "reference_id": "x",
                 }
             ],
@@ -170,7 +170,7 @@ class TestSync:
                         "first_name": "first_name",
                         "last_name": "last_name",
                         "phone": "phone",
-                        "plan_id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+                        "plan_id": "x",
                         "reference_id": "x",
                     }
                 ],
@@ -251,7 +251,7 @@ class TestAsyncSync:
                     "first_name": "first_name",
                     "last_name": "last_name",
                     "phone": "phone",
-                    "plan_id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+                    "plan_id": "x",
                     "reference_id": "x",
                 }
             ],
@@ -275,7 +275,7 @@ class TestAsyncSync:
                     "first_name": "first_name",
                     "last_name": "last_name",
                     "phone": "phone",
-                    "plan_id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+                    "plan_id": "x",
                     "reference_id": "x",
                 }
             ],
@@ -303,7 +303,7 @@ class TestAsyncSync:
                     "first_name": "first_name",
                     "last_name": "last_name",
                     "phone": "phone",
-                    "plan_id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+                    "plan_id": "x",
                     "reference_id": "x",
                 }
             ],
@@ -334,7 +334,7 @@ class TestAsyncSync:
                         "first_name": "first_name",
                         "last_name": "last_name",
                         "phone": "phone",
-                        "plan_id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+                        "plan_id": "x",
                         "reference_id": "x",
                     }
                 ],
