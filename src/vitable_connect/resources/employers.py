@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 from typing import Iterable, Optional
+from typing_extensions import Literal
 
 import httpx
 
@@ -10,6 +11,7 @@ from ..types import (
     employer_list_params,
     employer_create_params,
     employer_list_employees_params,
+    employer_update_settings_params,
     employer_submit_census_sync_params,
     employer_create_benefit_eligibility_policy_params,
 )
@@ -28,6 +30,7 @@ from .._base_client import AsyncPaginator, make_request_options
 from ..types.employee import Employee
 from ..types.employer import Employer
 from ..types.employer_response import EmployerResponse
+from ..types.employer_update_settings_response import EmployerUpdateSettingsResponse
 from ..types.benefit_eligibility_policy_response import BenefitEligibilityPolicyResponse
 from ..types.employer_submit_census_sync_response import EmployerSubmitCensusSyncResponse
 
@@ -353,6 +356,52 @@ class EmployersResource(SyncAPIResource):
             cast_to=EmployerSubmitCensusSyncResponse,
         )
 
+    def update_settings(
+        self,
+        employer_id: str,
+        *,
+        pay_frequency: Literal["weekly", "bi_weekly", "semi_monthly", "monthly"],
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
+    ) -> EmployerUpdateSettingsResponse:
+        """Updates configuration settings for a specific employer.
+
+        The employer must belong
+        to the authenticated organization.
+
+        Args:
+          employer_id: Unique employer identifier (empr\\__\\**)
+
+          pay_frequency: - `weekly` - weekly
+              - `bi_weekly` - bi_weekly
+              - `semi_monthly` - semi_monthly
+              - `monthly` - monthly
+
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        if not employer_id:
+            raise ValueError(f"Expected a non-empty value for `employer_id` but received {employer_id!r}")
+        return self._put(
+            path_template("/v1/employers/{employer_id}/settings", employer_id=employer_id),
+            body=maybe_transform(
+                {"pay_frequency": pay_frequency}, employer_update_settings_params.EmployerUpdateSettingsParams
+            ),
+            options=make_request_options(
+                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+            ),
+            cast_to=EmployerUpdateSettingsResponse,
+        )
+
 
 class AsyncEmployersResource(AsyncAPIResource):
     @cached_property
@@ -673,6 +722,52 @@ class AsyncEmployersResource(AsyncAPIResource):
             cast_to=EmployerSubmitCensusSyncResponse,
         )
 
+    async def update_settings(
+        self,
+        employer_id: str,
+        *,
+        pay_frequency: Literal["weekly", "bi_weekly", "semi_monthly", "monthly"],
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
+    ) -> EmployerUpdateSettingsResponse:
+        """Updates configuration settings for a specific employer.
+
+        The employer must belong
+        to the authenticated organization.
+
+        Args:
+          employer_id: Unique employer identifier (empr\\__\\**)
+
+          pay_frequency: - `weekly` - weekly
+              - `bi_weekly` - bi_weekly
+              - `semi_monthly` - semi_monthly
+              - `monthly` - monthly
+
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        if not employer_id:
+            raise ValueError(f"Expected a non-empty value for `employer_id` but received {employer_id!r}")
+        return await self._put(
+            path_template("/v1/employers/{employer_id}/settings", employer_id=employer_id),
+            body=await async_maybe_transform(
+                {"pay_frequency": pay_frequency}, employer_update_settings_params.EmployerUpdateSettingsParams
+            ),
+            options=make_request_options(
+                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+            ),
+            cast_to=EmployerUpdateSettingsResponse,
+        )
+
 
 class EmployersResourceWithRawResponse:
     def __init__(self, employers: EmployersResource) -> None:
@@ -695,6 +790,9 @@ class EmployersResourceWithRawResponse:
         )
         self.submit_census_sync = to_raw_response_wrapper(
             employers.submit_census_sync,
+        )
+        self.update_settings = to_raw_response_wrapper(
+            employers.update_settings,
         )
 
 
@@ -720,6 +818,9 @@ class AsyncEmployersResourceWithRawResponse:
         self.submit_census_sync = async_to_raw_response_wrapper(
             employers.submit_census_sync,
         )
+        self.update_settings = async_to_raw_response_wrapper(
+            employers.update_settings,
+        )
 
 
 class EmployersResourceWithStreamingResponse:
@@ -744,6 +845,9 @@ class EmployersResourceWithStreamingResponse:
         self.submit_census_sync = to_streamed_response_wrapper(
             employers.submit_census_sync,
         )
+        self.update_settings = to_streamed_response_wrapper(
+            employers.update_settings,
+        )
 
 
 class AsyncEmployersResourceWithStreamingResponse:
@@ -767,4 +871,7 @@ class AsyncEmployersResourceWithStreamingResponse:
         )
         self.submit_census_sync = async_to_streamed_response_wrapper(
             employers.submit_census_sync,
+        )
+        self.update_settings = async_to_streamed_response_wrapper(
+            employers.update_settings,
         )

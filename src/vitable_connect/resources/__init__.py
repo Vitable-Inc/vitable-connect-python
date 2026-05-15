@@ -8,6 +8,22 @@ from .auth import (
     AuthResourceWithStreamingResponse,
     AsyncAuthResourceWithStreamingResponse,
 )
+from .plans import (
+    PlansResource,
+    AsyncPlansResource,
+    PlansResourceWithRawResponse,
+    AsyncPlansResourceWithRawResponse,
+    PlansResourceWithStreamingResponse,
+    AsyncPlansResourceWithStreamingResponse,
+)
+from .groups import (
+    GroupsResource,
+    AsyncGroupsResource,
+    GroupsResourceWithRawResponse,
+    AsyncGroupsResourceWithRawResponse,
+    GroupsResourceWithStreamingResponse,
+    AsyncGroupsResourceWithStreamingResponse,
+)
 from .employees import (
     EmployeesResource,
     AsyncEmployeesResource,
@@ -86,4 +102,16 @@ __all__ = [
     "AsyncWebhookEventsResourceWithRawResponse",
     "WebhookEventsResourceWithStreamingResponse",
     "AsyncWebhookEventsResourceWithStreamingResponse",
+    "GroupsResource",
+    "AsyncGroupsResource",
+    "GroupsResourceWithRawResponse",
+    "AsyncGroupsResourceWithRawResponse",
+    "GroupsResourceWithStreamingResponse",
+    "AsyncGroupsResourceWithStreamingResponse",
+    "PlansResource",
+    "AsyncPlansResource",
+    "PlansResourceWithRawResponse",
+    "AsyncPlansResourceWithRawResponse",
+    "PlansResourceWithStreamingResponse",
+    "AsyncPlansResourceWithStreamingResponse",
 ]
