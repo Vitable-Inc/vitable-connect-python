@@ -1,5 +1,29 @@
 # Changelog
 
+## 0.7.0 (2026-05-15)
+
+Full Changelog: [v0.6.0...v0.7.0](https://github.com/Vitable-Inc/vitable-connect-python/compare/v0.6.0...v0.7.0)
+
+### Features
+
+* **api:** api update ([be238bd](https://github.com/Vitable-Inc/vitable-connect-python/commit/be238bdfa91087968a214e85c1b1f2e3ae3956ba))
+* **api:** api update ([d2cf53f](https://github.com/Vitable-Inc/vitable-connect-python/commit/d2cf53f72ca61c63bea8aa21512153d65dac5267))
+* **api:** manual updates ([d3b3b22](https://github.com/Vitable-Inc/vitable-connect-python/commit/d3b3b226b1f3604bb0bd209e1fd8d5ce6e568346))
+* **internal/types:** support eagerly validating pydantic iterators ([a5abdda](https://github.com/Vitable-Inc/vitable-connect-python/commit/a5abddaf5c4d164c0207fd9df357a2f663fd50e3))
+* support setting headers via env ([3ca51fa](https://github.com/Vitable-Inc/vitable-connect-python/commit/3ca51fa4ae7ec750ee3a82fa9f8551de2d73c705))
+
+
+### Bug Fixes
+
+* **client:** add missing f-string prefix in file type error message ([004c0b9](https://github.com/Vitable-Inc/vitable-connect-python/commit/004c0b9a537063e354d79079b9927559be504392))
+* use correct field name format for multipart file arrays ([6e86a19](https://github.com/Vitable-Inc/vitable-connect-python/commit/6e86a1953203a86f6cf66ede8e4e296de047eb8e))
+
+
+### Chores
+
+* **internal:** more robust bootstrap script ([0a150fe](https://github.com/Vitable-Inc/vitable-connect-python/commit/0a150fea1af9f9c0e41ef27d8b3dd87b16e20900))
+* **internal:** reformat pyproject.toml ([3547294](https://github.com/Vitable-Inc/vitable-connect-python/commit/3547294e7a4bb987f8b7ef66aebd612bdbfb22f5))
+
 ## 0.6.0 (2026-04-18)
 
 Full Changelog: [v0.5.0...v0.6.0](https://github.com/Vitable-Inc/vitable-connect-python/compare/v0.5.0...v0.6.0)

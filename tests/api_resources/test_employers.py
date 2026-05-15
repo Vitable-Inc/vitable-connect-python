@@ -13,6 +13,7 @@ from vitable_connect.types import (
     Employee,
     Employer,
     EmployerResponse,
+    EmployerUpdateSettingsResponse,
     BenefitEligibilityPolicyResponse,
     EmployerSubmitCensusSyncResponse,
 )
@@ -393,6 +394,52 @@ class TestEmployers:
                 ],
             )
 
+    @pytest.mark.skip(reason="Mock server tests are disabled")
+    @parametrize
+    def test_method_update_settings(self, client: VitableConnect) -> None:
+        employer = client.employers.update_settings(
+            employer_id="empr_abc123def456",
+            pay_frequency="bi_weekly",
+        )
+        assert_matches_type(EmployerUpdateSettingsResponse, employer, path=["response"])
+
+    @pytest.mark.skip(reason="Mock server tests are disabled")
+    @parametrize
+    def test_raw_response_update_settings(self, client: VitableConnect) -> None:
+        response = client.employers.with_raw_response.update_settings(
+            employer_id="empr_abc123def456",
+            pay_frequency="bi_weekly",
+        )
+
+        assert response.is_closed is True
+        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        employer = response.parse()
+        assert_matches_type(EmployerUpdateSettingsResponse, employer, path=["response"])
+
+    @pytest.mark.skip(reason="Mock server tests are disabled")
+    @parametrize
+    def test_streaming_response_update_settings(self, client: VitableConnect) -> None:
+        with client.employers.with_streaming_response.update_settings(
+            employer_id="empr_abc123def456",
+            pay_frequency="bi_weekly",
+        ) as response:
+            assert not response.is_closed
+            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+
+            employer = response.parse()
+            assert_matches_type(EmployerUpdateSettingsResponse, employer, path=["response"])
+
+        assert cast(Any, response.is_closed) is True
+
+    @pytest.mark.skip(reason="Mock server tests are disabled")
+    @parametrize
+    def test_path_params_update_settings(self, client: VitableConnect) -> None:
+        with pytest.raises(ValueError, match=r"Expected a non-empty value for `employer_id` but received ''"):
+            client.employers.with_raw_response.update_settings(
+                employer_id="",
+                pay_frequency="bi_weekly",
+            )
+
 
 class TestAsyncEmployers:
     parametrize = pytest.mark.parametrize(
@@ -767,4 +814,50 @@ class TestAsyncEmployers:
                         "phone": "4155550101",
                     },
                 ],
+            )
+
+    @pytest.mark.skip(reason="Mock server tests are disabled")
+    @parametrize
+    async def test_method_update_settings(self, async_client: AsyncVitableConnect) -> None:
+        employer = await async_client.employers.update_settings(
+            employer_id="empr_abc123def456",
+            pay_frequency="bi_weekly",
+        )
+        assert_matches_type(EmployerUpdateSettingsResponse, employer, path=["response"])
+
+    @pytest.mark.skip(reason="Mock server tests are disabled")
+    @parametrize
+    async def test_raw_response_update_settings(self, async_client: AsyncVitableConnect) -> None:
+        response = await async_client.employers.with_raw_response.update_settings(
+            employer_id="empr_abc123def456",
+            pay_frequency="bi_weekly",
+        )
+
+        assert response.is_closed is True
+        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        employer = await response.parse()
+        assert_matches_type(EmployerUpdateSettingsResponse, employer, path=["response"])
+
+    @pytest.mark.skip(reason="Mock server tests are disabled")
+    @parametrize
+    async def test_streaming_response_update_settings(self, async_client: AsyncVitableConnect) -> None:
+        async with async_client.employers.with_streaming_response.update_settings(
+            employer_id="empr_abc123def456",
+            pay_frequency="bi_weekly",
+        ) as response:
+            assert not response.is_closed
+            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+
+            employer = await response.parse()
+            assert_matches_type(EmployerUpdateSettingsResponse, employer, path=["response"])
+
+        assert cast(Any, response.is_closed) is True
+
+    @pytest.mark.skip(reason="Mock server tests are disabled")
+    @parametrize
+    async def test_path_params_update_settings(self, async_client: AsyncVitableConnect) -> None:
+        with pytest.raises(ValueError, match=r"Expected a non-empty value for `employer_id` but received ''"):
+            await async_client.employers.with_raw_response.update_settings(
+                employer_id="",
+                pay_frequency="bi_weekly",
             )
