@@ -78,17 +78,17 @@ class TestSync:
             members=[
                 {
                     "address": {
-                        "address_line_1": "x",
-                        "city": "x",
-                        "state": "xx",
-                        "zipcode": "x",
+                        "address_line_1": "123 Main Street",
+                        "city": "San Francisco",
+                        "state": "CA",
+                        "zipcode": "94102",
                     },
-                    "date_of_birth": parse_date("2019-12-27"),
-                    "first_name": "first_name",
-                    "last_name": "last_name",
-                    "phone": "phone",
-                    "plan_id": "x",
-                    "reference_id": "x",
+                    "date_of_birth": parse_date("1990-05-15"),
+                    "first_name": "Jane",
+                    "last_name": "Doe",
+                    "phone": "4155550100",
+                    "plan_id": "pln_abc123def456",
+                    "reference_id": "EMP-001",
                 }
             ],
         )
@@ -102,17 +102,17 @@ class TestSync:
             members=[
                 {
                     "address": {
-                        "address_line_1": "x",
-                        "city": "x",
-                        "state": "xx",
-                        "zipcode": "x",
+                        "address_line_1": "123 Main Street",
+                        "city": "San Francisco",
+                        "state": "CA",
+                        "zipcode": "94102",
                     },
-                    "date_of_birth": parse_date("2019-12-27"),
-                    "first_name": "first_name",
-                    "last_name": "last_name",
-                    "phone": "phone",
-                    "plan_id": "x",
-                    "reference_id": "x",
+                    "date_of_birth": parse_date("1990-05-15"),
+                    "first_name": "Jane",
+                    "last_name": "Doe",
+                    "phone": "4155550100",
+                    "plan_id": "pln_abc123def456",
+                    "reference_id": "EMP-001",
                 }
             ],
         )
@@ -130,17 +130,17 @@ class TestSync:
             members=[
                 {
                     "address": {
-                        "address_line_1": "x",
-                        "city": "x",
-                        "state": "xx",
-                        "zipcode": "x",
+                        "address_line_1": "123 Main Street",
+                        "city": "San Francisco",
+                        "state": "CA",
+                        "zipcode": "94102",
                     },
-                    "date_of_birth": parse_date("2019-12-27"),
-                    "first_name": "first_name",
-                    "last_name": "last_name",
-                    "phone": "phone",
-                    "plan_id": "x",
-                    "reference_id": "x",
+                    "date_of_birth": parse_date("1990-05-15"),
+                    "first_name": "Jane",
+                    "last_name": "Doe",
+                    "phone": "4155550100",
+                    "plan_id": "pln_abc123def456",
+                    "reference_id": "EMP-001",
                 }
             ],
         ) as response:
@@ -161,17 +161,17 @@ class TestSync:
                 members=[
                     {
                         "address": {
-                            "address_line_1": "x",
-                            "city": "x",
-                            "state": "xx",
-                            "zipcode": "x",
+                            "address_line_1": "123 Main Street",
+                            "city": "San Francisco",
+                            "state": "CA",
+                            "zipcode": "94102",
                         },
-                        "date_of_birth": parse_date("2019-12-27"),
-                        "first_name": "first_name",
-                        "last_name": "last_name",
-                        "phone": "phone",
-                        "plan_id": "x",
-                        "reference_id": "x",
+                        "date_of_birth": parse_date("1990-05-15"),
+                        "first_name": "Jane",
+                        "last_name": "Doe",
+                        "phone": "4155550100",
+                        "plan_id": "pln_abc123def456",
+                        "reference_id": "EMP-001",
                     }
                 ],
             )
@@ -242,17 +242,17 @@ class TestAsyncSync:
             members=[
                 {
                     "address": {
-                        "address_line_1": "x",
-                        "city": "x",
-                        "state": "xx",
-                        "zipcode": "x",
+                        "address_line_1": "123 Main Street",
+                        "city": "San Francisco",
+                        "state": "CA",
+                        "zipcode": "94102",
                     },
-                    "date_of_birth": parse_date("2019-12-27"),
-                    "first_name": "first_name",
-                    "last_name": "last_name",
-                    "phone": "phone",
-                    "plan_id": "x",
-                    "reference_id": "x",
+                    "date_of_birth": parse_date("1990-05-15"),
+                    "first_name": "Jane",
+                    "last_name": "Doe",
+                    "phone": "4155550100",
+                    "plan_id": "pln_abc123def456",
+                    "reference_id": "EMP-001",
                 }
             ],
         )
@@ -266,17 +266,17 @@ class TestAsyncSync:
             members=[
                 {
                     "address": {
-                        "address_line_1": "x",
-                        "city": "x",
-                        "state": "xx",
-                        "zipcode": "x",
+                        "address_line_1": "123 Main Street",
+                        "city": "San Francisco",
+                        "state": "CA",
+                        "zipcode": "94102",
                     },
-                    "date_of_birth": parse_date("2019-12-27"),
-                    "first_name": "first_name",
-                    "last_name": "last_name",
-                    "phone": "phone",
-                    "plan_id": "x",
-                    "reference_id": "x",
+                    "date_of_birth": parse_date("1990-05-15"),
+                    "first_name": "Jane",
+                    "last_name": "Doe",
+                    "phone": "4155550100",
+                    "plan_id": "pln_abc123def456",
+                    "reference_id": "EMP-001",
                 }
             ],
         )
@@ -294,17 +294,17 @@ class TestAsyncSync:
             members=[
                 {
                     "address": {
-                        "address_line_1": "x",
-                        "city": "x",
-                        "state": "xx",
-                        "zipcode": "x",
+                        "address_line_1": "123 Main Street",
+                        "city": "San Francisco",
+                        "state": "CA",
+                        "zipcode": "94102",
                     },
-                    "date_of_birth": parse_date("2019-12-27"),
-                    "first_name": "first_name",
-                    "last_name": "last_name",
-                    "phone": "phone",
-                    "plan_id": "x",
-                    "reference_id": "x",
+                    "date_of_birth": parse_date("1990-05-15"),
+                    "first_name": "Jane",
+                    "last_name": "Doe",
+                    "phone": "4155550100",
+                    "plan_id": "pln_abc123def456",
+                    "reference_id": "EMP-001",
                 }
             ],
         ) as response:
@@ -325,17 +325,17 @@ class TestAsyncSync:
                 members=[
                     {
                         "address": {
-                            "address_line_1": "x",
-                            "city": "x",
-                            "state": "xx",
-                            "zipcode": "x",
+                            "address_line_1": "123 Main Street",
+                            "city": "San Francisco",
+                            "state": "CA",
+                            "zipcode": "94102",
                         },
-                        "date_of_birth": parse_date("2019-12-27"),
-                        "first_name": "first_name",
-                        "last_name": "last_name",
-                        "phone": "phone",
-                        "plan_id": "x",
-                        "reference_id": "x",
+                        "date_of_birth": parse_date("1990-05-15"),
+                        "first_name": "Jane",
+                        "last_name": "Doe",
+                        "phone": "4155550100",
+                        "plan_id": "pln_abc123def456",
+                        "reference_id": "EMP-001",
                     }
                 ],
             )
