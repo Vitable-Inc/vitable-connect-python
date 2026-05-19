@@ -22,8 +22,8 @@ class TestGroups:
     @parametrize
     def test_method_create(self, client: VitableConnect) -> None:
         group = client.groups.create(
-            external_reference_id="x",
-            name="x",
+            external_reference_id="mol_seg_001",
+            name="Tier 1",
         )
         assert_matches_type(GroupResponse, group, path=["response"])
 
@@ -31,8 +31,8 @@ class TestGroups:
     @parametrize
     def test_raw_response_create(self, client: VitableConnect) -> None:
         response = client.groups.with_raw_response.create(
-            external_reference_id="x",
-            name="x",
+            external_reference_id="mol_seg_001",
+            name="Tier 1",
         )
 
         assert response.is_closed is True
@@ -44,8 +44,8 @@ class TestGroups:
     @parametrize
     def test_streaming_response_create(self, client: VitableConnect) -> None:
         with client.groups.with_streaming_response.create(
-            external_reference_id="x",
-            name="x",
+            external_reference_id="mol_seg_001",
+            name="Tier 1",
         ) as response:
             assert not response.is_closed
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
@@ -110,8 +110,8 @@ class TestGroups:
     def test_method_update_with_all_params(self, client: VitableConnect) -> None:
         group = client.groups.update(
             group_id="grp_abc123def456",
-            external_reference_id="external_reference_id",
-            name="x",
+            external_reference_id="mol_seg_001_v2",
+            name="Tier 1 (renamed)",
         )
         assert_matches_type(GroupResponse, group, path=["response"])
 
@@ -196,8 +196,8 @@ class TestAsyncGroups:
     @parametrize
     async def test_method_create(self, async_client: AsyncVitableConnect) -> None:
         group = await async_client.groups.create(
-            external_reference_id="x",
-            name="x",
+            external_reference_id="mol_seg_001",
+            name="Tier 1",
         )
         assert_matches_type(GroupResponse, group, path=["response"])
 
@@ -205,8 +205,8 @@ class TestAsyncGroups:
     @parametrize
     async def test_raw_response_create(self, async_client: AsyncVitableConnect) -> None:
         response = await async_client.groups.with_raw_response.create(
-            external_reference_id="x",
-            name="x",
+            external_reference_id="mol_seg_001",
+            name="Tier 1",
         )
 
         assert response.is_closed is True
@@ -218,8 +218,8 @@ class TestAsyncGroups:
     @parametrize
     async def test_streaming_response_create(self, async_client: AsyncVitableConnect) -> None:
         async with async_client.groups.with_streaming_response.create(
-            external_reference_id="x",
-            name="x",
+            external_reference_id="mol_seg_001",
+            name="Tier 1",
         ) as response:
             assert not response.is_closed
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
@@ -284,8 +284,8 @@ class TestAsyncGroups:
     async def test_method_update_with_all_params(self, async_client: AsyncVitableConnect) -> None:
         group = await async_client.groups.update(
             group_id="grp_abc123def456",
-            external_reference_id="external_reference_id",
-            name="x",
+            external_reference_id="mol_seg_001_v2",
+            name="Tier 1 (renamed)",
         )
         assert_matches_type(GroupResponse, group, path=["response"])
 
