@@ -13,7 +13,6 @@ from ..types import (
     employer_list_employees_params,
     employer_update_settings_params,
     employer_submit_census_sync_params,
-    employer_create_benefit_eligibility_policy_params,
 )
 from .._types import Body, Omit, Query, Headers, NotGiven, omit, not_given
 from .._utils import path_template, maybe_transform, async_maybe_transform
@@ -31,7 +30,6 @@ from ..types.employee import Employee
 from ..types.employer import Employer
 from ..types.employer_response import EmployerResponse
 from ..types.employer_update_settings_response import EmployerUpdateSettingsResponse
-from ..types.benefit_eligibility_policy_response import BenefitEligibilityPolicyResponse
 from ..types.employer_submit_census_sync_response import EmployerSubmitCensusSyncResponse
 
 __all__ = ["EmployersResource", "AsyncEmployersResource"]
@@ -207,55 +205,6 @@ class EmployersResource(SyncAPIResource):
                 ),
             ),
             model=Employer,
-        )
-
-    def create_benefit_eligibility_policy(
-        self,
-        employer_id: str,
-        *,
-        classification: str,
-        waiting_period: str,
-        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
-        # The extra values given here take precedence over values defined on the client or passed to this method.
-        extra_headers: Headers | None = None,
-        extra_query: Query | None = None,
-        extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> BenefitEligibilityPolicyResponse:
-        """
-        Creates a benefit eligibility policy for the specified employer.
-
-        Args:
-          employer_id: Unique employer identifier (empr\\__\\**)
-
-          classification: Which employee classifications are eligible. One of: full_time, part_time, all
-
-          waiting_period: Waiting period before eligibility. One of: first_of_following_month, 30_days,
-              60_days, none
-
-          extra_headers: Send extra headers
-
-          extra_query: Add additional query parameters to the request
-
-          extra_body: Add additional JSON properties to the request
-
-          timeout: Override the client-level default timeout for this request, in seconds
-        """
-        if not employer_id:
-            raise ValueError(f"Expected a non-empty value for `employer_id` but received {employer_id!r}")
-        return self._post(
-            path_template("/v1/employers/{employer_id}/benefit-eligibility-policies", employer_id=employer_id),
-            body=maybe_transform(
-                {
-                    "classification": classification,
-                    "waiting_period": waiting_period,
-                },
-                employer_create_benefit_eligibility_policy_params.EmployerCreateBenefitEligibilityPolicyParams,
-            ),
-            options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
-            ),
-            cast_to=BenefitEligibilityPolicyResponse,
         )
 
     def list_employees(
@@ -575,55 +524,6 @@ class AsyncEmployersResource(AsyncAPIResource):
             model=Employer,
         )
 
-    async def create_benefit_eligibility_policy(
-        self,
-        employer_id: str,
-        *,
-        classification: str,
-        waiting_period: str,
-        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
-        # The extra values given here take precedence over values defined on the client or passed to this method.
-        extra_headers: Headers | None = None,
-        extra_query: Query | None = None,
-        extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> BenefitEligibilityPolicyResponse:
-        """
-        Creates a benefit eligibility policy for the specified employer.
-
-        Args:
-          employer_id: Unique employer identifier (empr\\__\\**)
-
-          classification: Which employee classifications are eligible. One of: full_time, part_time, all
-
-          waiting_period: Waiting period before eligibility. One of: first_of_following_month, 30_days,
-              60_days, none
-
-          extra_headers: Send extra headers
-
-          extra_query: Add additional query parameters to the request
-
-          extra_body: Add additional JSON properties to the request
-
-          timeout: Override the client-level default timeout for this request, in seconds
-        """
-        if not employer_id:
-            raise ValueError(f"Expected a non-empty value for `employer_id` but received {employer_id!r}")
-        return await self._post(
-            path_template("/v1/employers/{employer_id}/benefit-eligibility-policies", employer_id=employer_id),
-            body=await async_maybe_transform(
-                {
-                    "classification": classification,
-                    "waiting_period": waiting_period,
-                },
-                employer_create_benefit_eligibility_policy_params.EmployerCreateBenefitEligibilityPolicyParams,
-            ),
-            options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
-            ),
-            cast_to=BenefitEligibilityPolicyResponse,
-        )
-
     def list_employees(
         self,
         employer_id: str,
@@ -782,9 +682,6 @@ class EmployersResourceWithRawResponse:
         self.list = to_raw_response_wrapper(
             employers.list,
         )
-        self.create_benefit_eligibility_policy = to_raw_response_wrapper(
-            employers.create_benefit_eligibility_policy,
-        )
         self.list_employees = to_raw_response_wrapper(
             employers.list_employees,
         )
@@ -808,9 +705,6 @@ class AsyncEmployersResourceWithRawResponse:
         )
         self.list = async_to_raw_response_wrapper(
             employers.list,
-        )
-        self.create_benefit_eligibility_policy = async_to_raw_response_wrapper(
-            employers.create_benefit_eligibility_policy,
         )
         self.list_employees = async_to_raw_response_wrapper(
             employers.list_employees,
@@ -836,9 +730,6 @@ class EmployersResourceWithStreamingResponse:
         self.list = to_streamed_response_wrapper(
             employers.list,
         )
-        self.create_benefit_eligibility_policy = to_streamed_response_wrapper(
-            employers.create_benefit_eligibility_policy,
-        )
         self.list_employees = to_streamed_response_wrapper(
             employers.list_employees,
         )
@@ -862,9 +753,6 @@ class AsyncEmployersResourceWithStreamingResponse:
         )
         self.list = async_to_streamed_response_wrapper(
             employers.list,
-        )
-        self.create_benefit_eligibility_policy = async_to_streamed_response_wrapper(
-            employers.create_benefit_eligibility_policy,
         )
         self.list_employees = async_to_streamed_response_wrapper(
             employers.list_employees,

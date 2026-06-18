@@ -21,7 +21,6 @@ from .group_update_params import GroupUpdateParams as GroupUpdateParams
 from .employer_list_params import EmployerListParams as EmployerListParams
 from .employer_create_params import EmployerCreateParams as EmployerCreateParams
 from .webhook_event_list_params import WebhookEventListParams as WebhookEventListParams
-from .benefit_eligibility_policy import BenefitEligibilityPolicy as BenefitEligibilityPolicy
 from .employee_retrieve_response import EmployeeRetrieveResponse as EmployeeRetrieveResponse
 from .enrollment_retrieve_response import EnrollmentRetrieveResponse as EnrollmentRetrieveResponse
 from .auth_issue_access_token_params import AuthIssueAccessTokenParams as AuthIssueAccessTokenParams
@@ -32,11 +31,7 @@ from .auth_issue_access_token_response import AuthIssueAccessTokenResponse as Au
 from .employee_list_enrollments_params import EmployeeListEnrollmentsParams as EmployeeListEnrollmentsParams
 from .employer_update_settings_response import EmployerUpdateSettingsResponse as EmployerUpdateSettingsResponse
 from .employer_submit_census_sync_params import EmployerSubmitCensusSyncParams as EmployerSubmitCensusSyncParams
-from .benefit_eligibility_policy_response import BenefitEligibilityPolicyResponse as BenefitEligibilityPolicyResponse
 from .employer_submit_census_sync_response import EmployerSubmitCensusSyncResponse as EmployerSubmitCensusSyncResponse
 from .webhook_event_list_deliveries_response import (
     WebhookEventListDeliveriesResponse as WebhookEventListDeliveriesResponse,
-)
-from .employer_create_benefit_eligibility_policy_params import (
-    EmployerCreateBenefitEligibilityPolicyParams as EmployerCreateBenefitEligibilityPolicyParams,
 )

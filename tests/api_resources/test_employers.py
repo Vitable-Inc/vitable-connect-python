@@ -14,7 +14,6 @@ from vitable_connect.types import (
     Employer,
     EmployerResponse,
     EmployerUpdateSettingsResponse,
-    BenefitEligibilityPolicyResponse,
     EmployerSubmitCensusSyncResponse,
 )
 from vitable_connect._utils import parse_date
@@ -185,56 +184,6 @@ class TestEmployers:
             assert_matches_type(SyncPageNumberPage[Employer], employer, path=["response"])
 
         assert cast(Any, response.is_closed) is True
-
-    @pytest.mark.skip(reason="Mock server tests are disabled")
-    @parametrize
-    def test_method_create_benefit_eligibility_policy(self, client: VitableConnect) -> None:
-        employer = client.employers.create_benefit_eligibility_policy(
-            employer_id="empr_abc123def456",
-            classification="classification",
-            waiting_period="waiting_period",
-        )
-        assert_matches_type(BenefitEligibilityPolicyResponse, employer, path=["response"])
-
-    @pytest.mark.skip(reason="Mock server tests are disabled")
-    @parametrize
-    def test_raw_response_create_benefit_eligibility_policy(self, client: VitableConnect) -> None:
-        response = client.employers.with_raw_response.create_benefit_eligibility_policy(
-            employer_id="empr_abc123def456",
-            classification="classification",
-            waiting_period="waiting_period",
-        )
-
-        assert response.is_closed is True
-        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
-        employer = response.parse()
-        assert_matches_type(BenefitEligibilityPolicyResponse, employer, path=["response"])
-
-    @pytest.mark.skip(reason="Mock server tests are disabled")
-    @parametrize
-    def test_streaming_response_create_benefit_eligibility_policy(self, client: VitableConnect) -> None:
-        with client.employers.with_streaming_response.create_benefit_eligibility_policy(
-            employer_id="empr_abc123def456",
-            classification="classification",
-            waiting_period="waiting_period",
-        ) as response:
-            assert not response.is_closed
-            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
-
-            employer = response.parse()
-            assert_matches_type(BenefitEligibilityPolicyResponse, employer, path=["response"])
-
-        assert cast(Any, response.is_closed) is True
-
-    @pytest.mark.skip(reason="Mock server tests are disabled")
-    @parametrize
-    def test_path_params_create_benefit_eligibility_policy(self, client: VitableConnect) -> None:
-        with pytest.raises(ValueError, match=r"Expected a non-empty value for `employer_id` but received ''"):
-            client.employers.with_raw_response.create_benefit_eligibility_policy(
-                employer_id="",
-                classification="classification",
-                waiting_period="waiting_period",
-            )
 
     @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
@@ -605,58 +554,6 @@ class TestAsyncEmployers:
             assert_matches_type(AsyncPageNumberPage[Employer], employer, path=["response"])
 
         assert cast(Any, response.is_closed) is True
-
-    @pytest.mark.skip(reason="Mock server tests are disabled")
-    @parametrize
-    async def test_method_create_benefit_eligibility_policy(self, async_client: AsyncVitableConnect) -> None:
-        employer = await async_client.employers.create_benefit_eligibility_policy(
-            employer_id="empr_abc123def456",
-            classification="classification",
-            waiting_period="waiting_period",
-        )
-        assert_matches_type(BenefitEligibilityPolicyResponse, employer, path=["response"])
-
-    @pytest.mark.skip(reason="Mock server tests are disabled")
-    @parametrize
-    async def test_raw_response_create_benefit_eligibility_policy(self, async_client: AsyncVitableConnect) -> None:
-        response = await async_client.employers.with_raw_response.create_benefit_eligibility_policy(
-            employer_id="empr_abc123def456",
-            classification="classification",
-            waiting_period="waiting_period",
-        )
-
-        assert response.is_closed is True
-        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
-        employer = await response.parse()
-        assert_matches_type(BenefitEligibilityPolicyResponse, employer, path=["response"])
-
-    @pytest.mark.skip(reason="Mock server tests are disabled")
-    @parametrize
-    async def test_streaming_response_create_benefit_eligibility_policy(
-        self, async_client: AsyncVitableConnect
-    ) -> None:
-        async with async_client.employers.with_streaming_response.create_benefit_eligibility_policy(
-            employer_id="empr_abc123def456",
-            classification="classification",
-            waiting_period="waiting_period",
-        ) as response:
-            assert not response.is_closed
-            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
-
-            employer = await response.parse()
-            assert_matches_type(BenefitEligibilityPolicyResponse, employer, path=["response"])
-
-        assert cast(Any, response.is_closed) is True
-
-    @pytest.mark.skip(reason="Mock server tests are disabled")
-    @parametrize
-    async def test_path_params_create_benefit_eligibility_policy(self, async_client: AsyncVitableConnect) -> None:
-        with pytest.raises(ValueError, match=r"Expected a non-empty value for `employer_id` but received ''"):
-            await async_client.employers.with_raw_response.create_benefit_eligibility_policy(
-                employer_id="",
-                classification="classification",
-                waiting_period="waiting_period",
-            )
 
     @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
