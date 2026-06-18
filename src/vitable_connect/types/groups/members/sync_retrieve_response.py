@@ -1,11 +1,32 @@
 # File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
-from typing import Optional
+from typing import List, Optional
 from datetime import datetime
+from typing_extensions import Literal
 
 from ...._models import BaseModel
 
-__all__ = ["SyncRetrieveResponse", "Data"]
+__all__ = ["SyncRetrieveResponse", "Data", "DataResults", "DataResultsFailure"]
+
+
+class DataResultsFailure(BaseModel):
+    operation: Literal["add", "remove"]
+    """
+    - `add` - add
+    - `remove` - remove
+    """
+
+    reason: str
+
+    reference_id: str
+
+
+class DataResults(BaseModel):
+    added_group_member_ids: List[str]
+
+    failures: List[DataResultsFailure]
+
+    removed_group_member_ids: List[str]
 
 
 class Data(BaseModel):
@@ -17,7 +38,7 @@ class Data(BaseModel):
 
     request_id: str
 
-    results: object
+    results: Optional[DataResults] = None
 
 
 class SyncRetrieveResponse(BaseModel):

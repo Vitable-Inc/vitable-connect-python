@@ -89,6 +89,9 @@ class Employee(BaseModel):
     member_id: str
     """Unique member identifier with 'mbr\\__' prefix"""
 
+    phone: Optional[str] = None
+    """Phone number (10-digit US domestic string)"""
+
     status: str
     """Employee status (active or terminated)"""
 
@@ -113,9 +116,6 @@ class Employee(BaseModel):
 
     hire_date: Optional[date] = None
     """Employee's hire date with the employer"""
-
-    phone: Optional[str] = None
-    """Phone number (10-digit US domestic string)"""
 
     reference_id: Optional[str] = None
     """Partner-assigned reference ID for the employee"""
