@@ -36,16 +36,7 @@ from ._base_client import (
 )
 
 if TYPE_CHECKING:
-    from .resources import (
-        auth,
-        plans,
-        groups,
-        employees,
-        employers,
-        enrollments,
-        webhook_events,
-        benefit_eligibility_policies,
-    )
+    from .resources import auth, plans, groups, employees, employers, enrollments, webhook_events
     from .resources.auth import AuthResource, AsyncAuthResource
     from .resources.plans import PlansResource, AsyncPlansResource
     from .resources.employees import EmployeesResource, AsyncEmployeesResource
@@ -53,10 +44,6 @@ if TYPE_CHECKING:
     from .resources.enrollments import EnrollmentsResource, AsyncEnrollmentsResource
     from .resources.groups.groups import GroupsResource, AsyncGroupsResource
     from .resources.webhook_events import WebhookEventsResource, AsyncWebhookEventsResource
-    from .resources.benefit_eligibility_policies import (
-        BenefitEligibilityPoliciesResource,
-        AsyncBenefitEligibilityPoliciesResource,
-    )
 
 __all__ = [
     "ENVIRONMENTS",
@@ -170,13 +157,6 @@ class VitableConnect(SyncAPIClient):
         from .resources.auth import AuthResource
 
         return AuthResource(self)
-
-    @cached_property
-    def benefit_eligibility_policies(self) -> BenefitEligibilityPoliciesResource:
-        """Define rules that determine which employees qualify for benefits"""
-        from .resources.benefit_eligibility_policies import BenefitEligibilityPoliciesResource
-
-        return BenefitEligibilityPoliciesResource(self)
 
     @cached_property
     def employees(self) -> EmployeesResource:
@@ -433,13 +413,6 @@ class AsyncVitableConnect(AsyncAPIClient):
         return AsyncAuthResource(self)
 
     @cached_property
-    def benefit_eligibility_policies(self) -> AsyncBenefitEligibilityPoliciesResource:
-        """Define rules that determine which employees qualify for benefits"""
-        from .resources.benefit_eligibility_policies import AsyncBenefitEligibilityPoliciesResource
-
-        return AsyncBenefitEligibilityPoliciesResource(self)
-
-    @cached_property
     def employees(self) -> AsyncEmployeesResource:
         from .resources.employees import AsyncEmployeesResource
 
@@ -612,15 +585,6 @@ class VitableConnectWithRawResponse:
         return AuthResourceWithRawResponse(self._client.auth)
 
     @cached_property
-    def benefit_eligibility_policies(
-        self,
-    ) -> benefit_eligibility_policies.BenefitEligibilityPoliciesResourceWithRawResponse:
-        """Define rules that determine which employees qualify for benefits"""
-        from .resources.benefit_eligibility_policies import BenefitEligibilityPoliciesResourceWithRawResponse
-
-        return BenefitEligibilityPoliciesResourceWithRawResponse(self._client.benefit_eligibility_policies)
-
-    @cached_property
     def employees(self) -> employees.EmployeesResourceWithRawResponse:
         from .resources.employees import EmployeesResourceWithRawResponse
 
@@ -670,15 +634,6 @@ class AsyncVitableConnectWithRawResponse:
         from .resources.auth import AsyncAuthResourceWithRawResponse
 
         return AsyncAuthResourceWithRawResponse(self._client.auth)
-
-    @cached_property
-    def benefit_eligibility_policies(
-        self,
-    ) -> benefit_eligibility_policies.AsyncBenefitEligibilityPoliciesResourceWithRawResponse:
-        """Define rules that determine which employees qualify for benefits"""
-        from .resources.benefit_eligibility_policies import AsyncBenefitEligibilityPoliciesResourceWithRawResponse
-
-        return AsyncBenefitEligibilityPoliciesResourceWithRawResponse(self._client.benefit_eligibility_policies)
 
     @cached_property
     def employees(self) -> employees.AsyncEmployeesResourceWithRawResponse:
@@ -732,15 +687,6 @@ class VitableConnectWithStreamedResponse:
         return AuthResourceWithStreamingResponse(self._client.auth)
 
     @cached_property
-    def benefit_eligibility_policies(
-        self,
-    ) -> benefit_eligibility_policies.BenefitEligibilityPoliciesResourceWithStreamingResponse:
-        """Define rules that determine which employees qualify for benefits"""
-        from .resources.benefit_eligibility_policies import BenefitEligibilityPoliciesResourceWithStreamingResponse
-
-        return BenefitEligibilityPoliciesResourceWithStreamingResponse(self._client.benefit_eligibility_policies)
-
-    @cached_property
     def employees(self) -> employees.EmployeesResourceWithStreamingResponse:
         from .resources.employees import EmployeesResourceWithStreamingResponse
 
@@ -790,15 +736,6 @@ class AsyncVitableConnectWithStreamedResponse:
         from .resources.auth import AsyncAuthResourceWithStreamingResponse
 
         return AsyncAuthResourceWithStreamingResponse(self._client.auth)
-
-    @cached_property
-    def benefit_eligibility_policies(
-        self,
-    ) -> benefit_eligibility_policies.AsyncBenefitEligibilityPoliciesResourceWithStreamingResponse:
-        """Define rules that determine which employees qualify for benefits"""
-        from .resources.benefit_eligibility_policies import AsyncBenefitEligibilityPoliciesResourceWithStreamingResponse
-
-        return AsyncBenefitEligibilityPoliciesResourceWithStreamingResponse(self._client.benefit_eligibility_policies)
 
     @cached_property
     def employees(self) -> employees.AsyncEmployeesResourceWithStreamingResponse:

@@ -45,9 +45,6 @@ class Employer(BaseModel):
     ein: Optional[str] = None
     """Employer Identification Number (masked in responses)"""
 
-    eligibility_policy_id: Optional[str] = None
-    """ID of the benefit eligibility policy (epol\\__\\**), if assigned"""
-
     legal_name: str
     """Legal business name for compliance and tax purposes"""
 

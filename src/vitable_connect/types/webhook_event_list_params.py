@@ -26,7 +26,6 @@ class WebhookEventListParams(TypedDict, total=False):
         "employee.eligibility_granted",
         "employee.eligibility_terminated",
         "employee.deactivated",
-        "employer.eligibility_policy_created",
         "employee.deduction_created",
     ]
     """
@@ -39,7 +38,6 @@ class WebhookEventListParams(TypedDict, total=False):
     - `employee.eligibility_granted` - Employee Eligibility Granted
     - `employee.eligibility_terminated` - Employee Eligibility Terminated
     - `employee.deactivated` - Employee Deactivated
-    - `employer.eligibility_policy_created` - Employer Eligibility Policy Created
     - `employee.deduction_created` - Employee Deduction Created
     """
 

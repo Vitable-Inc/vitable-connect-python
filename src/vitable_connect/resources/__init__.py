@@ -56,14 +56,6 @@ from .webhook_events import (
     WebhookEventsResourceWithStreamingResponse,
     AsyncWebhookEventsResourceWithStreamingResponse,
 )
-from .benefit_eligibility_policies import (
-    BenefitEligibilityPoliciesResource,
-    AsyncBenefitEligibilityPoliciesResource,
-    BenefitEligibilityPoliciesResourceWithRawResponse,
-    AsyncBenefitEligibilityPoliciesResourceWithRawResponse,
-    BenefitEligibilityPoliciesResourceWithStreamingResponse,
-    AsyncBenefitEligibilityPoliciesResourceWithStreamingResponse,
-)
 
 __all__ = [
     "AuthResource",
@@ -72,12 +64,6 @@ __all__ = [
     "AsyncAuthResourceWithRawResponse",
     "AuthResourceWithStreamingResponse",
     "AsyncAuthResourceWithStreamingResponse",
-    "BenefitEligibilityPoliciesResource",
-    "AsyncBenefitEligibilityPoliciesResource",
-    "BenefitEligibilityPoliciesResourceWithRawResponse",
-    "AsyncBenefitEligibilityPoliciesResourceWithRawResponse",
-    "BenefitEligibilityPoliciesResourceWithStreamingResponse",
-    "AsyncBenefitEligibilityPoliciesResourceWithStreamingResponse",
     "EmployeesResource",
     "AsyncEmployeesResource",
     "EmployeesResourceWithRawResponse",
