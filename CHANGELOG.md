@@ -1,5 +1,21 @@
 # Changelog
 
+## 0.8.0 (2026-06-18)
+
+Full Changelog: [v0.7.0...v0.8.0](https://github.com/Vitable-Inc/vitable-connect-python/compare/v0.7.0...v0.8.0)
+
+### Features
+
+* **api:** api update ([33d4265](https://github.com/Vitable-Inc/vitable-connect-python/commit/33d426524714ca7cc4c1ca204b990add997ed3f3))
+* **api:** api update ([1152e00](https://github.com/Vitable-Inc/vitable-connect-python/commit/1152e00b0ff6aaf7bea6bffd6d1f6009f1b398ec))
+* **api:** api update ([4ca546b](https://github.com/Vitable-Inc/vitable-connect-python/commit/4ca546b8a409cb40c849443b490133a3478761cf))
+* **api:** api update ([72d79d6](https://github.com/Vitable-Inc/vitable-connect-python/commit/72d79d6b7db386c4d71707f516e6cb758d06a847))
+
+
+### Bug Fixes
+
+* **auth:** prioritize first auth header ([188eb11](https://github.com/Vitable-Inc/vitable-connect-python/commit/188eb113fc26e5e2cddb83267ab7c330c059ce67))
+
 ## 0.7.0 (2026-05-15)
 
 Full Changelog: [v0.6.0...v0.7.0](https://github.com/Vitable-Inc/vitable-connect-python/compare/v0.6.0...v0.7.0)
