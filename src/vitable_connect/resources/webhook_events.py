@@ -91,6 +91,7 @@ class WebhookEventsResource(SyncAPIResource):
         event_name: Literal[
             "enrollment.accepted",
             "enrollment.terminated",
+            "enrollment.termination_rescheduled",
             "enrollment.elected",
             "enrollment.granted",
             "enrollment.waived",
@@ -120,6 +121,7 @@ class WebhookEventsResource(SyncAPIResource):
         Args:
           event_name: - `enrollment.accepted` - Enrollment Accepted
               - `enrollment.terminated` - Enrollment Terminated
+              - `enrollment.termination_rescheduled` - Enrollment Termination Rescheduled
               - `enrollment.elected` - Enrollment Elected
               - `enrollment.granted` - Enrollment Granted
               - `enrollment.waived` - Enrollment Waived
@@ -272,6 +274,7 @@ class AsyncWebhookEventsResource(AsyncAPIResource):
         event_name: Literal[
             "enrollment.accepted",
             "enrollment.terminated",
+            "enrollment.termination_rescheduled",
             "enrollment.elected",
             "enrollment.granted",
             "enrollment.waived",
@@ -301,6 +304,7 @@ class AsyncWebhookEventsResource(AsyncAPIResource):
         Args:
           event_name: - `enrollment.accepted` - Enrollment Accepted
               - `enrollment.terminated` - Enrollment Terminated
+              - `enrollment.termination_rescheduled` - Enrollment Termination Rescheduled
               - `enrollment.elected` - Enrollment Elected
               - `enrollment.granted` - Enrollment Granted
               - `enrollment.waived` - Enrollment Waived

@@ -2,7 +2,6 @@
 
 from __future__ import annotations
 
-from .type import Type as Type
 from .group import Group as Group
 from .employee import Employee as Employee
 from .employer import Employer as Employer

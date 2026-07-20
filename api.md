@@ -3,7 +3,7 @@
 Types:
 
 ```python
-from vitable_connect.types import Type, AuthIssueAccessTokenResponse
+from vitable_connect.types import AuthIssueAccessTokenResponse
 ```
 
 Methods:
