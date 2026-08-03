@@ -11,8 +11,8 @@ from tests.utils import assert_matches_type
 from vitable_connect import VitableConnect, AsyncVitableConnect
 from vitable_connect.types import (
     Employee,
-    Employer,
     EmployerResponse,
+    EmployerListResponse,
     EmployerUpdateSettingsResponse,
     EmployerSubmitCensusSyncResponse,
 )
@@ -152,16 +152,21 @@ class TestEmployers:
     @parametrize
     def test_method_list(self, client: VitableConnect) -> None:
         employer = client.employers.list()
-        assert_matches_type(SyncPageNumberPage[Employer], employer, path=["response"])
+        assert_matches_type(SyncPageNumberPage[EmployerListResponse], employer, path=["response"])
 
     @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_method_list_with_all_params(self, client: VitableConnect) -> None:
         employer = client.employers.list(
+            benefit_family=["mec"],
+            benefit_lifecycle_stage=["open_enrollment"],
+            hris_status=["Pending"],
+            include_cancelled=True,
             limit=20,
             page=1,
+            search="x",
         )
-        assert_matches_type(SyncPageNumberPage[Employer], employer, path=["response"])
+        assert_matches_type(SyncPageNumberPage[EmployerListResponse], employer, path=["response"])
 
     @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
@@ -171,7 +176,7 @@ class TestEmployers:
         assert response.is_closed is True
         assert response.http_request.headers.get("X-Stainless-Lang") == "python"
         employer = response.parse()
-        assert_matches_type(SyncPageNumberPage[Employer], employer, path=["response"])
+        assert_matches_type(SyncPageNumberPage[EmployerListResponse], employer, path=["response"])
 
     @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
@@ -181,7 +186,7 @@ class TestEmployers:
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
 
             employer = response.parse()
-            assert_matches_type(SyncPageNumberPage[Employer], employer, path=["response"])
+            assert_matches_type(SyncPageNumberPage[EmployerListResponse], employer, path=["response"])
 
         assert cast(Any, response.is_closed) is True
 
@@ -522,16 +527,21 @@ class TestAsyncEmployers:
     @parametrize
     async def test_method_list(self, async_client: AsyncVitableConnect) -> None:
         employer = await async_client.employers.list()
-        assert_matches_type(AsyncPageNumberPage[Employer], employer, path=["response"])
+        assert_matches_type(AsyncPageNumberPage[EmployerListResponse], employer, path=["response"])
 
     @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_method_list_with_all_params(self, async_client: AsyncVitableConnect) -> None:
         employer = await async_client.employers.list(
+            benefit_family=["mec"],
+            benefit_lifecycle_stage=["open_enrollment"],
+            hris_status=["Pending"],
+            include_cancelled=True,
             limit=20,
             page=1,
+            search="x",
         )
-        assert_matches_type(AsyncPageNumberPage[Employer], employer, path=["response"])
+        assert_matches_type(AsyncPageNumberPage[EmployerListResponse], employer, path=["response"])
 
     @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
@@ -541,7 +551,7 @@ class TestAsyncEmployers:
         assert response.is_closed is True
         assert response.http_request.headers.get("X-Stainless-Lang") == "python"
         employer = await response.parse()
-        assert_matches_type(AsyncPageNumberPage[Employer], employer, path=["response"])
+        assert_matches_type(AsyncPageNumberPage[EmployerListResponse], employer, path=["response"])
 
     @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
@@ -551,7 +561,7 @@ class TestAsyncEmployers:
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
 
             employer = await response.parse()
-            assert_matches_type(AsyncPageNumberPage[Employer], employer, path=["response"])
+            assert_matches_type(AsyncPageNumberPage[EmployerListResponse], employer, path=["response"])
 
         assert cast(Any, response.is_closed) is True
 

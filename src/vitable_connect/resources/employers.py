@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 
-from typing import Iterable, Optional
+from typing import List, Iterable, Optional
 from typing_extensions import Literal
 
 import httpx
@@ -27,8 +27,8 @@ from .._response import (
 from ..pagination import SyncPageNumberPage, AsyncPageNumberPage
 from .._base_client import AsyncPaginator, make_request_options
 from ..types.employee import Employee
-from ..types.employer import Employer
 from ..types.employer_response import EmployerResponse
+from ..types.employer_list_response import EmployerListResponse
 from ..types.employer_update_settings_response import EmployerUpdateSettingsResponse
 from ..types.employer_submit_census_sync_response import EmployerSubmitCensusSyncResponse
 
@@ -161,24 +161,44 @@ class EmployersResource(SyncAPIResource):
     def list(
         self,
         *,
+        benefit_family: List[Literal["mec", "mvp", "ichra", "vpc", "dental", "vision"]] | Omit = omit,
+        benefit_lifecycle_stage: List[Literal["open_enrollment", "renewal", "active", "onboarding", "cancelled"]]
+        | Omit = omit,
+        hris_status: List[Literal["Pending", "Active", "Inactive", "Paused", "Terminated"]] | Omit = omit,
+        include_cancelled: bool | Omit = omit,
         limit: int | Omit = omit,
         page: int | Omit = omit,
+        search: Optional[str] | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> SyncPageNumberPage[Employer]:
+    ) -> SyncPageNumberPage[EmployerListResponse]:
         """
-        Retrieves a paginated list of all employers belonging to the authenticated
-        organization. Results are sorted by creation date (newest first) and paginated
-        using page and limit parameters.
+        Returns the caller's organization book — every employer with its computed
+        columns (enrollment-rate summary, benefit-family tags, HRIS connection,
+        benefit-lifecycle stage) merged with the employer's flat CRM fields (legal name,
+        EIN, contact, address, timestamps). The organization is derived from the
+        authenticated principal. Supports name search, benefit-family/lifecycle/HRIS
+        filters, and page/limit pagination.
 
         Args:
-          limit: Items per page (default: 20, max: 100)
+          benefit_family: Filter to employers with at least one active benefit in these families.
 
-          page: Page number (default: 1)
+          benefit_lifecycle_stage: Filter to employers in one of these computed benefit-lifecycle stages.
+
+          hris_status: Filter to employers whose HRIS connection is in one of these statuses.
+
+          include_cancelled: Include cancelled employers (hidden by default unless their stage is explicitly
+              requested).
+
+          limit: Items per page.
+
+          page: Page number.
+
+          search: Case-insensitive employer-name substring filter.
 
           extra_headers: Send extra headers
 
@@ -190,7 +210,7 @@ class EmployersResource(SyncAPIResource):
         """
         return self._get_api_list(
             "/v1/employers",
-            page=SyncPageNumberPage[Employer],
+            page=SyncPageNumberPage[EmployerListResponse],
             options=make_request_options(
                 extra_headers=extra_headers,
                 extra_query=extra_query,
@@ -198,13 +218,18 @@ class EmployersResource(SyncAPIResource):
                 timeout=timeout,
                 query=maybe_transform(
                     {
+                        "benefit_family": benefit_family,
+                        "benefit_lifecycle_stage": benefit_lifecycle_stage,
+                        "hris_status": hris_status,
+                        "include_cancelled": include_cancelled,
                         "limit": limit,
                         "page": page,
+                        "search": search,
                     },
                     employer_list_params.EmployerListParams,
                 ),
             ),
-            model=Employer,
+            model=EmployerListResponse,
         )
 
     def list_employees(
@@ -478,24 +503,44 @@ class AsyncEmployersResource(AsyncAPIResource):
     def list(
         self,
         *,
+        benefit_family: List[Literal["mec", "mvp", "ichra", "vpc", "dental", "vision"]] | Omit = omit,
+        benefit_lifecycle_stage: List[Literal["open_enrollment", "renewal", "active", "onboarding", "cancelled"]]
+        | Omit = omit,
+        hris_status: List[Literal["Pending", "Active", "Inactive", "Paused", "Terminated"]] | Omit = omit,
+        include_cancelled: bool | Omit = omit,
         limit: int | Omit = omit,
         page: int | Omit = omit,
+        search: Optional[str] | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> AsyncPaginator[Employer, AsyncPageNumberPage[Employer]]:
+    ) -> AsyncPaginator[EmployerListResponse, AsyncPageNumberPage[EmployerListResponse]]:
         """
-        Retrieves a paginated list of all employers belonging to the authenticated
-        organization. Results are sorted by creation date (newest first) and paginated
-        using page and limit parameters.
+        Returns the caller's organization book — every employer with its computed
+        columns (enrollment-rate summary, benefit-family tags, HRIS connection,
+        benefit-lifecycle stage) merged with the employer's flat CRM fields (legal name,
+        EIN, contact, address, timestamps). The organization is derived from the
+        authenticated principal. Supports name search, benefit-family/lifecycle/HRIS
+        filters, and page/limit pagination.
 
         Args:
-          limit: Items per page (default: 20, max: 100)
+          benefit_family: Filter to employers with at least one active benefit in these families.
 
-          page: Page number (default: 1)
+          benefit_lifecycle_stage: Filter to employers in one of these computed benefit-lifecycle stages.
+
+          hris_status: Filter to employers whose HRIS connection is in one of these statuses.
+
+          include_cancelled: Include cancelled employers (hidden by default unless their stage is explicitly
+              requested).
+
+          limit: Items per page.
+
+          page: Page number.
+
+          search: Case-insensitive employer-name substring filter.
 
           extra_headers: Send extra headers
 
@@ -507,7 +552,7 @@ class AsyncEmployersResource(AsyncAPIResource):
         """
         return self._get_api_list(
             "/v1/employers",
-            page=AsyncPageNumberPage[Employer],
+            page=AsyncPageNumberPage[EmployerListResponse],
             options=make_request_options(
                 extra_headers=extra_headers,
                 extra_query=extra_query,
@@ -515,13 +560,18 @@ class AsyncEmployersResource(AsyncAPIResource):
                 timeout=timeout,
                 query=maybe_transform(
                     {
+                        "benefit_family": benefit_family,
+                        "benefit_lifecycle_stage": benefit_lifecycle_stage,
+                        "hris_status": hris_status,
+                        "include_cancelled": include_cancelled,
                         "limit": limit,
                         "page": page,
+                        "search": search,
                     },
                     employer_list_params.EmployerListParams,
                 ),
             ),
-            model=Employer,
+            model=EmployerListResponse,
         )
 
     def list_employees(
