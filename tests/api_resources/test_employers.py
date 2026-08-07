@@ -203,8 +203,10 @@ class TestEmployers:
     def test_method_list_employees_with_all_params(self, client: VitableConnect) -> None:
         employer = client.employers.list_employees(
             employer_id="empr_abc123def456",
+            employment_status="active",
             limit=20,
             page=1,
+            search="x",
         )
         assert_matches_type(SyncPageNumberPage[Employee], employer, path=["response"])
 
@@ -578,8 +580,10 @@ class TestAsyncEmployers:
     async def test_method_list_employees_with_all_params(self, async_client: AsyncVitableConnect) -> None:
         employer = await async_client.employers.list_employees(
             employer_id="empr_abc123def456",
+            employment_status="active",
             limit=20,
             page=1,
+            search="x",
         )
         assert_matches_type(AsyncPageNumberPage[Employee], employer, path=["response"])
 
