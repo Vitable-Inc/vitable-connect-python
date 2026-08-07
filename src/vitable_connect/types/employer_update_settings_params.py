@@ -10,8 +10,8 @@ __all__ = ["EmployerUpdateSettingsParams"]
 class EmployerUpdateSettingsParams(TypedDict, total=False):
     pay_frequency: Required[Literal["weekly", "bi_weekly", "semi_monthly", "monthly"]]
     """
-    - `weekly` - weekly
-    - `bi_weekly` - bi_weekly
-    - `semi_monthly` - semi_monthly
-    - `monthly` - monthly
+    - `weekly` - Weekly
+    - `bi_weekly` - Bi Weekly
+    - `semi_monthly` - Semi Monthly
+    - `monthly` - Monthly
     """

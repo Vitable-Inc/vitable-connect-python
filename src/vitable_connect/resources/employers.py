@@ -236,8 +236,10 @@ class EmployersResource(SyncAPIResource):
         self,
         employer_id: str,
         *,
+        employment_status: Literal["active", "terminated"] | Omit = omit,
         limit: int | Omit = omit,
         page: int | Omit = omit,
+        search: Optional[str] | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -245,19 +247,26 @@ class EmployersResource(SyncAPIResource):
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> SyncPageNumberPage[Employee]:
-        """Retrieves a paginated list of all employees for a specific employer.
+        """Retrieves a paginated list of employees for a specific employer.
 
-        Results are
-        paginated using page and limit parameters. Each employee includes payroll
-        deductions from the most recent statement period. When a new deduction statement
-        is generated, previous period deductions are replaced.
+        The caller must
+        be authorized for the employer; an unknown or unauthorized employer returns 404.
+        Results are paginated using page and limit parameters and can be narrowed with a
+        case-insensitive `search` (first name, last name, or email) and an
+        `employment_status` filter (active or terminated). Each employee includes
+        payroll deductions from the most recent statement period. When a new deduction
+        statement is generated, previous period deductions are replaced.
 
         Args:
           employer_id: Unique employer identifier (empr\\__\\**)
 
+          employment_status: Filter by employment status (active or terminated)
+
           limit: Items per page (default: 20, max: 100)
 
           page: Page number (default: 1)
+
+          search: Case-insensitive search across employee first name, last name, and email
 
           extra_headers: Send extra headers
 
@@ -279,8 +288,10 @@ class EmployersResource(SyncAPIResource):
                 timeout=timeout,
                 query=maybe_transform(
                     {
+                        "employment_status": employment_status,
                         "limit": limit,
                         "page": page,
+                        "search": search,
                     },
                     employer_list_employees_params.EmployerListEmployeesParams,
                 ),
@@ -350,10 +361,10 @@ class EmployersResource(SyncAPIResource):
         Args:
           employer_id: Unique employer identifier (empr\\__\\**)
 
-          pay_frequency: - `weekly` - weekly
-              - `bi_weekly` - bi_weekly
-              - `semi_monthly` - semi_monthly
-              - `monthly` - monthly
+          pay_frequency: - `weekly` - Weekly
+              - `bi_weekly` - Bi Weekly
+              - `semi_monthly` - Semi Monthly
+              - `monthly` - Monthly
 
           extra_headers: Send extra headers
 
@@ -578,8 +589,10 @@ class AsyncEmployersResource(AsyncAPIResource):
         self,
         employer_id: str,
         *,
+        employment_status: Literal["active", "terminated"] | Omit = omit,
         limit: int | Omit = omit,
         page: int | Omit = omit,
+        search: Optional[str] | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -587,19 +600,26 @@ class AsyncEmployersResource(AsyncAPIResource):
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> AsyncPaginator[Employee, AsyncPageNumberPage[Employee]]:
-        """Retrieves a paginated list of all employees for a specific employer.
+        """Retrieves a paginated list of employees for a specific employer.
 
-        Results are
-        paginated using page and limit parameters. Each employee includes payroll
-        deductions from the most recent statement period. When a new deduction statement
-        is generated, previous period deductions are replaced.
+        The caller must
+        be authorized for the employer; an unknown or unauthorized employer returns 404.
+        Results are paginated using page and limit parameters and can be narrowed with a
+        case-insensitive `search` (first name, last name, or email) and an
+        `employment_status` filter (active or terminated). Each employee includes
+        payroll deductions from the most recent statement period. When a new deduction
+        statement is generated, previous period deductions are replaced.
 
         Args:
           employer_id: Unique employer identifier (empr\\__\\**)
 
+          employment_status: Filter by employment status (active or terminated)
+
           limit: Items per page (default: 20, max: 100)
 
           page: Page number (default: 1)
+
+          search: Case-insensitive search across employee first name, last name, and email
 
           extra_headers: Send extra headers
 
@@ -621,8 +641,10 @@ class AsyncEmployersResource(AsyncAPIResource):
                 timeout=timeout,
                 query=maybe_transform(
                     {
+                        "employment_status": employment_status,
                         "limit": limit,
                         "page": page,
+                        "search": search,
                     },
                     employer_list_employees_params.EmployerListEmployeesParams,
                 ),
@@ -692,10 +714,10 @@ class AsyncEmployersResource(AsyncAPIResource):
         Args:
           employer_id: Unique employer identifier (empr\\__\\**)
 
-          pay_frequency: - `weekly` - weekly
-              - `bi_weekly` - bi_weekly
-              - `semi_monthly` - semi_monthly
-              - `monthly` - monthly
+          pay_frequency: - `weekly` - Weekly
+              - `bi_weekly` - Bi Weekly
+              - `semi_monthly` - Semi Monthly
+              - `monthly` - Monthly
 
           extra_headers: Send extra headers
 
