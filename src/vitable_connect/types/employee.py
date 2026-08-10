@@ -126,6 +126,9 @@ class Employee(BaseModel):
     address: Optional[Address] = None
     """Employee's residential address"""
 
+    employer_name: Optional[str] = None
+    """Name of the employer this employment is with"""
+
     gender: Optional[str] = None
     """Gender identity, if provided"""
 

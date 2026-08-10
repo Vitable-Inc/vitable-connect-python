@@ -206,7 +206,7 @@ class TestEmployers:
             employment_status="active",
             limit=20,
             page=1,
-            search="x",
+            search="jane",
         )
         assert_matches_type(SyncPageNumberPage[Employee], employer, path=["response"])
 
@@ -583,7 +583,7 @@ class TestAsyncEmployers:
             employment_status="active",
             limit=20,
             page=1,
-            search="x",
+            search="jane",
         )
         assert_matches_type(AsyncPageNumberPage[Employee], employer, path=["response"])
 
