@@ -2,7 +2,6 @@
 
 from __future__ import annotations
 
-from typing import Optional
 from typing_extensions import Literal, TypedDict
 
 __all__ = ["EmployerListEmployeesParams"]
@@ -18,5 +17,5 @@ class EmployerListEmployeesParams(TypedDict, total=False):
     page: int
     """Page number (default: 1)"""
 
-    search: Optional[str]
+    search: str
     """Case-insensitive search across employee first name, last name, and email"""
