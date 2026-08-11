@@ -36,10 +36,10 @@ class Member(TypedDict, total=False):
 
     last_name: Required[str]
 
-    phone: Required[str]
-
     plan_id: Required[str]
 
     reference_id: Required[str]
 
     email: Optional[str]
+
+    phone: Optional[str]
