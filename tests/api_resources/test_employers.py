@@ -255,14 +255,12 @@ class TestEmployers:
                     "email": "jane.doe@acme.com",
                     "first_name": "Jane",
                     "last_name": "Doe",
-                    "phone": "4155550100",
                 },
                 {
                     "date_of_birth": parse_date("1985-11-20"),
                     "email": "john.smith@acme.com",
                     "first_name": "John",
                     "last_name": "Smith",
-                    "phone": "4155550101",
                 },
             ],
         )
@@ -279,14 +277,12 @@ class TestEmployers:
                     "email": "jane.doe@acme.com",
                     "first_name": "Jane",
                     "last_name": "Doe",
-                    "phone": "4155550100",
                 },
                 {
                     "date_of_birth": parse_date("1985-11-20"),
                     "email": "john.smith@acme.com",
                     "first_name": "John",
                     "last_name": "Smith",
-                    "phone": "4155550101",
                 },
             ],
         )
@@ -307,14 +303,12 @@ class TestEmployers:
                     "email": "jane.doe@acme.com",
                     "first_name": "Jane",
                     "last_name": "Doe",
-                    "phone": "4155550100",
                 },
                 {
                     "date_of_birth": parse_date("1985-11-20"),
                     "email": "john.smith@acme.com",
                     "first_name": "John",
                     "last_name": "Smith",
-                    "phone": "4155550101",
                 },
             ],
         ) as response:
@@ -338,14 +332,12 @@ class TestEmployers:
                         "email": "jane.doe@acme.com",
                         "first_name": "Jane",
                         "last_name": "Doe",
-                        "phone": "4155550100",
                     },
                     {
                         "date_of_birth": parse_date("1985-11-20"),
                         "email": "john.smith@acme.com",
                         "first_name": "John",
                         "last_name": "Smith",
-                        "phone": "4155550101",
                     },
                 ],
             )
@@ -632,14 +624,12 @@ class TestAsyncEmployers:
                     "email": "jane.doe@acme.com",
                     "first_name": "Jane",
                     "last_name": "Doe",
-                    "phone": "4155550100",
                 },
                 {
                     "date_of_birth": parse_date("1985-11-20"),
                     "email": "john.smith@acme.com",
                     "first_name": "John",
                     "last_name": "Smith",
-                    "phone": "4155550101",
                 },
             ],
         )
@@ -656,14 +646,12 @@ class TestAsyncEmployers:
                     "email": "jane.doe@acme.com",
                     "first_name": "Jane",
                     "last_name": "Doe",
-                    "phone": "4155550100",
                 },
                 {
                     "date_of_birth": parse_date("1985-11-20"),
                     "email": "john.smith@acme.com",
                     "first_name": "John",
                     "last_name": "Smith",
-                    "phone": "4155550101",
                 },
             ],
         )
@@ -684,14 +672,12 @@ class TestAsyncEmployers:
                     "email": "jane.doe@acme.com",
                     "first_name": "Jane",
                     "last_name": "Doe",
-                    "phone": "4155550100",
                 },
                 {
                     "date_of_birth": parse_date("1985-11-20"),
                     "email": "john.smith@acme.com",
                     "first_name": "John",
                     "last_name": "Smith",
-                    "phone": "4155550101",
                 },
             ],
         ) as response:
@@ -715,14 +701,12 @@ class TestAsyncEmployers:
                         "email": "jane.doe@acme.com",
                         "first_name": "Jane",
                         "last_name": "Doe",
-                        "phone": "4155550100",
                     },
                     {
                         "date_of_birth": parse_date("1985-11-20"),
                         "email": "john.smith@acme.com",
                         "first_name": "John",
                         "last_name": "Smith",
-                        "phone": "4155550101",
                     },
                 ],
             )
