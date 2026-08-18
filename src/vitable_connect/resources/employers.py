@@ -14,7 +14,7 @@ from ..types import (
     employer_update_settings_params,
     employer_submit_census_sync_params,
 )
-from .._types import Body, Omit, Query, Headers, NotGiven, omit, not_given
+from .._types import Body, Omit, Query, Headers, NotGiven, SequenceNotStr, omit, not_given
 from .._utils import path_template, maybe_transform, async_maybe_transform
 from .._compat import cached_property
 from .._resource import SyncAPIResource, AsyncAPIResource
@@ -164,6 +164,7 @@ class EmployersResource(SyncAPIResource):
         benefit_family: List[Literal["mec", "mvp", "ichra", "vpc", "dental", "vision"]] | Omit = omit,
         benefit_lifecycle_stage: List[Literal["open_enrollment", "renewal", "active", "onboarding", "cancelled"]]
         | Omit = omit,
+        hris_provider: SequenceNotStr[str] | Omit = omit,
         hris_status: List[Literal["Pending", "Active", "Inactive", "Paused", "Terminated"]] | Omit = omit,
         include_cancelled: bool | Omit = omit,
         limit: int | Omit = omit,
@@ -177,17 +178,22 @@ class EmployersResource(SyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> SyncPageNumberPage[EmployerListResponse]:
         """
-        Returns the caller's organization book — every employer with its computed
-        columns (enrollment-rate summary, benefit-family tags, HRIS connection,
+        Returns the caller's employer book — every employer with its computed columns
+        (enrollment-rate summary, benefit-family tags, HRIS connection,
         benefit-lifecycle stage) merged with the employer's flat CRM fields (legal name,
-        EIN, contact, address, timestamps). The organization is derived from the
-        authenticated principal. Supports name search, benefit-family/lifecycle/HRIS
-        filters, and page/limit pagination.
+        EIN, contact, address, timestamps). The book is derived from the authenticated
+        principal: one organization's employers, or every organization's for a caller
+        whose reach is not a single organization. Supports name search,
+        benefit-family/lifecycle/HRIS filters, and page/limit pagination.
 
         Args:
           benefit_family: Filter to employers with at least one active benefit in these families.
 
           benefit_lifecycle_stage: Filter to employers in one of these computed benefit-lifecycle stages.
+
+          hris_provider: Filter to employers whose HRIS connection is with one of these payroll providers
+              (e.g. `ADP RUN`). Matched case-insensitively; free text, so read the available
+              values from the HRIS-providers endpoint rather than assuming a fixed set.
 
           hris_status: Filter to employers whose HRIS connection is in one of these statuses.
 
@@ -220,6 +226,7 @@ class EmployersResource(SyncAPIResource):
                     {
                         "benefit_family": benefit_family,
                         "benefit_lifecycle_stage": benefit_lifecycle_stage,
+                        "hris_provider": hris_provider,
                         "hris_status": hris_status,
                         "include_cancelled": include_cancelled,
                         "limit": limit,
@@ -517,6 +524,7 @@ class AsyncEmployersResource(AsyncAPIResource):
         benefit_family: List[Literal["mec", "mvp", "ichra", "vpc", "dental", "vision"]] | Omit = omit,
         benefit_lifecycle_stage: List[Literal["open_enrollment", "renewal", "active", "onboarding", "cancelled"]]
         | Omit = omit,
+        hris_provider: SequenceNotStr[str] | Omit = omit,
         hris_status: List[Literal["Pending", "Active", "Inactive", "Paused", "Terminated"]] | Omit = omit,
         include_cancelled: bool | Omit = omit,
         limit: int | Omit = omit,
@@ -530,17 +538,22 @@ class AsyncEmployersResource(AsyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> AsyncPaginator[EmployerListResponse, AsyncPageNumberPage[EmployerListResponse]]:
         """
-        Returns the caller's organization book — every employer with its computed
-        columns (enrollment-rate summary, benefit-family tags, HRIS connection,
+        Returns the caller's employer book — every employer with its computed columns
+        (enrollment-rate summary, benefit-family tags, HRIS connection,
         benefit-lifecycle stage) merged with the employer's flat CRM fields (legal name,
-        EIN, contact, address, timestamps). The organization is derived from the
-        authenticated principal. Supports name search, benefit-family/lifecycle/HRIS
-        filters, and page/limit pagination.
+        EIN, contact, address, timestamps). The book is derived from the authenticated
+        principal: one organization's employers, or every organization's for a caller
+        whose reach is not a single organization. Supports name search,
+        benefit-family/lifecycle/HRIS filters, and page/limit pagination.
 
         Args:
           benefit_family: Filter to employers with at least one active benefit in these families.
 
           benefit_lifecycle_stage: Filter to employers in one of these computed benefit-lifecycle stages.
+
+          hris_provider: Filter to employers whose HRIS connection is with one of these payroll providers
+              (e.g. `ADP RUN`). Matched case-insensitively; free text, so read the available
+              values from the HRIS-providers endpoint rather than assuming a fixed set.
 
           hris_status: Filter to employers whose HRIS connection is in one of these statuses.
 
@@ -573,6 +586,7 @@ class AsyncEmployersResource(AsyncAPIResource):
                     {
                         "benefit_family": benefit_family,
                         "benefit_lifecycle_stage": benefit_lifecycle_stage,
+                        "hris_provider": hris_provider,
                         "hris_status": hris_status,
                         "include_cancelled": include_cancelled,
                         "limit": limit,

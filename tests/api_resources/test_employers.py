@@ -160,6 +160,7 @@ class TestEmployers:
         employer = client.employers.list(
             benefit_family=["mec"],
             benefit_lifecycle_stage=["open_enrollment"],
+            hris_provider=["string"],
             hris_status=["Pending"],
             include_cancelled=True,
             limit=20,
@@ -529,6 +530,7 @@ class TestAsyncEmployers:
         employer = await async_client.employers.list(
             benefit_family=["mec"],
             benefit_lifecycle_stage=["open_enrollment"],
+            hris_provider=["string"],
             hris_status=["Pending"],
             include_cancelled=True,
             limit=20,
