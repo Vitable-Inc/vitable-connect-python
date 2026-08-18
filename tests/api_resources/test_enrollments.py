@@ -21,7 +21,7 @@ class TestEnrollments:
     @parametrize
     def test_method_retrieve(self, client: VitableConnect) -> None:
         enrollment = client.enrollments.retrieve(
-            "enrl_abc123def456",
+            "enrl_AAAAAAAAAAAAAAAAAAAAAQ",
         )
         assert_matches_type(EnrollmentRetrieveResponse, enrollment, path=["response"])
 
@@ -29,7 +29,7 @@ class TestEnrollments:
     @parametrize
     def test_raw_response_retrieve(self, client: VitableConnect) -> None:
         response = client.enrollments.with_raw_response.retrieve(
-            "enrl_abc123def456",
+            "enrl_AAAAAAAAAAAAAAAAAAAAAQ",
         )
 
         assert response.is_closed is True
@@ -41,7 +41,7 @@ class TestEnrollments:
     @parametrize
     def test_streaming_response_retrieve(self, client: VitableConnect) -> None:
         with client.enrollments.with_streaming_response.retrieve(
-            "enrl_abc123def456",
+            "enrl_AAAAAAAAAAAAAAAAAAAAAQ",
         ) as response:
             assert not response.is_closed
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
@@ -69,7 +69,7 @@ class TestAsyncEnrollments:
     @parametrize
     async def test_method_retrieve(self, async_client: AsyncVitableConnect) -> None:
         enrollment = await async_client.enrollments.retrieve(
-            "enrl_abc123def456",
+            "enrl_AAAAAAAAAAAAAAAAAAAAAQ",
         )
         assert_matches_type(EnrollmentRetrieveResponse, enrollment, path=["response"])
 
@@ -77,7 +77,7 @@ class TestAsyncEnrollments:
     @parametrize
     async def test_raw_response_retrieve(self, async_client: AsyncVitableConnect) -> None:
         response = await async_client.enrollments.with_raw_response.retrieve(
-            "enrl_abc123def456",
+            "enrl_AAAAAAAAAAAAAAAAAAAAAQ",
         )
 
         assert response.is_closed is True
@@ -89,7 +89,7 @@ class TestAsyncEnrollments:
     @parametrize
     async def test_streaming_response_retrieve(self, async_client: AsyncVitableConnect) -> None:
         async with async_client.enrollments.with_streaming_response.retrieve(
-            "enrl_abc123def456",
+            "enrl_AAAAAAAAAAAAAAAAAAAAAQ",
         ) as response:
             assert not response.is_closed
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
