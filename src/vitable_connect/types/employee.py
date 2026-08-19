@@ -102,6 +102,9 @@ class Employee(BaseModel):
     - `Individual Contractor` - Individual Contractor
     """
 
+    employer_id: str
+    """Unique identifier of the employer this employment is with (empr\\__\\**)"""
+
     first_name: str
     """Employee's legal first name"""
 
