@@ -3,24 +3,12 @@
 Types:
 
 ```python
-from vitable_connect.types import (
-    AuthCompleteProfileResponse,
-    AuthIssueAccessTokenResponse,
-    AuthListPersonasResponse,
-    AuthLoginResponse,
-    AuthRetrieveMeResponse,
-    AuthSignUpResponse,
-)
+from vitable_connect.types import AuthIssueAccessTokenResponse
 ```
 
 Methods:
 
-- <code title="post /v1/auth/complete-profile">client.auth.<a href="./src/vitable_connect/resources/auth.py">complete_profile</a>(\*\*<a href="src/vitable_connect/types/auth_complete_profile_params.py">params</a>) -> <a href="./src/vitable_connect/types/auth_complete_profile_response.py">AuthCompleteProfileResponse</a></code>
 - <code title="post /v1/auth/access-tokens">client.auth.<a href="./src/vitable_connect/resources/auth.py">issue_access_token</a>(\*\*<a href="src/vitable_connect/types/auth_issue_access_token_params.py">params</a>) -> <a href="./src/vitable_connect/types/auth_issue_access_token_response.py">AuthIssueAccessTokenResponse</a></code>
-- <code title="get /v1/auth/personas">client.auth.<a href="./src/vitable_connect/resources/auth.py">list_personas</a>() -> <a href="./src/vitable_connect/types/auth_list_personas_response.py">AuthListPersonasResponse</a></code>
-- <code title="post /v1/auth/login">client.auth.<a href="./src/vitable_connect/resources/auth.py">login</a>(\*\*<a href="src/vitable_connect/types/auth_login_params.py">params</a>) -> <a href="./src/vitable_connect/types/auth_login_response.py">AuthLoginResponse</a></code>
-- <code title="get /v1/auth/me">client.auth.<a href="./src/vitable_connect/resources/auth.py">retrieve_me</a>() -> <a href="./src/vitable_connect/types/auth_retrieve_me_response.py">AuthRetrieveMeResponse</a></code>
-- <code title="post /v1/auth/sign-up">client.auth.<a href="./src/vitable_connect/resources/auth.py">sign_up</a>(\*\*<a href="src/vitable_connect/types/auth_sign_up_params.py">params</a>) -> <a href="./src/vitable_connect/types/auth_sign_up_response.py">AuthSignUpResponse</a></code>
 
 # Employees
 

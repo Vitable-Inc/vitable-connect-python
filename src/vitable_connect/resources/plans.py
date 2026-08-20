@@ -86,7 +86,6 @@ class PlansResource(SyncAPIResource):
                     },
                     plan_list_params.PlanListParams,
                 ),
-                security={"api_key_auth": True},
             ),
             model=PlanListResponse,
         )
@@ -156,7 +155,6 @@ class AsyncPlansResource(AsyncAPIResource):
                     },
                     plan_list_params.PlanListParams,
                 ),
-                security={"api_key_auth": True},
             ),
             model=PlanListResponse,
         )

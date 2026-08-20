@@ -78,7 +78,6 @@ ENVIRONMENTS: Dict[str, str] = {
 class VitableConnect(SyncAPIClient):
     # client options
     api_key: str
-    identity_token: str | None
 
     _environment: Literal["production", "environment_1"] | NotGiven
 
@@ -86,7 +85,6 @@ class VitableConnect(SyncAPIClient):
         self,
         *,
         api_key: str | None = None,
-        identity_token: str | None = None,
         environment: Literal["production", "environment_1"] | NotGiven = not_given,
         base_url: str | httpx.URL | None | NotGiven = not_given,
         timeout: float | Timeout | None | NotGiven = not_given,
@@ -109,9 +107,7 @@ class VitableConnect(SyncAPIClient):
     ) -> None:
         """Construct a new synchronous VitableConnect client instance.
 
-        This automatically infers the following arguments from their corresponding environment variables if they are not provided:
-        - `api_key` from `VITABLE_CONNECT_API_KEY`
-        - `identity_token` from `VITABLE_CONNECT_IDENTITY_TOKEN`
+        This automatically infers the `api_key` argument from the `VITABLE_CONNECT_API_KEY` environment variable if it is not provided.
         """
         if api_key is None:
             api_key = os.environ.get("VITABLE_CONNECT_API_KEY")
@@ -120,10 +116,6 @@ class VitableConnect(SyncAPIClient):
                 "The api_key client option must be set either by passing api_key to the client or by setting the VITABLE_CONNECT_API_KEY environment variable"
             )
         self.api_key = api_key
-
-        if identity_token is None:
-            identity_token = os.environ.get("VITABLE_CONNECT_IDENTITY_TOKEN")
-        self.identity_token = identity_token
 
         self._environment = environment
 
@@ -173,6 +165,7 @@ class VitableConnect(SyncAPIClient):
 
     @cached_property
     def auth(self) -> AuthResource:
+        """Issue short-lived access tokens for scoped API access"""
         from .resources.auth import AuthResource
 
         return AuthResource(self)
@@ -246,22 +239,12 @@ class VitableConnect(SyncAPIClient):
         if security.get("api_key_auth", False):
             for key, value in self._api_key_auth.items():
                 headers.setdefault(key, value)
-        if security.get("identity_provider_bearer", False):
-            for key, value in self._identity_provider_bearer.items():
-                headers.setdefault(key, value)
         return headers
 
     @property
     def _api_key_auth(self) -> dict[str, str]:
         api_key = self.api_key
         return {"Authorization": f"Bearer {api_key}"}
-
-    @property
-    def _identity_provider_bearer(self) -> dict[str, str]:
-        identity_token = self.identity_token
-        if identity_token is None:
-            return {}
-        return {"Authorization": f"Bearer {identity_token}"}
 
     @property
     @override
@@ -276,7 +259,6 @@ class VitableConnect(SyncAPIClient):
         self,
         *,
         api_key: str | None = None,
-        identity_token: str | None = None,
         environment: Literal["production", "environment_1"] | None = None,
         base_url: str | httpx.URL | None = None,
         timeout: float | Timeout | None | NotGiven = not_given,
@@ -312,7 +294,6 @@ class VitableConnect(SyncAPIClient):
         http_client = http_client or self._client
         return self.__class__(
             api_key=api_key or self.api_key,
-            identity_token=identity_token or self.identity_token,
             base_url=base_url or self.base_url,
             environment=environment or self._environment,
             timeout=self.timeout if isinstance(timeout, NotGiven) else timeout,
@@ -364,7 +345,6 @@ class VitableConnect(SyncAPIClient):
 class AsyncVitableConnect(AsyncAPIClient):
     # client options
     api_key: str
-    identity_token: str | None
 
     _environment: Literal["production", "environment_1"] | NotGiven
 
@@ -372,7 +352,6 @@ class AsyncVitableConnect(AsyncAPIClient):
         self,
         *,
         api_key: str | None = None,
-        identity_token: str | None = None,
         environment: Literal["production", "environment_1"] | NotGiven = not_given,
         base_url: str | httpx.URL | None | NotGiven = not_given,
         timeout: float | Timeout | None | NotGiven = not_given,
@@ -395,9 +374,7 @@ class AsyncVitableConnect(AsyncAPIClient):
     ) -> None:
         """Construct a new async AsyncVitableConnect client instance.
 
-        This automatically infers the following arguments from their corresponding environment variables if they are not provided:
-        - `api_key` from `VITABLE_CONNECT_API_KEY`
-        - `identity_token` from `VITABLE_CONNECT_IDENTITY_TOKEN`
+        This automatically infers the `api_key` argument from the `VITABLE_CONNECT_API_KEY` environment variable if it is not provided.
         """
         if api_key is None:
             api_key = os.environ.get("VITABLE_CONNECT_API_KEY")
@@ -406,10 +383,6 @@ class AsyncVitableConnect(AsyncAPIClient):
                 "The api_key client option must be set either by passing api_key to the client or by setting the VITABLE_CONNECT_API_KEY environment variable"
             )
         self.api_key = api_key
-
-        if identity_token is None:
-            identity_token = os.environ.get("VITABLE_CONNECT_IDENTITY_TOKEN")
-        self.identity_token = identity_token
 
         self._environment = environment
 
@@ -459,6 +432,7 @@ class AsyncVitableConnect(AsyncAPIClient):
 
     @cached_property
     def auth(self) -> AsyncAuthResource:
+        """Issue short-lived access tokens for scoped API access"""
         from .resources.auth import AsyncAuthResource
 
         return AsyncAuthResource(self)
@@ -532,22 +506,12 @@ class AsyncVitableConnect(AsyncAPIClient):
         if security.get("api_key_auth", False):
             for key, value in self._api_key_auth.items():
                 headers.setdefault(key, value)
-        if security.get("identity_provider_bearer", False):
-            for key, value in self._identity_provider_bearer.items():
-                headers.setdefault(key, value)
         return headers
 
     @property
     def _api_key_auth(self) -> dict[str, str]:
         api_key = self.api_key
         return {"Authorization": f"Bearer {api_key}"}
-
-    @property
-    def _identity_provider_bearer(self) -> dict[str, str]:
-        identity_token = self.identity_token
-        if identity_token is None:
-            return {}
-        return {"Authorization": f"Bearer {identity_token}"}
 
     @property
     @override
@@ -562,7 +526,6 @@ class AsyncVitableConnect(AsyncAPIClient):
         self,
         *,
         api_key: str | None = None,
-        identity_token: str | None = None,
         environment: Literal["production", "environment_1"] | None = None,
         base_url: str | httpx.URL | None = None,
         timeout: float | Timeout | None | NotGiven = not_given,
@@ -598,7 +561,6 @@ class AsyncVitableConnect(AsyncAPIClient):
         http_client = http_client or self._client
         return self.__class__(
             api_key=api_key or self.api_key,
-            identity_token=identity_token or self.identity_token,
             base_url=base_url or self.base_url,
             environment=environment or self._environment,
             timeout=self.timeout if isinstance(timeout, NotGiven) else timeout,
@@ -655,6 +617,7 @@ class VitableConnectWithRawResponse:
 
     @cached_property
     def auth(self) -> auth.AuthResourceWithRawResponse:
+        """Issue short-lived access tokens for scoped API access"""
         from .resources.auth import AuthResourceWithRawResponse
 
         return AuthResourceWithRawResponse(self._client.auth)
@@ -718,6 +681,7 @@ class AsyncVitableConnectWithRawResponse:
 
     @cached_property
     def auth(self) -> auth.AsyncAuthResourceWithRawResponse:
+        """Issue short-lived access tokens for scoped API access"""
         from .resources.auth import AsyncAuthResourceWithRawResponse
 
         return AsyncAuthResourceWithRawResponse(self._client.auth)
@@ -781,6 +745,7 @@ class VitableConnectWithStreamedResponse:
 
     @cached_property
     def auth(self) -> auth.AuthResourceWithStreamingResponse:
+        """Issue short-lived access tokens for scoped API access"""
         from .resources.auth import AuthResourceWithStreamingResponse
 
         return AuthResourceWithStreamingResponse(self._client.auth)
@@ -844,6 +809,7 @@ class AsyncVitableConnectWithStreamedResponse:
 
     @cached_property
     def auth(self) -> auth.AsyncAuthResourceWithStreamingResponse:
+        """Issue short-lived access tokens for scoped API access"""
         from .resources.auth import AsyncAuthResourceWithStreamingResponse
 
         return AsyncAuthResourceWithStreamingResponse(self._client.auth)

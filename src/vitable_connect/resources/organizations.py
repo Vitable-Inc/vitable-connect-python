@@ -97,7 +97,7 @@ class OrganizationsResource(SyncAPIResource):
                 extra_query=extra_query,
                 extra_body=extra_body,
                 timeout=timeout,
-                security={"identity_provider_bearer": True},
+                security={},
             ),
             cast_to=OrganizationCreateResponse,
         )
@@ -123,7 +123,7 @@ class OrganizationsResource(SyncAPIResource):
                 extra_query=extra_query,
                 extra_body=extra_body,
                 timeout=timeout,
-                security={"identity_provider_bearer": True},
+                security={},
             ),
             cast_to=OrganizationListResponse,
         )
@@ -201,7 +201,7 @@ class AsyncOrganizationsResource(AsyncAPIResource):
                 extra_query=extra_query,
                 extra_body=extra_body,
                 timeout=timeout,
-                security={"identity_provider_bearer": True},
+                security={},
             ),
             cast_to=OrganizationCreateResponse,
         )
@@ -227,7 +227,7 @@ class AsyncOrganizationsResource(AsyncAPIResource):
                 extra_query=extra_query,
                 extra_body=extra_body,
                 timeout=timeout,
-                security={"identity_provider_bearer": True},
+                security={},
             ),
             cast_to=OrganizationListResponse,
         )

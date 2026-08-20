@@ -40,7 +40,6 @@ from .utils import update_env
 T = TypeVar("T")
 base_url = os.environ.get("TEST_API_BASE_URL", "http://127.0.0.1:4010")
 api_key = "My API Key"
-identity_token = "My Identity Token"
 
 
 def _get_params(client: BaseClient[Any, Any]) -> dict[str, str]:
@@ -141,10 +140,6 @@ class TestVitableConnect:
         assert copied.api_key == "another My API Key"
         assert client.api_key == "My API Key"
 
-        copied = client.copy(identity_token="another My Identity Token")
-        assert copied.identity_token == "another My Identity Token"
-        assert client.identity_token == "My Identity Token"
-
     def test_copy_default_options(self, client: VitableConnect) -> None:
         # options that have a default are overridden correctly
         copied = client.copy(max_retries=7)
@@ -163,11 +158,7 @@ class TestVitableConnect:
 
     def test_copy_default_headers(self) -> None:
         client = VitableConnect(
-            base_url=base_url,
-            api_key=api_key,
-            identity_token=identity_token,
-            _strict_response_validation=True,
-            default_headers={"X-Foo": "bar"},
+            base_url=base_url, api_key=api_key, _strict_response_validation=True, default_headers={"X-Foo": "bar"}
         )
         assert client.default_headers["X-Foo"] == "bar"
 
@@ -202,11 +193,7 @@ class TestVitableConnect:
 
     def test_copy_default_query(self) -> None:
         client = VitableConnect(
-            base_url=base_url,
-            api_key=api_key,
-            identity_token=identity_token,
-            _strict_response_validation=True,
-            default_query={"foo": "bar"},
+            base_url=base_url, api_key=api_key, _strict_response_validation=True, default_query={"foo": "bar"}
         )
         assert _get_params(client)["foo"] == "bar"
 
@@ -332,11 +319,7 @@ class TestVitableConnect:
 
     def test_client_timeout_option(self) -> None:
         client = VitableConnect(
-            base_url=base_url,
-            api_key=api_key,
-            identity_token=identity_token,
-            _strict_response_validation=True,
-            timeout=httpx.Timeout(0),
+            base_url=base_url, api_key=api_key, _strict_response_validation=True, timeout=httpx.Timeout(0)
         )
 
         request = client._build_request(FinalRequestOptions(method="get", url="/foo"))
@@ -349,11 +332,7 @@ class TestVitableConnect:
         # custom timeout given to the httpx client should be used
         with httpx.Client(timeout=None) as http_client:
             client = VitableConnect(
-                base_url=base_url,
-                api_key=api_key,
-                identity_token=identity_token,
-                _strict_response_validation=True,
-                http_client=http_client,
+                base_url=base_url, api_key=api_key, _strict_response_validation=True, http_client=http_client
             )
 
             request = client._build_request(FinalRequestOptions(method="get", url="/foo"))
@@ -365,11 +344,7 @@ class TestVitableConnect:
         # no timeout given to the httpx client should not use the httpx default
         with httpx.Client() as http_client:
             client = VitableConnect(
-                base_url=base_url,
-                api_key=api_key,
-                identity_token=identity_token,
-                _strict_response_validation=True,
-                http_client=http_client,
+                base_url=base_url, api_key=api_key, _strict_response_validation=True, http_client=http_client
             )
 
             request = client._build_request(FinalRequestOptions(method="get", url="/foo"))
@@ -381,11 +356,7 @@ class TestVitableConnect:
         # explicitly passing the default timeout currently results in it being ignored
         with httpx.Client(timeout=HTTPX_DEFAULT_TIMEOUT) as http_client:
             client = VitableConnect(
-                base_url=base_url,
-                api_key=api_key,
-                identity_token=identity_token,
-                _strict_response_validation=True,
-                http_client=http_client,
+                base_url=base_url, api_key=api_key, _strict_response_validation=True, http_client=http_client
             )
 
             request = client._build_request(FinalRequestOptions(method="get", url="/foo"))
@@ -400,18 +371,13 @@ class TestVitableConnect:
                 VitableConnect(
                     base_url=base_url,
                     api_key=api_key,
-                    identity_token=identity_token,
                     _strict_response_validation=True,
                     http_client=cast(Any, http_client),
                 )
 
     def test_default_headers_option(self) -> None:
         test_client = VitableConnect(
-            base_url=base_url,
-            api_key=api_key,
-            identity_token=identity_token,
-            _strict_response_validation=True,
-            default_headers={"X-Foo": "bar"},
+            base_url=base_url, api_key=api_key, _strict_response_validation=True, default_headers={"X-Foo": "bar"}
         )
         request = test_client._build_request(FinalRequestOptions(method="get", url="/foo"))
         assert request.headers.get("x-foo") == "bar"
@@ -420,7 +386,6 @@ class TestVitableConnect:
         test_client2 = VitableConnect(
             base_url=base_url,
             api_key=api_key,
-            identity_token=identity_token,
             _strict_response_validation=True,
             default_headers={
                 "X-Foo": "stainless",
@@ -435,31 +400,18 @@ class TestVitableConnect:
         test_client2.close()
 
     def test_validate_headers(self) -> None:
-        client = VitableConnect(
-            base_url=base_url, api_key=api_key, identity_token=identity_token, _strict_response_validation=True
-        )
+        client = VitableConnect(base_url=base_url, api_key=api_key, _strict_response_validation=True)
         request = client._build_request(FinalRequestOptions(method="get", url="/foo"))
         assert request.headers.get("Authorization") == f"Bearer {api_key}"
 
         with pytest.raises(VitableConnectError):
-            with update_env(
-                **{
-                    "VITABLE_CONNECT_API_KEY": Omit(),
-                    "VITABLE_CONNECT_IDENTITY_TOKEN": Omit(),
-                }
-            ):
-                client2 = VitableConnect(
-                    base_url=base_url, api_key=None, identity_token=None, _strict_response_validation=True
-                )
+            with update_env(**{"VITABLE_CONNECT_API_KEY": Omit()}):
+                client2 = VitableConnect(base_url=base_url, api_key=None, _strict_response_validation=True)
             _ = client2
 
     def test_default_query_option(self) -> None:
         client = VitableConnect(
-            base_url=base_url,
-            api_key=api_key,
-            identity_token=identity_token,
-            _strict_response_validation=True,
-            default_query={"query_param": "bar"},
+            base_url=base_url, api_key=api_key, _strict_response_validation=True, default_query={"query_param": "bar"}
         )
         request = client._build_request(FinalRequestOptions(method="get", url="/foo"))
         url = httpx.URL(request.url)
@@ -656,7 +608,6 @@ class TestVitableConnect:
         with VitableConnect(
             base_url=base_url,
             api_key=api_key,
-            identity_token=identity_token,
             _strict_response_validation=True,
             http_client=httpx.Client(transport=MockTransport(handler=mock_handler)),
         ) as client:
@@ -755,10 +706,7 @@ class TestVitableConnect:
 
     def test_base_url_setter(self) -> None:
         client = VitableConnect(
-            base_url="https://example.com/from_init",
-            api_key=api_key,
-            identity_token=identity_token,
-            _strict_response_validation=True,
+            base_url="https://example.com/from_init", api_key=api_key, _strict_response_validation=True
         )
         assert client.base_url == "https://example.com/from_init/"
 
@@ -770,25 +718,16 @@ class TestVitableConnect:
 
     def test_base_url_env(self) -> None:
         with update_env(VITABLE_CONNECT_BASE_URL="http://localhost:5000/from/env"):
-            client = VitableConnect(api_key=api_key, identity_token=identity_token, _strict_response_validation=True)
+            client = VitableConnect(api_key=api_key, _strict_response_validation=True)
             assert client.base_url == "http://localhost:5000/from/env/"
 
         # explicit environment arg requires explicitness
         with update_env(VITABLE_CONNECT_BASE_URL="http://localhost:5000/from/env"):
             with pytest.raises(ValueError, match=r"you must pass base_url=None"):
-                VitableConnect(
-                    api_key=api_key,
-                    identity_token=identity_token,
-                    _strict_response_validation=True,
-                    environment="production",
-                )
+                VitableConnect(api_key=api_key, _strict_response_validation=True, environment="production")
 
             client = VitableConnect(
-                base_url=None,
-                api_key=api_key,
-                identity_token=identity_token,
-                _strict_response_validation=True,
-                environment="production",
+                base_url=None, api_key=api_key, _strict_response_validation=True, environment="production"
             )
             assert str(client.base_url).startswith("https://api.vitablehealth.com")
 
@@ -798,15 +737,11 @@ class TestVitableConnect:
         "client",
         [
             VitableConnect(
-                base_url="http://localhost:5000/custom/path/",
-                api_key=api_key,
-                identity_token=identity_token,
-                _strict_response_validation=True,
+                base_url="http://localhost:5000/custom/path/", api_key=api_key, _strict_response_validation=True
             ),
             VitableConnect(
                 base_url="http://localhost:5000/custom/path/",
                 api_key=api_key,
-                identity_token=identity_token,
                 _strict_response_validation=True,
                 http_client=httpx.Client(),
             ),
@@ -828,15 +763,11 @@ class TestVitableConnect:
         "client",
         [
             VitableConnect(
-                base_url="http://localhost:5000/custom/path/",
-                api_key=api_key,
-                identity_token=identity_token,
-                _strict_response_validation=True,
+                base_url="http://localhost:5000/custom/path/", api_key=api_key, _strict_response_validation=True
             ),
             VitableConnect(
                 base_url="http://localhost:5000/custom/path/",
                 api_key=api_key,
-                identity_token=identity_token,
                 _strict_response_validation=True,
                 http_client=httpx.Client(),
             ),
@@ -858,15 +789,11 @@ class TestVitableConnect:
         "client",
         [
             VitableConnect(
-                base_url="http://localhost:5000/custom/path/",
-                api_key=api_key,
-                identity_token=identity_token,
-                _strict_response_validation=True,
+                base_url="http://localhost:5000/custom/path/", api_key=api_key, _strict_response_validation=True
             ),
             VitableConnect(
                 base_url="http://localhost:5000/custom/path/",
                 api_key=api_key,
-                identity_token=identity_token,
                 _strict_response_validation=True,
                 http_client=httpx.Client(),
             ),
@@ -885,9 +812,7 @@ class TestVitableConnect:
         client.close()
 
     def test_copied_client_does_not_close_http(self) -> None:
-        test_client = VitableConnect(
-            base_url=base_url, api_key=api_key, identity_token=identity_token, _strict_response_validation=True
-        )
+        test_client = VitableConnect(base_url=base_url, api_key=api_key, _strict_response_validation=True)
         assert not test_client.is_closed()
 
         copied = test_client.copy()
@@ -898,9 +823,7 @@ class TestVitableConnect:
         assert not test_client.is_closed()
 
     def test_client_context_manager(self) -> None:
-        test_client = VitableConnect(
-            base_url=base_url, api_key=api_key, identity_token=identity_token, _strict_response_validation=True
-        )
+        test_client = VitableConnect(base_url=base_url, api_key=api_key, _strict_response_validation=True)
         with test_client as c2:
             assert c2 is test_client
             assert not c2.is_closed()
@@ -922,11 +845,7 @@ class TestVitableConnect:
     def test_client_max_retries_validation(self) -> None:
         with pytest.raises(TypeError, match=r"max_retries cannot be None"):
             VitableConnect(
-                base_url=base_url,
-                api_key=api_key,
-                identity_token=identity_token,
-                _strict_response_validation=True,
-                max_retries=cast(Any, None),
+                base_url=base_url, api_key=api_key, _strict_response_validation=True, max_retries=cast(Any, None)
             )
 
     @pytest.mark.respx(base_url=base_url)
@@ -936,16 +855,12 @@ class TestVitableConnect:
 
         respx_mock.get("/foo").mock(return_value=httpx.Response(200, text="my-custom-format"))
 
-        strict_client = VitableConnect(
-            base_url=base_url, api_key=api_key, identity_token=identity_token, _strict_response_validation=True
-        )
+        strict_client = VitableConnect(base_url=base_url, api_key=api_key, _strict_response_validation=True)
 
         with pytest.raises(APIResponseValidationError):
             strict_client.get("/foo", cast_to=Model)
 
-        non_strict_client = VitableConnect(
-            base_url=base_url, api_key=api_key, identity_token=identity_token, _strict_response_validation=False
-        )
+        non_strict_client = VitableConnect(base_url=base_url, api_key=api_key, _strict_response_validation=False)
 
         response = non_strict_client.get("/foo", cast_to=Model)
         assert isinstance(response, str)  # type: ignore[unreachable]
@@ -1168,10 +1083,6 @@ class TestAsyncVitableConnect:
         assert copied.api_key == "another My API Key"
         assert async_client.api_key == "My API Key"
 
-        copied = async_client.copy(identity_token="another My Identity Token")
-        assert copied.identity_token == "another My Identity Token"
-        assert async_client.identity_token == "My Identity Token"
-
     def test_copy_default_options(self, async_client: AsyncVitableConnect) -> None:
         # options that have a default are overridden correctly
         copied = async_client.copy(max_retries=7)
@@ -1190,11 +1101,7 @@ class TestAsyncVitableConnect:
 
     async def test_copy_default_headers(self) -> None:
         client = AsyncVitableConnect(
-            base_url=base_url,
-            api_key=api_key,
-            identity_token=identity_token,
-            _strict_response_validation=True,
-            default_headers={"X-Foo": "bar"},
+            base_url=base_url, api_key=api_key, _strict_response_validation=True, default_headers={"X-Foo": "bar"}
         )
         assert client.default_headers["X-Foo"] == "bar"
 
@@ -1229,11 +1136,7 @@ class TestAsyncVitableConnect:
 
     async def test_copy_default_query(self) -> None:
         client = AsyncVitableConnect(
-            base_url=base_url,
-            api_key=api_key,
-            identity_token=identity_token,
-            _strict_response_validation=True,
-            default_query={"foo": "bar"},
+            base_url=base_url, api_key=api_key, _strict_response_validation=True, default_query={"foo": "bar"}
         )
         assert _get_params(client)["foo"] == "bar"
 
@@ -1361,11 +1264,7 @@ class TestAsyncVitableConnect:
 
     async def test_client_timeout_option(self) -> None:
         client = AsyncVitableConnect(
-            base_url=base_url,
-            api_key=api_key,
-            identity_token=identity_token,
-            _strict_response_validation=True,
-            timeout=httpx.Timeout(0),
+            base_url=base_url, api_key=api_key, _strict_response_validation=True, timeout=httpx.Timeout(0)
         )
 
         request = client._build_request(FinalRequestOptions(method="get", url="/foo"))
@@ -1378,11 +1277,7 @@ class TestAsyncVitableConnect:
         # custom timeout given to the httpx client should be used
         async with httpx.AsyncClient(timeout=None) as http_client:
             client = AsyncVitableConnect(
-                base_url=base_url,
-                api_key=api_key,
-                identity_token=identity_token,
-                _strict_response_validation=True,
-                http_client=http_client,
+                base_url=base_url, api_key=api_key, _strict_response_validation=True, http_client=http_client
             )
 
             request = client._build_request(FinalRequestOptions(method="get", url="/foo"))
@@ -1394,11 +1289,7 @@ class TestAsyncVitableConnect:
         # no timeout given to the httpx client should not use the httpx default
         async with httpx.AsyncClient() as http_client:
             client = AsyncVitableConnect(
-                base_url=base_url,
-                api_key=api_key,
-                identity_token=identity_token,
-                _strict_response_validation=True,
-                http_client=http_client,
+                base_url=base_url, api_key=api_key, _strict_response_validation=True, http_client=http_client
             )
 
             request = client._build_request(FinalRequestOptions(method="get", url="/foo"))
@@ -1410,11 +1301,7 @@ class TestAsyncVitableConnect:
         # explicitly passing the default timeout currently results in it being ignored
         async with httpx.AsyncClient(timeout=HTTPX_DEFAULT_TIMEOUT) as http_client:
             client = AsyncVitableConnect(
-                base_url=base_url,
-                api_key=api_key,
-                identity_token=identity_token,
-                _strict_response_validation=True,
-                http_client=http_client,
+                base_url=base_url, api_key=api_key, _strict_response_validation=True, http_client=http_client
             )
 
             request = client._build_request(FinalRequestOptions(method="get", url="/foo"))
@@ -1429,18 +1316,13 @@ class TestAsyncVitableConnect:
                 AsyncVitableConnect(
                     base_url=base_url,
                     api_key=api_key,
-                    identity_token=identity_token,
                     _strict_response_validation=True,
                     http_client=cast(Any, http_client),
                 )
 
     async def test_default_headers_option(self) -> None:
         test_client = AsyncVitableConnect(
-            base_url=base_url,
-            api_key=api_key,
-            identity_token=identity_token,
-            _strict_response_validation=True,
-            default_headers={"X-Foo": "bar"},
+            base_url=base_url, api_key=api_key, _strict_response_validation=True, default_headers={"X-Foo": "bar"}
         )
         request = test_client._build_request(FinalRequestOptions(method="get", url="/foo"))
         assert request.headers.get("x-foo") == "bar"
@@ -1449,7 +1331,6 @@ class TestAsyncVitableConnect:
         test_client2 = AsyncVitableConnect(
             base_url=base_url,
             api_key=api_key,
-            identity_token=identity_token,
             _strict_response_validation=True,
             default_headers={
                 "X-Foo": "stainless",
@@ -1464,31 +1345,18 @@ class TestAsyncVitableConnect:
         await test_client2.close()
 
     def test_validate_headers(self) -> None:
-        client = AsyncVitableConnect(
-            base_url=base_url, api_key=api_key, identity_token=identity_token, _strict_response_validation=True
-        )
+        client = AsyncVitableConnect(base_url=base_url, api_key=api_key, _strict_response_validation=True)
         request = client._build_request(FinalRequestOptions(method="get", url="/foo"))
         assert request.headers.get("Authorization") == f"Bearer {api_key}"
 
         with pytest.raises(VitableConnectError):
-            with update_env(
-                **{
-                    "VITABLE_CONNECT_API_KEY": Omit(),
-                    "VITABLE_CONNECT_IDENTITY_TOKEN": Omit(),
-                }
-            ):
-                client2 = AsyncVitableConnect(
-                    base_url=base_url, api_key=None, identity_token=None, _strict_response_validation=True
-                )
+            with update_env(**{"VITABLE_CONNECT_API_KEY": Omit()}):
+                client2 = AsyncVitableConnect(base_url=base_url, api_key=None, _strict_response_validation=True)
             _ = client2
 
     async def test_default_query_option(self) -> None:
         client = AsyncVitableConnect(
-            base_url=base_url,
-            api_key=api_key,
-            identity_token=identity_token,
-            _strict_response_validation=True,
-            default_query={"query_param": "bar"},
+            base_url=base_url, api_key=api_key, _strict_response_validation=True, default_query={"query_param": "bar"}
         )
         request = client._build_request(FinalRequestOptions(method="get", url="/foo"))
         url = httpx.URL(request.url)
@@ -1685,7 +1553,6 @@ class TestAsyncVitableConnect:
         async with AsyncVitableConnect(
             base_url=base_url,
             api_key=api_key,
-            identity_token=identity_token,
             _strict_response_validation=True,
             http_client=httpx.AsyncClient(transport=MockTransport(handler=mock_handler)),
         ) as client:
@@ -1786,10 +1653,7 @@ class TestAsyncVitableConnect:
 
     async def test_base_url_setter(self) -> None:
         client = AsyncVitableConnect(
-            base_url="https://example.com/from_init",
-            api_key=api_key,
-            identity_token=identity_token,
-            _strict_response_validation=True,
+            base_url="https://example.com/from_init", api_key=api_key, _strict_response_validation=True
         )
         assert client.base_url == "https://example.com/from_init/"
 
@@ -1801,27 +1665,16 @@ class TestAsyncVitableConnect:
 
     async def test_base_url_env(self) -> None:
         with update_env(VITABLE_CONNECT_BASE_URL="http://localhost:5000/from/env"):
-            client = AsyncVitableConnect(
-                api_key=api_key, identity_token=identity_token, _strict_response_validation=True
-            )
+            client = AsyncVitableConnect(api_key=api_key, _strict_response_validation=True)
             assert client.base_url == "http://localhost:5000/from/env/"
 
         # explicit environment arg requires explicitness
         with update_env(VITABLE_CONNECT_BASE_URL="http://localhost:5000/from/env"):
             with pytest.raises(ValueError, match=r"you must pass base_url=None"):
-                AsyncVitableConnect(
-                    api_key=api_key,
-                    identity_token=identity_token,
-                    _strict_response_validation=True,
-                    environment="production",
-                )
+                AsyncVitableConnect(api_key=api_key, _strict_response_validation=True, environment="production")
 
             client = AsyncVitableConnect(
-                base_url=None,
-                api_key=api_key,
-                identity_token=identity_token,
-                _strict_response_validation=True,
-                environment="production",
+                base_url=None, api_key=api_key, _strict_response_validation=True, environment="production"
             )
             assert str(client.base_url).startswith("https://api.vitablehealth.com")
 
@@ -1831,15 +1684,11 @@ class TestAsyncVitableConnect:
         "client",
         [
             AsyncVitableConnect(
-                base_url="http://localhost:5000/custom/path/",
-                api_key=api_key,
-                identity_token=identity_token,
-                _strict_response_validation=True,
+                base_url="http://localhost:5000/custom/path/", api_key=api_key, _strict_response_validation=True
             ),
             AsyncVitableConnect(
                 base_url="http://localhost:5000/custom/path/",
                 api_key=api_key,
-                identity_token=identity_token,
                 _strict_response_validation=True,
                 http_client=httpx.AsyncClient(),
             ),
@@ -1861,15 +1710,11 @@ class TestAsyncVitableConnect:
         "client",
         [
             AsyncVitableConnect(
-                base_url="http://localhost:5000/custom/path/",
-                api_key=api_key,
-                identity_token=identity_token,
-                _strict_response_validation=True,
+                base_url="http://localhost:5000/custom/path/", api_key=api_key, _strict_response_validation=True
             ),
             AsyncVitableConnect(
                 base_url="http://localhost:5000/custom/path/",
                 api_key=api_key,
-                identity_token=identity_token,
                 _strict_response_validation=True,
                 http_client=httpx.AsyncClient(),
             ),
@@ -1891,15 +1736,11 @@ class TestAsyncVitableConnect:
         "client",
         [
             AsyncVitableConnect(
-                base_url="http://localhost:5000/custom/path/",
-                api_key=api_key,
-                identity_token=identity_token,
-                _strict_response_validation=True,
+                base_url="http://localhost:5000/custom/path/", api_key=api_key, _strict_response_validation=True
             ),
             AsyncVitableConnect(
                 base_url="http://localhost:5000/custom/path/",
                 api_key=api_key,
-                identity_token=identity_token,
                 _strict_response_validation=True,
                 http_client=httpx.AsyncClient(),
             ),
@@ -1918,9 +1759,7 @@ class TestAsyncVitableConnect:
         await client.close()
 
     async def test_copied_client_does_not_close_http(self) -> None:
-        test_client = AsyncVitableConnect(
-            base_url=base_url, api_key=api_key, identity_token=identity_token, _strict_response_validation=True
-        )
+        test_client = AsyncVitableConnect(base_url=base_url, api_key=api_key, _strict_response_validation=True)
         assert not test_client.is_closed()
 
         copied = test_client.copy()
@@ -1932,9 +1771,7 @@ class TestAsyncVitableConnect:
         assert not test_client.is_closed()
 
     async def test_client_context_manager(self) -> None:
-        test_client = AsyncVitableConnect(
-            base_url=base_url, api_key=api_key, identity_token=identity_token, _strict_response_validation=True
-        )
+        test_client = AsyncVitableConnect(base_url=base_url, api_key=api_key, _strict_response_validation=True)
         async with test_client as c2:
             assert c2 is test_client
             assert not c2.is_closed()
@@ -1958,11 +1795,7 @@ class TestAsyncVitableConnect:
     async def test_client_max_retries_validation(self) -> None:
         with pytest.raises(TypeError, match=r"max_retries cannot be None"):
             AsyncVitableConnect(
-                base_url=base_url,
-                api_key=api_key,
-                identity_token=identity_token,
-                _strict_response_validation=True,
-                max_retries=cast(Any, None),
+                base_url=base_url, api_key=api_key, _strict_response_validation=True, max_retries=cast(Any, None)
             )
 
     @pytest.mark.respx(base_url=base_url)
@@ -1972,16 +1805,12 @@ class TestAsyncVitableConnect:
 
         respx_mock.get("/foo").mock(return_value=httpx.Response(200, text="my-custom-format"))
 
-        strict_client = AsyncVitableConnect(
-            base_url=base_url, api_key=api_key, identity_token=identity_token, _strict_response_validation=True
-        )
+        strict_client = AsyncVitableConnect(base_url=base_url, api_key=api_key, _strict_response_validation=True)
 
         with pytest.raises(APIResponseValidationError):
             await strict_client.get("/foo", cast_to=Model)
 
-        non_strict_client = AsyncVitableConnect(
-            base_url=base_url, api_key=api_key, identity_token=identity_token, _strict_response_validation=False
-        )
+        non_strict_client = AsyncVitableConnect(base_url=base_url, api_key=api_key, _strict_response_validation=False)
 
         response = await non_strict_client.get("/foo", cast_to=Model)
         assert isinstance(response, str)  # type: ignore[unreachable]
