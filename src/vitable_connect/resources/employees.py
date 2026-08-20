@@ -2,11 +2,15 @@
 
 from __future__ import annotations
 
+from typing import Union, Optional
+from datetime import date
+from typing_extensions import Literal
+
 import httpx
 
-from ..types import employee_list_enrollments_params
+from ..types import EmployeeClass, employee_update_params, employee_list_enrollments_params
 from .._types import Body, Omit, Query, Headers, NotGiven, omit, not_given
-from .._utils import path_template, maybe_transform
+from .._utils import path_template, maybe_transform, async_maybe_transform
 from .._compat import cached_property
 from .._resource import SyncAPIResource, AsyncAPIResource
 from .._response import (
@@ -18,6 +22,8 @@ from .._response import (
 from ..pagination import SyncPageNumberPage, AsyncPageNumberPage
 from .._base_client import AsyncPaginator, make_request_options
 from ..types.enrollment import Enrollment
+from ..types.employee_class import EmployeeClass
+from ..types.employee_update_response import EmployeeUpdateResponse
 from ..types.employee_retrieve_response import EmployeeRetrieveResponse
 
 __all__ = ["EmployeesResource", "AsyncEmployeesResource"]
@@ -81,6 +87,94 @@ class EmployeesResource(SyncAPIResource):
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
             cast_to=EmployeeRetrieveResponse,
+        )
+
+    def update(
+        self,
+        employee_id: str,
+        *,
+        effective_date: Union[str, date],
+        address: Optional[employee_update_params.Address] | Omit = omit,
+        compensation_type: Optional[Literal["Salary", "Hourly"]] | Omit = omit,
+        email: Optional[str] | Omit = omit,
+        employee_class: Optional[EmployeeClass] | Omit = omit,
+        gender: Optional[Literal["Male", "Female", "Transgender", "Non-binary", "Prefer not to respond"]] | Omit = omit,
+        phone: Optional[str] | Omit = omit,
+        start_date: Union[str, date, None] | Omit = omit,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
+    ) -> EmployeeUpdateResponse:
+        """Updates employee personal, contact, address, and employment fields.
+
+        This
+        endpoint currently supports email, phone, gender, address, employee_class,
+        start_date, and compensation_type. effective_date is required and applies to
+        employee_class and compensation_type when those fields are included in the
+        request.
+
+        Args:
+          employee_id: Unique employee identifier (empl\\__\\**)
+
+          effective_date: Past or present date applied to each tracked employment field included in this
+              request
+
+          address: Employee's residential address
+
+          compensation_type: - `Salary` - Salary
+              - `Hourly` - Hourly
+
+          email: Email address
+
+          employee_class: - `Full Time` - Full Time
+              - `Part Time` - Part Time
+              - `Temporary` - Temporary
+              - `Intern` - Intern
+              - `Seasonal` - Seasonal
+              - `Individual Contractor` - Individual Contractor
+
+          gender: - `Male` - Male
+              - `Female` - Female
+              - `Transgender` - Transgender
+              - `Non-binary` - Non-binary
+              - `Prefer not to respond` - Prefer not to respond
+
+          phone: Phone number
+
+          start_date: Employment start date
+
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        if not employee_id:
+            raise ValueError(f"Expected a non-empty value for `employee_id` but received {employee_id!r}")
+        return self._patch(
+            path_template("/v1/employees/{employee_id}", employee_id=employee_id),
+            body=maybe_transform(
+                {
+                    "effective_date": effective_date,
+                    "address": address,
+                    "compensation_type": compensation_type,
+                    "email": email,
+                    "employee_class": employee_class,
+                    "gender": gender,
+                    "phone": phone,
+                    "start_date": start_date,
+                },
+                employee_update_params.EmployeeUpdateParams,
+            ),
+            options=make_request_options(
+                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+            ),
+            cast_to=EmployeeUpdateResponse,
         )
 
     def list_enrollments(
@@ -196,6 +290,94 @@ class AsyncEmployeesResource(AsyncAPIResource):
             cast_to=EmployeeRetrieveResponse,
         )
 
+    async def update(
+        self,
+        employee_id: str,
+        *,
+        effective_date: Union[str, date],
+        address: Optional[employee_update_params.Address] | Omit = omit,
+        compensation_type: Optional[Literal["Salary", "Hourly"]] | Omit = omit,
+        email: Optional[str] | Omit = omit,
+        employee_class: Optional[EmployeeClass] | Omit = omit,
+        gender: Optional[Literal["Male", "Female", "Transgender", "Non-binary", "Prefer not to respond"]] | Omit = omit,
+        phone: Optional[str] | Omit = omit,
+        start_date: Union[str, date, None] | Omit = omit,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
+    ) -> EmployeeUpdateResponse:
+        """Updates employee personal, contact, address, and employment fields.
+
+        This
+        endpoint currently supports email, phone, gender, address, employee_class,
+        start_date, and compensation_type. effective_date is required and applies to
+        employee_class and compensation_type when those fields are included in the
+        request.
+
+        Args:
+          employee_id: Unique employee identifier (empl\\__\\**)
+
+          effective_date: Past or present date applied to each tracked employment field included in this
+              request
+
+          address: Employee's residential address
+
+          compensation_type: - `Salary` - Salary
+              - `Hourly` - Hourly
+
+          email: Email address
+
+          employee_class: - `Full Time` - Full Time
+              - `Part Time` - Part Time
+              - `Temporary` - Temporary
+              - `Intern` - Intern
+              - `Seasonal` - Seasonal
+              - `Individual Contractor` - Individual Contractor
+
+          gender: - `Male` - Male
+              - `Female` - Female
+              - `Transgender` - Transgender
+              - `Non-binary` - Non-binary
+              - `Prefer not to respond` - Prefer not to respond
+
+          phone: Phone number
+
+          start_date: Employment start date
+
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        if not employee_id:
+            raise ValueError(f"Expected a non-empty value for `employee_id` but received {employee_id!r}")
+        return await self._patch(
+            path_template("/v1/employees/{employee_id}", employee_id=employee_id),
+            body=await async_maybe_transform(
+                {
+                    "effective_date": effective_date,
+                    "address": address,
+                    "compensation_type": compensation_type,
+                    "email": email,
+                    "employee_class": employee_class,
+                    "gender": gender,
+                    "phone": phone,
+                    "start_date": start_date,
+                },
+                employee_update_params.EmployeeUpdateParams,
+            ),
+            options=make_request_options(
+                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+            ),
+            cast_to=EmployeeUpdateResponse,
+        )
+
     def list_enrollments(
         self,
         employee_id: str,
@@ -256,6 +438,9 @@ class EmployeesResourceWithRawResponse:
         self.retrieve = to_raw_response_wrapper(
             employees.retrieve,
         )
+        self.update = to_raw_response_wrapper(
+            employees.update,
+        )
         self.list_enrollments = to_raw_response_wrapper(
             employees.list_enrollments,
         )
@@ -267,6 +452,9 @@ class AsyncEmployeesResourceWithRawResponse:
 
         self.retrieve = async_to_raw_response_wrapper(
             employees.retrieve,
+        )
+        self.update = async_to_raw_response_wrapper(
+            employees.update,
         )
         self.list_enrollments = async_to_raw_response_wrapper(
             employees.list_enrollments,
@@ -280,6 +468,9 @@ class EmployeesResourceWithStreamingResponse:
         self.retrieve = to_streamed_response_wrapper(
             employees.retrieve,
         )
+        self.update = to_streamed_response_wrapper(
+            employees.update,
+        )
         self.list_enrollments = to_streamed_response_wrapper(
             employees.list_enrollments,
         )
@@ -291,6 +482,9 @@ class AsyncEmployeesResourceWithStreamingResponse:
 
         self.retrieve = async_to_streamed_response_wrapper(
             employees.retrieve,
+        )
+        self.update = async_to_streamed_response_wrapper(
+            employees.update,
         )
         self.list_enrollments = async_to_streamed_response_wrapper(
             employees.list_enrollments,
