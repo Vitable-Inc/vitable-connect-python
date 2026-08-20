@@ -46,6 +46,7 @@ def pytest_collection_modifyitems(items: list[pytest.Function]) -> None:
 base_url = os.environ.get("TEST_API_BASE_URL", "http://127.0.0.1:4010")
 
 api_key = "My API Key"
+identity_token = "My Identity Token"
 
 
 @pytest.fixture(scope="session")
@@ -54,7 +55,9 @@ def client(request: FixtureRequest) -> Iterator[VitableConnect]:
     if not isinstance(strict, bool):
         raise TypeError(f"Unexpected fixture parameter type {type(strict)}, expected {bool}")
 
-    with VitableConnect(base_url=base_url, api_key=api_key, _strict_response_validation=strict) as client:
+    with VitableConnect(
+        base_url=base_url, api_key=api_key, identity_token=identity_token, _strict_response_validation=strict
+    ) as client:
         yield client
 
 
@@ -79,6 +82,10 @@ async def async_client(request: FixtureRequest) -> AsyncIterator[AsyncVitableCon
         raise TypeError(f"Unexpected fixture parameter type {type(param)}, expected bool or dict")
 
     async with AsyncVitableConnect(
-        base_url=base_url, api_key=api_key, _strict_response_validation=strict, http_client=http_client
+        base_url=base_url,
+        api_key=api_key,
+        identity_token=identity_token,
+        _strict_response_validation=strict,
+        http_client=http_client,
     ) as client:
         yield client

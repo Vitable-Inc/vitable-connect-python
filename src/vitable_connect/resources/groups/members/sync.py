@@ -80,7 +80,11 @@ class SyncResource(SyncAPIResource):
         return self._get(
             path_template("/v1/groups/{group_id}/members/sync/{request_id}", group_id=group_id, request_id=request_id),
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
+                security={"api_key_auth": True},
             ),
             cast_to=SyncRetrieveResponse,
         )
@@ -120,7 +124,11 @@ class SyncResource(SyncAPIResource):
             path_template("/v1/groups/{group_id}/members/sync", group_id=group_id),
             body=maybe_transform({"members": members}, sync_submit_params.SyncSubmitParams),
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
+                security={"api_key_auth": True},
             ),
             cast_to=SyncSubmitResponse,
         )
@@ -182,7 +190,11 @@ class AsyncSyncResource(AsyncAPIResource):
         return await self._get(
             path_template("/v1/groups/{group_id}/members/sync/{request_id}", group_id=group_id, request_id=request_id),
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
+                security={"api_key_auth": True},
             ),
             cast_to=SyncRetrieveResponse,
         )
@@ -222,7 +234,11 @@ class AsyncSyncResource(AsyncAPIResource):
             path_template("/v1/groups/{group_id}/members/sync", group_id=group_id),
             body=await async_maybe_transform({"members": members}, sync_submit_params.SyncSubmitParams),
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
+                security={"api_key_auth": True},
             ),
             cast_to=SyncSubmitResponse,
         )

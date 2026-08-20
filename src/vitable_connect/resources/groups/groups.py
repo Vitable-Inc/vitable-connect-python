@@ -91,7 +91,11 @@ class GroupsResource(SyncAPIResource):
                 group_create_params.GroupCreateParams,
             ),
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
+                security={"api_key_auth": True},
             ),
             cast_to=GroupResponse,
         )
@@ -128,7 +132,11 @@ class GroupsResource(SyncAPIResource):
         return self._get(
             path_template("/v1/groups/{group_id}", group_id=group_id),
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
+                security={"api_key_auth": True},
             ),
             cast_to=GroupResponse,
         )
@@ -174,7 +182,11 @@ class GroupsResource(SyncAPIResource):
                 group_update_params.GroupUpdateParams,
             ),
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
+                security={"api_key_auth": True},
             ),
             cast_to=GroupResponse,
         )
@@ -222,6 +234,7 @@ class GroupsResource(SyncAPIResource):
                     },
                     group_list_params.GroupListParams,
                 ),
+                security={"api_key_auth": True},
             ),
             model=Group,
         )
@@ -285,7 +298,11 @@ class AsyncGroupsResource(AsyncAPIResource):
                 group_create_params.GroupCreateParams,
             ),
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
+                security={"api_key_auth": True},
             ),
             cast_to=GroupResponse,
         )
@@ -322,7 +339,11 @@ class AsyncGroupsResource(AsyncAPIResource):
         return await self._get(
             path_template("/v1/groups/{group_id}", group_id=group_id),
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
+                security={"api_key_auth": True},
             ),
             cast_to=GroupResponse,
         )
@@ -368,7 +389,11 @@ class AsyncGroupsResource(AsyncAPIResource):
                 group_update_params.GroupUpdateParams,
             ),
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
+                security={"api_key_auth": True},
             ),
             cast_to=GroupResponse,
         )
@@ -416,6 +441,7 @@ class AsyncGroupsResource(AsyncAPIResource):
                     },
                     group_list_params.GroupListParams,
                 ),
+                security={"api_key_auth": True},
             ),
             model=Group,
         )

@@ -118,7 +118,7 @@ class AuthResource(SyncAPIResource):
                 extra_query=extra_query,
                 extra_body=extra_body,
                 timeout=timeout,
-                security={},
+                security={"identity_provider_bearer": True},
             ),
             cast_to=AuthCompleteProfileResponse,
         )
@@ -164,7 +164,11 @@ class AuthResource(SyncAPIResource):
                 auth_issue_access_token_params.AuthIssueAccessTokenParams,
             ),
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
+                security={"api_key_auth": True},
             ),
             cast_to=AuthIssueAccessTokenResponse,
         )
@@ -192,7 +196,7 @@ class AuthResource(SyncAPIResource):
                 extra_query=extra_query,
                 extra_body=extra_body,
                 timeout=timeout,
-                security={},
+                security={"identity_provider_bearer": True},
             ),
             cast_to=AuthListPersonasResponse,
         )
@@ -267,7 +271,11 @@ class AuthResource(SyncAPIResource):
                 auth_login_params.AuthLoginParams,
             ),
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
+                security={"api_key_auth": True},
             ),
             cast_to=AuthLoginResponse,
         )
@@ -294,7 +302,7 @@ class AuthResource(SyncAPIResource):
                 extra_query=extra_query,
                 extra_body=extra_body,
                 timeout=timeout,
-                security={},
+                security={"identity_provider_bearer": True},
             ),
             cast_to=AuthRetrieveMeResponse,
         )
@@ -358,7 +366,7 @@ class AuthResource(SyncAPIResource):
                 extra_query=extra_query,
                 extra_body=extra_body,
                 timeout=timeout,
-                security={},
+                security={"identity_provider_bearer": True},
             ),
             cast_to=AuthSignUpResponse,
         )
@@ -453,7 +461,7 @@ class AsyncAuthResource(AsyncAPIResource):
                 extra_query=extra_query,
                 extra_body=extra_body,
                 timeout=timeout,
-                security={},
+                security={"identity_provider_bearer": True},
             ),
             cast_to=AuthCompleteProfileResponse,
         )
@@ -499,7 +507,11 @@ class AsyncAuthResource(AsyncAPIResource):
                 auth_issue_access_token_params.AuthIssueAccessTokenParams,
             ),
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
+                security={"api_key_auth": True},
             ),
             cast_to=AuthIssueAccessTokenResponse,
         )
@@ -527,7 +539,7 @@ class AsyncAuthResource(AsyncAPIResource):
                 extra_query=extra_query,
                 extra_body=extra_body,
                 timeout=timeout,
-                security={},
+                security={"identity_provider_bearer": True},
             ),
             cast_to=AuthListPersonasResponse,
         )
@@ -602,7 +614,11 @@ class AsyncAuthResource(AsyncAPIResource):
                 auth_login_params.AuthLoginParams,
             ),
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
+                security={"api_key_auth": True},
             ),
             cast_to=AuthLoginResponse,
         )
@@ -629,7 +645,7 @@ class AsyncAuthResource(AsyncAPIResource):
                 extra_query=extra_query,
                 extra_body=extra_body,
                 timeout=timeout,
-                security={},
+                security={"identity_provider_bearer": True},
             ),
             cast_to=AuthRetrieveMeResponse,
         )
@@ -693,7 +709,7 @@ class AsyncAuthResource(AsyncAPIResource):
                 extra_query=extra_query,
                 extra_body=extra_body,
                 timeout=timeout,
-                security={},
+                security={"identity_provider_bearer": True},
             ),
             cast_to=AuthSignUpResponse,
         )

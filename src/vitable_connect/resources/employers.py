@@ -132,7 +132,11 @@ class EmployersResource(SyncAPIResource):
                 employer_create_params.EmployerCreateParams,
             ),
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
+                security={"api_key_auth": True},
             ),
             cast_to=EmployerResponse,
         )
@@ -169,7 +173,11 @@ class EmployersResource(SyncAPIResource):
         return self._get(
             path_template("/v1/employers/{employer_id}", employer_id=employer_id),
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
+                security={"api_key_auth": True},
             ),
             cast_to=EmployerResponse,
         )
@@ -227,7 +235,11 @@ class EmployersResource(SyncAPIResource):
                 employer_update_params.EmployerUpdateParams,
             ),
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
+                security={"api_key_auth": True},
             ),
             cast_to=EmployerResponse,
         )
@@ -309,6 +321,7 @@ class EmployersResource(SyncAPIResource):
                     },
                     employer_list_params.EmployerListParams,
                 ),
+                security={"api_key_auth": True},
             ),
             model=EmployerListResponse,
         )
@@ -343,7 +356,11 @@ class EmployersResource(SyncAPIResource):
         return self._put(
             path_template("/v1/employers/{employer_id}/payroll-integration-email", employer_id=employer_id),
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
+                security={"api_key_auth": True},
             ),
             cast_to=EmployerEnsurePayrollIntegrationEmailResponse,
         )
@@ -421,6 +438,7 @@ class EmployersResource(SyncAPIResource):
                     },
                     employer_list_benefit_plan_year_enrollments_params.EmployerListBenefitPlanYearEnrollmentsParams,
                 ),
+                security={"api_key_auth": True},
             ),
             model=EmployerListBenefitPlanYearEnrollmentsResponse,
         )
@@ -458,7 +476,11 @@ class EmployersResource(SyncAPIResource):
         return self._get(
             path_template("/v1/employers/{employer_id}/benefit-plan-years", employer_id=employer_id),
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
+                security={"api_key_auth": True},
             ),
             cast_to=EmployerListBenefitPlanYearsResponse,
         )
@@ -526,6 +548,7 @@ class EmployersResource(SyncAPIResource):
                     },
                     employer_list_employees_params.EmployerListEmployeesParams,
                 ),
+                security={"api_key_auth": True},
             ),
             model=Employee,
         )
@@ -549,7 +572,11 @@ class EmployersResource(SyncAPIResource):
         return self._get(
             "/v1/employers/hris-providers",
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
+                security={"api_key_auth": True},
             ),
             cast_to=EmployerListHRISProvidersResponse,
         )
@@ -605,6 +632,7 @@ class EmployersResource(SyncAPIResource):
                     },
                     employer_list_invoices_params.EmployerListInvoicesParams,
                 ),
+                security={"api_key_auth": True},
             ),
             cast_to=EmployerListInvoicesResponse,
         )
@@ -661,6 +689,7 @@ class EmployersResource(SyncAPIResource):
                     },
                     employer_list_payroll_deduction_statements_params.EmployerListPayrollDeductionStatementsParams,
                 ),
+                security={"api_key_auth": True},
             ),
             model=EmployerListPayrollDeductionStatementsResponse,
         )
@@ -709,7 +738,11 @@ class EmployersResource(SyncAPIResource):
                 benefit_plan_year_id=benefit_plan_year_id,
             ),
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
+                security={"api_key_auth": True},
             ),
             cast_to=EmployerRetrieveBenefitPlanYearResponse,
         )
@@ -746,7 +779,11 @@ class EmployersResource(SyncAPIResource):
         return self._get(
             path_template("/v1/employers/{employer_id}/hris", employer_id=employer_id),
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
+                security={"api_key_auth": True},
             ),
             cast_to=EmployerRetrieveHRISResponse,
         )
@@ -791,7 +828,11 @@ class EmployersResource(SyncAPIResource):
                 "/v1/employers/{employer_id}/invoices/{invoice_id}/pdf", employer_id=employer_id, invoice_id=invoice_id
             ),
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
+                security={"api_key_auth": True},
             ),
             cast_to=EmployerRetrieveInvoicePdfResponse,
         )
@@ -826,7 +867,11 @@ class EmployersResource(SyncAPIResource):
         return self._get(
             path_template("/v1/employers/{employer_id}/payroll-access-setup", employer_id=employer_id),
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
+                security={"api_key_auth": True},
             ),
             cast_to=EmployerRetrievePayrollAccessSetupResponse,
         )
@@ -868,7 +913,11 @@ class EmployersResource(SyncAPIResource):
                 {"employees": employees}, employer_submit_census_sync_params.EmployerSubmitCensusSyncParams
             ),
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
+                security={"api_key_auth": True},
             ),
             cast_to=EmployerSubmitCensusSyncResponse,
         )
@@ -969,7 +1018,11 @@ class EmployersResource(SyncAPIResource):
                 employer_submit_payroll_access_setup_params.EmployerSubmitPayrollAccessSetupParams,
             ),
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
+                security={"api_key_auth": True},
             ),
             cast_to=EmployerSubmitPayrollAccessSetupResponse,
         )
@@ -1015,7 +1068,11 @@ class EmployersResource(SyncAPIResource):
                 {"pay_frequency": pay_frequency}, employer_update_settings_params.EmployerUpdateSettingsParams
             ),
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
+                security={"api_key_auth": True},
             ),
             cast_to=EmployerUpdateSettingsResponse,
         )
@@ -1102,7 +1159,11 @@ class AsyncEmployersResource(AsyncAPIResource):
                 employer_create_params.EmployerCreateParams,
             ),
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
+                security={"api_key_auth": True},
             ),
             cast_to=EmployerResponse,
         )
@@ -1139,7 +1200,11 @@ class AsyncEmployersResource(AsyncAPIResource):
         return await self._get(
             path_template("/v1/employers/{employer_id}", employer_id=employer_id),
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
+                security={"api_key_auth": True},
             ),
             cast_to=EmployerResponse,
         )
@@ -1197,7 +1262,11 @@ class AsyncEmployersResource(AsyncAPIResource):
                 employer_update_params.EmployerUpdateParams,
             ),
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
+                security={"api_key_auth": True},
             ),
             cast_to=EmployerResponse,
         )
@@ -1279,6 +1348,7 @@ class AsyncEmployersResource(AsyncAPIResource):
                     },
                     employer_list_params.EmployerListParams,
                 ),
+                security={"api_key_auth": True},
             ),
             model=EmployerListResponse,
         )
@@ -1313,7 +1383,11 @@ class AsyncEmployersResource(AsyncAPIResource):
         return await self._put(
             path_template("/v1/employers/{employer_id}/payroll-integration-email", employer_id=employer_id),
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
+                security={"api_key_auth": True},
             ),
             cast_to=EmployerEnsurePayrollIntegrationEmailResponse,
         )
@@ -1394,6 +1468,7 @@ class AsyncEmployersResource(AsyncAPIResource):
                     },
                     employer_list_benefit_plan_year_enrollments_params.EmployerListBenefitPlanYearEnrollmentsParams,
                 ),
+                security={"api_key_auth": True},
             ),
             model=EmployerListBenefitPlanYearEnrollmentsResponse,
         )
@@ -1431,7 +1506,11 @@ class AsyncEmployersResource(AsyncAPIResource):
         return await self._get(
             path_template("/v1/employers/{employer_id}/benefit-plan-years", employer_id=employer_id),
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
+                security={"api_key_auth": True},
             ),
             cast_to=EmployerListBenefitPlanYearsResponse,
         )
@@ -1499,6 +1578,7 @@ class AsyncEmployersResource(AsyncAPIResource):
                     },
                     employer_list_employees_params.EmployerListEmployeesParams,
                 ),
+                security={"api_key_auth": True},
             ),
             model=Employee,
         )
@@ -1522,7 +1602,11 @@ class AsyncEmployersResource(AsyncAPIResource):
         return await self._get(
             "/v1/employers/hris-providers",
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
+                security={"api_key_auth": True},
             ),
             cast_to=EmployerListHRISProvidersResponse,
         )
@@ -1578,6 +1662,7 @@ class AsyncEmployersResource(AsyncAPIResource):
                     },
                     employer_list_invoices_params.EmployerListInvoicesParams,
                 ),
+                security={"api_key_auth": True},
             ),
             cast_to=EmployerListInvoicesResponse,
         )
@@ -1637,6 +1722,7 @@ class AsyncEmployersResource(AsyncAPIResource):
                     },
                     employer_list_payroll_deduction_statements_params.EmployerListPayrollDeductionStatementsParams,
                 ),
+                security={"api_key_auth": True},
             ),
             model=EmployerListPayrollDeductionStatementsResponse,
         )
@@ -1685,7 +1771,11 @@ class AsyncEmployersResource(AsyncAPIResource):
                 benefit_plan_year_id=benefit_plan_year_id,
             ),
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
+                security={"api_key_auth": True},
             ),
             cast_to=EmployerRetrieveBenefitPlanYearResponse,
         )
@@ -1722,7 +1812,11 @@ class AsyncEmployersResource(AsyncAPIResource):
         return await self._get(
             path_template("/v1/employers/{employer_id}/hris", employer_id=employer_id),
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
+                security={"api_key_auth": True},
             ),
             cast_to=EmployerRetrieveHRISResponse,
         )
@@ -1767,7 +1861,11 @@ class AsyncEmployersResource(AsyncAPIResource):
                 "/v1/employers/{employer_id}/invoices/{invoice_id}/pdf", employer_id=employer_id, invoice_id=invoice_id
             ),
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
+                security={"api_key_auth": True},
             ),
             cast_to=EmployerRetrieveInvoicePdfResponse,
         )
@@ -1802,7 +1900,11 @@ class AsyncEmployersResource(AsyncAPIResource):
         return await self._get(
             path_template("/v1/employers/{employer_id}/payroll-access-setup", employer_id=employer_id),
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
+                security={"api_key_auth": True},
             ),
             cast_to=EmployerRetrievePayrollAccessSetupResponse,
         )
@@ -1844,7 +1946,11 @@ class AsyncEmployersResource(AsyncAPIResource):
                 {"employees": employees}, employer_submit_census_sync_params.EmployerSubmitCensusSyncParams
             ),
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
+                security={"api_key_auth": True},
             ),
             cast_to=EmployerSubmitCensusSyncResponse,
         )
@@ -1945,7 +2051,11 @@ class AsyncEmployersResource(AsyncAPIResource):
                 employer_submit_payroll_access_setup_params.EmployerSubmitPayrollAccessSetupParams,
             ),
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
+                security={"api_key_auth": True},
             ),
             cast_to=EmployerSubmitPayrollAccessSetupResponse,
         )
@@ -1991,7 +2101,11 @@ class AsyncEmployersResource(AsyncAPIResource):
                 {"pay_frequency": pay_frequency}, employer_update_settings_params.EmployerUpdateSettingsParams
             ),
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
+                security={"api_key_auth": True},
             ),
             cast_to=EmployerUpdateSettingsResponse,
         )
