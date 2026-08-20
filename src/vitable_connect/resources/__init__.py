@@ -24,6 +24,14 @@ from .groups import (
     GroupsResourceWithStreamingResponse,
     AsyncGroupsResourceWithStreamingResponse,
 )
+from .members import (
+    MembersResource,
+    AsyncMembersResource,
+    MembersResourceWithRawResponse,
+    AsyncMembersResourceWithRawResponse,
+    MembersResourceWithStreamingResponse,
+    AsyncMembersResourceWithStreamingResponse,
+)
 from .employees import (
     EmployeesResource,
     AsyncEmployeesResource,
@@ -47,6 +55,14 @@ from .enrollments import (
     AsyncEnrollmentsResourceWithRawResponse,
     EnrollmentsResourceWithStreamingResponse,
     AsyncEnrollmentsResourceWithStreamingResponse,
+)
+from .organizations import (
+    OrganizationsResource,
+    AsyncOrganizationsResource,
+    OrganizationsResourceWithRawResponse,
+    AsyncOrganizationsResourceWithRawResponse,
+    OrganizationsResourceWithStreamingResponse,
+    AsyncOrganizationsResourceWithStreamingResponse,
 )
 from .webhook_events import (
     WebhookEventsResource,
@@ -94,6 +110,18 @@ __all__ = [
     "AsyncGroupsResourceWithRawResponse",
     "GroupsResourceWithStreamingResponse",
     "AsyncGroupsResourceWithStreamingResponse",
+    "MembersResource",
+    "AsyncMembersResource",
+    "MembersResourceWithRawResponse",
+    "AsyncMembersResourceWithRawResponse",
+    "MembersResourceWithStreamingResponse",
+    "AsyncMembersResourceWithStreamingResponse",
+    "OrganizationsResource",
+    "AsyncOrganizationsResource",
+    "OrganizationsResourceWithRawResponse",
+    "AsyncOrganizationsResourceWithRawResponse",
+    "OrganizationsResourceWithStreamingResponse",
+    "AsyncOrganizationsResourceWithStreamingResponse",
     "PlansResource",
     "AsyncPlansResource",
     "PlansResourceWithRawResponse",

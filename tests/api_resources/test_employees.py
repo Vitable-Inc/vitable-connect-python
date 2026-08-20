@@ -9,7 +9,12 @@ import pytest
 
 from tests.utils import assert_matches_type
 from vitable_connect import VitableConnect, AsyncVitableConnect
-from vitable_connect.types import Enrollment, EmployeeRetrieveResponse
+from vitable_connect.types import (
+    Enrollment,
+    EmployeeUpdateResponse,
+    EmployeeRetrieveResponse,
+)
+from vitable_connect._utils import parse_date
 from vitable_connect.pagination import SyncPageNumberPage, AsyncPageNumberPage
 
 base_url = os.environ.get("TEST_API_BASE_URL", "http://127.0.0.1:4010")
@@ -58,6 +63,75 @@ class TestEmployees:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `employee_id` but received ''"):
             client.employees.with_raw_response.retrieve(
                 "",
+            )
+
+    @pytest.mark.skip(reason="Mock server tests are disabled")
+    @parametrize
+    def test_method_update(self, client: VitableConnect) -> None:
+        employee = client.employees.update(
+            employee_id="empl_abc123def456",
+            effective_date=parse_date("2023-03-01"),
+        )
+        assert_matches_type(EmployeeUpdateResponse, employee, path=["response"])
+
+    @pytest.mark.skip(reason="Mock server tests are disabled")
+    @parametrize
+    def test_method_update_with_all_params(self, client: VitableConnect) -> None:
+        employee = client.employees.update(
+            employee_id="empl_abc123def456",
+            effective_date=parse_date("2023-03-01"),
+            address={
+                "city": "city",
+                "state": "xx",
+                "street_1": "street_1",
+                "zip_code": "zip_code",
+                "country": "country",
+                "street_2": "street_2",
+            },
+            compensation_type="Salary",
+            email="dev@stainless.com",
+            employee_class="Full Time",
+            gender="Male",
+            phone="phone",
+            start_date=parse_date("2023-01-15"),
+        )
+        assert_matches_type(EmployeeUpdateResponse, employee, path=["response"])
+
+    @pytest.mark.skip(reason="Mock server tests are disabled")
+    @parametrize
+    def test_raw_response_update(self, client: VitableConnect) -> None:
+        response = client.employees.with_raw_response.update(
+            employee_id="empl_abc123def456",
+            effective_date=parse_date("2023-03-01"),
+        )
+
+        assert response.is_closed is True
+        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        employee = response.parse()
+        assert_matches_type(EmployeeUpdateResponse, employee, path=["response"])
+
+    @pytest.mark.skip(reason="Mock server tests are disabled")
+    @parametrize
+    def test_streaming_response_update(self, client: VitableConnect) -> None:
+        with client.employees.with_streaming_response.update(
+            employee_id="empl_abc123def456",
+            effective_date=parse_date("2023-03-01"),
+        ) as response:
+            assert not response.is_closed
+            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+
+            employee = response.parse()
+            assert_matches_type(EmployeeUpdateResponse, employee, path=["response"])
+
+        assert cast(Any, response.is_closed) is True
+
+    @pytest.mark.skip(reason="Mock server tests are disabled")
+    @parametrize
+    def test_path_params_update(self, client: VitableConnect) -> None:
+        with pytest.raises(ValueError, match=r"Expected a non-empty value for `employee_id` but received ''"):
+            client.employees.with_raw_response.update(
+                employee_id="",
+                effective_date=parse_date("2023-03-01"),
             )
 
     @pytest.mark.skip(reason="Mock server tests are disabled")
@@ -158,6 +232,75 @@ class TestAsyncEmployees:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `employee_id` but received ''"):
             await async_client.employees.with_raw_response.retrieve(
                 "",
+            )
+
+    @pytest.mark.skip(reason="Mock server tests are disabled")
+    @parametrize
+    async def test_method_update(self, async_client: AsyncVitableConnect) -> None:
+        employee = await async_client.employees.update(
+            employee_id="empl_abc123def456",
+            effective_date=parse_date("2023-03-01"),
+        )
+        assert_matches_type(EmployeeUpdateResponse, employee, path=["response"])
+
+    @pytest.mark.skip(reason="Mock server tests are disabled")
+    @parametrize
+    async def test_method_update_with_all_params(self, async_client: AsyncVitableConnect) -> None:
+        employee = await async_client.employees.update(
+            employee_id="empl_abc123def456",
+            effective_date=parse_date("2023-03-01"),
+            address={
+                "city": "city",
+                "state": "xx",
+                "street_1": "street_1",
+                "zip_code": "zip_code",
+                "country": "country",
+                "street_2": "street_2",
+            },
+            compensation_type="Salary",
+            email="dev@stainless.com",
+            employee_class="Full Time",
+            gender="Male",
+            phone="phone",
+            start_date=parse_date("2023-01-15"),
+        )
+        assert_matches_type(EmployeeUpdateResponse, employee, path=["response"])
+
+    @pytest.mark.skip(reason="Mock server tests are disabled")
+    @parametrize
+    async def test_raw_response_update(self, async_client: AsyncVitableConnect) -> None:
+        response = await async_client.employees.with_raw_response.update(
+            employee_id="empl_abc123def456",
+            effective_date=parse_date("2023-03-01"),
+        )
+
+        assert response.is_closed is True
+        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        employee = await response.parse()
+        assert_matches_type(EmployeeUpdateResponse, employee, path=["response"])
+
+    @pytest.mark.skip(reason="Mock server tests are disabled")
+    @parametrize
+    async def test_streaming_response_update(self, async_client: AsyncVitableConnect) -> None:
+        async with async_client.employees.with_streaming_response.update(
+            employee_id="empl_abc123def456",
+            effective_date=parse_date("2023-03-01"),
+        ) as response:
+            assert not response.is_closed
+            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+
+            employee = await response.parse()
+            assert_matches_type(EmployeeUpdateResponse, employee, path=["response"])
+
+        assert cast(Any, response.is_closed) is True
+
+    @pytest.mark.skip(reason="Mock server tests are disabled")
+    @parametrize
+    async def test_path_params_update(self, async_client: AsyncVitableConnect) -> None:
+        with pytest.raises(ValueError, match=r"Expected a non-empty value for `employee_id` but received ''"):
+            await async_client.employees.with_raw_response.update(
+                employee_id="",
+                effective_date=parse_date("2023-03-01"),
             )
 
     @pytest.mark.skip(reason="Mock server tests are disabled")
