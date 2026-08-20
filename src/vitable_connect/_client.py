@@ -36,13 +36,25 @@ from ._base_client import (
 )
 
 if TYPE_CHECKING:
-    from .resources import auth, plans, groups, employees, employers, enrollments, webhook_events
+    from .resources import (
+        auth,
+        plans,
+        groups,
+        members,
+        employees,
+        employers,
+        enrollments,
+        organizations,
+        webhook_events,
+    )
     from .resources.auth import AuthResource, AsyncAuthResource
     from .resources.plans import PlansResource, AsyncPlansResource
+    from .resources.members import MembersResource, AsyncMembersResource
     from .resources.employees import EmployeesResource, AsyncEmployeesResource
     from .resources.employers import EmployersResource, AsyncEmployersResource
     from .resources.enrollments import EnrollmentsResource, AsyncEnrollmentsResource
     from .resources.groups.groups import GroupsResource, AsyncGroupsResource
+    from .resources.organizations import OrganizationsResource, AsyncOrganizationsResource
     from .resources.webhook_events import WebhookEventsResource, AsyncWebhookEventsResource
 
 __all__ = [
@@ -188,6 +200,19 @@ class VitableConnect(SyncAPIClient):
         from .resources.groups import GroupsResource
 
         return GroupsResource(self)
+
+    @cached_property
+    def members(self) -> MembersResource:
+        """Browse the members covered across your book and read a member's profile"""
+        from .resources.members import MembersResource
+
+        return MembersResource(self)
+
+    @cached_property
+    def organizations(self) -> OrganizationsResource:
+        from .resources.organizations import OrganizationsResource
+
+        return OrganizationsResource(self)
 
     @cached_property
     def plans(self) -> PlansResource:
@@ -444,6 +469,19 @@ class AsyncVitableConnect(AsyncAPIClient):
         return AsyncGroupsResource(self)
 
     @cached_property
+    def members(self) -> AsyncMembersResource:
+        """Browse the members covered across your book and read a member's profile"""
+        from .resources.members import AsyncMembersResource
+
+        return AsyncMembersResource(self)
+
+    @cached_property
+    def organizations(self) -> AsyncOrganizationsResource:
+        from .resources.organizations import AsyncOrganizationsResource
+
+        return AsyncOrganizationsResource(self)
+
+    @cached_property
     def plans(self) -> AsyncPlansResource:
         from .resources.plans import AsyncPlansResource
 
@@ -616,6 +654,19 @@ class VitableConnectWithRawResponse:
         return GroupsResourceWithRawResponse(self._client.groups)
 
     @cached_property
+    def members(self) -> members.MembersResourceWithRawResponse:
+        """Browse the members covered across your book and read a member's profile"""
+        from .resources.members import MembersResourceWithRawResponse
+
+        return MembersResourceWithRawResponse(self._client.members)
+
+    @cached_property
+    def organizations(self) -> organizations.OrganizationsResourceWithRawResponse:
+        from .resources.organizations import OrganizationsResourceWithRawResponse
+
+        return OrganizationsResourceWithRawResponse(self._client.organizations)
+
+    @cached_property
     def plans(self) -> plans.PlansResourceWithRawResponse:
         from .resources.plans import PlansResourceWithRawResponse
 
@@ -665,6 +716,19 @@ class AsyncVitableConnectWithRawResponse:
         from .resources.groups import AsyncGroupsResourceWithRawResponse
 
         return AsyncGroupsResourceWithRawResponse(self._client.groups)
+
+    @cached_property
+    def members(self) -> members.AsyncMembersResourceWithRawResponse:
+        """Browse the members covered across your book and read a member's profile"""
+        from .resources.members import AsyncMembersResourceWithRawResponse
+
+        return AsyncMembersResourceWithRawResponse(self._client.members)
+
+    @cached_property
+    def organizations(self) -> organizations.AsyncOrganizationsResourceWithRawResponse:
+        from .resources.organizations import AsyncOrganizationsResourceWithRawResponse
+
+        return AsyncOrganizationsResourceWithRawResponse(self._client.organizations)
 
     @cached_property
     def plans(self) -> plans.AsyncPlansResourceWithRawResponse:
@@ -718,6 +782,19 @@ class VitableConnectWithStreamedResponse:
         return GroupsResourceWithStreamingResponse(self._client.groups)
 
     @cached_property
+    def members(self) -> members.MembersResourceWithStreamingResponse:
+        """Browse the members covered across your book and read a member's profile"""
+        from .resources.members import MembersResourceWithStreamingResponse
+
+        return MembersResourceWithStreamingResponse(self._client.members)
+
+    @cached_property
+    def organizations(self) -> organizations.OrganizationsResourceWithStreamingResponse:
+        from .resources.organizations import OrganizationsResourceWithStreamingResponse
+
+        return OrganizationsResourceWithStreamingResponse(self._client.organizations)
+
+    @cached_property
     def plans(self) -> plans.PlansResourceWithStreamingResponse:
         from .resources.plans import PlansResourceWithStreamingResponse
 
@@ -767,6 +844,19 @@ class AsyncVitableConnectWithStreamedResponse:
         from .resources.groups import AsyncGroupsResourceWithStreamingResponse
 
         return AsyncGroupsResourceWithStreamingResponse(self._client.groups)
+
+    @cached_property
+    def members(self) -> members.AsyncMembersResourceWithStreamingResponse:
+        """Browse the members covered across your book and read a member's profile"""
+        from .resources.members import AsyncMembersResourceWithStreamingResponse
+
+        return AsyncMembersResourceWithStreamingResponse(self._client.members)
+
+    @cached_property
+    def organizations(self) -> organizations.AsyncOrganizationsResourceWithStreamingResponse:
+        from .resources.organizations import AsyncOrganizationsResourceWithStreamingResponse
+
+        return AsyncOrganizationsResourceWithStreamingResponse(self._client.organizations)
 
     @cached_property
     def plans(self) -> plans.AsyncPlansResourceWithStreamingResponse:

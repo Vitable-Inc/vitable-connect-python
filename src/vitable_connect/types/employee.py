@@ -65,6 +65,18 @@ class Employee(BaseModel):
     id: str
     """Unique employee identifier with 'empl\\__' prefix"""
 
+    classification_effective_date: date
+    """Date the employee's current classification took effect"""
+
+    compensation_type: Optional[Literal["Salary", "Hourly"]] = None
+    """
+    - `Salary` - Salary
+    - `Hourly` - Hourly
+    """
+
+    compensation_type_effective_date: date
+    """Date the employee's current compensation type took effect"""
+
     created_at: datetime
     """Timestamp when the employee was created"""
 
@@ -80,6 +92,19 @@ class Employee(BaseModel):
     email: str
     """Email address"""
 
+    employee_class: EmployeeClass
+    """
+    - `Full Time` - Full Time
+    - `Part Time` - Part Time
+    - `Temporary` - Temporary
+    - `Intern` - Intern
+    - `Seasonal` - Seasonal
+    - `Individual Contractor` - Individual Contractor
+    """
+
+    employer_id: str
+    """Unique identifier of the employer this employment is with (empr\\__\\**)"""
+
     first_name: str
     """Employee's legal first name"""
 
@@ -92,7 +117,10 @@ class Employee(BaseModel):
     phone: Optional[str] = None
     """Phone number (10-digit US domestic string)"""
 
-    status: str
+    start_date: date
+    """Employee's start date with the employer"""
+
+    status: Literal["active", "terminated"]
     """Employee status (active or terminated)"""
 
     updated_at: datetime
@@ -101,21 +129,11 @@ class Employee(BaseModel):
     address: Optional[Address] = None
     """Employee's residential address"""
 
-    employee_class: Optional[EmployeeClass] = None
-    """
-    - `Full Time` - Full Time
-    - `Part Time` - Part Time
-    - `Temporary` - Temporary
-    - `Intern` - Intern
-    - `Seasonal` - Seasonal
-    - `Individual Contractor` - Individual Contractor
-    """
+    employer_name: Optional[str] = None
+    """Name of the employer this employment is with"""
 
     gender: Optional[str] = None
     """Gender identity, if provided"""
-
-    hire_date: Optional[date] = None
-    """Employee's hire date with the employer"""
 
     reference_id: Optional[str] = None
     """Partner-assigned reference ID for the employee"""

@@ -12,8 +12,8 @@ class Data(BaseModel):
     pay_frequency: Optional[Literal["weekly", "bi_weekly", "semi_monthly", "monthly"]] = None
     """
     - `weekly` - Weekly
-    - `bi_weekly` - Bi-Weekly
-    - `semi_monthly` - Semi-Monthly
+    - `bi_weekly` - Bi Weekly
+    - `semi_monthly` - Semi Monthly
     - `monthly` - Monthly
     """
 

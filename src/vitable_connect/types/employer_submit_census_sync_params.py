@@ -166,8 +166,6 @@ class Employee(TypedDict, total=False):
 
     last_name: Required[str]
 
-    phone: Required[str]
-
     address: Optional[EmployeeAddress]
 
     compensation_type: Optional[Literal["Salary", "Hourly"]]
@@ -185,6 +183,9 @@ class Employee(TypedDict, total=False):
     - `Seasonal` - Seasonal
     - `Individual Contractor` - Individual Contractor
     """
+
+    phone: Optional[str]
+    """Phone number"""
 
     reference_id: Optional[str]
 

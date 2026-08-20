@@ -11,10 +11,21 @@ from tests.utils import assert_matches_type
 from vitable_connect import VitableConnect, AsyncVitableConnect
 from vitable_connect.types import (
     Employee,
-    Employer,
     EmployerResponse,
+    EmployerListResponse,
+    EmployerListInvoicesResponse,
+    EmployerRetrieveHRISResponse,
     EmployerUpdateSettingsResponse,
     EmployerSubmitCensusSyncResponse,
+    EmployerListHRISProvidersResponse,
+    EmployerRetrieveInvoicePdfResponse,
+    EmployerListBenefitPlanYearsResponse,
+    EmployerRetrieveBenefitPlanYearResponse,
+    EmployerSubmitPayrollAccessSetupResponse,
+    EmployerRetrievePayrollAccessSetupResponse,
+    EmployerEnsurePayrollIntegrationEmailResponse,
+    EmployerListBenefitPlanYearEnrollmentsResponse,
+    EmployerListPayrollDeductionStatementsResponse,
 )
 from vitable_connect._utils import parse_date
 from vitable_connect.pagination import SyncPageNumberPage, AsyncPageNumberPage
@@ -150,18 +161,84 @@ class TestEmployers:
 
     @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
+    def test_method_update(self, client: VitableConnect) -> None:
+        employer = client.employers.update(
+            employer_id="empr_abc123def456",
+        )
+        assert_matches_type(EmployerResponse, employer, path=["response"])
+
+    @pytest.mark.skip(reason="Mock server tests are disabled")
+    @parametrize
+    def test_method_update_with_all_params(self, client: VitableConnect) -> None:
+        employer = client.employers.update(
+            employer_id="empr_abc123def456",
+            active=True,
+            address={
+                "address_line_1": "address_line_1",
+                "city": "city",
+                "state": "xx",
+                "zipcode": "zipcode",
+                "address_line_2": "address_line_2",
+            },
+            legal_name="x",
+            name="x",
+        )
+        assert_matches_type(EmployerResponse, employer, path=["response"])
+
+    @pytest.mark.skip(reason="Mock server tests are disabled")
+    @parametrize
+    def test_raw_response_update(self, client: VitableConnect) -> None:
+        response = client.employers.with_raw_response.update(
+            employer_id="empr_abc123def456",
+        )
+
+        assert response.is_closed is True
+        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        employer = response.parse()
+        assert_matches_type(EmployerResponse, employer, path=["response"])
+
+    @pytest.mark.skip(reason="Mock server tests are disabled")
+    @parametrize
+    def test_streaming_response_update(self, client: VitableConnect) -> None:
+        with client.employers.with_streaming_response.update(
+            employer_id="empr_abc123def456",
+        ) as response:
+            assert not response.is_closed
+            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+
+            employer = response.parse()
+            assert_matches_type(EmployerResponse, employer, path=["response"])
+
+        assert cast(Any, response.is_closed) is True
+
+    @pytest.mark.skip(reason="Mock server tests are disabled")
+    @parametrize
+    def test_path_params_update(self, client: VitableConnect) -> None:
+        with pytest.raises(ValueError, match=r"Expected a non-empty value for `employer_id` but received ''"):
+            client.employers.with_raw_response.update(
+                employer_id="",
+            )
+
+    @pytest.mark.skip(reason="Mock server tests are disabled")
+    @parametrize
     def test_method_list(self, client: VitableConnect) -> None:
         employer = client.employers.list()
-        assert_matches_type(SyncPageNumberPage[Employer], employer, path=["response"])
+        assert_matches_type(SyncPageNumberPage[EmployerListResponse], employer, path=["response"])
 
     @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     def test_method_list_with_all_params(self, client: VitableConnect) -> None:
         employer = client.employers.list(
+            benefit_family=["mec"],
+            benefit_lifecycle_stage=["open_enrollment"],
+            hris_provider=["string"],
+            hris_status=["Pending"],
+            include_cancelled=True,
             limit=20,
             page=1,
+            search="x",
         )
-        assert_matches_type(SyncPageNumberPage[Employer], employer, path=["response"])
+        assert_matches_type(SyncPageNumberPage[EmployerListResponse], employer, path=["response"])
 
     @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
@@ -171,7 +248,7 @@ class TestEmployers:
         assert response.is_closed is True
         assert response.http_request.headers.get("X-Stainless-Lang") == "python"
         employer = response.parse()
-        assert_matches_type(SyncPageNumberPage[Employer], employer, path=["response"])
+        assert_matches_type(SyncPageNumberPage[EmployerListResponse], employer, path=["response"])
 
     @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
@@ -181,9 +258,166 @@ class TestEmployers:
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
 
             employer = response.parse()
-            assert_matches_type(SyncPageNumberPage[Employer], employer, path=["response"])
+            assert_matches_type(SyncPageNumberPage[EmployerListResponse], employer, path=["response"])
 
         assert cast(Any, response.is_closed) is True
+
+    @pytest.mark.skip(reason="Mock server tests are disabled")
+    @parametrize
+    def test_method_ensure_payroll_integration_email(self, client: VitableConnect) -> None:
+        employer = client.employers.ensure_payroll_integration_email(
+            "empr_abc123def456",
+        )
+        assert_matches_type(EmployerEnsurePayrollIntegrationEmailResponse, employer, path=["response"])
+
+    @pytest.mark.skip(reason="Mock server tests are disabled")
+    @parametrize
+    def test_raw_response_ensure_payroll_integration_email(self, client: VitableConnect) -> None:
+        response = client.employers.with_raw_response.ensure_payroll_integration_email(
+            "empr_abc123def456",
+        )
+
+        assert response.is_closed is True
+        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        employer = response.parse()
+        assert_matches_type(EmployerEnsurePayrollIntegrationEmailResponse, employer, path=["response"])
+
+    @pytest.mark.skip(reason="Mock server tests are disabled")
+    @parametrize
+    def test_streaming_response_ensure_payroll_integration_email(self, client: VitableConnect) -> None:
+        with client.employers.with_streaming_response.ensure_payroll_integration_email(
+            "empr_abc123def456",
+        ) as response:
+            assert not response.is_closed
+            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+
+            employer = response.parse()
+            assert_matches_type(EmployerEnsurePayrollIntegrationEmailResponse, employer, path=["response"])
+
+        assert cast(Any, response.is_closed) is True
+
+    @pytest.mark.skip(reason="Mock server tests are disabled")
+    @parametrize
+    def test_path_params_ensure_payroll_integration_email(self, client: VitableConnect) -> None:
+        with pytest.raises(ValueError, match=r"Expected a non-empty value for `employer_id` but received ''"):
+            client.employers.with_raw_response.ensure_payroll_integration_email(
+                "",
+            )
+
+    @pytest.mark.skip(reason="Mock server tests are disabled")
+    @parametrize
+    def test_method_list_benefit_plan_year_enrollments(self, client: VitableConnect) -> None:
+        employer = client.employers.list_benefit_plan_year_enrollments(
+            benefit_plan_year_id="plyr_abc123def456",
+            employer_id="empr_abc123def456",
+        )
+        assert_matches_type(
+            SyncPageNumberPage[EmployerListBenefitPlanYearEnrollmentsResponse], employer, path=["response"]
+        )
+
+    @pytest.mark.skip(reason="Mock server tests are disabled")
+    @parametrize
+    def test_method_list_benefit_plan_year_enrollments_with_all_params(self, client: VitableConnect) -> None:
+        employer = client.employers.list_benefit_plan_year_enrollments(
+            benefit_plan_year_id="plyr_abc123def456",
+            employer_id="empr_abc123def456",
+            election_status=["Enrolled"],
+            limit=20,
+            page=1,
+            search="search",
+        )
+        assert_matches_type(
+            SyncPageNumberPage[EmployerListBenefitPlanYearEnrollmentsResponse], employer, path=["response"]
+        )
+
+    @pytest.mark.skip(reason="Mock server tests are disabled")
+    @parametrize
+    def test_raw_response_list_benefit_plan_year_enrollments(self, client: VitableConnect) -> None:
+        response = client.employers.with_raw_response.list_benefit_plan_year_enrollments(
+            benefit_plan_year_id="plyr_abc123def456",
+            employer_id="empr_abc123def456",
+        )
+
+        assert response.is_closed is True
+        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        employer = response.parse()
+        assert_matches_type(
+            SyncPageNumberPage[EmployerListBenefitPlanYearEnrollmentsResponse], employer, path=["response"]
+        )
+
+    @pytest.mark.skip(reason="Mock server tests are disabled")
+    @parametrize
+    def test_streaming_response_list_benefit_plan_year_enrollments(self, client: VitableConnect) -> None:
+        with client.employers.with_streaming_response.list_benefit_plan_year_enrollments(
+            benefit_plan_year_id="plyr_abc123def456",
+            employer_id="empr_abc123def456",
+        ) as response:
+            assert not response.is_closed
+            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+
+            employer = response.parse()
+            assert_matches_type(
+                SyncPageNumberPage[EmployerListBenefitPlanYearEnrollmentsResponse], employer, path=["response"]
+            )
+
+        assert cast(Any, response.is_closed) is True
+
+    @pytest.mark.skip(reason="Mock server tests are disabled")
+    @parametrize
+    def test_path_params_list_benefit_plan_year_enrollments(self, client: VitableConnect) -> None:
+        with pytest.raises(ValueError, match=r"Expected a non-empty value for `employer_id` but received ''"):
+            client.employers.with_raw_response.list_benefit_plan_year_enrollments(
+                benefit_plan_year_id="plyr_abc123def456",
+                employer_id="",
+            )
+
+        with pytest.raises(ValueError, match=r"Expected a non-empty value for `benefit_plan_year_id` but received ''"):
+            client.employers.with_raw_response.list_benefit_plan_year_enrollments(
+                benefit_plan_year_id="",
+                employer_id="empr_abc123def456",
+            )
+
+    @pytest.mark.skip(reason="Mock server tests are disabled")
+    @parametrize
+    def test_method_list_benefit_plan_years(self, client: VitableConnect) -> None:
+        employer = client.employers.list_benefit_plan_years(
+            "empr_abc123def456",
+        )
+        assert_matches_type(EmployerListBenefitPlanYearsResponse, employer, path=["response"])
+
+    @pytest.mark.skip(reason="Mock server tests are disabled")
+    @parametrize
+    def test_raw_response_list_benefit_plan_years(self, client: VitableConnect) -> None:
+        response = client.employers.with_raw_response.list_benefit_plan_years(
+            "empr_abc123def456",
+        )
+
+        assert response.is_closed is True
+        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        employer = response.parse()
+        assert_matches_type(EmployerListBenefitPlanYearsResponse, employer, path=["response"])
+
+    @pytest.mark.skip(reason="Mock server tests are disabled")
+    @parametrize
+    def test_streaming_response_list_benefit_plan_years(self, client: VitableConnect) -> None:
+        with client.employers.with_streaming_response.list_benefit_plan_years(
+            "empr_abc123def456",
+        ) as response:
+            assert not response.is_closed
+            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+
+            employer = response.parse()
+            assert_matches_type(EmployerListBenefitPlanYearsResponse, employer, path=["response"])
+
+        assert cast(Any, response.is_closed) is True
+
+    @pytest.mark.skip(reason="Mock server tests are disabled")
+    @parametrize
+    def test_path_params_list_benefit_plan_years(self, client: VitableConnect) -> None:
+        with pytest.raises(ValueError, match=r"Expected a non-empty value for `employer_id` but received ''"):
+            client.employers.with_raw_response.list_benefit_plan_years(
+                "",
+            )
 
     @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
@@ -198,8 +432,10 @@ class TestEmployers:
     def test_method_list_employees_with_all_params(self, client: VitableConnect) -> None:
         employer = client.employers.list_employees(
             employer_id="empr_abc123def456",
+            employment_status="active",
             limit=20,
             page=1,
+            search="jane",
         )
         assert_matches_type(SyncPageNumberPage[Employee], employer, path=["response"])
 
@@ -239,6 +475,334 @@ class TestEmployers:
 
     @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
+    def test_method_list_hris_providers(self, client: VitableConnect) -> None:
+        employer = client.employers.list_hris_providers()
+        assert_matches_type(EmployerListHRISProvidersResponse, employer, path=["response"])
+
+    @pytest.mark.skip(reason="Mock server tests are disabled")
+    @parametrize
+    def test_raw_response_list_hris_providers(self, client: VitableConnect) -> None:
+        response = client.employers.with_raw_response.list_hris_providers()
+
+        assert response.is_closed is True
+        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        employer = response.parse()
+        assert_matches_type(EmployerListHRISProvidersResponse, employer, path=["response"])
+
+    @pytest.mark.skip(reason="Mock server tests are disabled")
+    @parametrize
+    def test_streaming_response_list_hris_providers(self, client: VitableConnect) -> None:
+        with client.employers.with_streaming_response.list_hris_providers() as response:
+            assert not response.is_closed
+            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+
+            employer = response.parse()
+            assert_matches_type(EmployerListHRISProvidersResponse, employer, path=["response"])
+
+        assert cast(Any, response.is_closed) is True
+
+    @pytest.mark.skip(reason="Mock server tests are disabled")
+    @parametrize
+    def test_method_list_invoices(self, client: VitableConnect) -> None:
+        employer = client.employers.list_invoices(
+            employer_id="empr_abc123def456",
+        )
+        assert_matches_type(EmployerListInvoicesResponse, employer, path=["response"])
+
+    @pytest.mark.skip(reason="Mock server tests are disabled")
+    @parametrize
+    def test_method_list_invoices_with_all_params(self, client: VitableConnect) -> None:
+        employer = client.employers.list_invoices(
+            employer_id="empr_abc123def456",
+            limit=20,
+            offset="x",
+        )
+        assert_matches_type(EmployerListInvoicesResponse, employer, path=["response"])
+
+    @pytest.mark.skip(reason="Mock server tests are disabled")
+    @parametrize
+    def test_raw_response_list_invoices(self, client: VitableConnect) -> None:
+        response = client.employers.with_raw_response.list_invoices(
+            employer_id="empr_abc123def456",
+        )
+
+        assert response.is_closed is True
+        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        employer = response.parse()
+        assert_matches_type(EmployerListInvoicesResponse, employer, path=["response"])
+
+    @pytest.mark.skip(reason="Mock server tests are disabled")
+    @parametrize
+    def test_streaming_response_list_invoices(self, client: VitableConnect) -> None:
+        with client.employers.with_streaming_response.list_invoices(
+            employer_id="empr_abc123def456",
+        ) as response:
+            assert not response.is_closed
+            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+
+            employer = response.parse()
+            assert_matches_type(EmployerListInvoicesResponse, employer, path=["response"])
+
+        assert cast(Any, response.is_closed) is True
+
+    @pytest.mark.skip(reason="Mock server tests are disabled")
+    @parametrize
+    def test_path_params_list_invoices(self, client: VitableConnect) -> None:
+        with pytest.raises(ValueError, match=r"Expected a non-empty value for `employer_id` but received ''"):
+            client.employers.with_raw_response.list_invoices(
+                employer_id="",
+            )
+
+    @pytest.mark.skip(reason="Mock server tests are disabled")
+    @parametrize
+    def test_method_list_payroll_deduction_statements(self, client: VitableConnect) -> None:
+        employer = client.employers.list_payroll_deduction_statements(
+            employer_id="empr_abc123def456",
+        )
+        assert_matches_type(
+            SyncPageNumberPage[EmployerListPayrollDeductionStatementsResponse], employer, path=["response"]
+        )
+
+    @pytest.mark.skip(reason="Mock server tests are disabled")
+    @parametrize
+    def test_method_list_payroll_deduction_statements_with_all_params(self, client: VitableConnect) -> None:
+        employer = client.employers.list_payroll_deduction_statements(
+            employer_id="empr_abc123def456",
+            limit=20,
+            page=1,
+        )
+        assert_matches_type(
+            SyncPageNumberPage[EmployerListPayrollDeductionStatementsResponse], employer, path=["response"]
+        )
+
+    @pytest.mark.skip(reason="Mock server tests are disabled")
+    @parametrize
+    def test_raw_response_list_payroll_deduction_statements(self, client: VitableConnect) -> None:
+        response = client.employers.with_raw_response.list_payroll_deduction_statements(
+            employer_id="empr_abc123def456",
+        )
+
+        assert response.is_closed is True
+        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        employer = response.parse()
+        assert_matches_type(
+            SyncPageNumberPage[EmployerListPayrollDeductionStatementsResponse], employer, path=["response"]
+        )
+
+    @pytest.mark.skip(reason="Mock server tests are disabled")
+    @parametrize
+    def test_streaming_response_list_payroll_deduction_statements(self, client: VitableConnect) -> None:
+        with client.employers.with_streaming_response.list_payroll_deduction_statements(
+            employer_id="empr_abc123def456",
+        ) as response:
+            assert not response.is_closed
+            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+
+            employer = response.parse()
+            assert_matches_type(
+                SyncPageNumberPage[EmployerListPayrollDeductionStatementsResponse], employer, path=["response"]
+            )
+
+        assert cast(Any, response.is_closed) is True
+
+    @pytest.mark.skip(reason="Mock server tests are disabled")
+    @parametrize
+    def test_path_params_list_payroll_deduction_statements(self, client: VitableConnect) -> None:
+        with pytest.raises(ValueError, match=r"Expected a non-empty value for `employer_id` but received ''"):
+            client.employers.with_raw_response.list_payroll_deduction_statements(
+                employer_id="",
+            )
+
+    @pytest.mark.skip(reason="Mock server tests are disabled")
+    @parametrize
+    def test_method_retrieve_benefit_plan_year(self, client: VitableConnect) -> None:
+        employer = client.employers.retrieve_benefit_plan_year(
+            benefit_plan_year_id="plyr_abc123def456",
+            employer_id="empr_abc123def456",
+        )
+        assert_matches_type(EmployerRetrieveBenefitPlanYearResponse, employer, path=["response"])
+
+    @pytest.mark.skip(reason="Mock server tests are disabled")
+    @parametrize
+    def test_raw_response_retrieve_benefit_plan_year(self, client: VitableConnect) -> None:
+        response = client.employers.with_raw_response.retrieve_benefit_plan_year(
+            benefit_plan_year_id="plyr_abc123def456",
+            employer_id="empr_abc123def456",
+        )
+
+        assert response.is_closed is True
+        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        employer = response.parse()
+        assert_matches_type(EmployerRetrieveBenefitPlanYearResponse, employer, path=["response"])
+
+    @pytest.mark.skip(reason="Mock server tests are disabled")
+    @parametrize
+    def test_streaming_response_retrieve_benefit_plan_year(self, client: VitableConnect) -> None:
+        with client.employers.with_streaming_response.retrieve_benefit_plan_year(
+            benefit_plan_year_id="plyr_abc123def456",
+            employer_id="empr_abc123def456",
+        ) as response:
+            assert not response.is_closed
+            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+
+            employer = response.parse()
+            assert_matches_type(EmployerRetrieveBenefitPlanYearResponse, employer, path=["response"])
+
+        assert cast(Any, response.is_closed) is True
+
+    @pytest.mark.skip(reason="Mock server tests are disabled")
+    @parametrize
+    def test_path_params_retrieve_benefit_plan_year(self, client: VitableConnect) -> None:
+        with pytest.raises(ValueError, match=r"Expected a non-empty value for `employer_id` but received ''"):
+            client.employers.with_raw_response.retrieve_benefit_plan_year(
+                benefit_plan_year_id="plyr_abc123def456",
+                employer_id="",
+            )
+
+        with pytest.raises(ValueError, match=r"Expected a non-empty value for `benefit_plan_year_id` but received ''"):
+            client.employers.with_raw_response.retrieve_benefit_plan_year(
+                benefit_plan_year_id="",
+                employer_id="empr_abc123def456",
+            )
+
+    @pytest.mark.skip(reason="Mock server tests are disabled")
+    @parametrize
+    def test_method_retrieve_hris(self, client: VitableConnect) -> None:
+        employer = client.employers.retrieve_hris(
+            "empr_abc123def456",
+        )
+        assert_matches_type(EmployerRetrieveHRISResponse, employer, path=["response"])
+
+    @pytest.mark.skip(reason="Mock server tests are disabled")
+    @parametrize
+    def test_raw_response_retrieve_hris(self, client: VitableConnect) -> None:
+        response = client.employers.with_raw_response.retrieve_hris(
+            "empr_abc123def456",
+        )
+
+        assert response.is_closed is True
+        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        employer = response.parse()
+        assert_matches_type(EmployerRetrieveHRISResponse, employer, path=["response"])
+
+    @pytest.mark.skip(reason="Mock server tests are disabled")
+    @parametrize
+    def test_streaming_response_retrieve_hris(self, client: VitableConnect) -> None:
+        with client.employers.with_streaming_response.retrieve_hris(
+            "empr_abc123def456",
+        ) as response:
+            assert not response.is_closed
+            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+
+            employer = response.parse()
+            assert_matches_type(EmployerRetrieveHRISResponse, employer, path=["response"])
+
+        assert cast(Any, response.is_closed) is True
+
+    @pytest.mark.skip(reason="Mock server tests are disabled")
+    @parametrize
+    def test_path_params_retrieve_hris(self, client: VitableConnect) -> None:
+        with pytest.raises(ValueError, match=r"Expected a non-empty value for `employer_id` but received ''"):
+            client.employers.with_raw_response.retrieve_hris(
+                "",
+            )
+
+    @pytest.mark.skip(reason="Mock server tests are disabled")
+    @parametrize
+    def test_method_retrieve_invoice_pdf(self, client: VitableConnect) -> None:
+        employer = client.employers.retrieve_invoice_pdf(
+            invoice_id="INV-00042",
+            employer_id="empr_abc123def456",
+        )
+        assert_matches_type(EmployerRetrieveInvoicePdfResponse, employer, path=["response"])
+
+    @pytest.mark.skip(reason="Mock server tests are disabled")
+    @parametrize
+    def test_raw_response_retrieve_invoice_pdf(self, client: VitableConnect) -> None:
+        response = client.employers.with_raw_response.retrieve_invoice_pdf(
+            invoice_id="INV-00042",
+            employer_id="empr_abc123def456",
+        )
+
+        assert response.is_closed is True
+        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        employer = response.parse()
+        assert_matches_type(EmployerRetrieveInvoicePdfResponse, employer, path=["response"])
+
+    @pytest.mark.skip(reason="Mock server tests are disabled")
+    @parametrize
+    def test_streaming_response_retrieve_invoice_pdf(self, client: VitableConnect) -> None:
+        with client.employers.with_streaming_response.retrieve_invoice_pdf(
+            invoice_id="INV-00042",
+            employer_id="empr_abc123def456",
+        ) as response:
+            assert not response.is_closed
+            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+
+            employer = response.parse()
+            assert_matches_type(EmployerRetrieveInvoicePdfResponse, employer, path=["response"])
+
+        assert cast(Any, response.is_closed) is True
+
+    @pytest.mark.skip(reason="Mock server tests are disabled")
+    @parametrize
+    def test_path_params_retrieve_invoice_pdf(self, client: VitableConnect) -> None:
+        with pytest.raises(ValueError, match=r"Expected a non-empty value for `employer_id` but received ''"):
+            client.employers.with_raw_response.retrieve_invoice_pdf(
+                invoice_id="INV-00042",
+                employer_id="",
+            )
+
+        with pytest.raises(ValueError, match=r"Expected a non-empty value for `invoice_id` but received ''"):
+            client.employers.with_raw_response.retrieve_invoice_pdf(
+                invoice_id="",
+                employer_id="empr_abc123def456",
+            )
+
+    @pytest.mark.skip(reason="Mock server tests are disabled")
+    @parametrize
+    def test_method_retrieve_payroll_access_setup(self, client: VitableConnect) -> None:
+        employer = client.employers.retrieve_payroll_access_setup(
+            "empr_abc123def456",
+        )
+        assert_matches_type(EmployerRetrievePayrollAccessSetupResponse, employer, path=["response"])
+
+    @pytest.mark.skip(reason="Mock server tests are disabled")
+    @parametrize
+    def test_raw_response_retrieve_payroll_access_setup(self, client: VitableConnect) -> None:
+        response = client.employers.with_raw_response.retrieve_payroll_access_setup(
+            "empr_abc123def456",
+        )
+
+        assert response.is_closed is True
+        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        employer = response.parse()
+        assert_matches_type(EmployerRetrievePayrollAccessSetupResponse, employer, path=["response"])
+
+    @pytest.mark.skip(reason="Mock server tests are disabled")
+    @parametrize
+    def test_streaming_response_retrieve_payroll_access_setup(self, client: VitableConnect) -> None:
+        with client.employers.with_streaming_response.retrieve_payroll_access_setup(
+            "empr_abc123def456",
+        ) as response:
+            assert not response.is_closed
+            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+
+            employer = response.parse()
+            assert_matches_type(EmployerRetrievePayrollAccessSetupResponse, employer, path=["response"])
+
+        assert cast(Any, response.is_closed) is True
+
+    @pytest.mark.skip(reason="Mock server tests are disabled")
+    @parametrize
+    def test_path_params_retrieve_payroll_access_setup(self, client: VitableConnect) -> None:
+        with pytest.raises(ValueError, match=r"Expected a non-empty value for `employer_id` but received ''"):
+            client.employers.with_raw_response.retrieve_payroll_access_setup(
+                "",
+            )
+
+    @pytest.mark.skip(reason="Mock server tests are disabled")
+    @parametrize
     def test_method_submit_census_sync(self, client: VitableConnect) -> None:
         employer = client.employers.submit_census_sync(
             employer_id="empr_abc123def456",
@@ -248,14 +812,12 @@ class TestEmployers:
                     "email": "jane.doe@acme.com",
                     "first_name": "Jane",
                     "last_name": "Doe",
-                    "phone": "4155550100",
                 },
                 {
                     "date_of_birth": parse_date("1985-11-20"),
                     "email": "john.smith@acme.com",
                     "first_name": "John",
                     "last_name": "Smith",
-                    "phone": "4155550101",
                 },
             ],
         )
@@ -272,14 +834,12 @@ class TestEmployers:
                     "email": "jane.doe@acme.com",
                     "first_name": "Jane",
                     "last_name": "Doe",
-                    "phone": "4155550100",
                 },
                 {
                     "date_of_birth": parse_date("1985-11-20"),
                     "email": "john.smith@acme.com",
                     "first_name": "John",
                     "last_name": "Smith",
-                    "phone": "4155550101",
                 },
             ],
         )
@@ -300,14 +860,12 @@ class TestEmployers:
                     "email": "jane.doe@acme.com",
                     "first_name": "Jane",
                     "last_name": "Doe",
-                    "phone": "4155550100",
                 },
                 {
                     "date_of_birth": parse_date("1985-11-20"),
                     "email": "john.smith@acme.com",
                     "first_name": "John",
                     "last_name": "Smith",
-                    "phone": "4155550101",
                 },
             ],
         ) as response:
@@ -331,16 +889,115 @@ class TestEmployers:
                         "email": "jane.doe@acme.com",
                         "first_name": "Jane",
                         "last_name": "Doe",
-                        "phone": "4155550100",
                     },
                     {
                         "date_of_birth": parse_date("1985-11-20"),
                         "email": "john.smith@acme.com",
                         "first_name": "John",
                         "last_name": "Smith",
-                        "phone": "4155550101",
                     },
                 ],
+            )
+
+    @pytest.mark.skip(reason="Mock server tests are disabled")
+    @parametrize
+    def test_method_submit_payroll_access_setup(self, client: VitableConnect) -> None:
+        employer = client.employers.submit_payroll_access_setup(
+            employer_id="empr_abc123def456",
+            access_method="SELF_SETUP",
+            all_benefit_eligible_employees_present=True,
+            classifications_accurate=True,
+            employees_in_payroll_acknowledged=True,
+            has_additional_payroll_system=True,
+            is_controlled_group=True,
+            payroll_data_impacts_eligibility_acknowledged=True,
+        )
+        assert_matches_type(EmployerSubmitPayrollAccessSetupResponse, employer, path=["response"])
+
+    @pytest.mark.skip(reason="Mock server tests are disabled")
+    @parametrize
+    def test_method_submit_payroll_access_setup_with_all_params(self, client: VitableConnect) -> None:
+        employer = client.employers.submit_payroll_access_setup(
+            employer_id="empr_abc123def456",
+            access_method="SELF_SETUP",
+            all_benefit_eligible_employees_present=True,
+            classifications_accurate=True,
+            employees_in_payroll_acknowledged=True,
+            has_additional_payroll_system=True,
+            is_controlled_group=True,
+            payroll_data_impacts_eligibility_acknowledged=True,
+            additional_access_method="SELF_SETUP",
+            additional_integration_confirmed=True,
+            additional_login_url="additional_login_url",
+            additional_password="additional_password",
+            additional_phone="additional_phone",
+            additional_username="additional_username",
+            classification_correction_source="ENTER_NAMES",
+            integration_confirmed=True,
+            login_url="login_url",
+            misclassified_employee_names=["string"],
+            missing_employee_resolution="EMAIL_CENSUS",
+            password="password",
+            phone="phone",
+            remaining_employee_action="VITABLE_UPDATE",
+            same_payroll_covers_other_eins=True,
+            username="username",
+        )
+        assert_matches_type(EmployerSubmitPayrollAccessSetupResponse, employer, path=["response"])
+
+    @pytest.mark.skip(reason="Mock server tests are disabled")
+    @parametrize
+    def test_raw_response_submit_payroll_access_setup(self, client: VitableConnect) -> None:
+        response = client.employers.with_raw_response.submit_payroll_access_setup(
+            employer_id="empr_abc123def456",
+            access_method="SELF_SETUP",
+            all_benefit_eligible_employees_present=True,
+            classifications_accurate=True,
+            employees_in_payroll_acknowledged=True,
+            has_additional_payroll_system=True,
+            is_controlled_group=True,
+            payroll_data_impacts_eligibility_acknowledged=True,
+        )
+
+        assert response.is_closed is True
+        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        employer = response.parse()
+        assert_matches_type(EmployerSubmitPayrollAccessSetupResponse, employer, path=["response"])
+
+    @pytest.mark.skip(reason="Mock server tests are disabled")
+    @parametrize
+    def test_streaming_response_submit_payroll_access_setup(self, client: VitableConnect) -> None:
+        with client.employers.with_streaming_response.submit_payroll_access_setup(
+            employer_id="empr_abc123def456",
+            access_method="SELF_SETUP",
+            all_benefit_eligible_employees_present=True,
+            classifications_accurate=True,
+            employees_in_payroll_acknowledged=True,
+            has_additional_payroll_system=True,
+            is_controlled_group=True,
+            payroll_data_impacts_eligibility_acknowledged=True,
+        ) as response:
+            assert not response.is_closed
+            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+
+            employer = response.parse()
+            assert_matches_type(EmployerSubmitPayrollAccessSetupResponse, employer, path=["response"])
+
+        assert cast(Any, response.is_closed) is True
+
+    @pytest.mark.skip(reason="Mock server tests are disabled")
+    @parametrize
+    def test_path_params_submit_payroll_access_setup(self, client: VitableConnect) -> None:
+        with pytest.raises(ValueError, match=r"Expected a non-empty value for `employer_id` but received ''"):
+            client.employers.with_raw_response.submit_payroll_access_setup(
+                employer_id="",
+                access_method="SELF_SETUP",
+                all_benefit_eligible_employees_present=True,
+                classifications_accurate=True,
+                employees_in_payroll_acknowledged=True,
+                has_additional_payroll_system=True,
+                is_controlled_group=True,
+                payroll_data_impacts_eligibility_acknowledged=True,
             )
 
     @pytest.mark.skip(reason="Mock server tests are disabled")
@@ -520,18 +1177,84 @@ class TestAsyncEmployers:
 
     @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
+    async def test_method_update(self, async_client: AsyncVitableConnect) -> None:
+        employer = await async_client.employers.update(
+            employer_id="empr_abc123def456",
+        )
+        assert_matches_type(EmployerResponse, employer, path=["response"])
+
+    @pytest.mark.skip(reason="Mock server tests are disabled")
+    @parametrize
+    async def test_method_update_with_all_params(self, async_client: AsyncVitableConnect) -> None:
+        employer = await async_client.employers.update(
+            employer_id="empr_abc123def456",
+            active=True,
+            address={
+                "address_line_1": "address_line_1",
+                "city": "city",
+                "state": "xx",
+                "zipcode": "zipcode",
+                "address_line_2": "address_line_2",
+            },
+            legal_name="x",
+            name="x",
+        )
+        assert_matches_type(EmployerResponse, employer, path=["response"])
+
+    @pytest.mark.skip(reason="Mock server tests are disabled")
+    @parametrize
+    async def test_raw_response_update(self, async_client: AsyncVitableConnect) -> None:
+        response = await async_client.employers.with_raw_response.update(
+            employer_id="empr_abc123def456",
+        )
+
+        assert response.is_closed is True
+        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        employer = await response.parse()
+        assert_matches_type(EmployerResponse, employer, path=["response"])
+
+    @pytest.mark.skip(reason="Mock server tests are disabled")
+    @parametrize
+    async def test_streaming_response_update(self, async_client: AsyncVitableConnect) -> None:
+        async with async_client.employers.with_streaming_response.update(
+            employer_id="empr_abc123def456",
+        ) as response:
+            assert not response.is_closed
+            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+
+            employer = await response.parse()
+            assert_matches_type(EmployerResponse, employer, path=["response"])
+
+        assert cast(Any, response.is_closed) is True
+
+    @pytest.mark.skip(reason="Mock server tests are disabled")
+    @parametrize
+    async def test_path_params_update(self, async_client: AsyncVitableConnect) -> None:
+        with pytest.raises(ValueError, match=r"Expected a non-empty value for `employer_id` but received ''"):
+            await async_client.employers.with_raw_response.update(
+                employer_id="",
+            )
+
+    @pytest.mark.skip(reason="Mock server tests are disabled")
+    @parametrize
     async def test_method_list(self, async_client: AsyncVitableConnect) -> None:
         employer = await async_client.employers.list()
-        assert_matches_type(AsyncPageNumberPage[Employer], employer, path=["response"])
+        assert_matches_type(AsyncPageNumberPage[EmployerListResponse], employer, path=["response"])
 
     @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
     async def test_method_list_with_all_params(self, async_client: AsyncVitableConnect) -> None:
         employer = await async_client.employers.list(
+            benefit_family=["mec"],
+            benefit_lifecycle_stage=["open_enrollment"],
+            hris_provider=["string"],
+            hris_status=["Pending"],
+            include_cancelled=True,
             limit=20,
             page=1,
+            search="x",
         )
-        assert_matches_type(AsyncPageNumberPage[Employer], employer, path=["response"])
+        assert_matches_type(AsyncPageNumberPage[EmployerListResponse], employer, path=["response"])
 
     @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
@@ -541,7 +1264,7 @@ class TestAsyncEmployers:
         assert response.is_closed is True
         assert response.http_request.headers.get("X-Stainless-Lang") == "python"
         employer = await response.parse()
-        assert_matches_type(AsyncPageNumberPage[Employer], employer, path=["response"])
+        assert_matches_type(AsyncPageNumberPage[EmployerListResponse], employer, path=["response"])
 
     @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
@@ -551,9 +1274,170 @@ class TestAsyncEmployers:
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
 
             employer = await response.parse()
-            assert_matches_type(AsyncPageNumberPage[Employer], employer, path=["response"])
+            assert_matches_type(AsyncPageNumberPage[EmployerListResponse], employer, path=["response"])
 
         assert cast(Any, response.is_closed) is True
+
+    @pytest.mark.skip(reason="Mock server tests are disabled")
+    @parametrize
+    async def test_method_ensure_payroll_integration_email(self, async_client: AsyncVitableConnect) -> None:
+        employer = await async_client.employers.ensure_payroll_integration_email(
+            "empr_abc123def456",
+        )
+        assert_matches_type(EmployerEnsurePayrollIntegrationEmailResponse, employer, path=["response"])
+
+    @pytest.mark.skip(reason="Mock server tests are disabled")
+    @parametrize
+    async def test_raw_response_ensure_payroll_integration_email(self, async_client: AsyncVitableConnect) -> None:
+        response = await async_client.employers.with_raw_response.ensure_payroll_integration_email(
+            "empr_abc123def456",
+        )
+
+        assert response.is_closed is True
+        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        employer = await response.parse()
+        assert_matches_type(EmployerEnsurePayrollIntegrationEmailResponse, employer, path=["response"])
+
+    @pytest.mark.skip(reason="Mock server tests are disabled")
+    @parametrize
+    async def test_streaming_response_ensure_payroll_integration_email(self, async_client: AsyncVitableConnect) -> None:
+        async with async_client.employers.with_streaming_response.ensure_payroll_integration_email(
+            "empr_abc123def456",
+        ) as response:
+            assert not response.is_closed
+            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+
+            employer = await response.parse()
+            assert_matches_type(EmployerEnsurePayrollIntegrationEmailResponse, employer, path=["response"])
+
+        assert cast(Any, response.is_closed) is True
+
+    @pytest.mark.skip(reason="Mock server tests are disabled")
+    @parametrize
+    async def test_path_params_ensure_payroll_integration_email(self, async_client: AsyncVitableConnect) -> None:
+        with pytest.raises(ValueError, match=r"Expected a non-empty value for `employer_id` but received ''"):
+            await async_client.employers.with_raw_response.ensure_payroll_integration_email(
+                "",
+            )
+
+    @pytest.mark.skip(reason="Mock server tests are disabled")
+    @parametrize
+    async def test_method_list_benefit_plan_year_enrollments(self, async_client: AsyncVitableConnect) -> None:
+        employer = await async_client.employers.list_benefit_plan_year_enrollments(
+            benefit_plan_year_id="plyr_abc123def456",
+            employer_id="empr_abc123def456",
+        )
+        assert_matches_type(
+            AsyncPageNumberPage[EmployerListBenefitPlanYearEnrollmentsResponse], employer, path=["response"]
+        )
+
+    @pytest.mark.skip(reason="Mock server tests are disabled")
+    @parametrize
+    async def test_method_list_benefit_plan_year_enrollments_with_all_params(
+        self, async_client: AsyncVitableConnect
+    ) -> None:
+        employer = await async_client.employers.list_benefit_plan_year_enrollments(
+            benefit_plan_year_id="plyr_abc123def456",
+            employer_id="empr_abc123def456",
+            election_status=["Enrolled"],
+            limit=20,
+            page=1,
+            search="search",
+        )
+        assert_matches_type(
+            AsyncPageNumberPage[EmployerListBenefitPlanYearEnrollmentsResponse], employer, path=["response"]
+        )
+
+    @pytest.mark.skip(reason="Mock server tests are disabled")
+    @parametrize
+    async def test_raw_response_list_benefit_plan_year_enrollments(self, async_client: AsyncVitableConnect) -> None:
+        response = await async_client.employers.with_raw_response.list_benefit_plan_year_enrollments(
+            benefit_plan_year_id="plyr_abc123def456",
+            employer_id="empr_abc123def456",
+        )
+
+        assert response.is_closed is True
+        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        employer = await response.parse()
+        assert_matches_type(
+            AsyncPageNumberPage[EmployerListBenefitPlanYearEnrollmentsResponse], employer, path=["response"]
+        )
+
+    @pytest.mark.skip(reason="Mock server tests are disabled")
+    @parametrize
+    async def test_streaming_response_list_benefit_plan_year_enrollments(
+        self, async_client: AsyncVitableConnect
+    ) -> None:
+        async with async_client.employers.with_streaming_response.list_benefit_plan_year_enrollments(
+            benefit_plan_year_id="plyr_abc123def456",
+            employer_id="empr_abc123def456",
+        ) as response:
+            assert not response.is_closed
+            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+
+            employer = await response.parse()
+            assert_matches_type(
+                AsyncPageNumberPage[EmployerListBenefitPlanYearEnrollmentsResponse], employer, path=["response"]
+            )
+
+        assert cast(Any, response.is_closed) is True
+
+    @pytest.mark.skip(reason="Mock server tests are disabled")
+    @parametrize
+    async def test_path_params_list_benefit_plan_year_enrollments(self, async_client: AsyncVitableConnect) -> None:
+        with pytest.raises(ValueError, match=r"Expected a non-empty value for `employer_id` but received ''"):
+            await async_client.employers.with_raw_response.list_benefit_plan_year_enrollments(
+                benefit_plan_year_id="plyr_abc123def456",
+                employer_id="",
+            )
+
+        with pytest.raises(ValueError, match=r"Expected a non-empty value for `benefit_plan_year_id` but received ''"):
+            await async_client.employers.with_raw_response.list_benefit_plan_year_enrollments(
+                benefit_plan_year_id="",
+                employer_id="empr_abc123def456",
+            )
+
+    @pytest.mark.skip(reason="Mock server tests are disabled")
+    @parametrize
+    async def test_method_list_benefit_plan_years(self, async_client: AsyncVitableConnect) -> None:
+        employer = await async_client.employers.list_benefit_plan_years(
+            "empr_abc123def456",
+        )
+        assert_matches_type(EmployerListBenefitPlanYearsResponse, employer, path=["response"])
+
+    @pytest.mark.skip(reason="Mock server tests are disabled")
+    @parametrize
+    async def test_raw_response_list_benefit_plan_years(self, async_client: AsyncVitableConnect) -> None:
+        response = await async_client.employers.with_raw_response.list_benefit_plan_years(
+            "empr_abc123def456",
+        )
+
+        assert response.is_closed is True
+        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        employer = await response.parse()
+        assert_matches_type(EmployerListBenefitPlanYearsResponse, employer, path=["response"])
+
+    @pytest.mark.skip(reason="Mock server tests are disabled")
+    @parametrize
+    async def test_streaming_response_list_benefit_plan_years(self, async_client: AsyncVitableConnect) -> None:
+        async with async_client.employers.with_streaming_response.list_benefit_plan_years(
+            "empr_abc123def456",
+        ) as response:
+            assert not response.is_closed
+            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+
+            employer = await response.parse()
+            assert_matches_type(EmployerListBenefitPlanYearsResponse, employer, path=["response"])
+
+        assert cast(Any, response.is_closed) is True
+
+    @pytest.mark.skip(reason="Mock server tests are disabled")
+    @parametrize
+    async def test_path_params_list_benefit_plan_years(self, async_client: AsyncVitableConnect) -> None:
+        with pytest.raises(ValueError, match=r"Expected a non-empty value for `employer_id` but received ''"):
+            await async_client.employers.with_raw_response.list_benefit_plan_years(
+                "",
+            )
 
     @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
@@ -568,8 +1452,10 @@ class TestAsyncEmployers:
     async def test_method_list_employees_with_all_params(self, async_client: AsyncVitableConnect) -> None:
         employer = await async_client.employers.list_employees(
             employer_id="empr_abc123def456",
+            employment_status="active",
             limit=20,
             page=1,
+            search="jane",
         )
         assert_matches_type(AsyncPageNumberPage[Employee], employer, path=["response"])
 
@@ -609,6 +1495,338 @@ class TestAsyncEmployers:
 
     @pytest.mark.skip(reason="Mock server tests are disabled")
     @parametrize
+    async def test_method_list_hris_providers(self, async_client: AsyncVitableConnect) -> None:
+        employer = await async_client.employers.list_hris_providers()
+        assert_matches_type(EmployerListHRISProvidersResponse, employer, path=["response"])
+
+    @pytest.mark.skip(reason="Mock server tests are disabled")
+    @parametrize
+    async def test_raw_response_list_hris_providers(self, async_client: AsyncVitableConnect) -> None:
+        response = await async_client.employers.with_raw_response.list_hris_providers()
+
+        assert response.is_closed is True
+        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        employer = await response.parse()
+        assert_matches_type(EmployerListHRISProvidersResponse, employer, path=["response"])
+
+    @pytest.mark.skip(reason="Mock server tests are disabled")
+    @parametrize
+    async def test_streaming_response_list_hris_providers(self, async_client: AsyncVitableConnect) -> None:
+        async with async_client.employers.with_streaming_response.list_hris_providers() as response:
+            assert not response.is_closed
+            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+
+            employer = await response.parse()
+            assert_matches_type(EmployerListHRISProvidersResponse, employer, path=["response"])
+
+        assert cast(Any, response.is_closed) is True
+
+    @pytest.mark.skip(reason="Mock server tests are disabled")
+    @parametrize
+    async def test_method_list_invoices(self, async_client: AsyncVitableConnect) -> None:
+        employer = await async_client.employers.list_invoices(
+            employer_id="empr_abc123def456",
+        )
+        assert_matches_type(EmployerListInvoicesResponse, employer, path=["response"])
+
+    @pytest.mark.skip(reason="Mock server tests are disabled")
+    @parametrize
+    async def test_method_list_invoices_with_all_params(self, async_client: AsyncVitableConnect) -> None:
+        employer = await async_client.employers.list_invoices(
+            employer_id="empr_abc123def456",
+            limit=20,
+            offset="x",
+        )
+        assert_matches_type(EmployerListInvoicesResponse, employer, path=["response"])
+
+    @pytest.mark.skip(reason="Mock server tests are disabled")
+    @parametrize
+    async def test_raw_response_list_invoices(self, async_client: AsyncVitableConnect) -> None:
+        response = await async_client.employers.with_raw_response.list_invoices(
+            employer_id="empr_abc123def456",
+        )
+
+        assert response.is_closed is True
+        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        employer = await response.parse()
+        assert_matches_type(EmployerListInvoicesResponse, employer, path=["response"])
+
+    @pytest.mark.skip(reason="Mock server tests are disabled")
+    @parametrize
+    async def test_streaming_response_list_invoices(self, async_client: AsyncVitableConnect) -> None:
+        async with async_client.employers.with_streaming_response.list_invoices(
+            employer_id="empr_abc123def456",
+        ) as response:
+            assert not response.is_closed
+            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+
+            employer = await response.parse()
+            assert_matches_type(EmployerListInvoicesResponse, employer, path=["response"])
+
+        assert cast(Any, response.is_closed) is True
+
+    @pytest.mark.skip(reason="Mock server tests are disabled")
+    @parametrize
+    async def test_path_params_list_invoices(self, async_client: AsyncVitableConnect) -> None:
+        with pytest.raises(ValueError, match=r"Expected a non-empty value for `employer_id` but received ''"):
+            await async_client.employers.with_raw_response.list_invoices(
+                employer_id="",
+            )
+
+    @pytest.mark.skip(reason="Mock server tests are disabled")
+    @parametrize
+    async def test_method_list_payroll_deduction_statements(self, async_client: AsyncVitableConnect) -> None:
+        employer = await async_client.employers.list_payroll_deduction_statements(
+            employer_id="empr_abc123def456",
+        )
+        assert_matches_type(
+            AsyncPageNumberPage[EmployerListPayrollDeductionStatementsResponse], employer, path=["response"]
+        )
+
+    @pytest.mark.skip(reason="Mock server tests are disabled")
+    @parametrize
+    async def test_method_list_payroll_deduction_statements_with_all_params(
+        self, async_client: AsyncVitableConnect
+    ) -> None:
+        employer = await async_client.employers.list_payroll_deduction_statements(
+            employer_id="empr_abc123def456",
+            limit=20,
+            page=1,
+        )
+        assert_matches_type(
+            AsyncPageNumberPage[EmployerListPayrollDeductionStatementsResponse], employer, path=["response"]
+        )
+
+    @pytest.mark.skip(reason="Mock server tests are disabled")
+    @parametrize
+    async def test_raw_response_list_payroll_deduction_statements(self, async_client: AsyncVitableConnect) -> None:
+        response = await async_client.employers.with_raw_response.list_payroll_deduction_statements(
+            employer_id="empr_abc123def456",
+        )
+
+        assert response.is_closed is True
+        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        employer = await response.parse()
+        assert_matches_type(
+            AsyncPageNumberPage[EmployerListPayrollDeductionStatementsResponse], employer, path=["response"]
+        )
+
+    @pytest.mark.skip(reason="Mock server tests are disabled")
+    @parametrize
+    async def test_streaming_response_list_payroll_deduction_statements(
+        self, async_client: AsyncVitableConnect
+    ) -> None:
+        async with async_client.employers.with_streaming_response.list_payroll_deduction_statements(
+            employer_id="empr_abc123def456",
+        ) as response:
+            assert not response.is_closed
+            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+
+            employer = await response.parse()
+            assert_matches_type(
+                AsyncPageNumberPage[EmployerListPayrollDeductionStatementsResponse], employer, path=["response"]
+            )
+
+        assert cast(Any, response.is_closed) is True
+
+    @pytest.mark.skip(reason="Mock server tests are disabled")
+    @parametrize
+    async def test_path_params_list_payroll_deduction_statements(self, async_client: AsyncVitableConnect) -> None:
+        with pytest.raises(ValueError, match=r"Expected a non-empty value for `employer_id` but received ''"):
+            await async_client.employers.with_raw_response.list_payroll_deduction_statements(
+                employer_id="",
+            )
+
+    @pytest.mark.skip(reason="Mock server tests are disabled")
+    @parametrize
+    async def test_method_retrieve_benefit_plan_year(self, async_client: AsyncVitableConnect) -> None:
+        employer = await async_client.employers.retrieve_benefit_plan_year(
+            benefit_plan_year_id="plyr_abc123def456",
+            employer_id="empr_abc123def456",
+        )
+        assert_matches_type(EmployerRetrieveBenefitPlanYearResponse, employer, path=["response"])
+
+    @pytest.mark.skip(reason="Mock server tests are disabled")
+    @parametrize
+    async def test_raw_response_retrieve_benefit_plan_year(self, async_client: AsyncVitableConnect) -> None:
+        response = await async_client.employers.with_raw_response.retrieve_benefit_plan_year(
+            benefit_plan_year_id="plyr_abc123def456",
+            employer_id="empr_abc123def456",
+        )
+
+        assert response.is_closed is True
+        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        employer = await response.parse()
+        assert_matches_type(EmployerRetrieveBenefitPlanYearResponse, employer, path=["response"])
+
+    @pytest.mark.skip(reason="Mock server tests are disabled")
+    @parametrize
+    async def test_streaming_response_retrieve_benefit_plan_year(self, async_client: AsyncVitableConnect) -> None:
+        async with async_client.employers.with_streaming_response.retrieve_benefit_plan_year(
+            benefit_plan_year_id="plyr_abc123def456",
+            employer_id="empr_abc123def456",
+        ) as response:
+            assert not response.is_closed
+            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+
+            employer = await response.parse()
+            assert_matches_type(EmployerRetrieveBenefitPlanYearResponse, employer, path=["response"])
+
+        assert cast(Any, response.is_closed) is True
+
+    @pytest.mark.skip(reason="Mock server tests are disabled")
+    @parametrize
+    async def test_path_params_retrieve_benefit_plan_year(self, async_client: AsyncVitableConnect) -> None:
+        with pytest.raises(ValueError, match=r"Expected a non-empty value for `employer_id` but received ''"):
+            await async_client.employers.with_raw_response.retrieve_benefit_plan_year(
+                benefit_plan_year_id="plyr_abc123def456",
+                employer_id="",
+            )
+
+        with pytest.raises(ValueError, match=r"Expected a non-empty value for `benefit_plan_year_id` but received ''"):
+            await async_client.employers.with_raw_response.retrieve_benefit_plan_year(
+                benefit_plan_year_id="",
+                employer_id="empr_abc123def456",
+            )
+
+    @pytest.mark.skip(reason="Mock server tests are disabled")
+    @parametrize
+    async def test_method_retrieve_hris(self, async_client: AsyncVitableConnect) -> None:
+        employer = await async_client.employers.retrieve_hris(
+            "empr_abc123def456",
+        )
+        assert_matches_type(EmployerRetrieveHRISResponse, employer, path=["response"])
+
+    @pytest.mark.skip(reason="Mock server tests are disabled")
+    @parametrize
+    async def test_raw_response_retrieve_hris(self, async_client: AsyncVitableConnect) -> None:
+        response = await async_client.employers.with_raw_response.retrieve_hris(
+            "empr_abc123def456",
+        )
+
+        assert response.is_closed is True
+        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        employer = await response.parse()
+        assert_matches_type(EmployerRetrieveHRISResponse, employer, path=["response"])
+
+    @pytest.mark.skip(reason="Mock server tests are disabled")
+    @parametrize
+    async def test_streaming_response_retrieve_hris(self, async_client: AsyncVitableConnect) -> None:
+        async with async_client.employers.with_streaming_response.retrieve_hris(
+            "empr_abc123def456",
+        ) as response:
+            assert not response.is_closed
+            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+
+            employer = await response.parse()
+            assert_matches_type(EmployerRetrieveHRISResponse, employer, path=["response"])
+
+        assert cast(Any, response.is_closed) is True
+
+    @pytest.mark.skip(reason="Mock server tests are disabled")
+    @parametrize
+    async def test_path_params_retrieve_hris(self, async_client: AsyncVitableConnect) -> None:
+        with pytest.raises(ValueError, match=r"Expected a non-empty value for `employer_id` but received ''"):
+            await async_client.employers.with_raw_response.retrieve_hris(
+                "",
+            )
+
+    @pytest.mark.skip(reason="Mock server tests are disabled")
+    @parametrize
+    async def test_method_retrieve_invoice_pdf(self, async_client: AsyncVitableConnect) -> None:
+        employer = await async_client.employers.retrieve_invoice_pdf(
+            invoice_id="INV-00042",
+            employer_id="empr_abc123def456",
+        )
+        assert_matches_type(EmployerRetrieveInvoicePdfResponse, employer, path=["response"])
+
+    @pytest.mark.skip(reason="Mock server tests are disabled")
+    @parametrize
+    async def test_raw_response_retrieve_invoice_pdf(self, async_client: AsyncVitableConnect) -> None:
+        response = await async_client.employers.with_raw_response.retrieve_invoice_pdf(
+            invoice_id="INV-00042",
+            employer_id="empr_abc123def456",
+        )
+
+        assert response.is_closed is True
+        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        employer = await response.parse()
+        assert_matches_type(EmployerRetrieveInvoicePdfResponse, employer, path=["response"])
+
+    @pytest.mark.skip(reason="Mock server tests are disabled")
+    @parametrize
+    async def test_streaming_response_retrieve_invoice_pdf(self, async_client: AsyncVitableConnect) -> None:
+        async with async_client.employers.with_streaming_response.retrieve_invoice_pdf(
+            invoice_id="INV-00042",
+            employer_id="empr_abc123def456",
+        ) as response:
+            assert not response.is_closed
+            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+
+            employer = await response.parse()
+            assert_matches_type(EmployerRetrieveInvoicePdfResponse, employer, path=["response"])
+
+        assert cast(Any, response.is_closed) is True
+
+    @pytest.mark.skip(reason="Mock server tests are disabled")
+    @parametrize
+    async def test_path_params_retrieve_invoice_pdf(self, async_client: AsyncVitableConnect) -> None:
+        with pytest.raises(ValueError, match=r"Expected a non-empty value for `employer_id` but received ''"):
+            await async_client.employers.with_raw_response.retrieve_invoice_pdf(
+                invoice_id="INV-00042",
+                employer_id="",
+            )
+
+        with pytest.raises(ValueError, match=r"Expected a non-empty value for `invoice_id` but received ''"):
+            await async_client.employers.with_raw_response.retrieve_invoice_pdf(
+                invoice_id="",
+                employer_id="empr_abc123def456",
+            )
+
+    @pytest.mark.skip(reason="Mock server tests are disabled")
+    @parametrize
+    async def test_method_retrieve_payroll_access_setup(self, async_client: AsyncVitableConnect) -> None:
+        employer = await async_client.employers.retrieve_payroll_access_setup(
+            "empr_abc123def456",
+        )
+        assert_matches_type(EmployerRetrievePayrollAccessSetupResponse, employer, path=["response"])
+
+    @pytest.mark.skip(reason="Mock server tests are disabled")
+    @parametrize
+    async def test_raw_response_retrieve_payroll_access_setup(self, async_client: AsyncVitableConnect) -> None:
+        response = await async_client.employers.with_raw_response.retrieve_payroll_access_setup(
+            "empr_abc123def456",
+        )
+
+        assert response.is_closed is True
+        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        employer = await response.parse()
+        assert_matches_type(EmployerRetrievePayrollAccessSetupResponse, employer, path=["response"])
+
+    @pytest.mark.skip(reason="Mock server tests are disabled")
+    @parametrize
+    async def test_streaming_response_retrieve_payroll_access_setup(self, async_client: AsyncVitableConnect) -> None:
+        async with async_client.employers.with_streaming_response.retrieve_payroll_access_setup(
+            "empr_abc123def456",
+        ) as response:
+            assert not response.is_closed
+            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+
+            employer = await response.parse()
+            assert_matches_type(EmployerRetrievePayrollAccessSetupResponse, employer, path=["response"])
+
+        assert cast(Any, response.is_closed) is True
+
+    @pytest.mark.skip(reason="Mock server tests are disabled")
+    @parametrize
+    async def test_path_params_retrieve_payroll_access_setup(self, async_client: AsyncVitableConnect) -> None:
+        with pytest.raises(ValueError, match=r"Expected a non-empty value for `employer_id` but received ''"):
+            await async_client.employers.with_raw_response.retrieve_payroll_access_setup(
+                "",
+            )
+
+    @pytest.mark.skip(reason="Mock server tests are disabled")
+    @parametrize
     async def test_method_submit_census_sync(self, async_client: AsyncVitableConnect) -> None:
         employer = await async_client.employers.submit_census_sync(
             employer_id="empr_abc123def456",
@@ -618,14 +1836,12 @@ class TestAsyncEmployers:
                     "email": "jane.doe@acme.com",
                     "first_name": "Jane",
                     "last_name": "Doe",
-                    "phone": "4155550100",
                 },
                 {
                     "date_of_birth": parse_date("1985-11-20"),
                     "email": "john.smith@acme.com",
                     "first_name": "John",
                     "last_name": "Smith",
-                    "phone": "4155550101",
                 },
             ],
         )
@@ -642,14 +1858,12 @@ class TestAsyncEmployers:
                     "email": "jane.doe@acme.com",
                     "first_name": "Jane",
                     "last_name": "Doe",
-                    "phone": "4155550100",
                 },
                 {
                     "date_of_birth": parse_date("1985-11-20"),
                     "email": "john.smith@acme.com",
                     "first_name": "John",
                     "last_name": "Smith",
-                    "phone": "4155550101",
                 },
             ],
         )
@@ -670,14 +1884,12 @@ class TestAsyncEmployers:
                     "email": "jane.doe@acme.com",
                     "first_name": "Jane",
                     "last_name": "Doe",
-                    "phone": "4155550100",
                 },
                 {
                     "date_of_birth": parse_date("1985-11-20"),
                     "email": "john.smith@acme.com",
                     "first_name": "John",
                     "last_name": "Smith",
-                    "phone": "4155550101",
                 },
             ],
         ) as response:
@@ -701,16 +1913,115 @@ class TestAsyncEmployers:
                         "email": "jane.doe@acme.com",
                         "first_name": "Jane",
                         "last_name": "Doe",
-                        "phone": "4155550100",
                     },
                     {
                         "date_of_birth": parse_date("1985-11-20"),
                         "email": "john.smith@acme.com",
                         "first_name": "John",
                         "last_name": "Smith",
-                        "phone": "4155550101",
                     },
                 ],
+            )
+
+    @pytest.mark.skip(reason="Mock server tests are disabled")
+    @parametrize
+    async def test_method_submit_payroll_access_setup(self, async_client: AsyncVitableConnect) -> None:
+        employer = await async_client.employers.submit_payroll_access_setup(
+            employer_id="empr_abc123def456",
+            access_method="SELF_SETUP",
+            all_benefit_eligible_employees_present=True,
+            classifications_accurate=True,
+            employees_in_payroll_acknowledged=True,
+            has_additional_payroll_system=True,
+            is_controlled_group=True,
+            payroll_data_impacts_eligibility_acknowledged=True,
+        )
+        assert_matches_type(EmployerSubmitPayrollAccessSetupResponse, employer, path=["response"])
+
+    @pytest.mark.skip(reason="Mock server tests are disabled")
+    @parametrize
+    async def test_method_submit_payroll_access_setup_with_all_params(self, async_client: AsyncVitableConnect) -> None:
+        employer = await async_client.employers.submit_payroll_access_setup(
+            employer_id="empr_abc123def456",
+            access_method="SELF_SETUP",
+            all_benefit_eligible_employees_present=True,
+            classifications_accurate=True,
+            employees_in_payroll_acknowledged=True,
+            has_additional_payroll_system=True,
+            is_controlled_group=True,
+            payroll_data_impacts_eligibility_acknowledged=True,
+            additional_access_method="SELF_SETUP",
+            additional_integration_confirmed=True,
+            additional_login_url="additional_login_url",
+            additional_password="additional_password",
+            additional_phone="additional_phone",
+            additional_username="additional_username",
+            classification_correction_source="ENTER_NAMES",
+            integration_confirmed=True,
+            login_url="login_url",
+            misclassified_employee_names=["string"],
+            missing_employee_resolution="EMAIL_CENSUS",
+            password="password",
+            phone="phone",
+            remaining_employee_action="VITABLE_UPDATE",
+            same_payroll_covers_other_eins=True,
+            username="username",
+        )
+        assert_matches_type(EmployerSubmitPayrollAccessSetupResponse, employer, path=["response"])
+
+    @pytest.mark.skip(reason="Mock server tests are disabled")
+    @parametrize
+    async def test_raw_response_submit_payroll_access_setup(self, async_client: AsyncVitableConnect) -> None:
+        response = await async_client.employers.with_raw_response.submit_payroll_access_setup(
+            employer_id="empr_abc123def456",
+            access_method="SELF_SETUP",
+            all_benefit_eligible_employees_present=True,
+            classifications_accurate=True,
+            employees_in_payroll_acknowledged=True,
+            has_additional_payroll_system=True,
+            is_controlled_group=True,
+            payroll_data_impacts_eligibility_acknowledged=True,
+        )
+
+        assert response.is_closed is True
+        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        employer = await response.parse()
+        assert_matches_type(EmployerSubmitPayrollAccessSetupResponse, employer, path=["response"])
+
+    @pytest.mark.skip(reason="Mock server tests are disabled")
+    @parametrize
+    async def test_streaming_response_submit_payroll_access_setup(self, async_client: AsyncVitableConnect) -> None:
+        async with async_client.employers.with_streaming_response.submit_payroll_access_setup(
+            employer_id="empr_abc123def456",
+            access_method="SELF_SETUP",
+            all_benefit_eligible_employees_present=True,
+            classifications_accurate=True,
+            employees_in_payroll_acknowledged=True,
+            has_additional_payroll_system=True,
+            is_controlled_group=True,
+            payroll_data_impacts_eligibility_acknowledged=True,
+        ) as response:
+            assert not response.is_closed
+            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+
+            employer = await response.parse()
+            assert_matches_type(EmployerSubmitPayrollAccessSetupResponse, employer, path=["response"])
+
+        assert cast(Any, response.is_closed) is True
+
+    @pytest.mark.skip(reason="Mock server tests are disabled")
+    @parametrize
+    async def test_path_params_submit_payroll_access_setup(self, async_client: AsyncVitableConnect) -> None:
+        with pytest.raises(ValueError, match=r"Expected a non-empty value for `employer_id` but received ''"):
+            await async_client.employers.with_raw_response.submit_payroll_access_setup(
+                employer_id="",
+                access_method="SELF_SETUP",
+                all_benefit_eligible_employees_present=True,
+                classifications_accurate=True,
+                employees_in_payroll_acknowledged=True,
+                has_additional_payroll_system=True,
+                is_controlled_group=True,
+                payroll_data_impacts_eligibility_acknowledged=True,
             )
 
     @pytest.mark.skip(reason="Mock server tests are disabled")

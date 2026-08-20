@@ -1,8 +1,8 @@
 # File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
 from typing import Optional
+from typing_extensions import Literal
 
-from .type import Type
 from .._models import BaseModel
 
 __all__ = ["AuthIssueAccessTokenResponse", "BoundEntity"]
@@ -14,7 +14,7 @@ class BoundEntity(BaseModel):
     id: str
     """Prefixed entity ID the token is bound to (empr*\\** or empl*\\**)"""
 
-    type: Type
+    type: Literal["employer", "employee"]
     """
     - `employer` - employer
     - `employee` - employee

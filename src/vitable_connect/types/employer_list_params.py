@@ -2,14 +2,42 @@
 
 from __future__ import annotations
 
-from typing_extensions import TypedDict
+from typing import List, Optional
+from typing_extensions import Literal, TypedDict
+
+from .._types import SequenceNotStr
 
 __all__ = ["EmployerListParams"]
 
 
 class EmployerListParams(TypedDict, total=False):
+    benefit_family: List[Literal["mec", "mvp", "ichra", "vpc", "dental", "vision"]]
+    """Filter to employers with at least one active benefit in these families."""
+
+    benefit_lifecycle_stage: List[Literal["open_enrollment", "renewal", "active", "onboarding", "cancelled"]]
+    """Filter to employers in one of these computed benefit-lifecycle stages."""
+
+    hris_provider: SequenceNotStr[str]
+    """
+    Filter to employers whose HRIS connection is with one of these payroll providers
+    (e.g. `ADP RUN`). Matched case-insensitively; free text, so read the available
+    values from the HRIS-providers endpoint rather than assuming a fixed set.
+    """
+
+    hris_status: List[Literal["Pending", "Active", "Inactive", "Paused", "Terminated"]]
+    """Filter to employers whose HRIS connection is in one of these statuses."""
+
+    include_cancelled: bool
+    """
+    Include cancelled employers (hidden by default unless their stage is explicitly
+    requested).
+    """
+
     limit: int
-    """Items per page (default: 20, max: 100)"""
+    """Items per page."""
 
     page: int
-    """Page number (default: 1)"""
+    """Page number."""
+
+    search: Optional[str]
+    """Case-insensitive employer-name substring filter."""

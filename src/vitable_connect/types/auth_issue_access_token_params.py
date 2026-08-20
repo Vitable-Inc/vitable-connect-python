@@ -5,8 +5,6 @@ from __future__ import annotations
 from typing import Optional
 from typing_extensions import Literal, Required, TypedDict
 
-from .type import Type
-
 __all__ = ["AuthIssueAccessTokenParams", "BoundEntity"]
 
 
@@ -27,7 +25,7 @@ class BoundEntity(TypedDict, total=False):
     employee)
     """
 
-    type: Required[Type]
+    type: Required[Literal["employer", "employee"]]
     """
     - `employer` - employer
     - `employee` - employee

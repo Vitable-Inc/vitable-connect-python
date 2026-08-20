@@ -86,7 +86,6 @@ class TestSync:
                     "date_of_birth": parse_date("1990-05-15"),
                     "first_name": "Jane",
                     "last_name": "Doe",
-                    "phone": "4155550100",
                     "plan_id": "pln_abc123def456",
                     "reference_id": "EMP-001",
                 }
@@ -110,7 +109,6 @@ class TestSync:
                     "date_of_birth": parse_date("1990-05-15"),
                     "first_name": "Jane",
                     "last_name": "Doe",
-                    "phone": "4155550100",
                     "plan_id": "pln_abc123def456",
                     "reference_id": "EMP-001",
                 }
@@ -138,7 +136,6 @@ class TestSync:
                     "date_of_birth": parse_date("1990-05-15"),
                     "first_name": "Jane",
                     "last_name": "Doe",
-                    "phone": "4155550100",
                     "plan_id": "pln_abc123def456",
                     "reference_id": "EMP-001",
                 }
@@ -169,7 +166,6 @@ class TestSync:
                         "date_of_birth": parse_date("1990-05-15"),
                         "first_name": "Jane",
                         "last_name": "Doe",
-                        "phone": "4155550100",
                         "plan_id": "pln_abc123def456",
                         "reference_id": "EMP-001",
                     }
@@ -250,7 +246,6 @@ class TestAsyncSync:
                     "date_of_birth": parse_date("1990-05-15"),
                     "first_name": "Jane",
                     "last_name": "Doe",
-                    "phone": "4155550100",
                     "plan_id": "pln_abc123def456",
                     "reference_id": "EMP-001",
                 }
@@ -274,7 +269,6 @@ class TestAsyncSync:
                     "date_of_birth": parse_date("1990-05-15"),
                     "first_name": "Jane",
                     "last_name": "Doe",
-                    "phone": "4155550100",
                     "plan_id": "pln_abc123def456",
                     "reference_id": "EMP-001",
                 }
@@ -302,7 +296,6 @@ class TestAsyncSync:
                     "date_of_birth": parse_date("1990-05-15"),
                     "first_name": "Jane",
                     "last_name": "Doe",
-                    "phone": "4155550100",
                     "plan_id": "pln_abc123def456",
                     "reference_id": "EMP-001",
                 }
@@ -333,7 +326,6 @@ class TestAsyncSync:
                         "date_of_birth": parse_date("1990-05-15"),
                         "first_name": "Jane",
                         "last_name": "Doe",
-                        "phone": "4155550100",
                         "plan_id": "pln_abc123def456",
                         "reference_id": "EMP-001",
                     }

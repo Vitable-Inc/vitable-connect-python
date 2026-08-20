@@ -9,7 +9,10 @@ import pytest
 
 from tests.utils import assert_matches_type
 from vitable_connect import VitableConnect, AsyncVitableConnect
-from vitable_connect.types import EnrollmentRetrieveResponse
+from vitable_connect.types import (
+    EnrollmentReissueResponse,
+    EnrollmentRetrieveResponse,
+)
 
 base_url = os.environ.get("TEST_API_BASE_URL", "http://127.0.0.1:4010")
 
@@ -21,7 +24,7 @@ class TestEnrollments:
     @parametrize
     def test_method_retrieve(self, client: VitableConnect) -> None:
         enrollment = client.enrollments.retrieve(
-            "enrl_abc123def456",
+            "enrl_AAAAAAAAAAAAAAAAAAAAAQ",
         )
         assert_matches_type(EnrollmentRetrieveResponse, enrollment, path=["response"])
 
@@ -29,7 +32,7 @@ class TestEnrollments:
     @parametrize
     def test_raw_response_retrieve(self, client: VitableConnect) -> None:
         response = client.enrollments.with_raw_response.retrieve(
-            "enrl_abc123def456",
+            "enrl_AAAAAAAAAAAAAAAAAAAAAQ",
         )
 
         assert response.is_closed is True
@@ -41,7 +44,7 @@ class TestEnrollments:
     @parametrize
     def test_streaming_response_retrieve(self, client: VitableConnect) -> None:
         with client.enrollments.with_streaming_response.retrieve(
-            "enrl_abc123def456",
+            "enrl_AAAAAAAAAAAAAAAAAAAAAQ",
         ) as response:
             assert not response.is_closed
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
@@ -59,6 +62,112 @@ class TestEnrollments:
                 "",
             )
 
+    @pytest.mark.skip(reason="Mock server tests are disabled")
+    @parametrize
+    def test_method_reissue(self, client: VitableConnect) -> None:
+        enrollment = client.enrollments.reissue(
+            enrollment_id="enrl_AAAAAAAAAAAAAAAAAAAAAQ",
+        )
+        assert_matches_type(EnrollmentReissueResponse, enrollment, path=["response"])
+
+    @pytest.mark.skip(reason="Mock server tests are disabled")
+    @parametrize
+    def test_method_reissue_with_all_params(self, client: VitableConnect) -> None:
+        enrollment = client.enrollments.reissue(
+            enrollment_id="enrl_AAAAAAAAAAAAAAAAAAAAAQ",
+            qualifying_life_event_id="qle_AAAAAAAAAAAAAAAAAAAAAQ",
+            reason="Member needs a new election after a qualifying event.",
+            ticket_number="BPT-1234",
+        )
+        assert_matches_type(EnrollmentReissueResponse, enrollment, path=["response"])
+
+    @pytest.mark.skip(reason="Mock server tests are disabled")
+    @parametrize
+    def test_raw_response_reissue(self, client: VitableConnect) -> None:
+        response = client.enrollments.with_raw_response.reissue(
+            enrollment_id="enrl_AAAAAAAAAAAAAAAAAAAAAQ",
+        )
+
+        assert response.is_closed is True
+        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        enrollment = response.parse()
+        assert_matches_type(EnrollmentReissueResponse, enrollment, path=["response"])
+
+    @pytest.mark.skip(reason="Mock server tests are disabled")
+    @parametrize
+    def test_streaming_response_reissue(self, client: VitableConnect) -> None:
+        with client.enrollments.with_streaming_response.reissue(
+            enrollment_id="enrl_AAAAAAAAAAAAAAAAAAAAAQ",
+        ) as response:
+            assert not response.is_closed
+            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+
+            enrollment = response.parse()
+            assert_matches_type(EnrollmentReissueResponse, enrollment, path=["response"])
+
+        assert cast(Any, response.is_closed) is True
+
+    @pytest.mark.skip(reason="Mock server tests are disabled")
+    @parametrize
+    def test_path_params_reissue(self, client: VitableConnect) -> None:
+        with pytest.raises(ValueError, match=r"Expected a non-empty value for `enrollment_id` but received ''"):
+            client.enrollments.with_raw_response.reissue(
+                enrollment_id="",
+            )
+
+    @pytest.mark.skip(reason="Mock server tests are disabled")
+    @parametrize
+    def test_method_terminate(self, client: VitableConnect) -> None:
+        enrollment = client.enrollments.terminate(
+            enrollment_id="enrl_AAAAAAAAAAAAAAAAAAAAAQ",
+        )
+        assert enrollment is None
+
+    @pytest.mark.skip(reason="Mock server tests are disabled")
+    @parametrize
+    def test_method_terminate_with_all_params(self, client: VitableConnect) -> None:
+        enrollment = client.enrollments.terminate(
+            enrollment_id="enrl_AAAAAAAAAAAAAAAAAAAAAQ",
+            qualifying_life_event_id="qle_AAAAAAAAAAAAAAAAAAAAAQ",
+            reason="Member requested coverage termination after a qualifying event.",
+            ticket_number="BPT-1234",
+        )
+        assert enrollment is None
+
+    @pytest.mark.skip(reason="Mock server tests are disabled")
+    @parametrize
+    def test_raw_response_terminate(self, client: VitableConnect) -> None:
+        response = client.enrollments.with_raw_response.terminate(
+            enrollment_id="enrl_AAAAAAAAAAAAAAAAAAAAAQ",
+        )
+
+        assert response.is_closed is True
+        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        enrollment = response.parse()
+        assert enrollment is None
+
+    @pytest.mark.skip(reason="Mock server tests are disabled")
+    @parametrize
+    def test_streaming_response_terminate(self, client: VitableConnect) -> None:
+        with client.enrollments.with_streaming_response.terminate(
+            enrollment_id="enrl_AAAAAAAAAAAAAAAAAAAAAQ",
+        ) as response:
+            assert not response.is_closed
+            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+
+            enrollment = response.parse()
+            assert enrollment is None
+
+        assert cast(Any, response.is_closed) is True
+
+    @pytest.mark.skip(reason="Mock server tests are disabled")
+    @parametrize
+    def test_path_params_terminate(self, client: VitableConnect) -> None:
+        with pytest.raises(ValueError, match=r"Expected a non-empty value for `enrollment_id` but received ''"):
+            client.enrollments.with_raw_response.terminate(
+                enrollment_id="",
+            )
+
 
 class TestAsyncEnrollments:
     parametrize = pytest.mark.parametrize(
@@ -69,7 +178,7 @@ class TestAsyncEnrollments:
     @parametrize
     async def test_method_retrieve(self, async_client: AsyncVitableConnect) -> None:
         enrollment = await async_client.enrollments.retrieve(
-            "enrl_abc123def456",
+            "enrl_AAAAAAAAAAAAAAAAAAAAAQ",
         )
         assert_matches_type(EnrollmentRetrieveResponse, enrollment, path=["response"])
 
@@ -77,7 +186,7 @@ class TestAsyncEnrollments:
     @parametrize
     async def test_raw_response_retrieve(self, async_client: AsyncVitableConnect) -> None:
         response = await async_client.enrollments.with_raw_response.retrieve(
-            "enrl_abc123def456",
+            "enrl_AAAAAAAAAAAAAAAAAAAAAQ",
         )
 
         assert response.is_closed is True
@@ -89,7 +198,7 @@ class TestAsyncEnrollments:
     @parametrize
     async def test_streaming_response_retrieve(self, async_client: AsyncVitableConnect) -> None:
         async with async_client.enrollments.with_streaming_response.retrieve(
-            "enrl_abc123def456",
+            "enrl_AAAAAAAAAAAAAAAAAAAAAQ",
         ) as response:
             assert not response.is_closed
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
@@ -105,4 +214,110 @@ class TestAsyncEnrollments:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `enrollment_id` but received ''"):
             await async_client.enrollments.with_raw_response.retrieve(
                 "",
+            )
+
+    @pytest.mark.skip(reason="Mock server tests are disabled")
+    @parametrize
+    async def test_method_reissue(self, async_client: AsyncVitableConnect) -> None:
+        enrollment = await async_client.enrollments.reissue(
+            enrollment_id="enrl_AAAAAAAAAAAAAAAAAAAAAQ",
+        )
+        assert_matches_type(EnrollmentReissueResponse, enrollment, path=["response"])
+
+    @pytest.mark.skip(reason="Mock server tests are disabled")
+    @parametrize
+    async def test_method_reissue_with_all_params(self, async_client: AsyncVitableConnect) -> None:
+        enrollment = await async_client.enrollments.reissue(
+            enrollment_id="enrl_AAAAAAAAAAAAAAAAAAAAAQ",
+            qualifying_life_event_id="qle_AAAAAAAAAAAAAAAAAAAAAQ",
+            reason="Member needs a new election after a qualifying event.",
+            ticket_number="BPT-1234",
+        )
+        assert_matches_type(EnrollmentReissueResponse, enrollment, path=["response"])
+
+    @pytest.mark.skip(reason="Mock server tests are disabled")
+    @parametrize
+    async def test_raw_response_reissue(self, async_client: AsyncVitableConnect) -> None:
+        response = await async_client.enrollments.with_raw_response.reissue(
+            enrollment_id="enrl_AAAAAAAAAAAAAAAAAAAAAQ",
+        )
+
+        assert response.is_closed is True
+        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        enrollment = await response.parse()
+        assert_matches_type(EnrollmentReissueResponse, enrollment, path=["response"])
+
+    @pytest.mark.skip(reason="Mock server tests are disabled")
+    @parametrize
+    async def test_streaming_response_reissue(self, async_client: AsyncVitableConnect) -> None:
+        async with async_client.enrollments.with_streaming_response.reissue(
+            enrollment_id="enrl_AAAAAAAAAAAAAAAAAAAAAQ",
+        ) as response:
+            assert not response.is_closed
+            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+
+            enrollment = await response.parse()
+            assert_matches_type(EnrollmentReissueResponse, enrollment, path=["response"])
+
+        assert cast(Any, response.is_closed) is True
+
+    @pytest.mark.skip(reason="Mock server tests are disabled")
+    @parametrize
+    async def test_path_params_reissue(self, async_client: AsyncVitableConnect) -> None:
+        with pytest.raises(ValueError, match=r"Expected a non-empty value for `enrollment_id` but received ''"):
+            await async_client.enrollments.with_raw_response.reissue(
+                enrollment_id="",
+            )
+
+    @pytest.mark.skip(reason="Mock server tests are disabled")
+    @parametrize
+    async def test_method_terminate(self, async_client: AsyncVitableConnect) -> None:
+        enrollment = await async_client.enrollments.terminate(
+            enrollment_id="enrl_AAAAAAAAAAAAAAAAAAAAAQ",
+        )
+        assert enrollment is None
+
+    @pytest.mark.skip(reason="Mock server tests are disabled")
+    @parametrize
+    async def test_method_terminate_with_all_params(self, async_client: AsyncVitableConnect) -> None:
+        enrollment = await async_client.enrollments.terminate(
+            enrollment_id="enrl_AAAAAAAAAAAAAAAAAAAAAQ",
+            qualifying_life_event_id="qle_AAAAAAAAAAAAAAAAAAAAAQ",
+            reason="Member requested coverage termination after a qualifying event.",
+            ticket_number="BPT-1234",
+        )
+        assert enrollment is None
+
+    @pytest.mark.skip(reason="Mock server tests are disabled")
+    @parametrize
+    async def test_raw_response_terminate(self, async_client: AsyncVitableConnect) -> None:
+        response = await async_client.enrollments.with_raw_response.terminate(
+            enrollment_id="enrl_AAAAAAAAAAAAAAAAAAAAAQ",
+        )
+
+        assert response.is_closed is True
+        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        enrollment = await response.parse()
+        assert enrollment is None
+
+    @pytest.mark.skip(reason="Mock server tests are disabled")
+    @parametrize
+    async def test_streaming_response_terminate(self, async_client: AsyncVitableConnect) -> None:
+        async with async_client.enrollments.with_streaming_response.terminate(
+            enrollment_id="enrl_AAAAAAAAAAAAAAAAAAAAAQ",
+        ) as response:
+            assert not response.is_closed
+            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+
+            enrollment = await response.parse()
+            assert enrollment is None
+
+        assert cast(Any, response.is_closed) is True
+
+    @pytest.mark.skip(reason="Mock server tests are disabled")
+    @parametrize
+    async def test_path_params_terminate(self, async_client: AsyncVitableConnect) -> None:
+        with pytest.raises(ValueError, match=r"Expected a non-empty value for `enrollment_id` but received ''"):
+            await async_client.enrollments.with_raw_response.terminate(
+                enrollment_id="",
             )

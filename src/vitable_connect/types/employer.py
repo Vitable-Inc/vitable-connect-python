@@ -5,7 +5,7 @@ from datetime import datetime
 
 from .._models import BaseModel
 
-__all__ = ["Employer", "Address"]
+__all__ = ["Employer", "Address", "Contact"]
 
 
 class Address(BaseModel):
@@ -27,6 +27,18 @@ class Address(BaseModel):
     """Secondary street address (apt, suite, etc.)"""
 
 
+class Contact(BaseModel):
+    """
+    Primary company-admin contact (email + phone; company admins have no person name).
+    """
+
+    email: Optional[str] = None
+    """Primary contact email"""
+
+    phone: Optional[str] = None
+    """Primary contact phone, or null"""
+
+
 class Employer(BaseModel):
     """Serializer for Employer entity in public API responses."""
 
@@ -38,6 +50,12 @@ class Employer(BaseModel):
 
     address: Address
     """Nested address within EmployerSerializer."""
+
+    contact: Optional[Contact] = None
+    """
+    Primary company-admin contact (email + phone; company admins have no person
+    name).
+    """
 
     created_at: datetime
     """Timestamp when the employer was created"""
