@@ -1,5 +1,36 @@
 # Changelog
 
+## 0.9.0 (2026-08-20)
+
+Full Changelog: [v0.8.0...v0.9.0](https://github.com/Vitable-Inc/vitable-connect-python/compare/v0.8.0...v0.9.0)
+
+### Features
+
+* **api:** api update ([7412f2e](https://github.com/Vitable-Inc/vitable-connect-python/commit/7412f2e62688341085b2d241cddbea3cdf1d1da7))
+* **api:** api update ([2509ddc](https://github.com/Vitable-Inc/vitable-connect-python/commit/2509ddcb6ff5eb1d439bfb9a56e54b95e60a1d9d))
+* **api:** api update ([cd74e20](https://github.com/Vitable-Inc/vitable-connect-python/commit/cd74e20f7384394276ff090d91171f8f24527c3e))
+* **api:** api update ([11e1453](https://github.com/Vitable-Inc/vitable-connect-python/commit/11e1453884a7e36e30bd1e9b631be3ff973440eb))
+* **api:** api update ([a0f88e6](https://github.com/Vitable-Inc/vitable-connect-python/commit/a0f88e6af1065f98e613a1ac333795d28fb91970))
+* **api:** api update ([6ca7ac5](https://github.com/Vitable-Inc/vitable-connect-python/commit/6ca7ac5bbf038dcfcb120fcf78090f40635c8788))
+* **api:** api update ([6de883d](https://github.com/Vitable-Inc/vitable-connect-python/commit/6de883dae776c613f6d315e52c4fb681a57a4eb8))
+* **api:** api update ([abe2e5c](https://github.com/Vitable-Inc/vitable-connect-python/commit/abe2e5c77f7dbc7108edc2c6004c0fbebf16da5b))
+* **api:** api update ([7a08626](https://github.com/Vitable-Inc/vitable-connect-python/commit/7a08626418c51b6c2ebd92b907c30d9a4ede81bc))
+* **api:** api update ([1275787](https://github.com/Vitable-Inc/vitable-connect-python/commit/1275787206e5ab26299cb68641ec8ed5e068ef61))
+* **api:** api update ([8fa7020](https://github.com/Vitable-Inc/vitable-connect-python/commit/8fa70208d70951f8b6f9e696f7206d9609b251d2))
+* **api:** configure all public v1 endpoints and drop dangling Type model ref ([6dc6ff2](https://github.com/Vitable-Inc/vitable-connect-python/commit/6dc6ff2b67ace879553a99526e479912c2b3ff41))
+* **stlc:** configurable CI runner and private-production-repo support in workflow templates ([e6d3d00](https://github.com/Vitable-Inc/vitable-connect-python/commit/e6d3d00dd86edcf327d4d207ec518cce9c0c7dbc))
+
+
+### Bug Fixes
+
+* **client:** bind IdentityProviderBearer to an identity_token client option ([de364d8](https://github.com/Vitable-Inc/vitable-connect-python/commit/de364d88d90d7b1e8c7b7815ad5904bb6de0dbba))
+* **internal:** resolve build failures ([d424005](https://github.com/Vitable-Inc/vitable-connect-python/commit/d424005af9acf931ea77e97fb139718237e55ede))
+
+
+### Refactors
+
+* **api:** drop the IdP session endpoints from the SDK surface ([2a24109](https://github.com/Vitable-Inc/vitable-connect-python/commit/2a24109cd514c9ff714ee167641b36f4cccc3a8e))
+
 ## 0.8.0 (2026-06-18)
 
 Full Changelog: [v0.7.0...v0.8.0](https://github.com/Vitable-Inc/vitable-connect-python/compare/v0.7.0...v0.8.0)
