@@ -83,7 +83,11 @@ class MembersResource(SyncAPIResource):
         return self._get(
             path_template("/v1/members/{member_id}", member_id=member_id),
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
+                security={"api_key_auth": True},
             ),
             cast_to=MemberRetrieveResponse,
         )
@@ -138,6 +142,7 @@ class MembersResource(SyncAPIResource):
                     },
                     member_list_params.MemberListParams,
                 ),
+                security={"api_key_auth": True},
             ),
             model=MemberListResponse,
         )
@@ -172,7 +177,11 @@ class MembersResource(SyncAPIResource):
         return self._get(
             path_template("/v1/members/{member_id}/dependents", member_id=member_id),
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
+                security={"api_key_auth": True},
             ),
             cast_to=MemberListDependentsResponse,
         )
@@ -209,7 +218,11 @@ class MembersResource(SyncAPIResource):
         return self._get(
             path_template("/v1/members/{member_id}/employments", member_id=member_id),
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
+                security={"api_key_auth": True},
             ),
             cast_to=MemberListEmploymentsResponse,
         )
@@ -256,7 +269,11 @@ class MembersResource(SyncAPIResource):
         return self._get(
             path_template("/v1/members/{member_id}/enrollments", member_id=member_id),
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
+                security={"api_key_auth": True},
             ),
             cast_to=MemberListEnrollmentsResponse,
         )
@@ -296,7 +313,11 @@ class MembersResource(SyncAPIResource):
         return self._get(
             path_template("/v1/members/{member_id}/id-cards", member_id=member_id),
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
+                security={"api_key_auth": True},
             ),
             cast_to=MemberListIDCardsResponse,
         )
@@ -359,6 +380,7 @@ class MembersResource(SyncAPIResource):
                     },
                     member_list_qualifying_life_events_params.MemberListQualifyingLifeEventsParams,
                 ),
+                security={"api_key_auth": True},
             ),
             model=MemberListQualifyingLifeEventsResponse,
         )
@@ -395,7 +417,11 @@ class MembersResource(SyncAPIResource):
         return self._get(
             path_template("/v1/members/{member_id}/household", member_id=member_id),
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
+                security={"api_key_auth": True},
             ),
             cast_to=MemberRetrieveHouseholdResponse,
         )
@@ -453,7 +479,11 @@ class AsyncMembersResource(AsyncAPIResource):
         return await self._get(
             path_template("/v1/members/{member_id}", member_id=member_id),
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
+                security={"api_key_auth": True},
             ),
             cast_to=MemberRetrieveResponse,
         )
@@ -508,6 +538,7 @@ class AsyncMembersResource(AsyncAPIResource):
                     },
                     member_list_params.MemberListParams,
                 ),
+                security={"api_key_auth": True},
             ),
             model=MemberListResponse,
         )
@@ -542,7 +573,11 @@ class AsyncMembersResource(AsyncAPIResource):
         return await self._get(
             path_template("/v1/members/{member_id}/dependents", member_id=member_id),
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
+                security={"api_key_auth": True},
             ),
             cast_to=MemberListDependentsResponse,
         )
@@ -579,7 +614,11 @@ class AsyncMembersResource(AsyncAPIResource):
         return await self._get(
             path_template("/v1/members/{member_id}/employments", member_id=member_id),
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
+                security={"api_key_auth": True},
             ),
             cast_to=MemberListEmploymentsResponse,
         )
@@ -626,7 +665,11 @@ class AsyncMembersResource(AsyncAPIResource):
         return await self._get(
             path_template("/v1/members/{member_id}/enrollments", member_id=member_id),
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
+                security={"api_key_auth": True},
             ),
             cast_to=MemberListEnrollmentsResponse,
         )
@@ -666,7 +709,11 @@ class AsyncMembersResource(AsyncAPIResource):
         return await self._get(
             path_template("/v1/members/{member_id}/id-cards", member_id=member_id),
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
+                security={"api_key_auth": True},
             ),
             cast_to=MemberListIDCardsResponse,
         )
@@ -731,6 +778,7 @@ class AsyncMembersResource(AsyncAPIResource):
                     },
                     member_list_qualifying_life_events_params.MemberListQualifyingLifeEventsParams,
                 ),
+                security={"api_key_auth": True},
             ),
             model=MemberListQualifyingLifeEventsResponse,
         )
@@ -767,7 +815,11 @@ class AsyncMembersResource(AsyncAPIResource):
         return await self._get(
             path_template("/v1/members/{member_id}/household", member_id=member_id),
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
+                security={"api_key_auth": True},
             ),
             cast_to=MemberRetrieveHouseholdResponse,
         )

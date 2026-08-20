@@ -76,7 +76,11 @@ class EnrollmentsResource(SyncAPIResource):
         return self._get(
             path_template("/v1/enrollments/{enrollment_id}", enrollment_id=enrollment_id),
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
+                security={"api_key_auth": True},
             ),
             cast_to=EnrollmentRetrieveResponse,
         )
@@ -137,7 +141,11 @@ class EnrollmentsResource(SyncAPIResource):
                 enrollment_reissue_params.EnrollmentReissueParams,
             ),
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
+                security={"api_key_auth": True},
             ),
             cast_to=EnrollmentReissueResponse,
         )
@@ -197,7 +205,11 @@ class EnrollmentsResource(SyncAPIResource):
                 enrollment_terminate_params.EnrollmentTerminateParams,
             ),
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
+                security={"api_key_auth": True},
             ),
             cast_to=NoneType,
         )
@@ -255,7 +267,11 @@ class AsyncEnrollmentsResource(AsyncAPIResource):
         return await self._get(
             path_template("/v1/enrollments/{enrollment_id}", enrollment_id=enrollment_id),
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
+                security={"api_key_auth": True},
             ),
             cast_to=EnrollmentRetrieveResponse,
         )
@@ -316,7 +332,11 @@ class AsyncEnrollmentsResource(AsyncAPIResource):
                 enrollment_reissue_params.EnrollmentReissueParams,
             ),
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
+                security={"api_key_auth": True},
             ),
             cast_to=EnrollmentReissueResponse,
         )
@@ -376,7 +396,11 @@ class AsyncEnrollmentsResource(AsyncAPIResource):
                 enrollment_terminate_params.EnrollmentTerminateParams,
             ),
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
+                security={"api_key_auth": True},
             ),
             cast_to=NoneType,
         )

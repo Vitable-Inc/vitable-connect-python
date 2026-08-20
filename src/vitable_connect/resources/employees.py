@@ -84,7 +84,11 @@ class EmployeesResource(SyncAPIResource):
         return self._get(
             path_template("/v1/employees/{employee_id}", employee_id=employee_id),
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
+                security={"api_key_auth": True},
             ),
             cast_to=EmployeeRetrieveResponse,
         )
@@ -172,7 +176,11 @@ class EmployeesResource(SyncAPIResource):
                 employee_update_params.EmployeeUpdateParams,
             ),
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
+                security={"api_key_auth": True},
             ),
             cast_to=EmployeeUpdateResponse,
         )
@@ -225,6 +233,7 @@ class EmployeesResource(SyncAPIResource):
                     },
                     employee_list_enrollments_params.EmployeeListEnrollmentsParams,
                 ),
+                security={"api_key_auth": True},
             ),
             model=Enrollment,
         )
@@ -285,7 +294,11 @@ class AsyncEmployeesResource(AsyncAPIResource):
         return await self._get(
             path_template("/v1/employees/{employee_id}", employee_id=employee_id),
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
+                security={"api_key_auth": True},
             ),
             cast_to=EmployeeRetrieveResponse,
         )
@@ -373,7 +386,11 @@ class AsyncEmployeesResource(AsyncAPIResource):
                 employee_update_params.EmployeeUpdateParams,
             ),
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
+                security={"api_key_auth": True},
             ),
             cast_to=EmployeeUpdateResponse,
         )
@@ -426,6 +443,7 @@ class AsyncEmployeesResource(AsyncAPIResource):
                     },
                     employee_list_enrollments_params.EmployeeListEnrollmentsParams,
                 ),
+                security={"api_key_auth": True},
             ),
             model=Enrollment,
         )
