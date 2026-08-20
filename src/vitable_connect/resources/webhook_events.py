@@ -78,11 +78,7 @@ class WebhookEventsResource(SyncAPIResource):
         return self._get(
             path_template("/v1/webhook-events/{event_id}", event_id=event_id),
             options=make_request_options(
-                extra_headers=extra_headers,
-                extra_query=extra_query,
-                extra_body=extra_body,
-                timeout=timeout,
-                security={"api_key_auth": True},
+                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
             cast_to=WebhookEventRetrieveResponse,
         )
@@ -174,7 +170,6 @@ class WebhookEventsResource(SyncAPIResource):
                     },
                     webhook_event_list_params.WebhookEventListParams,
                 ),
-                security={"api_key_auth": True},
             ),
             model=WebhookEvent,
         )
@@ -210,11 +205,7 @@ class WebhookEventsResource(SyncAPIResource):
         return self._get(
             path_template("/v1/webhook-events/{event_id}/deliveries", event_id=event_id),
             options=make_request_options(
-                extra_headers=extra_headers,
-                extra_query=extra_query,
-                extra_body=extra_body,
-                timeout=timeout,
-                security={"api_key_auth": True},
+                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
             cast_to=WebhookEventListDeliveriesResponse,
         )
@@ -270,11 +261,7 @@ class AsyncWebhookEventsResource(AsyncAPIResource):
         return await self._get(
             path_template("/v1/webhook-events/{event_id}", event_id=event_id),
             options=make_request_options(
-                extra_headers=extra_headers,
-                extra_query=extra_query,
-                extra_body=extra_body,
-                timeout=timeout,
-                security={"api_key_auth": True},
+                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
             cast_to=WebhookEventRetrieveResponse,
         )
@@ -366,7 +353,6 @@ class AsyncWebhookEventsResource(AsyncAPIResource):
                     },
                     webhook_event_list_params.WebhookEventListParams,
                 ),
-                security={"api_key_auth": True},
             ),
             model=WebhookEvent,
         )
@@ -402,11 +388,7 @@ class AsyncWebhookEventsResource(AsyncAPIResource):
         return await self._get(
             path_template("/v1/webhook-events/{event_id}/deliveries", event_id=event_id),
             options=make_request_options(
-                extra_headers=extra_headers,
-                extra_query=extra_query,
-                extra_body=extra_body,
-                timeout=timeout,
-                security={"api_key_auth": True},
+                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
             cast_to=WebhookEventListDeliveriesResponse,
         )
