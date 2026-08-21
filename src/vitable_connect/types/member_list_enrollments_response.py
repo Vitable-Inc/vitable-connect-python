@@ -23,6 +23,12 @@ class Data(BaseModel):
     - `Hospital` - Hospital
     """
 
+    cancelled_date: Optional[date] = None
+    """
+    Earliest applicable coverage boundary (YYYY-MM-DD) when coverage was cancelled
+    before its effective start; null unless the enrollment was cancelled
+    """
+
     election_status: Literal["Enrolled", "Waived", "Pending", "Expired"]
     """
     - `Enrolled` - Enrolled
@@ -55,11 +61,12 @@ class Data(BaseModel):
     enrollment's coverage_end; null when the plan year is open-ended
     """
 
-    policy_status: Optional[Literal["Coverage Upcoming", "Coverage Effective", "Coverage Ended"]] = None
+    policy_status: Optional[Literal["Coverage Upcoming", "Coverage Effective", "Coverage Ended", "Cancelled"]] = None
     """
     - `Coverage Upcoming` - Coverage Upcoming
     - `Coverage Effective` - Coverage Effective
     - `Coverage Ended` - Coverage Ended
+    - `Cancelled` - Cancelled
     """
 
     product_code: Literal[

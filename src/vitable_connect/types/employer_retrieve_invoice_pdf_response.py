@@ -2,9 +2,15 @@
 
 from .._models import BaseModel
 
-__all__ = ["EmployerRetrieveInvoicePdfResponse"]
+__all__ = ["EmployerRetrieveInvoicePdfResponse", "Data"]
+
+
+class Data(BaseModel):
+    download_url: str
+    """Time-limited Chargebee PDF download link for the invoice."""
 
 
 class EmployerRetrieveInvoicePdfResponse(BaseModel):
-    download_url: str
-    """Time-limited Chargebee PDF download link for the invoice."""
+    """Response containing a single employer invoice pdf resource."""
+
+    data: Data
