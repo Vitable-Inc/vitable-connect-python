@@ -9,7 +9,13 @@ __all__ = ["EmployerListHRISProvidersResponse", "Data"]
 
 class Data(BaseModel):
     provider: str
-    """HRIS/payroll provider name, as stored on the connection (e.g. `ADP RUN`)."""
+    """HRIS/payroll provider id, as stored on the connection (e.g.
+
+    `adp_run`). Filter with this.
+    """
+
+    provider_label: str
+    """Display name of that provider (e.g. `ADP Run`)."""
 
 
 class EmployerListHRISProvidersResponse(BaseModel):

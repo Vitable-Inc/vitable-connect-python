@@ -60,7 +60,13 @@ class HRISStatus(BaseModel):
     """HRIS connection, or null when the employer has none."""
 
     provider: str
-    """HRIS/payroll provider the employer is connected to (e.g. `Paychex`)."""
+    """Id of the HRIS/payroll provider the employer is connected to (e.g.
+
+    `paylocity`).
+    """
+
+    provider_label: str
+    """Display name of that provider (e.g. `Paylocity`)."""
 
     status: str
     """Connection status reported by the integration."""

@@ -229,7 +229,8 @@ class MembersResource(SyncAPIResource):
         Lists a member's benefit enrollments across every employer — benefit type and
         product, employer, carrier, plan, tier, employee deduction, employer
         contribution and total premium, the individual enrollment coverage boundary
-        (`coverage_end`), the distinct benefit plan-year boundary
+        (`coverage_end`), the separate pre-effective cancellation boundary
+        (`cancelled_date`), and the distinct benefit plan-year boundary
         (`plan_year_coverage_end`) used to determine whether the plan year itself has
         ended, whether a qualifying life event would currently be required for reissue
         under the product/open-enrollment rule, enrollment/open-enrollment window, and
@@ -599,7 +600,8 @@ class AsyncMembersResource(AsyncAPIResource):
         Lists a member's benefit enrollments across every employer — benefit type and
         product, employer, carrier, plan, tier, employee deduction, employer
         contribution and total premium, the individual enrollment coverage boundary
-        (`coverage_end`), the distinct benefit plan-year boundary
+        (`coverage_end`), the separate pre-effective cancellation boundary
+        (`cancelled_date`), and the distinct benefit plan-year boundary
         (`plan_year_coverage_end`) used to determine whether the plan year itself has
         ended, whether a qualifying life event would currently be required for reissue
         under the product/open-enrollment rule, enrollment/open-enrollment window, and

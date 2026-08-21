@@ -543,8 +543,9 @@ class EmployersResource(SyncAPIResource):
         """
         Returns the distinct HRIS/payroll providers across the same book
         `GET /v1/employers` returns, sorted for display. Use these as the values for the
-        employers list's `hris_provider` filter — the providers are free text, so they
-        cannot be enumerated in advance.
+        employers list's `hris_provider` filter — filter on `provider`, show
+        `provider_label`. The stored providers are free text, so they cannot be
+        enumerated in advance.
         """
         return self._get(
             "/v1/employers/hris-providers",
@@ -1516,8 +1517,9 @@ class AsyncEmployersResource(AsyncAPIResource):
         """
         Returns the distinct HRIS/payroll providers across the same book
         `GET /v1/employers` returns, sorted for display. Use these as the values for the
-        employers list's `hris_provider` filter — the providers are free text, so they
-        cannot be enumerated in advance.
+        employers list's `hris_provider` filter — filter on `provider`, show
+        `provider_label`. The stored providers are free text, so they cannot be
+        enumerated in advance.
         """
         return await self._get(
             "/v1/employers/hris-providers",

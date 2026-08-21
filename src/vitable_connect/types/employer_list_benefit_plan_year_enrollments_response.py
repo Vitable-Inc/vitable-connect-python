@@ -69,11 +69,12 @@ class EmployerListBenefitPlanYearEnrollmentsResponse(BaseModel):
     plan: Optional[str] = None
     """Chosen plan name, or null when unanswered/waived."""
 
-    policy_status: Optional[Literal["Coverage Upcoming", "Coverage Effective", "Coverage Ended"]] = None
+    policy_status: Optional[Literal["Coverage Upcoming", "Coverage Effective", "Coverage Ended", "Cancelled"]] = None
     """
     - `Coverage Upcoming` - Coverage Upcoming
     - `Coverage Effective` - Coverage Effective
     - `Coverage Ended` - Coverage Ended
+    - `Cancelled` - Cancelled
     """
 
     premium_in_cents: Optional[int] = None
