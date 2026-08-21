@@ -15,6 +15,9 @@ class Data(BaseModel):
     id: str
     """Opaque, stable enrollment identifier used to target enrollment actions"""
 
+    benefit_plan_year_id: str
+    """Exact benefit plan-year identifier for this enrollment"""
+
     benefit_type: Literal["Medical", "Dental", "Vision", "Hospital"]
     """
     - `Medical` - Medical
@@ -36,6 +39,9 @@ class Data(BaseModel):
     - `Pending` - Pending
     - `Expired` - Expired
     """
+
+    employer_id: str
+    """Exact employer identifier for this enrollment"""
 
     employer_name: str
     """Name of the employer the enrollment is through"""

@@ -43,6 +43,15 @@ class DataContributionStrategyContributionTier(BaseModel):
     cost_per_dependent: int
     """Monthly employee deduction per dependent, in cents."""
 
+    coverage_tier: Literal["Unspecified", "EE", "ES", "EC", "EF"]
+    """
+    - `Unspecified` - Unspecified
+    - `EE` - EE
+    - `ES` - ES
+    - `EC` - EC
+    - `EF` - EF
+    """
+
     dependents_required_in: bool
     """Whether dependents are required for this tier."""
 
@@ -83,10 +92,10 @@ class DataContributionStrategyIchraContributionClass(BaseModel):
     family_status: Literal["Unspecified", "EE", "ES", "EC", "EF"]
     """
     - `Unspecified` - Unspecified
-    - `EE` - Ee
-    - `ES` - Es
-    - `EC` - Ec
-    - `EF` - Ef
+    - `EE` - EE
+    - `ES` - ES
+    - `EC` - EC
+    - `EF` - EF
     """
 
     location: Literal["Unspecified", "State"]

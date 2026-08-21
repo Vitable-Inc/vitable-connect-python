@@ -61,7 +61,7 @@ class Employer(BaseModel):
     """Timestamp when the employer was created"""
 
     ein: Optional[str] = None
-    """Employer Identification Number (masked in responses)"""
+    """Employer Identification Number (format: XX-XXXXXXX)"""
 
     legal_name: str
     """Legal business name for compliance and tax purposes"""
