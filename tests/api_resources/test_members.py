@@ -31,7 +31,7 @@ class TestMembers:
     @parametrize
     def test_method_retrieve(self, client: VitableConnect) -> None:
         member = client.members.retrieve(
-            "member_id",
+            "mbr_abc123def456",
         )
         assert_matches_type(MemberRetrieveResponse, member, path=["response"])
 
@@ -39,7 +39,7 @@ class TestMembers:
     @parametrize
     def test_raw_response_retrieve(self, client: VitableConnect) -> None:
         response = client.members.with_raw_response.retrieve(
-            "member_id",
+            "mbr_abc123def456",
         )
 
         assert response.is_closed is True
@@ -51,7 +51,7 @@ class TestMembers:
     @parametrize
     def test_streaming_response_retrieve(self, client: VitableConnect) -> None:
         with client.members.with_streaming_response.retrieve(
-            "member_id",
+            "mbr_abc123def456",
         ) as response:
             assert not response.is_closed
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
@@ -111,7 +111,7 @@ class TestMembers:
     @parametrize
     def test_method_list_dependents(self, client: VitableConnect) -> None:
         member = client.members.list_dependents(
-            "member_id",
+            "mbr_abc123def456",
         )
         assert_matches_type(MemberListDependentsResponse, member, path=["response"])
 
@@ -119,7 +119,7 @@ class TestMembers:
     @parametrize
     def test_raw_response_list_dependents(self, client: VitableConnect) -> None:
         response = client.members.with_raw_response.list_dependents(
-            "member_id",
+            "mbr_abc123def456",
         )
 
         assert response.is_closed is True
@@ -131,7 +131,7 @@ class TestMembers:
     @parametrize
     def test_streaming_response_list_dependents(self, client: VitableConnect) -> None:
         with client.members.with_streaming_response.list_dependents(
-            "member_id",
+            "mbr_abc123def456",
         ) as response:
             assert not response.is_closed
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
@@ -153,7 +153,7 @@ class TestMembers:
     @parametrize
     def test_method_list_employments(self, client: VitableConnect) -> None:
         member = client.members.list_employments(
-            "member_id",
+            "mbr_abc123def456",
         )
         assert_matches_type(MemberListEmploymentsResponse, member, path=["response"])
 
@@ -161,7 +161,7 @@ class TestMembers:
     @parametrize
     def test_raw_response_list_employments(self, client: VitableConnect) -> None:
         response = client.members.with_raw_response.list_employments(
-            "member_id",
+            "mbr_abc123def456",
         )
 
         assert response.is_closed is True
@@ -173,7 +173,7 @@ class TestMembers:
     @parametrize
     def test_streaming_response_list_employments(self, client: VitableConnect) -> None:
         with client.members.with_streaming_response.list_employments(
-            "member_id",
+            "mbr_abc123def456",
         ) as response:
             assert not response.is_closed
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
@@ -195,7 +195,7 @@ class TestMembers:
     @parametrize
     def test_method_list_enrollments(self, client: VitableConnect) -> None:
         member = client.members.list_enrollments(
-            "member_id",
+            "mbr_abc123def456",
         )
         assert_matches_type(MemberListEnrollmentsResponse, member, path=["response"])
 
@@ -203,7 +203,7 @@ class TestMembers:
     @parametrize
     def test_raw_response_list_enrollments(self, client: VitableConnect) -> None:
         response = client.members.with_raw_response.list_enrollments(
-            "member_id",
+            "mbr_abc123def456",
         )
 
         assert response.is_closed is True
@@ -215,7 +215,7 @@ class TestMembers:
     @parametrize
     def test_streaming_response_list_enrollments(self, client: VitableConnect) -> None:
         with client.members.with_streaming_response.list_enrollments(
-            "member_id",
+            "mbr_abc123def456",
         ) as response:
             assert not response.is_closed
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
@@ -237,7 +237,7 @@ class TestMembers:
     @parametrize
     def test_method_list_id_cards(self, client: VitableConnect) -> None:
         member = client.members.list_id_cards(
-            "member_id",
+            "mbr_abc123def456",
         )
         assert_matches_type(MemberListIDCardsResponse, member, path=["response"])
 
@@ -245,7 +245,7 @@ class TestMembers:
     @parametrize
     def test_raw_response_list_id_cards(self, client: VitableConnect) -> None:
         response = client.members.with_raw_response.list_id_cards(
-            "member_id",
+            "mbr_abc123def456",
         )
 
         assert response.is_closed is True
@@ -257,7 +257,7 @@ class TestMembers:
     @parametrize
     def test_streaming_response_list_id_cards(self, client: VitableConnect) -> None:
         with client.members.with_streaming_response.list_id_cards(
-            "member_id",
+            "mbr_abc123def456",
         ) as response:
             assert not response.is_closed
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
@@ -279,7 +279,7 @@ class TestMembers:
     @parametrize
     def test_method_list_qualifying_life_events(self, client: VitableConnect) -> None:
         member = client.members.list_qualifying_life_events(
-            member_id="member_id",
+            member_id="mbr_abc123def456",
         )
         assert_matches_type(SyncPageNumberPage[MemberListQualifyingLifeEventsResponse], member, path=["response"])
 
@@ -287,7 +287,7 @@ class TestMembers:
     @parametrize
     def test_method_list_qualifying_life_events_with_all_params(self, client: VitableConnect) -> None:
         member = client.members.list_qualifying_life_events(
-            member_id="member_id",
+            member_id="mbr_abc123def456",
             limit=20,
             page=1,
             status="approved",
@@ -298,7 +298,7 @@ class TestMembers:
     @parametrize
     def test_raw_response_list_qualifying_life_events(self, client: VitableConnect) -> None:
         response = client.members.with_raw_response.list_qualifying_life_events(
-            member_id="member_id",
+            member_id="mbr_abc123def456",
         )
 
         assert response.is_closed is True
@@ -310,7 +310,7 @@ class TestMembers:
     @parametrize
     def test_streaming_response_list_qualifying_life_events(self, client: VitableConnect) -> None:
         with client.members.with_streaming_response.list_qualifying_life_events(
-            member_id="member_id",
+            member_id="mbr_abc123def456",
         ) as response:
             assert not response.is_closed
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
@@ -332,7 +332,7 @@ class TestMembers:
     @parametrize
     def test_method_retrieve_household(self, client: VitableConnect) -> None:
         member = client.members.retrieve_household(
-            "member_id",
+            "mbr_abc123def456",
         )
         assert_matches_type(MemberRetrieveHouseholdResponse, member, path=["response"])
 
@@ -340,7 +340,7 @@ class TestMembers:
     @parametrize
     def test_raw_response_retrieve_household(self, client: VitableConnect) -> None:
         response = client.members.with_raw_response.retrieve_household(
-            "member_id",
+            "mbr_abc123def456",
         )
 
         assert response.is_closed is True
@@ -352,7 +352,7 @@ class TestMembers:
     @parametrize
     def test_streaming_response_retrieve_household(self, client: VitableConnect) -> None:
         with client.members.with_streaming_response.retrieve_household(
-            "member_id",
+            "mbr_abc123def456",
         ) as response:
             assert not response.is_closed
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
@@ -380,7 +380,7 @@ class TestAsyncMembers:
     @parametrize
     async def test_method_retrieve(self, async_client: AsyncVitableConnect) -> None:
         member = await async_client.members.retrieve(
-            "member_id",
+            "mbr_abc123def456",
         )
         assert_matches_type(MemberRetrieveResponse, member, path=["response"])
 
@@ -388,7 +388,7 @@ class TestAsyncMembers:
     @parametrize
     async def test_raw_response_retrieve(self, async_client: AsyncVitableConnect) -> None:
         response = await async_client.members.with_raw_response.retrieve(
-            "member_id",
+            "mbr_abc123def456",
         )
 
         assert response.is_closed is True
@@ -400,7 +400,7 @@ class TestAsyncMembers:
     @parametrize
     async def test_streaming_response_retrieve(self, async_client: AsyncVitableConnect) -> None:
         async with async_client.members.with_streaming_response.retrieve(
-            "member_id",
+            "mbr_abc123def456",
         ) as response:
             assert not response.is_closed
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
@@ -460,7 +460,7 @@ class TestAsyncMembers:
     @parametrize
     async def test_method_list_dependents(self, async_client: AsyncVitableConnect) -> None:
         member = await async_client.members.list_dependents(
-            "member_id",
+            "mbr_abc123def456",
         )
         assert_matches_type(MemberListDependentsResponse, member, path=["response"])
 
@@ -468,7 +468,7 @@ class TestAsyncMembers:
     @parametrize
     async def test_raw_response_list_dependents(self, async_client: AsyncVitableConnect) -> None:
         response = await async_client.members.with_raw_response.list_dependents(
-            "member_id",
+            "mbr_abc123def456",
         )
 
         assert response.is_closed is True
@@ -480,7 +480,7 @@ class TestAsyncMembers:
     @parametrize
     async def test_streaming_response_list_dependents(self, async_client: AsyncVitableConnect) -> None:
         async with async_client.members.with_streaming_response.list_dependents(
-            "member_id",
+            "mbr_abc123def456",
         ) as response:
             assert not response.is_closed
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
@@ -502,7 +502,7 @@ class TestAsyncMembers:
     @parametrize
     async def test_method_list_employments(self, async_client: AsyncVitableConnect) -> None:
         member = await async_client.members.list_employments(
-            "member_id",
+            "mbr_abc123def456",
         )
         assert_matches_type(MemberListEmploymentsResponse, member, path=["response"])
 
@@ -510,7 +510,7 @@ class TestAsyncMembers:
     @parametrize
     async def test_raw_response_list_employments(self, async_client: AsyncVitableConnect) -> None:
         response = await async_client.members.with_raw_response.list_employments(
-            "member_id",
+            "mbr_abc123def456",
         )
 
         assert response.is_closed is True
@@ -522,7 +522,7 @@ class TestAsyncMembers:
     @parametrize
     async def test_streaming_response_list_employments(self, async_client: AsyncVitableConnect) -> None:
         async with async_client.members.with_streaming_response.list_employments(
-            "member_id",
+            "mbr_abc123def456",
         ) as response:
             assert not response.is_closed
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
@@ -544,7 +544,7 @@ class TestAsyncMembers:
     @parametrize
     async def test_method_list_enrollments(self, async_client: AsyncVitableConnect) -> None:
         member = await async_client.members.list_enrollments(
-            "member_id",
+            "mbr_abc123def456",
         )
         assert_matches_type(MemberListEnrollmentsResponse, member, path=["response"])
 
@@ -552,7 +552,7 @@ class TestAsyncMembers:
     @parametrize
     async def test_raw_response_list_enrollments(self, async_client: AsyncVitableConnect) -> None:
         response = await async_client.members.with_raw_response.list_enrollments(
-            "member_id",
+            "mbr_abc123def456",
         )
 
         assert response.is_closed is True
@@ -564,7 +564,7 @@ class TestAsyncMembers:
     @parametrize
     async def test_streaming_response_list_enrollments(self, async_client: AsyncVitableConnect) -> None:
         async with async_client.members.with_streaming_response.list_enrollments(
-            "member_id",
+            "mbr_abc123def456",
         ) as response:
             assert not response.is_closed
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
@@ -586,7 +586,7 @@ class TestAsyncMembers:
     @parametrize
     async def test_method_list_id_cards(self, async_client: AsyncVitableConnect) -> None:
         member = await async_client.members.list_id_cards(
-            "member_id",
+            "mbr_abc123def456",
         )
         assert_matches_type(MemberListIDCardsResponse, member, path=["response"])
 
@@ -594,7 +594,7 @@ class TestAsyncMembers:
     @parametrize
     async def test_raw_response_list_id_cards(self, async_client: AsyncVitableConnect) -> None:
         response = await async_client.members.with_raw_response.list_id_cards(
-            "member_id",
+            "mbr_abc123def456",
         )
 
         assert response.is_closed is True
@@ -606,7 +606,7 @@ class TestAsyncMembers:
     @parametrize
     async def test_streaming_response_list_id_cards(self, async_client: AsyncVitableConnect) -> None:
         async with async_client.members.with_streaming_response.list_id_cards(
-            "member_id",
+            "mbr_abc123def456",
         ) as response:
             assert not response.is_closed
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
@@ -628,7 +628,7 @@ class TestAsyncMembers:
     @parametrize
     async def test_method_list_qualifying_life_events(self, async_client: AsyncVitableConnect) -> None:
         member = await async_client.members.list_qualifying_life_events(
-            member_id="member_id",
+            member_id="mbr_abc123def456",
         )
         assert_matches_type(AsyncPageNumberPage[MemberListQualifyingLifeEventsResponse], member, path=["response"])
 
@@ -636,7 +636,7 @@ class TestAsyncMembers:
     @parametrize
     async def test_method_list_qualifying_life_events_with_all_params(self, async_client: AsyncVitableConnect) -> None:
         member = await async_client.members.list_qualifying_life_events(
-            member_id="member_id",
+            member_id="mbr_abc123def456",
             limit=20,
             page=1,
             status="approved",
@@ -647,7 +647,7 @@ class TestAsyncMembers:
     @parametrize
     async def test_raw_response_list_qualifying_life_events(self, async_client: AsyncVitableConnect) -> None:
         response = await async_client.members.with_raw_response.list_qualifying_life_events(
-            member_id="member_id",
+            member_id="mbr_abc123def456",
         )
 
         assert response.is_closed is True
@@ -659,7 +659,7 @@ class TestAsyncMembers:
     @parametrize
     async def test_streaming_response_list_qualifying_life_events(self, async_client: AsyncVitableConnect) -> None:
         async with async_client.members.with_streaming_response.list_qualifying_life_events(
-            member_id="member_id",
+            member_id="mbr_abc123def456",
         ) as response:
             assert not response.is_closed
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
@@ -681,7 +681,7 @@ class TestAsyncMembers:
     @parametrize
     async def test_method_retrieve_household(self, async_client: AsyncVitableConnect) -> None:
         member = await async_client.members.retrieve_household(
-            "member_id",
+            "mbr_abc123def456",
         )
         assert_matches_type(MemberRetrieveHouseholdResponse, member, path=["response"])
 
@@ -689,7 +689,7 @@ class TestAsyncMembers:
     @parametrize
     async def test_raw_response_retrieve_household(self, async_client: AsyncVitableConnect) -> None:
         response = await async_client.members.with_raw_response.retrieve_household(
-            "member_id",
+            "mbr_abc123def456",
         )
 
         assert response.is_closed is True
@@ -701,7 +701,7 @@ class TestAsyncMembers:
     @parametrize
     async def test_streaming_response_retrieve_household(self, async_client: AsyncVitableConnect) -> None:
         async with async_client.members.with_streaming_response.retrieve_household(
-            "member_id",
+            "mbr_abc123def456",
         ) as response:
             assert not response.is_closed
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
