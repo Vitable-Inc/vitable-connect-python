@@ -70,6 +70,8 @@ class MembersResource(SyncAPIResource):
         authenticated principal; a member not visible to the caller returns a 404.
 
         Args:
+          member_id: Unique member identifier (mbr\\__\\**)
+
           extra_headers: Send extra headers
 
           extra_query: Add additional query parameters to the request
@@ -159,6 +161,8 @@ class MembersResource(SyncAPIResource):
         not visible to the caller returns a 404.
 
         Args:
+          member_id: Unique member identifier (mbr\\__\\**)
+
           extra_headers: Send extra headers
 
           extra_query: Add additional query parameters to the request
@@ -196,6 +200,8 @@ class MembersResource(SyncAPIResource):
         not visible to the caller returns a 404.
 
         Args:
+          member_id: Unique member identifier (mbr\\__\\**)
+
           extra_headers: Send extra headers
 
           extra_query: Add additional query parameters to the request
@@ -245,6 +251,8 @@ class MembersResource(SyncAPIResource):
         a 404.
 
         Args:
+          member_id: Unique member identifier (mbr\\__\\**)
+
           extra_headers: Send extra headers
 
           extra_query: Add additional query parameters to the request
@@ -285,6 +293,8 @@ class MembersResource(SyncAPIResource):
         employers in its book; a member not visible to the caller returns a 404.
 
         Args:
+          member_id: Unique member identifier (mbr\\__\\**)
+
           extra_headers: Send extra headers
 
           extra_query: Add additional query parameters to the request
@@ -329,6 +339,8 @@ class MembersResource(SyncAPIResource):
         before pagination is validated.
 
         Args:
+          member_id: Unique member identifier (mbr\\__\\**)
+
           limit: Items per page (default: 20, max: 100)
 
           page: Page number (default: 1)
@@ -384,6 +396,8 @@ class MembersResource(SyncAPIResource):
         a 404.
 
         Args:
+          member_id: Unique member identifier (mbr\\__\\**)
+
           extra_headers: Send extra headers
 
           extra_query: Add additional query parameters to the request
@@ -442,6 +456,8 @@ class AsyncMembersResource(AsyncAPIResource):
         authenticated principal; a member not visible to the caller returns a 404.
 
         Args:
+          member_id: Unique member identifier (mbr\\__\\**)
+
           extra_headers: Send extra headers
 
           extra_query: Add additional query parameters to the request
@@ -531,6 +547,8 @@ class AsyncMembersResource(AsyncAPIResource):
         not visible to the caller returns a 404.
 
         Args:
+          member_id: Unique member identifier (mbr\\__\\**)
+
           extra_headers: Send extra headers
 
           extra_query: Add additional query parameters to the request
@@ -568,6 +586,8 @@ class AsyncMembersResource(AsyncAPIResource):
         not visible to the caller returns a 404.
 
         Args:
+          member_id: Unique member identifier (mbr\\__\\**)
+
           extra_headers: Send extra headers
 
           extra_query: Add additional query parameters to the request
@@ -617,6 +637,8 @@ class AsyncMembersResource(AsyncAPIResource):
         a 404.
 
         Args:
+          member_id: Unique member identifier (mbr\\__\\**)
+
           extra_headers: Send extra headers
 
           extra_query: Add additional query parameters to the request
@@ -657,6 +679,8 @@ class AsyncMembersResource(AsyncAPIResource):
         employers in its book; a member not visible to the caller returns a 404.
 
         Args:
+          member_id: Unique member identifier (mbr\\__\\**)
+
           extra_headers: Send extra headers
 
           extra_query: Add additional query parameters to the request
@@ -703,6 +727,8 @@ class AsyncMembersResource(AsyncAPIResource):
         before pagination is validated.
 
         Args:
+          member_id: Unique member identifier (mbr\\__\\**)
+
           limit: Items per page (default: 20, max: 100)
 
           page: Page number (default: 1)
@@ -758,6 +784,8 @@ class AsyncMembersResource(AsyncAPIResource):
         a 404.
 
         Args:
+          member_id: Unique member identifier (mbr\\__\\**)
+
           extra_headers: Send extra headers
 
           extra_query: Add additional query parameters to the request
