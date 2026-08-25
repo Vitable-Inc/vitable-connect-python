@@ -64,6 +64,8 @@ class Benefit(BaseModel):
 
 
 class Enrollment(BaseModel):
+    """One enrollment as it appears in a list row."""
+
     id: str
     """Unique enrollment identifier (enrl\\__\\**)"""
 

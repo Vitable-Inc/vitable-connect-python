@@ -139,8 +139,8 @@ class EmployeesResource(SyncAPIResource):
           gender: - `Male` - Male
               - `Female` - Female
               - `Transgender` - Transgender
-              - `Non-binary` - Non-binary
-              - `Prefer not to respond` - Prefer not to respond
+              - `Non-binary` - Non Binary
+              - `Prefer not to respond` - Prefer Not To Respond
 
           phone: Phone number
 
@@ -340,8 +340,8 @@ class AsyncEmployeesResource(AsyncAPIResource):
           gender: - `Male` - Male
               - `Female` - Female
               - `Transgender` - Transgender
-              - `Non-binary` - Non-binary
-              - `Prefer not to respond` - Prefer not to respond
+              - `Non-binary` - Non Binary
+              - `Prefer not to respond` - Prefer Not To Respond
 
           phone: Phone number
 

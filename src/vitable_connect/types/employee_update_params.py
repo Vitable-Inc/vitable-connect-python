@@ -46,8 +46,8 @@ class EmployeeUpdateParams(TypedDict, total=False):
     - `Male` - Male
     - `Female` - Female
     - `Transgender` - Transgender
-    - `Non-binary` - Non-binary
-    - `Prefer not to respond` - Prefer not to respond
+    - `Non-binary` - Non Binary
+    - `Prefer not to respond` - Prefer Not To Respond
     """
 
     phone: Optional[str]
