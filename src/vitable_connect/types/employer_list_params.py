@@ -40,4 +40,8 @@ class EmployerListParams(TypedDict, total=False):
     """Page number."""
 
     search: Optional[str]
-    """Case-insensitive employer-name substring filter."""
+    """Employer filter.
+
+    Matches the display name or the legal name case-insensitively as a substring, or
+    the EIN exactly (with or without its dash).
+    """
