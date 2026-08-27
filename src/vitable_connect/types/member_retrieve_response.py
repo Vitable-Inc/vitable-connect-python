@@ -195,6 +195,12 @@ class Data(BaseModel):
     - `Prefer not to respond` - Prefer Not To Respond
     """
 
+    marital_status: Optional[Literal["Single", "Married"]] = None
+    """
+    - `Single` - Single
+    - `Married` - Married
+    """
+
     middle_name: Optional[str] = None
     """Member's legal middle name"""
 
