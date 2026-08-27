@@ -257,8 +257,9 @@ class EmployersResource(SyncAPIResource):
         benefit-lifecycle stage) merged with the employer's flat CRM fields (legal name,
         EIN, contact, address, timestamps). The book is derived from the authenticated
         principal: one organization's employers, or every organization's for a caller
-        whose reach is not a single organization. Supports name search,
-        benefit-family/lifecycle/HRIS filters, and page/limit pagination.
+        whose reach is not a single organization. Supports search by display name, legal
+        name or exact EIN, benefit-family/lifecycle/HRIS filters, and page/limit
+        pagination.
 
         Args:
           benefit_family: Filter to employers with at least one active benefit in these families.
@@ -278,7 +279,8 @@ class EmployersResource(SyncAPIResource):
 
           page: Page number.
 
-          search: Case-insensitive employer-name substring filter.
+          search: Employer filter. Matches the display name or the legal name case-insensitively
+              as a substring, or the EIN exactly (with or without its dash).
 
           extra_headers: Send extra headers
 
@@ -1228,8 +1230,9 @@ class AsyncEmployersResource(AsyncAPIResource):
         benefit-lifecycle stage) merged with the employer's flat CRM fields (legal name,
         EIN, contact, address, timestamps). The book is derived from the authenticated
         principal: one organization's employers, or every organization's for a caller
-        whose reach is not a single organization. Supports name search,
-        benefit-family/lifecycle/HRIS filters, and page/limit pagination.
+        whose reach is not a single organization. Supports search by display name, legal
+        name or exact EIN, benefit-family/lifecycle/HRIS filters, and page/limit
+        pagination.
 
         Args:
           benefit_family: Filter to employers with at least one active benefit in these families.
@@ -1249,7 +1252,8 @@ class AsyncEmployersResource(AsyncAPIResource):
 
           page: Page number.
 
-          search: Case-insensitive employer-name substring filter.
+          search: Employer filter. Matches the display name or the legal name case-insensitively
+              as a substring, or the EIN exactly (with or without its dash).
 
           extra_headers: Send extra headers
 
