@@ -43,5 +43,6 @@ class EmployerListParams(TypedDict, total=False):
     """Employer filter.
 
     Matches the display name or the legal name case-insensitively as a substring, or
-    the EIN exactly (with or without its dash).
+    one of these exactly: the EIN (with or without its dash), the employer id, or
+    the contact email of one of the employer's non-disabled admins.
     """
