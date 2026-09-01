@@ -15,7 +15,7 @@ class EnrollmentTerminateParams(TypedDict, total=False):
     reason: Optional[str]
     """
     Audit reason for the termination; required for user-backed callers and optional
-    for userless organization callers
+    for long-lived organization API-key callers
     """
 
     ticket_number: Optional[str]
