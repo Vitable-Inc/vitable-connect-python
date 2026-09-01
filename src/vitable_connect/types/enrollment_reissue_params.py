@@ -15,7 +15,7 @@ class EnrollmentReissueParams(TypedDict, total=False):
     reason: Optional[str]
     """
     Audit reason for the reissue; required for user-backed callers and optional for
-    userless organization callers
+    long-lived organization API-key callers
     """
 
     ticket_number: Optional[str]
