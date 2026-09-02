@@ -15,4 +15,7 @@ class MemberListParams(TypedDict, total=False):
     """Page number (default: 1)"""
 
     search: str
-    """Case-insensitive search across member name and email; exact match on member id"""
+    """
+    Case-insensitive search across member name, email, and phone number; exact match
+    on member id (prefixed or raw uuid)
+    """
