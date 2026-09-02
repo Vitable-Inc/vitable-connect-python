@@ -107,14 +107,15 @@ class MembersResource(SyncAPIResource):
         Retrieves a paginated list of the members in the authenticated organization's
         book — identity, contact details, and address. The book covers members reached
         through an employer in the organization's book as well as members of a group it
-        owns. Supports free-text search (name, email, or exact member id).
+        owns. Supports free-text search (name, email, phone number, or exact member id).
 
         Args:
           limit: Items per page (default: 20, max: 100)
 
           page: Page number (default: 1)
 
-          search: Case-insensitive search across member name and email; exact match on member id
+          search: Case-insensitive search across member name, email, and phone number; exact match
+              on member id (prefixed or raw uuid)
 
           extra_headers: Send extra headers
 
@@ -239,9 +240,11 @@ class MembersResource(SyncAPIResource):
         (`cancelled_date`), and the distinct benefit plan-year boundary
         (`plan_year_coverage_end`) used to determine whether the plan year itself has
         ended, the date the enrollment record was created (`issued_date`, the value Ops
-        labels Issued on, reported for every row whatever the member answered), whether
-        a qualifying life event would currently be required for reissue under the
-        product/open-enrollment rule, enrollment/open-enrollment window, and two
+        labels Issued on, reported for every row whatever the member answered), the
+        window the member could answer in -- which never opens before the enrollment was
+        issued, so a row issued mid-open-enrollment starts its window on its issue date
+        -- whether a qualifying life event would currently be required for reissue under
+        the product/open-enrollment rule, enrollment/open-enrollment window, and two
         statuses: `election_status` (what the member answered) and `policy_status` (what
         became of their coverage, null unless they enrolled). Every row includes a
         stable enrollment ID and the exact employer and benefit plan-year IDs used to
@@ -495,14 +498,15 @@ class AsyncMembersResource(AsyncAPIResource):
         Retrieves a paginated list of the members in the authenticated organization's
         book — identity, contact details, and address. The book covers members reached
         through an employer in the organization's book as well as members of a group it
-        owns. Supports free-text search (name, email, or exact member id).
+        owns. Supports free-text search (name, email, phone number, or exact member id).
 
         Args:
           limit: Items per page (default: 20, max: 100)
 
           page: Page number (default: 1)
 
-          search: Case-insensitive search across member name and email; exact match on member id
+          search: Case-insensitive search across member name, email, and phone number; exact match
+              on member id (prefixed or raw uuid)
 
           extra_headers: Send extra headers
 
@@ -627,9 +631,11 @@ class AsyncMembersResource(AsyncAPIResource):
         (`cancelled_date`), and the distinct benefit plan-year boundary
         (`plan_year_coverage_end`) used to determine whether the plan year itself has
         ended, the date the enrollment record was created (`issued_date`, the value Ops
-        labels Issued on, reported for every row whatever the member answered), whether
-        a qualifying life event would currently be required for reissue under the
-        product/open-enrollment rule, enrollment/open-enrollment window, and two
+        labels Issued on, reported for every row whatever the member answered), the
+        window the member could answer in -- which never opens before the enrollment was
+        issued, so a row issued mid-open-enrollment starts its window on its issue date
+        -- whether a qualifying life event would currently be required for reissue under
+        the product/open-enrollment rule, enrollment/open-enrollment window, and two
         statuses: `election_status` (what the member answered) and `policy_status` (what
         became of their coverage, null unless they enrolled). Every row includes a
         stable enrollment ID and the exact employer and benefit plan-year IDs used to

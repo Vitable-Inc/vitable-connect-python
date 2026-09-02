@@ -6,23 +6,7 @@ from typing_extensions import Literal
 
 from .._models import BaseModel
 
-__all__ = ["MemberListEnrollmentsResponse", "Data", "DataIchraAffordability"]
-
-
-class DataIchraAffordability(BaseModel):
-    """
-    How this member's monthly share compares with the ACA affordability line for their income. Null unless the row is an ICHRA election whose plan year, premium and the member's individual income are all on file.
-    """
-
-    is_affordable: bool
-    """
-    True when `employee_deduction_in_cents` is at or below the IRS affordability
-    percentage of the member's individual income for the year this plan year
-    started. It measures what the member pays for the plan they chose, so it is
-    **not** a statement that the employer's offer satisfies the ACA employer
-    mandate: that test is benchmarked against the lowest-cost silver plan at
-    self-only coverage, which this does not use.
-    """
+__all__ = ["MemberListEnrollmentsResponse", "Data"]
 
 
 class Data(BaseModel):
@@ -63,13 +47,11 @@ class Data(BaseModel):
     """Name of the employer the enrollment is through"""
 
     enrollment_window_start: date
-    """Enrollment / open-enrollment window start date (YYYY-MM-DD)"""
+    """First date the member could answer this enrollment (YYYY-MM-DD).
 
-    ichra_affordability: Optional[DataIchraAffordability] = None
-    """
-    How this member's monthly share compares with the ACA affordability line for
-    their income. Null unless the row is an ICHRA election whose plan year, premium
-    and the member's individual income are all on file.
+    Open enrollment's start date for a row issued before open enrollment opened,
+    otherwise the date the row was issued -- an enrollment is never answerable
+    before it exists, so this is never earlier than `issued_date`.
     """
 
     in_last_month_of_coverage: bool
@@ -88,9 +70,9 @@ class Data(BaseModel):
     """
     Date the enrollment record was created (YYYY-MM-DD), the value Ops labels Issued
     on. Present on every row whatever the member answered, and distinct from
-    `coverage_start`. It does not imply the member could answer the enrollment on
-    that date; the window they can answer in is
-    `enrollment_window_start`/`enrollment_window_end`.
+    `coverage_start`. It equals `enrollment_window_start` for a row issued once its
+    open enrollment had already opened, and precedes it for a row issued ahead of
+    open enrollment.
     """
 
     plan_year_coverage_end: Optional[date] = None
