@@ -1,5 +1,19 @@
 # Changelog
 
+## 0.10.0 (2026-09-03)
+
+Full Changelog: [v0.9.0...v0.10.0](https://github.com/Vitable-Inc/vitable-connect-python/compare/v0.9.0...v0.10.0)
+
+### Features
+
+* **api:** api update ([ea2113d](https://github.com/Vitable-Inc/vitable-connect-python/commit/ea2113dd3f75984aea9463f8ca8dd03ce4d9ee5b))
+* **api:** api update ([5921f6f](https://github.com/Vitable-Inc/vitable-connect-python/commit/5921f6f9115bd27cd6c1c334360c6e099bd7b59a))
+* **api:** api update ([bb64312](https://github.com/Vitable-Inc/vitable-connect-python/commit/bb64312d41e9cd491a6d3cf3e870fcf4ce96a784))
+* **api:** api update ([533da66](https://github.com/Vitable-Inc/vitable-connect-python/commit/533da66cfc064f6488263aa33771181eaf43f6fe))
+* **api:** api update ([dc779aa](https://github.com/Vitable-Inc/vitable-connect-python/commit/dc779aa69f093a32f9985d8735c0cfe73df90ed4))
+* **api:** api update ([6ad787d](https://github.com/Vitable-Inc/vitable-connect-python/commit/6ad787dbdf4bfc4e84ed85ffebdb55202e97de97))
+* **api:** api update ([81a776c](https://github.com/Vitable-Inc/vitable-connect-python/commit/81a776cf26e78f4359521f64715178ce2c161e9c))
+
 ## 0.9.0 (2026-08-20)
 
 Full Changelog: [v0.8.0...v0.9.0](https://github.com/Vitable-Inc/vitable-connect-python/compare/v0.8.0...v0.9.0)
