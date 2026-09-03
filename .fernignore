@@ -2,3 +2,7 @@
 LICENSE
 SECURITY.md
 .github/workflows/publish-pypi.yml
+# Patched: Fern's generated ci.yml ships a credential-based publish job that
+# conflicts with the OIDC publisher in publish-pypi.yml; we keep an owned copy
+# with that job removed.
+.github/workflows/ci.yml
