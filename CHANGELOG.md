@@ -1,5 +1,15 @@
 # Changelog
 
+## 0.9.1 (2026-09-04)
+
+Full Changelog: [v0.9.0...v0.9.1](https://github.com/Vitable-Inc/vitable-connect-python/compare/v0.9.0...v0.9.1)
+
+### Chores
+
+* prep for full Fern automated releases ([8af023f](https://github.com/Vitable-Inc/vitable-connect-python/commit/8af023f8e2b8c7a580d58240ba07a127d6a46296))
+* sync repo ([7b7d8ca](https://github.com/Vitable-Inc/vitable-connect-python/commit/7b7d8ca20c4af60c0748f331440396e5db887474))
+* update User-Agent header to SDK version placeholder ([5af7566](https://github.com/Vitable-Inc/vitable-connect-python/commit/5af7566746b78d25e8311213cc0ef102ffc246a8))
+
 ## 0.9.0 (2026-08-20)
 
 Full Changelog: [v0.8.0...v0.9.0](https://github.com/Vitable-Inc/vitable-connect-python/compare/v0.8.0...v0.9.0)
