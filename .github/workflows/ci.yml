@@ -1,3 +1,8 @@
+# Fern's generated ci.yml, minus its publish job: that job publishes via a
+# trusted publisher registered for ci.yml + environment `pypi`, which we can't
+# create (no owner access on the PyPI project). Publishing happens in
+# publish-pypi.yml instead, matching the existing registration.
+# This file is listed in .fernignore so Fern regeneration preserves it.
 name: ci
 
 on: [push]
@@ -69,25 +74,3 @@ jobs:
         with:
           name: python-package-distributions
           path: dist/
-
-  publish:
-    name: Publish to PyPI
-    needs: [compile, test, build]
-    if: github.event_name == 'push' && contains(github.ref, 'refs/tags/')
-    runs-on: ubuntu-latest
-    environment:
-      name: pypi
-      url: https://pypi.org/p/${{ github.event.repository.name }}
-    permissions:
-      contents: read   # Required for checkout
-      id-token: write  # Required for OIDC
-    steps:
-      - name: Download all the dists
-        uses: actions/download-artifact@v4
-        with:
-          name: python-package-distributions
-          path: dist/
-      - name: Publish to pypi with attestations
-        uses: pypa/gh-action-pypi-publish@release/v1
-        with:
-          repository-url: https://upload.pypi.org/legacy/

@@ -1,0 +1,46 @@
+# Publishes the Fern-generated SDK to PyPI via OIDC trusted publishing. The
+# PyPI project trusts this repo + this workflow file + the `prod` environment;
+# do not rename any of the three without updating the registration.
+#
+# Triggers on tag pushes because Fern (github mode: release) creates tags, not
+# GitHub releases. This file is listed in .fernignore so Fern regeneration
+# preserves it.
+name: Publish PyPI
+on:
+  workflow_dispatch:
+
+  push:
+    tags:
+      # Fern tags bare semver (1.0.1); v-prefixed kept for manual tags.
+      - "[0-9]*"
+      - "v[0-9]*"
+
+  release:
+    types: [published]
+
+jobs:
+  publish:
+    name: publish
+    # Keep in sync with the PyPI trusted publisher registration, which pins
+    # this environment name.
+    environment: prod
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      id-token: write
+
+    steps:
+      - uses: actions/checkout@v5
+
+      - name: Set up Python
+        uses: actions/setup-python@v6
+        with:
+          python-version: "3.11"
+
+      - name: Build distribution
+        run: |
+          pip install poetry
+          poetry build
+
+      - name: Publish to PyPI
+        uses: pypa/gh-action-pypi-publish@release/v1
