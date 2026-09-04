@@ -1,10 +1,4 @@
 # Files Fern must not overwrite or delete when regenerating this repo.
 LICENSE
 SECURITY.md
-changelog.md
-# Owned publishing: the PyPI trusted publisher registration is pinned to
-# publish-pypi.yml + the `prod` environment and we lack owner access on the
-# PyPI project to change it. ci.yml is Fern's copy with its publish job
-# (environment `pypi`) stripped so it doesn't fail OIDC on every tag.
-.github/workflows/ci.yml
 .github/workflows/publish-pypi.yml
