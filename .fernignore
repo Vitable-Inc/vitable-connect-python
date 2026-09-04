@@ -4,3 +4,4 @@
 # replaces our patched ci.yml and deletes publish-pypi.yml.
 LICENSE
 SECURITY.md
+changelog.md
