@@ -7,6 +7,7 @@ from ..core.request_options import RequestOptions
 from ..types.enrollment_id import EnrollmentId
 from ..types.enrollment_response import EnrollmentResponse
 from ..types.reissue_enrollment_response import ReissueEnrollmentResponse
+from ..types.x_vitable_organization import XVitableOrganization
 from .raw_client import AsyncRawEnrollmentsClient, RawEnrollmentsClient
 
 # this is used as the default value for optional parameters
@@ -29,7 +30,11 @@ class EnrollmentsClient:
         return self._raw_client
 
     def get(
-        self, enrollment_id: EnrollmentId, *, request_options: typing.Optional[RequestOptions] = None
+        self,
+        enrollment_id: EnrollmentId,
+        *,
+        vitable_organization: typing.Optional[XVitableOrganization] = None,
+        request_options: typing.Optional[RequestOptions] = None,
     ) -> EnrollmentResponse:
         """
         Retrieves a single enrollment: the employee and employer it belongs to, the benefit product, its status, the coverage period, the employee payroll deduction and employer contribution, and the enrolled plan's Summary of Benefits and Coverage document when one is on file. An enrollment the caller cannot reach is indistinguishable from one that does not exist.
@@ -38,6 +43,9 @@ class EnrollmentsClient:
         ----------
         enrollment_id : EnrollmentId
             Unique enrollment identifier (enrl_*)
+
+        vitable_organization : typing.Optional[XVitableOrganization]
+            Organization to act as for this request (e.g. `org_SGVsbG8gV29ybGQ`). Optional when your credentials reach a single organization. Required when they reach several — omitting it then returns 400 `organization_required`. A malformed value returns 400 `invalid_organization_header`, and naming an organization you do not have access to returns 403 `organization_access_denied`.
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
@@ -58,13 +66,16 @@ class EnrollmentsClient:
             enrollment_id="enrl_AAAAAAAAAAAAAAAAAAAAAQ",
         )
         """
-        _response = self._raw_client.get(enrollment_id, request_options=request_options)
+        _response = self._raw_client.get(
+            enrollment_id, vitable_organization=vitable_organization, request_options=request_options
+        )
         return _response.data
 
     def reissue(
         self,
         enrollment_id: EnrollmentId,
         *,
+        vitable_organization: typing.Optional[XVitableOrganization] = None,
         reason: typing.Optional[str] = OMIT,
         ticket_number: typing.Optional[str] = OMIT,
         qualifying_life_event_id: typing.Optional[str] = OMIT,
@@ -77,6 +88,9 @@ class EnrollmentsClient:
         ----------
         enrollment_id : EnrollmentId
             Unique enrollment identifier (enrl_*)
+
+        vitable_organization : typing.Optional[XVitableOrganization]
+            Organization to act as for this request (e.g. `org_SGVsbG8gV29ybGQ`). Optional when your credentials reach a single organization. Required when they reach several — omitting it then returns 400 `organization_required`. A malformed value returns 400 `invalid_organization_header`, and naming an organization you do not have access to returns 403 `organization_access_denied`.
 
         reason : typing.Optional[str]
             Audit reason for the reissue; required for user-backed callers and optional for long-lived organization API-key callers
@@ -111,6 +125,7 @@ class EnrollmentsClient:
         """
         _response = self._raw_client.reissue(
             enrollment_id,
+            vitable_organization=vitable_organization,
             reason=reason,
             ticket_number=ticket_number,
             qualifying_life_event_id=qualifying_life_event_id,
@@ -122,6 +137,7 @@ class EnrollmentsClient:
         self,
         enrollment_id: EnrollmentId,
         *,
+        vitable_organization: typing.Optional[XVitableOrganization] = None,
         reason: typing.Optional[str] = OMIT,
         ticket_number: typing.Optional[str] = OMIT,
         qualifying_life_event_id: typing.Optional[str] = OMIT,
@@ -134,6 +150,9 @@ class EnrollmentsClient:
         ----------
         enrollment_id : EnrollmentId
             Unique enrollment identifier (enrl_*)
+
+        vitable_organization : typing.Optional[XVitableOrganization]
+            Organization to act as for this request (e.g. `org_SGVsbG8gV29ybGQ`). Optional when your credentials reach a single organization. Required when they reach several — omitting it then returns 400 `organization_required`. A malformed value returns 400 `invalid_organization_header`, and naming an organization you do not have access to returns 403 `organization_access_denied`.
 
         reason : typing.Optional[str]
             Audit reason for the termination; required for user-backed callers and optional for long-lived organization API-key callers
@@ -167,6 +186,7 @@ class EnrollmentsClient:
         """
         _response = self._raw_client.terminate(
             enrollment_id,
+            vitable_organization=vitable_organization,
             reason=reason,
             ticket_number=ticket_number,
             qualifying_life_event_id=qualifying_life_event_id,
@@ -191,7 +211,11 @@ class AsyncEnrollmentsClient:
         return self._raw_client
 
     async def get(
-        self, enrollment_id: EnrollmentId, *, request_options: typing.Optional[RequestOptions] = None
+        self,
+        enrollment_id: EnrollmentId,
+        *,
+        vitable_organization: typing.Optional[XVitableOrganization] = None,
+        request_options: typing.Optional[RequestOptions] = None,
     ) -> EnrollmentResponse:
         """
         Retrieves a single enrollment: the employee and employer it belongs to, the benefit product, its status, the coverage period, the employee payroll deduction and employer contribution, and the enrolled plan's Summary of Benefits and Coverage document when one is on file. An enrollment the caller cannot reach is indistinguishable from one that does not exist.
@@ -200,6 +224,9 @@ class AsyncEnrollmentsClient:
         ----------
         enrollment_id : EnrollmentId
             Unique enrollment identifier (enrl_*)
+
+        vitable_organization : typing.Optional[XVitableOrganization]
+            Organization to act as for this request (e.g. `org_SGVsbG8gV29ybGQ`). Optional when your credentials reach a single organization. Required when they reach several — omitting it then returns 400 `organization_required`. A malformed value returns 400 `invalid_organization_header`, and naming an organization you do not have access to returns 403 `organization_access_denied`.
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
@@ -228,13 +255,16 @@ class AsyncEnrollmentsClient:
 
         asyncio.run(main())
         """
-        _response = await self._raw_client.get(enrollment_id, request_options=request_options)
+        _response = await self._raw_client.get(
+            enrollment_id, vitable_organization=vitable_organization, request_options=request_options
+        )
         return _response.data
 
     async def reissue(
         self,
         enrollment_id: EnrollmentId,
         *,
+        vitable_organization: typing.Optional[XVitableOrganization] = None,
         reason: typing.Optional[str] = OMIT,
         ticket_number: typing.Optional[str] = OMIT,
         qualifying_life_event_id: typing.Optional[str] = OMIT,
@@ -247,6 +277,9 @@ class AsyncEnrollmentsClient:
         ----------
         enrollment_id : EnrollmentId
             Unique enrollment identifier (enrl_*)
+
+        vitable_organization : typing.Optional[XVitableOrganization]
+            Organization to act as for this request (e.g. `org_SGVsbG8gV29ybGQ`). Optional when your credentials reach a single organization. Required when they reach several — omitting it then returns 400 `organization_required`. A malformed value returns 400 `invalid_organization_header`, and naming an organization you do not have access to returns 403 `organization_access_denied`.
 
         reason : typing.Optional[str]
             Audit reason for the reissue; required for user-backed callers and optional for long-lived organization API-key callers
@@ -289,6 +322,7 @@ class AsyncEnrollmentsClient:
         """
         _response = await self._raw_client.reissue(
             enrollment_id,
+            vitable_organization=vitable_organization,
             reason=reason,
             ticket_number=ticket_number,
             qualifying_life_event_id=qualifying_life_event_id,
@@ -300,6 +334,7 @@ class AsyncEnrollmentsClient:
         self,
         enrollment_id: EnrollmentId,
         *,
+        vitable_organization: typing.Optional[XVitableOrganization] = None,
         reason: typing.Optional[str] = OMIT,
         ticket_number: typing.Optional[str] = OMIT,
         qualifying_life_event_id: typing.Optional[str] = OMIT,
@@ -312,6 +347,9 @@ class AsyncEnrollmentsClient:
         ----------
         enrollment_id : EnrollmentId
             Unique enrollment identifier (enrl_*)
+
+        vitable_organization : typing.Optional[XVitableOrganization]
+            Organization to act as for this request (e.g. `org_SGVsbG8gV29ybGQ`). Optional when your credentials reach a single organization. Required when they reach several — omitting it then returns 400 `organization_required`. A malformed value returns 400 `invalid_organization_header`, and naming an organization you do not have access to returns 403 `organization_access_denied`.
 
         reason : typing.Optional[str]
             Audit reason for the termination; required for user-backed callers and optional for long-lived organization API-key callers
@@ -353,6 +391,7 @@ class AsyncEnrollmentsClient:
         """
         _response = await self._raw_client.terminate(
             enrollment_id,
+            vitable_organization=vitable_organization,
             reason=reason,
             ticket_number=ticket_number,
             qualifying_life_event_id=qualifying_life_event_id,

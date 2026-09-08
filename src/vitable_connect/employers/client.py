@@ -48,6 +48,7 @@ from ..types.plan_year_enrollment_list_response import PlanYearEnrollmentListRes
 from ..types.remaining_employee_action import RemainingEmployeeAction
 from ..types.search import Search
 from ..types.update_employer_address_input import UpdateEmployerAddressInput
+from ..types.x_vitable_organization import XVitableOrganization
 from .raw_client import AsyncRawEmployersClient, RawEmployersClient
 
 # this is used as the default value for optional parameters
@@ -84,6 +85,7 @@ class EmployersClient:
         limit: typing.Optional[Limit] = None,
         page: typing.Optional[Page] = None,
         search: typing.Optional[Search] = None,
+        vitable_organization: typing.Optional[XVitableOrganization] = None,
         request_options: typing.Optional[RequestOptions] = None,
     ) -> SyncPager[OrganizationEmployer, OrganizationEmployerListResponse]:
         """
@@ -114,6 +116,9 @@ class EmployersClient:
 
         search : typing.Optional[Search]
             Employer filter. Matches the display name or the legal name case-insensitively as a substring, or one of these exactly: the EIN (with or without its dash), the employer id, or the contact email of one of the employer's non-disabled admins.
+
+        vitable_organization : typing.Optional[XVitableOrganization]
+            Organization to act as for this request (e.g. `org_SGVsbG8gV29ybGQ`). Optional when your credentials reach a single organization. Required when they reach several — omitting it then returns 400 `organization_required`. A malformed value returns 400 `invalid_organization_header`, and naming an organization you do not have access to returns 403 `organization_access_denied`.
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
@@ -149,6 +154,7 @@ class EmployersClient:
             limit=limit,
             page=page,
             search=search,
+            vitable_organization=vitable_organization,
             request_options=request_options,
         )
 
@@ -160,6 +166,7 @@ class EmployersClient:
         ein: str,
         email: str,
         address: EmployerAddressInput,
+        vitable_organization: typing.Optional[XVitableOrganization] = None,
         phone_number: typing.Optional[str] = OMIT,
         reference_id: typing.Optional[str] = OMIT,
         request_options: typing.Optional[RequestOptions] = None,
@@ -183,6 +190,9 @@ class EmployersClient:
 
         address : EmployerAddressInput
             Employer address
+
+        vitable_organization : typing.Optional[XVitableOrganization]
+            Organization to act as for this request (e.g. `org_SGVsbG8gV29ybGQ`). Optional when your credentials reach a single organization. Required when they reach several — omitting it then returns 400 `organization_required`. A malformed value returns 400 `invalid_organization_header`, and naming an organization you do not have access to returns 403 `organization_access_denied`.
 
         phone_number : typing.Optional[str]
             Employer phone number (10-digit US format, e.g. 5551234567)
@@ -227,6 +237,7 @@ class EmployersClient:
             ein=ein,
             email=email,
             address=address,
+            vitable_organization=vitable_organization,
             phone_number=phone_number,
             reference_id=reference_id,
             request_options=request_options,
@@ -234,7 +245,11 @@ class EmployersClient:
         return _response.data
 
     def get(
-        self, employer_id: EmployerId, *, request_options: typing.Optional[RequestOptions] = None
+        self,
+        employer_id: EmployerId,
+        *,
+        vitable_organization: typing.Optional[XVitableOrganization] = None,
+        request_options: typing.Optional[RequestOptions] = None,
     ) -> EmployerResponse:
         """
         Retrieves detailed information for a specific employer by ID. The employer must belong to the authenticated organization.
@@ -243,6 +258,9 @@ class EmployersClient:
         ----------
         employer_id : EmployerId
             Unique employer identifier (empr_*)
+
+        vitable_organization : typing.Optional[XVitableOrganization]
+            Organization to act as for this request (e.g. `org_SGVsbG8gV29ybGQ`). Optional when your credentials reach a single organization. Required when they reach several — omitting it then returns 400 `organization_required`. A malformed value returns 400 `invalid_organization_header`, and naming an organization you do not have access to returns 403 `organization_access_denied`.
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
@@ -263,13 +281,16 @@ class EmployersClient:
             employer_id="empr_abc123def456",
         )
         """
-        _response = self._raw_client.get(employer_id, request_options=request_options)
+        _response = self._raw_client.get(
+            employer_id, vitable_organization=vitable_organization, request_options=request_options
+        )
         return _response.data
 
     def update(
         self,
         employer_id: EmployerId,
         *,
+        vitable_organization: typing.Optional[XVitableOrganization] = None,
         name: typing.Optional[str] = OMIT,
         legal_name: typing.Optional[str] = OMIT,
         address: typing.Optional[UpdateEmployerAddressInput] = OMIT,
@@ -283,6 +304,9 @@ class EmployersClient:
         ----------
         employer_id : EmployerId
             Unique employer identifier (empr_*)
+
+        vitable_organization : typing.Optional[XVitableOrganization]
+            Organization to act as for this request (e.g. `org_SGVsbG8gV29ybGQ`). Optional when your credentials reach a single organization. Required when they reach several — omitting it then returns 400 `organization_required`. A malformed value returns 400 `invalid_organization_header`, and naming an organization you do not have access to returns 403 `organization_access_denied`.
 
         name : typing.Optional[str]
             Employer display name
@@ -317,6 +341,7 @@ class EmployersClient:
         """
         _response = self._raw_client.update(
             employer_id,
+            vitable_organization=vitable_organization,
             name=name,
             legal_name=legal_name,
             address=address,
@@ -326,7 +351,11 @@ class EmployersClient:
         return _response.data
 
     def list_benefit_plan_years(
-        self, employer_id: EmployerId, *, request_options: typing.Optional[RequestOptions] = None
+        self,
+        employer_id: EmployerId,
+        *,
+        vitable_organization: typing.Optional[XVitableOrganization] = None,
+        request_options: typing.Optional[RequestOptions] = None,
     ) -> EmployerBenefitPlanYearsListResponse:
         """
         Returns the employer's benefit plan years (all years, or one when `year` is given), each with its benefits, offered states, benefit families, and the year-level enrollment roll-up. The caller must be authorized for the employer; an unknown or unauthorized employer returns 404.
@@ -335,6 +364,9 @@ class EmployersClient:
         ----------
         employer_id : EmployerId
             Unique employer identifier (empr_*)
+
+        vitable_organization : typing.Optional[XVitableOrganization]
+            Organization to act as for this request (e.g. `org_SGVsbG8gV29ybGQ`). Optional when your credentials reach a single organization. Required when they reach several — omitting it then returns 400 `organization_required`. A malformed value returns 400 `invalid_organization_header`, and naming an organization you do not have access to returns 403 `organization_access_denied`.
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
@@ -355,7 +387,9 @@ class EmployersClient:
             employer_id="empr_abc123def456",
         )
         """
-        _response = self._raw_client.list_benefit_plan_years(employer_id, request_options=request_options)
+        _response = self._raw_client.list_benefit_plan_years(
+            employer_id, vitable_organization=vitable_organization, request_options=request_options
+        )
         return _response.data
 
     def get_benefit_plan_year(
@@ -363,6 +397,7 @@ class EmployersClient:
         employer_id: EmployerId,
         benefit_plan_year_id: BenefitPlanYearId,
         *,
+        vitable_organization: typing.Optional[XVitableOrganization] = None,
         request_options: typing.Optional[RequestOptions] = None,
     ) -> EmployerBenefitPlanYearResponse:
         """
@@ -375,6 +410,9 @@ class EmployersClient:
 
         benefit_plan_year_id : BenefitPlanYearId
             Unique benefit-plan-year identifier (plyr_*).
+
+        vitable_organization : typing.Optional[XVitableOrganization]
+            Organization to act as for this request (e.g. `org_SGVsbG8gV29ybGQ`). Optional when your credentials reach a single organization. Required when they reach several — omitting it then returns 400 `organization_required`. A malformed value returns 400 `invalid_organization_header`, and naming an organization you do not have access to returns 403 `organization_access_denied`.
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
@@ -397,7 +435,10 @@ class EmployersClient:
         )
         """
         _response = self._raw_client.get_benefit_plan_year(
-            employer_id, benefit_plan_year_id, request_options=request_options
+            employer_id,
+            benefit_plan_year_id,
+            vitable_organization=vitable_organization,
+            request_options=request_options,
         )
         return _response.data
 
@@ -410,6 +451,7 @@ class EmployersClient:
         limit: typing.Optional[Limit] = None,
         page: typing.Optional[Page] = None,
         search: typing.Optional[EmployerSearch] = None,
+        vitable_organization: typing.Optional[XVitableOrganization] = None,
         request_options: typing.Optional[RequestOptions] = None,
     ) -> SyncPager[PlanYearEnrollment, PlanYearEnrollmentListResponse]:
         """
@@ -434,6 +476,9 @@ class EmployersClient:
 
         search : typing.Optional[EmployerSearch]
             Case-insensitive search. Matches member name partially, and the `member_id` exactly — either your own reference id or the prefixed `grpmbr_<...>` id.
+
+        vitable_organization : typing.Optional[XVitableOrganization]
+            Organization to act as for this request (e.g. `org_SGVsbG8gV29ybGQ`). Optional when your credentials reach a single organization. Required when they reach several — omitting it then returns 400 `organization_required`. A malformed value returns 400 `invalid_organization_header`, and naming an organization you do not have access to returns 403 `organization_access_denied`.
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
@@ -469,6 +514,7 @@ class EmployersClient:
             limit=limit,
             page=page,
             search=search,
+            vitable_organization=vitable_organization,
             request_options=request_options,
         )
 
@@ -565,6 +611,7 @@ class EmployersClient:
         limit: typing.Optional[Limit] = None,
         page: typing.Optional[Page] = None,
         search: typing.Optional[EmployeeSearch] = None,
+        vitable_organization: typing.Optional[XVitableOrganization] = None,
         request_options: typing.Optional[RequestOptions] = None,
     ) -> SyncPager[Employee, EmployeeListResponse]:
         """
@@ -586,6 +633,9 @@ class EmployersClient:
 
         search : typing.Optional[EmployeeSearch]
             Case-insensitive search across employee first name, last name, and email
+
+        vitable_organization : typing.Optional[XVitableOrganization]
+            Organization to act as for this request (e.g. `org_SGVsbG8gV29ybGQ`). Optional when your credentials reach a single organization. Required when they reach several — omitting it then returns 400 `organization_required`. A malformed value returns 400 `invalid_organization_header`, and naming an organization you do not have access to returns 403 `organization_access_denied`.
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
@@ -620,11 +670,16 @@ class EmployersClient:
             limit=limit,
             page=page,
             search=search,
+            vitable_organization=vitable_organization,
             request_options=request_options,
         )
 
     def get_hris(
-        self, employer_id: EmployerId, *, request_options: typing.Optional[RequestOptions] = None
+        self,
+        employer_id: EmployerId,
+        *,
+        vitable_organization: typing.Optional[XVitableOrganization] = None,
+        request_options: typing.Optional[RequestOptions] = None,
     ) -> EmployerHrisResponse:
         """
         Returns the employer's HRIS connection — provider, status, last sync, and synced row count — or null when the employer has no integration. The caller must be authorized for the employer; an unknown or unauthorized employer returns 404.
@@ -633,6 +688,9 @@ class EmployersClient:
         ----------
         employer_id : EmployerId
             Unique employer identifier (empr_*)
+
+        vitable_organization : typing.Optional[XVitableOrganization]
+            Organization to act as for this request (e.g. `org_SGVsbG8gV29ybGQ`). Optional when your credentials reach a single organization. Required when they reach several — omitting it then returns 400 `organization_required`. A malformed value returns 400 `invalid_organization_header`, and naming an organization you do not have access to returns 403 `organization_access_denied`.
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
@@ -653,7 +711,9 @@ class EmployersClient:
             employer_id="empr_abc123def456",
         )
         """
-        _response = self._raw_client.get_hris(employer_id, request_options=request_options)
+        _response = self._raw_client.get_hris(
+            employer_id, vitable_organization=vitable_organization, request_options=request_options
+        )
         return _response.data
 
     def list_invoices(
@@ -662,6 +722,7 @@ class EmployersClient:
         *,
         limit: typing.Optional[Limit] = None,
         offset: typing.Optional[Offset] = None,
+        vitable_organization: typing.Optional[XVitableOrganization] = None,
         request_options: typing.Optional[RequestOptions] = None,
     ) -> EmployerInvoicesListResponse:
         """
@@ -677,6 +738,9 @@ class EmployersClient:
 
         offset : typing.Optional[Offset]
             Opaque cursor from a previous page's next_offset
+
+        vitable_organization : typing.Optional[XVitableOrganization]
+            Organization to act as for this request (e.g. `org_SGVsbG8gV29ybGQ`). Optional when your credentials reach a single organization. Required when they reach several — omitting it then returns 400 `organization_required`. A malformed value returns 400 `invalid_organization_header`, and naming an organization you do not have access to returns 403 `organization_access_denied`.
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
@@ -699,12 +763,21 @@ class EmployersClient:
         )
         """
         _response = self._raw_client.list_invoices(
-            employer_id, limit=limit, offset=offset, request_options=request_options
+            employer_id,
+            limit=limit,
+            offset=offset,
+            vitable_organization=vitable_organization,
+            request_options=request_options,
         )
         return _response.data
 
     def get_invoice_pdf(
-        self, employer_id: EmployerId, invoice_id: InvoiceId, *, request_options: typing.Optional[RequestOptions] = None
+        self,
+        employer_id: EmployerId,
+        invoice_id: InvoiceId,
+        *,
+        vitable_organization: typing.Optional[XVitableOrganization] = None,
+        request_options: typing.Optional[RequestOptions] = None,
     ) -> EmployerInvoicePdfResponse:
         """
         Returns the time-limited PDF download link for a single invoice belonging to the employer's billing customer. `invoice_id` is the external Chargebee id (not a prefixed UUID). The caller must be authorized for the employer; an unknown or unauthorized employer or invoice returns 404.
@@ -716,6 +789,9 @@ class EmployersClient:
 
         invoice_id : InvoiceId
             External Chargebee invoice id (not a prefixed UUID).
+
+        vitable_organization : typing.Optional[XVitableOrganization]
+            Organization to act as for this request (e.g. `org_SGVsbG8gV29ybGQ`). Optional when your credentials reach a single organization. Required when they reach several — omitting it then returns 400 `organization_required`. A malformed value returns 400 `invalid_organization_header`, and naming an organization you do not have access to returns 403 `organization_access_denied`.
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
@@ -737,11 +813,17 @@ class EmployersClient:
             invoice_id="INV-00042",
         )
         """
-        _response = self._raw_client.get_invoice_pdf(employer_id, invoice_id, request_options=request_options)
+        _response = self._raw_client.get_invoice_pdf(
+            employer_id, invoice_id, vitable_organization=vitable_organization, request_options=request_options
+        )
         return _response.data
 
     def get_payroll_access_setup(
-        self, employer_id: EmployerId, *, request_options: typing.Optional[RequestOptions] = None
+        self,
+        employer_id: EmployerId,
+        *,
+        vitable_organization: typing.Optional[XVitableOrganization] = None,
+        request_options: typing.Optional[RequestOptions] = None,
     ) -> PayrollAccessSetupStatusResponse:
         """
         Return whether the employer has submitted payroll access setup.
@@ -749,6 +831,9 @@ class EmployersClient:
         Parameters
         ----------
         employer_id : EmployerId
+
+        vitable_organization : typing.Optional[XVitableOrganization]
+            Organization to act as for this request (e.g. `org_SGVsbG8gV29ybGQ`). Optional when your credentials reach a single organization. Required when they reach several — omitting it then returns 400 `organization_required`. A malformed value returns 400 `invalid_organization_header`, and naming an organization you do not have access to returns 403 `organization_access_denied`.
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
@@ -769,7 +854,9 @@ class EmployersClient:
             employer_id="empr_abc123def456",
         )
         """
-        _response = self._raw_client.get_payroll_access_setup(employer_id, request_options=request_options)
+        _response = self._raw_client.get_payroll_access_setup(
+            employer_id, vitable_organization=vitable_organization, request_options=request_options
+        )
         return _response.data
 
     def submit_payroll_access_setup(
@@ -783,6 +870,7 @@ class EmployersClient:
         is_controlled_group: bool,
         access_method: AccessMethod,
         has_additional_payroll_system: bool,
+        vitable_organization: typing.Optional[XVitableOrganization] = None,
         classification_correction_source: typing.Optional[ClassificationCorrectionSource] = OMIT,
         misclassified_employee_names: typing.Optional[typing.Sequence[str]] = OMIT,
         remaining_employee_action: typing.Optional[RemainingEmployeeAction] = OMIT,
@@ -827,6 +915,9 @@ class EmployersClient:
 
         has_additional_payroll_system : bool
             Whether a second payroll system is in use. When `true`, supply the `additional_*` fields below.
+
+        vitable_organization : typing.Optional[XVitableOrganization]
+            Organization to act as for this request (e.g. `org_SGVsbG8gV29ybGQ`). Optional when your credentials reach a single organization. Required when they reach several — omitting it then returns 400 `organization_required`. A malformed value returns 400 `invalid_organization_header`, and naming an organization you do not have access to returns 403 `organization_access_denied`.
 
         classification_correction_source : typing.Optional[ClassificationCorrectionSource]
             Where corrected classifications come from, when `classifications_accurate` is `false`.
@@ -911,6 +1002,7 @@ class EmployersClient:
             is_controlled_group=is_controlled_group,
             access_method=access_method,
             has_additional_payroll_system=has_additional_payroll_system,
+            vitable_organization=vitable_organization,
             classification_correction_source=classification_correction_source,
             misclassified_employee_names=misclassified_employee_names,
             remaining_employee_action=remaining_employee_action,
@@ -937,6 +1029,7 @@ class EmployersClient:
         *,
         limit: typing.Optional[Limit] = None,
         page: typing.Optional[Page] = None,
+        vitable_organization: typing.Optional[XVitableOrganization] = None,
         request_options: typing.Optional[RequestOptions] = None,
     ) -> SyncPager[PayrollDeductionStatement, EmployerPayrollDeductionStatementListResponse]:
         """
@@ -952,6 +1045,9 @@ class EmployersClient:
 
         page : typing.Optional[Page]
             Page number to retrieve (starts at 1)
+
+        vitable_organization : typing.Optional[XVitableOrganization]
+            Organization to act as for this request (e.g. `org_SGVsbG8gV29ybGQ`). Optional when your credentials reach a single organization. Required when they reach several — omitting it then returns 400 `organization_required`. A malformed value returns 400 `invalid_organization_header`, and naming an organization you do not have access to returns 403 `organization_access_denied`.
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
@@ -980,11 +1076,19 @@ class EmployersClient:
             yield page
         """
         return self._raw_client.list_payroll_deduction_statements(
-            employer_id, limit=limit, page=page, request_options=request_options
+            employer_id,
+            limit=limit,
+            page=page,
+            vitable_organization=vitable_organization,
+            request_options=request_options,
         )
 
     def ensure_payroll_integration_email(
-        self, employer_id: EmployerId, *, request_options: typing.Optional[RequestOptions] = None
+        self,
+        employer_id: EmployerId,
+        *,
+        vitable_organization: typing.Optional[XVitableOrganization] = None,
+        request_options: typing.Optional[RequestOptions] = None,
     ) -> PayrollIntegrationEmailResponse:
         """
         Provision and return the employer's payroll integration email.
@@ -992,6 +1096,9 @@ class EmployersClient:
         Parameters
         ----------
         employer_id : EmployerId
+
+        vitable_organization : typing.Optional[XVitableOrganization]
+            Organization to act as for this request (e.g. `org_SGVsbG8gV29ybGQ`). Optional when your credentials reach a single organization. Required when they reach several — omitting it then returns 400 `organization_required`. A malformed value returns 400 `invalid_organization_header`, and naming an organization you do not have access to returns 403 `organization_access_denied`.
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
@@ -1012,7 +1119,9 @@ class EmployersClient:
             employer_id="empr_abc123def456",
         )
         """
-        _response = self._raw_client.ensure_payroll_integration_email(employer_id, request_options=request_options)
+        _response = self._raw_client.ensure_payroll_integration_email(
+            employer_id, vitable_organization=vitable_organization, request_options=request_options
+        )
         return _response.data
 
     def update_settings(
@@ -1020,6 +1129,7 @@ class EmployersClient:
         employer_id: EmployerId,
         *,
         pay_frequency: DeductionFrequency,
+        vitable_organization: typing.Optional[XVitableOrganization] = None,
         request_options: typing.Optional[RequestOptions] = None,
     ) -> EmployerSettingsResponse:
         """
@@ -1031,6 +1141,9 @@ class EmployersClient:
             Unique employer identifier (empr_*)
 
         pay_frequency : DeductionFrequency
+
+        vitable_organization : typing.Optional[XVitableOrganization]
+            Organization to act as for this request (e.g. `org_SGVsbG8gV29ybGQ`). Optional when your credentials reach a single organization. Required when they reach several — omitting it then returns 400 `organization_required`. A malformed value returns 400 `invalid_organization_header`, and naming an organization you do not have access to returns 403 `organization_access_denied`.
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
@@ -1053,18 +1166,27 @@ class EmployersClient:
         )
         """
         _response = self._raw_client.update_settings(
-            employer_id, pay_frequency=pay_frequency, request_options=request_options
+            employer_id,
+            pay_frequency=pay_frequency,
+            vitable_organization=vitable_organization,
+            request_options=request_options,
         )
         return _response.data
 
     def list_hris_providers(
-        self, *, request_options: typing.Optional[RequestOptions] = None
+        self,
+        *,
+        vitable_organization: typing.Optional[XVitableOrganization] = None,
+        request_options: typing.Optional[RequestOptions] = None,
     ) -> OrganizationHrisProvidersResponse:
         """
         Returns the distinct HRIS/payroll providers across the same book `GET /v1/employers` returns, sorted for display. Use these as the values for the employers list's `hris_provider` filter — filter on `provider`, show `provider_label`. The stored providers are free text, so they cannot be enumerated in advance.
 
         Parameters
         ----------
+        vitable_organization : typing.Optional[XVitableOrganization]
+            Organization to act as for this request (e.g. `org_SGVsbG8gV29ybGQ`). Optional when your credentials reach a single organization. Required when they reach several — omitting it then returns 400 `organization_required`. A malformed value returns 400 `invalid_organization_header`, and naming an organization you do not have access to returns 403 `organization_access_denied`.
+
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
 
@@ -1082,7 +1204,9 @@ class EmployersClient:
         )
         client.employers.list_hris_providers()
         """
-        _response = self._raw_client.list_hris_providers(request_options=request_options)
+        _response = self._raw_client.list_hris_providers(
+            vitable_organization=vitable_organization, request_options=request_options
+        )
         return _response.data
 
 
@@ -1116,6 +1240,7 @@ class AsyncEmployersClient:
         limit: typing.Optional[Limit] = None,
         page: typing.Optional[Page] = None,
         search: typing.Optional[Search] = None,
+        vitable_organization: typing.Optional[XVitableOrganization] = None,
         request_options: typing.Optional[RequestOptions] = None,
     ) -> AsyncPager[OrganizationEmployer, OrganizationEmployerListResponse]:
         """
@@ -1146,6 +1271,9 @@ class AsyncEmployersClient:
 
         search : typing.Optional[Search]
             Employer filter. Matches the display name or the legal name case-insensitively as a substring, or one of these exactly: the EIN (with or without its dash), the employer id, or the contact email of one of the employer's non-disabled admins.
+
+        vitable_organization : typing.Optional[XVitableOrganization]
+            Organization to act as for this request (e.g. `org_SGVsbG8gV29ybGQ`). Optional when your credentials reach a single organization. Required when they reach several — omitting it then returns 400 `organization_required`. A malformed value returns 400 `invalid_organization_header`, and naming an organization you do not have access to returns 403 `organization_access_denied`.
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
@@ -1190,6 +1318,7 @@ class AsyncEmployersClient:
             limit=limit,
             page=page,
             search=search,
+            vitable_organization=vitable_organization,
             request_options=request_options,
         )
 
@@ -1201,6 +1330,7 @@ class AsyncEmployersClient:
         ein: str,
         email: str,
         address: EmployerAddressInput,
+        vitable_organization: typing.Optional[XVitableOrganization] = None,
         phone_number: typing.Optional[str] = OMIT,
         reference_id: typing.Optional[str] = OMIT,
         request_options: typing.Optional[RequestOptions] = None,
@@ -1224,6 +1354,9 @@ class AsyncEmployersClient:
 
         address : EmployerAddressInput
             Employer address
+
+        vitable_organization : typing.Optional[XVitableOrganization]
+            Organization to act as for this request (e.g. `org_SGVsbG8gV29ybGQ`). Optional when your credentials reach a single organization. Required when they reach several — omitting it then returns 400 `organization_required`. A malformed value returns 400 `invalid_organization_header`, and naming an organization you do not have access to returns 403 `organization_access_denied`.
 
         phone_number : typing.Optional[str]
             Employer phone number (10-digit US format, e.g. 5551234567)
@@ -1276,6 +1409,7 @@ class AsyncEmployersClient:
             ein=ein,
             email=email,
             address=address,
+            vitable_organization=vitable_organization,
             phone_number=phone_number,
             reference_id=reference_id,
             request_options=request_options,
@@ -1283,7 +1417,11 @@ class AsyncEmployersClient:
         return _response.data
 
     async def get(
-        self, employer_id: EmployerId, *, request_options: typing.Optional[RequestOptions] = None
+        self,
+        employer_id: EmployerId,
+        *,
+        vitable_organization: typing.Optional[XVitableOrganization] = None,
+        request_options: typing.Optional[RequestOptions] = None,
     ) -> EmployerResponse:
         """
         Retrieves detailed information for a specific employer by ID. The employer must belong to the authenticated organization.
@@ -1292,6 +1430,9 @@ class AsyncEmployersClient:
         ----------
         employer_id : EmployerId
             Unique employer identifier (empr_*)
+
+        vitable_organization : typing.Optional[XVitableOrganization]
+            Organization to act as for this request (e.g. `org_SGVsbG8gV29ybGQ`). Optional when your credentials reach a single organization. Required when they reach several — omitting it then returns 400 `organization_required`. A malformed value returns 400 `invalid_organization_header`, and naming an organization you do not have access to returns 403 `organization_access_denied`.
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
@@ -1320,13 +1461,16 @@ class AsyncEmployersClient:
 
         asyncio.run(main())
         """
-        _response = await self._raw_client.get(employer_id, request_options=request_options)
+        _response = await self._raw_client.get(
+            employer_id, vitable_organization=vitable_organization, request_options=request_options
+        )
         return _response.data
 
     async def update(
         self,
         employer_id: EmployerId,
         *,
+        vitable_organization: typing.Optional[XVitableOrganization] = None,
         name: typing.Optional[str] = OMIT,
         legal_name: typing.Optional[str] = OMIT,
         address: typing.Optional[UpdateEmployerAddressInput] = OMIT,
@@ -1340,6 +1484,9 @@ class AsyncEmployersClient:
         ----------
         employer_id : EmployerId
             Unique employer identifier (empr_*)
+
+        vitable_organization : typing.Optional[XVitableOrganization]
+            Organization to act as for this request (e.g. `org_SGVsbG8gV29ybGQ`). Optional when your credentials reach a single organization. Required when they reach several — omitting it then returns 400 `organization_required`. A malformed value returns 400 `invalid_organization_header`, and naming an organization you do not have access to returns 403 `organization_access_denied`.
 
         name : typing.Optional[str]
             Employer display name
@@ -1382,6 +1529,7 @@ class AsyncEmployersClient:
         """
         _response = await self._raw_client.update(
             employer_id,
+            vitable_organization=vitable_organization,
             name=name,
             legal_name=legal_name,
             address=address,
@@ -1391,7 +1539,11 @@ class AsyncEmployersClient:
         return _response.data
 
     async def list_benefit_plan_years(
-        self, employer_id: EmployerId, *, request_options: typing.Optional[RequestOptions] = None
+        self,
+        employer_id: EmployerId,
+        *,
+        vitable_organization: typing.Optional[XVitableOrganization] = None,
+        request_options: typing.Optional[RequestOptions] = None,
     ) -> EmployerBenefitPlanYearsListResponse:
         """
         Returns the employer's benefit plan years (all years, or one when `year` is given), each with its benefits, offered states, benefit families, and the year-level enrollment roll-up. The caller must be authorized for the employer; an unknown or unauthorized employer returns 404.
@@ -1400,6 +1552,9 @@ class AsyncEmployersClient:
         ----------
         employer_id : EmployerId
             Unique employer identifier (empr_*)
+
+        vitable_organization : typing.Optional[XVitableOrganization]
+            Organization to act as for this request (e.g. `org_SGVsbG8gV29ybGQ`). Optional when your credentials reach a single organization. Required when they reach several — omitting it then returns 400 `organization_required`. A malformed value returns 400 `invalid_organization_header`, and naming an organization you do not have access to returns 403 `organization_access_denied`.
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
@@ -1428,7 +1583,9 @@ class AsyncEmployersClient:
 
         asyncio.run(main())
         """
-        _response = await self._raw_client.list_benefit_plan_years(employer_id, request_options=request_options)
+        _response = await self._raw_client.list_benefit_plan_years(
+            employer_id, vitable_organization=vitable_organization, request_options=request_options
+        )
         return _response.data
 
     async def get_benefit_plan_year(
@@ -1436,6 +1593,7 @@ class AsyncEmployersClient:
         employer_id: EmployerId,
         benefit_plan_year_id: BenefitPlanYearId,
         *,
+        vitable_organization: typing.Optional[XVitableOrganization] = None,
         request_options: typing.Optional[RequestOptions] = None,
     ) -> EmployerBenefitPlanYearResponse:
         """
@@ -1448,6 +1606,9 @@ class AsyncEmployersClient:
 
         benefit_plan_year_id : BenefitPlanYearId
             Unique benefit-plan-year identifier (plyr_*).
+
+        vitable_organization : typing.Optional[XVitableOrganization]
+            Organization to act as for this request (e.g. `org_SGVsbG8gV29ybGQ`). Optional when your credentials reach a single organization. Required when they reach several — omitting it then returns 400 `organization_required`. A malformed value returns 400 `invalid_organization_header`, and naming an organization you do not have access to returns 403 `organization_access_denied`.
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
@@ -1478,7 +1639,10 @@ class AsyncEmployersClient:
         asyncio.run(main())
         """
         _response = await self._raw_client.get_benefit_plan_year(
-            employer_id, benefit_plan_year_id, request_options=request_options
+            employer_id,
+            benefit_plan_year_id,
+            vitable_organization=vitable_organization,
+            request_options=request_options,
         )
         return _response.data
 
@@ -1491,6 +1655,7 @@ class AsyncEmployersClient:
         limit: typing.Optional[Limit] = None,
         page: typing.Optional[Page] = None,
         search: typing.Optional[EmployerSearch] = None,
+        vitable_organization: typing.Optional[XVitableOrganization] = None,
         request_options: typing.Optional[RequestOptions] = None,
     ) -> AsyncPager[PlanYearEnrollment, PlanYearEnrollmentListResponse]:
         """
@@ -1515,6 +1680,9 @@ class AsyncEmployersClient:
 
         search : typing.Optional[EmployerSearch]
             Case-insensitive search. Matches member name partially, and the `member_id` exactly — either your own reference id or the prefixed `grpmbr_<...>` id.
+
+        vitable_organization : typing.Optional[XVitableOrganization]
+            Organization to act as for this request (e.g. `org_SGVsbG8gV29ybGQ`). Optional when your credentials reach a single organization. Required when they reach several — omitting it then returns 400 `organization_required`. A malformed value returns 400 `invalid_organization_header`, and naming an organization you do not have access to returns 403 `organization_access_denied`.
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
@@ -1559,6 +1727,7 @@ class AsyncEmployersClient:
             limit=limit,
             page=page,
             search=search,
+            vitable_organization=vitable_organization,
             request_options=request_options,
         )
 
@@ -1662,6 +1831,7 @@ class AsyncEmployersClient:
         limit: typing.Optional[Limit] = None,
         page: typing.Optional[Page] = None,
         search: typing.Optional[EmployeeSearch] = None,
+        vitable_organization: typing.Optional[XVitableOrganization] = None,
         request_options: typing.Optional[RequestOptions] = None,
     ) -> AsyncPager[Employee, EmployeeListResponse]:
         """
@@ -1683,6 +1853,9 @@ class AsyncEmployersClient:
 
         search : typing.Optional[EmployeeSearch]
             Case-insensitive search across employee first name, last name, and email
+
+        vitable_organization : typing.Optional[XVitableOrganization]
+            Organization to act as for this request (e.g. `org_SGVsbG8gV29ybGQ`). Optional when your credentials reach a single organization. Required when they reach several — omitting it then returns 400 `organization_required`. A malformed value returns 400 `invalid_organization_header`, and naming an organization you do not have access to returns 403 `organization_access_denied`.
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
@@ -1726,11 +1899,16 @@ class AsyncEmployersClient:
             limit=limit,
             page=page,
             search=search,
+            vitable_organization=vitable_organization,
             request_options=request_options,
         )
 
     async def get_hris(
-        self, employer_id: EmployerId, *, request_options: typing.Optional[RequestOptions] = None
+        self,
+        employer_id: EmployerId,
+        *,
+        vitable_organization: typing.Optional[XVitableOrganization] = None,
+        request_options: typing.Optional[RequestOptions] = None,
     ) -> EmployerHrisResponse:
         """
         Returns the employer's HRIS connection — provider, status, last sync, and synced row count — or null when the employer has no integration. The caller must be authorized for the employer; an unknown or unauthorized employer returns 404.
@@ -1739,6 +1917,9 @@ class AsyncEmployersClient:
         ----------
         employer_id : EmployerId
             Unique employer identifier (empr_*)
+
+        vitable_organization : typing.Optional[XVitableOrganization]
+            Organization to act as for this request (e.g. `org_SGVsbG8gV29ybGQ`). Optional when your credentials reach a single organization. Required when they reach several — omitting it then returns 400 `organization_required`. A malformed value returns 400 `invalid_organization_header`, and naming an organization you do not have access to returns 403 `organization_access_denied`.
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
@@ -1767,7 +1948,9 @@ class AsyncEmployersClient:
 
         asyncio.run(main())
         """
-        _response = await self._raw_client.get_hris(employer_id, request_options=request_options)
+        _response = await self._raw_client.get_hris(
+            employer_id, vitable_organization=vitable_organization, request_options=request_options
+        )
         return _response.data
 
     async def list_invoices(
@@ -1776,6 +1959,7 @@ class AsyncEmployersClient:
         *,
         limit: typing.Optional[Limit] = None,
         offset: typing.Optional[Offset] = None,
+        vitable_organization: typing.Optional[XVitableOrganization] = None,
         request_options: typing.Optional[RequestOptions] = None,
     ) -> EmployerInvoicesListResponse:
         """
@@ -1791,6 +1975,9 @@ class AsyncEmployersClient:
 
         offset : typing.Optional[Offset]
             Opaque cursor from a previous page's next_offset
+
+        vitable_organization : typing.Optional[XVitableOrganization]
+            Organization to act as for this request (e.g. `org_SGVsbG8gV29ybGQ`). Optional when your credentials reach a single organization. Required when they reach several — omitting it then returns 400 `organization_required`. A malformed value returns 400 `invalid_organization_header`, and naming an organization you do not have access to returns 403 `organization_access_denied`.
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
@@ -1821,12 +2008,21 @@ class AsyncEmployersClient:
         asyncio.run(main())
         """
         _response = await self._raw_client.list_invoices(
-            employer_id, limit=limit, offset=offset, request_options=request_options
+            employer_id,
+            limit=limit,
+            offset=offset,
+            vitable_organization=vitable_organization,
+            request_options=request_options,
         )
         return _response.data
 
     async def get_invoice_pdf(
-        self, employer_id: EmployerId, invoice_id: InvoiceId, *, request_options: typing.Optional[RequestOptions] = None
+        self,
+        employer_id: EmployerId,
+        invoice_id: InvoiceId,
+        *,
+        vitable_organization: typing.Optional[XVitableOrganization] = None,
+        request_options: typing.Optional[RequestOptions] = None,
     ) -> EmployerInvoicePdfResponse:
         """
         Returns the time-limited PDF download link for a single invoice belonging to the employer's billing customer. `invoice_id` is the external Chargebee id (not a prefixed UUID). The caller must be authorized for the employer; an unknown or unauthorized employer or invoice returns 404.
@@ -1838,6 +2034,9 @@ class AsyncEmployersClient:
 
         invoice_id : InvoiceId
             External Chargebee invoice id (not a prefixed UUID).
+
+        vitable_organization : typing.Optional[XVitableOrganization]
+            Organization to act as for this request (e.g. `org_SGVsbG8gV29ybGQ`). Optional when your credentials reach a single organization. Required when they reach several — omitting it then returns 400 `organization_required`. A malformed value returns 400 `invalid_organization_header`, and naming an organization you do not have access to returns 403 `organization_access_denied`.
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
@@ -1867,11 +2066,17 @@ class AsyncEmployersClient:
 
         asyncio.run(main())
         """
-        _response = await self._raw_client.get_invoice_pdf(employer_id, invoice_id, request_options=request_options)
+        _response = await self._raw_client.get_invoice_pdf(
+            employer_id, invoice_id, vitable_organization=vitable_organization, request_options=request_options
+        )
         return _response.data
 
     async def get_payroll_access_setup(
-        self, employer_id: EmployerId, *, request_options: typing.Optional[RequestOptions] = None
+        self,
+        employer_id: EmployerId,
+        *,
+        vitable_organization: typing.Optional[XVitableOrganization] = None,
+        request_options: typing.Optional[RequestOptions] = None,
     ) -> PayrollAccessSetupStatusResponse:
         """
         Return whether the employer has submitted payroll access setup.
@@ -1879,6 +2084,9 @@ class AsyncEmployersClient:
         Parameters
         ----------
         employer_id : EmployerId
+
+        vitable_organization : typing.Optional[XVitableOrganization]
+            Organization to act as for this request (e.g. `org_SGVsbG8gV29ybGQ`). Optional when your credentials reach a single organization. Required when they reach several — omitting it then returns 400 `organization_required`. A malformed value returns 400 `invalid_organization_header`, and naming an organization you do not have access to returns 403 `organization_access_denied`.
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
@@ -1907,7 +2115,9 @@ class AsyncEmployersClient:
 
         asyncio.run(main())
         """
-        _response = await self._raw_client.get_payroll_access_setup(employer_id, request_options=request_options)
+        _response = await self._raw_client.get_payroll_access_setup(
+            employer_id, vitable_organization=vitable_organization, request_options=request_options
+        )
         return _response.data
 
     async def submit_payroll_access_setup(
@@ -1921,6 +2131,7 @@ class AsyncEmployersClient:
         is_controlled_group: bool,
         access_method: AccessMethod,
         has_additional_payroll_system: bool,
+        vitable_organization: typing.Optional[XVitableOrganization] = None,
         classification_correction_source: typing.Optional[ClassificationCorrectionSource] = OMIT,
         misclassified_employee_names: typing.Optional[typing.Sequence[str]] = OMIT,
         remaining_employee_action: typing.Optional[RemainingEmployeeAction] = OMIT,
@@ -1965,6 +2176,9 @@ class AsyncEmployersClient:
 
         has_additional_payroll_system : bool
             Whether a second payroll system is in use. When `true`, supply the `additional_*` fields below.
+
+        vitable_organization : typing.Optional[XVitableOrganization]
+            Organization to act as for this request (e.g. `org_SGVsbG8gV29ybGQ`). Optional when your credentials reach a single organization. Required when they reach several — omitting it then returns 400 `organization_required`. A malformed value returns 400 `invalid_organization_header`, and naming an organization you do not have access to returns 403 `organization_access_denied`.
 
         classification_correction_source : typing.Optional[ClassificationCorrectionSource]
             Where corrected classifications come from, when `classifications_accurate` is `false`.
@@ -2057,6 +2271,7 @@ class AsyncEmployersClient:
             is_controlled_group=is_controlled_group,
             access_method=access_method,
             has_additional_payroll_system=has_additional_payroll_system,
+            vitable_organization=vitable_organization,
             classification_correction_source=classification_correction_source,
             misclassified_employee_names=misclassified_employee_names,
             remaining_employee_action=remaining_employee_action,
@@ -2083,6 +2298,7 @@ class AsyncEmployersClient:
         *,
         limit: typing.Optional[Limit] = None,
         page: typing.Optional[Page] = None,
+        vitable_organization: typing.Optional[XVitableOrganization] = None,
         request_options: typing.Optional[RequestOptions] = None,
     ) -> AsyncPager[PayrollDeductionStatement, EmployerPayrollDeductionStatementListResponse]:
         """
@@ -2098,6 +2314,9 @@ class AsyncEmployersClient:
 
         page : typing.Optional[Page]
             Page number to retrieve (starts at 1)
+
+        vitable_organization : typing.Optional[XVitableOrganization]
+            Organization to act as for this request (e.g. `org_SGVsbG8gV29ybGQ`). Optional when your credentials reach a single organization. Required when they reach several — omitting it then returns 400 `organization_required`. A malformed value returns 400 `invalid_organization_header`, and naming an organization you do not have access to returns 403 `organization_access_denied`.
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
@@ -2135,11 +2354,19 @@ class AsyncEmployersClient:
         asyncio.run(main())
         """
         return await self._raw_client.list_payroll_deduction_statements(
-            employer_id, limit=limit, page=page, request_options=request_options
+            employer_id,
+            limit=limit,
+            page=page,
+            vitable_organization=vitable_organization,
+            request_options=request_options,
         )
 
     async def ensure_payroll_integration_email(
-        self, employer_id: EmployerId, *, request_options: typing.Optional[RequestOptions] = None
+        self,
+        employer_id: EmployerId,
+        *,
+        vitable_organization: typing.Optional[XVitableOrganization] = None,
+        request_options: typing.Optional[RequestOptions] = None,
     ) -> PayrollIntegrationEmailResponse:
         """
         Provision and return the employer's payroll integration email.
@@ -2147,6 +2374,9 @@ class AsyncEmployersClient:
         Parameters
         ----------
         employer_id : EmployerId
+
+        vitable_organization : typing.Optional[XVitableOrganization]
+            Organization to act as for this request (e.g. `org_SGVsbG8gV29ybGQ`). Optional when your credentials reach a single organization. Required when they reach several — omitting it then returns 400 `organization_required`. A malformed value returns 400 `invalid_organization_header`, and naming an organization you do not have access to returns 403 `organization_access_denied`.
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
@@ -2176,7 +2406,7 @@ class AsyncEmployersClient:
         asyncio.run(main())
         """
         _response = await self._raw_client.ensure_payroll_integration_email(
-            employer_id, request_options=request_options
+            employer_id, vitable_organization=vitable_organization, request_options=request_options
         )
         return _response.data
 
@@ -2185,6 +2415,7 @@ class AsyncEmployersClient:
         employer_id: EmployerId,
         *,
         pay_frequency: DeductionFrequency,
+        vitable_organization: typing.Optional[XVitableOrganization] = None,
         request_options: typing.Optional[RequestOptions] = None,
     ) -> EmployerSettingsResponse:
         """
@@ -2196,6 +2427,9 @@ class AsyncEmployersClient:
             Unique employer identifier (empr_*)
 
         pay_frequency : DeductionFrequency
+
+        vitable_organization : typing.Optional[XVitableOrganization]
+            Organization to act as for this request (e.g. `org_SGVsbG8gV29ybGQ`). Optional when your credentials reach a single organization. Required when they reach several — omitting it then returns 400 `organization_required`. A malformed value returns 400 `invalid_organization_header`, and naming an organization you do not have access to returns 403 `organization_access_denied`.
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
@@ -2226,18 +2460,27 @@ class AsyncEmployersClient:
         asyncio.run(main())
         """
         _response = await self._raw_client.update_settings(
-            employer_id, pay_frequency=pay_frequency, request_options=request_options
+            employer_id,
+            pay_frequency=pay_frequency,
+            vitable_organization=vitable_organization,
+            request_options=request_options,
         )
         return _response.data
 
     async def list_hris_providers(
-        self, *, request_options: typing.Optional[RequestOptions] = None
+        self,
+        *,
+        vitable_organization: typing.Optional[XVitableOrganization] = None,
+        request_options: typing.Optional[RequestOptions] = None,
     ) -> OrganizationHrisProvidersResponse:
         """
         Returns the distinct HRIS/payroll providers across the same book `GET /v1/employers` returns, sorted for display. Use these as the values for the employers list's `hris_provider` filter — filter on `provider`, show `provider_label`. The stored providers are free text, so they cannot be enumerated in advance.
 
         Parameters
         ----------
+        vitable_organization : typing.Optional[XVitableOrganization]
+            Organization to act as for this request (e.g. `org_SGVsbG8gV29ybGQ`). Optional when your credentials reach a single organization. Required when they reach several — omitting it then returns 400 `organization_required`. A malformed value returns 400 `invalid_organization_header`, and naming an organization you do not have access to returns 403 `organization_access_denied`.
+
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
 
@@ -2263,5 +2506,7 @@ class AsyncEmployersClient:
 
         asyncio.run(main())
         """
-        _response = await self._raw_client.list_hris_providers(request_options=request_options)
+        _response = await self._raw_client.list_hris_providers(
+            vitable_organization=vitable_organization, request_options=request_options
+        )
         return _response.data

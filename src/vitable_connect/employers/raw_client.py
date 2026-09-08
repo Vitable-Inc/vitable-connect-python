@@ -65,6 +65,7 @@ from ..types.plan_year_enrollment_list_response import PlanYearEnrollmentListRes
 from ..types.remaining_employee_action import RemainingEmployeeAction
 from ..types.search import Search
 from ..types.update_employer_address_input import UpdateEmployerAddressInput
+from ..types.x_vitable_organization import XVitableOrganization
 from pydantic import ValidationError
 
 # this is used as the default value for optional parameters
@@ -90,6 +91,7 @@ class RawEmployersClient:
         limit: typing.Optional[Limit] = None,
         page: typing.Optional[Page] = None,
         search: typing.Optional[Search] = None,
+        vitable_organization: typing.Optional[XVitableOrganization] = None,
         request_options: typing.Optional[RequestOptions] = None,
     ) -> SyncPager[OrganizationEmployer, OrganizationEmployerListResponse]:
         """
@@ -121,6 +123,9 @@ class RawEmployersClient:
         search : typing.Optional[Search]
             Employer filter. Matches the display name or the legal name case-insensitively as a substring, or one of these exactly: the EIN (with or without its dash), the employer id, or the contact email of one of the employer's non-disabled admins.
 
+        vitable_organization : typing.Optional[XVitableOrganization]
+            Organization to act as for this request (e.g. `org_SGVsbG8gV29ybGQ`). Optional when your credentials reach a single organization. Required when they reach several — omitting it then returns 400 `organization_required`. A malformed value returns 400 `invalid_organization_header`, and naming an organization you do not have access to returns 403 `organization_access_denied`.
+
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
 
@@ -144,6 +149,9 @@ class RawEmployersClient:
                 "page": page,
                 "search": search,
             },
+            headers={
+                "X-Vitable-Organization": str(vitable_organization) if vitable_organization is not None else None,
+            },
             request_options=request_options,
         )
         try:
@@ -166,6 +174,7 @@ class RawEmployersClient:
                     limit=limit,
                     page=page + 1,
                     search=search,
+                    vitable_organization=vitable_organization,
                     request_options=request_options,
                 )
                 return SyncPager(has_next=_has_next, items=_items, get_next=_get_next, response=_parsed_response)
@@ -274,6 +283,7 @@ class RawEmployersClient:
         ein: str,
         email: str,
         address: EmployerAddressInput,
+        vitable_organization: typing.Optional[XVitableOrganization] = None,
         phone_number: typing.Optional[str] = OMIT,
         reference_id: typing.Optional[str] = OMIT,
         request_options: typing.Optional[RequestOptions] = None,
@@ -297,6 +307,9 @@ class RawEmployersClient:
 
         address : EmployerAddressInput
             Employer address
+
+        vitable_organization : typing.Optional[XVitableOrganization]
+            Organization to act as for this request (e.g. `org_SGVsbG8gV29ybGQ`). Optional when your credentials reach a single organization. Required when they reach several — omitting it then returns 400 `organization_required`. A malformed value returns 400 `invalid_organization_header`, and naming an organization you do not have access to returns 403 `organization_access_denied`.
 
         phone_number : typing.Optional[str]
             Employer phone number (10-digit US format, e.g. 5551234567)
@@ -328,6 +341,7 @@ class RawEmployersClient:
             },
             headers={
                 "content-type": "application/json",
+                "X-Vitable-Organization": str(vitable_organization) if vitable_organization is not None else None,
             },
             request_options=request_options,
             omit=OMIT,
@@ -451,7 +465,11 @@ class RawEmployersClient:
         raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response_json)
 
     def get(
-        self, employer_id: EmployerId, *, request_options: typing.Optional[RequestOptions] = None
+        self,
+        employer_id: EmployerId,
+        *,
+        vitable_organization: typing.Optional[XVitableOrganization] = None,
+        request_options: typing.Optional[RequestOptions] = None,
     ) -> HttpResponse[EmployerResponse]:
         """
         Retrieves detailed information for a specific employer by ID. The employer must belong to the authenticated organization.
@@ -460,6 +478,9 @@ class RawEmployersClient:
         ----------
         employer_id : EmployerId
             Unique employer identifier (empr_*)
+
+        vitable_organization : typing.Optional[XVitableOrganization]
+            Organization to act as for this request (e.g. `org_SGVsbG8gV29ybGQ`). Optional when your credentials reach a single organization. Required when they reach several — omitting it then returns 400 `organization_required`. A malformed value returns 400 `invalid_organization_header`, and naming an organization you do not have access to returns 403 `organization_access_denied`.
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
@@ -472,6 +493,9 @@ class RawEmployersClient:
         _response = self._client_wrapper.httpx_client.request(
             f"v1/employers/{encode_path_param(employer_id)}",
             method="GET",
+            headers={
+                "X-Vitable-Organization": str(vitable_organization) if vitable_organization is not None else None,
+            },
             request_options=request_options,
         )
         try:
@@ -585,6 +609,7 @@ class RawEmployersClient:
         self,
         employer_id: EmployerId,
         *,
+        vitable_organization: typing.Optional[XVitableOrganization] = None,
         name: typing.Optional[str] = OMIT,
         legal_name: typing.Optional[str] = OMIT,
         address: typing.Optional[UpdateEmployerAddressInput] = OMIT,
@@ -598,6 +623,9 @@ class RawEmployersClient:
         ----------
         employer_id : EmployerId
             Unique employer identifier (empr_*)
+
+        vitable_organization : typing.Optional[XVitableOrganization]
+            Organization to act as for this request (e.g. `org_SGVsbG8gV29ybGQ`). Optional when your credentials reach a single organization. Required when they reach several — omitting it then returns 400 `organization_required`. A malformed value returns 400 `invalid_organization_header`, and naming an organization you do not have access to returns 403 `organization_access_denied`.
 
         name : typing.Optional[str]
             Employer display name
@@ -632,6 +660,7 @@ class RawEmployersClient:
             },
             headers={
                 "content-type": "application/json",
+                "X-Vitable-Organization": str(vitable_organization) if vitable_organization is not None else None,
             },
             request_options=request_options,
             omit=OMIT,
@@ -755,7 +784,11 @@ class RawEmployersClient:
         raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response_json)
 
     def list_benefit_plan_years(
-        self, employer_id: EmployerId, *, request_options: typing.Optional[RequestOptions] = None
+        self,
+        employer_id: EmployerId,
+        *,
+        vitable_organization: typing.Optional[XVitableOrganization] = None,
+        request_options: typing.Optional[RequestOptions] = None,
     ) -> HttpResponse[EmployerBenefitPlanYearsListResponse]:
         """
         Returns the employer's benefit plan years (all years, or one when `year` is given), each with its benefits, offered states, benefit families, and the year-level enrollment roll-up. The caller must be authorized for the employer; an unknown or unauthorized employer returns 404.
@@ -764,6 +797,9 @@ class RawEmployersClient:
         ----------
         employer_id : EmployerId
             Unique employer identifier (empr_*)
+
+        vitable_organization : typing.Optional[XVitableOrganization]
+            Organization to act as for this request (e.g. `org_SGVsbG8gV29ybGQ`). Optional when your credentials reach a single organization. Required when they reach several — omitting it then returns 400 `organization_required`. A malformed value returns 400 `invalid_organization_header`, and naming an organization you do not have access to returns 403 `organization_access_denied`.
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
@@ -776,6 +812,9 @@ class RawEmployersClient:
         _response = self._client_wrapper.httpx_client.request(
             f"v1/employers/{encode_path_param(employer_id)}/benefit-plan-years",
             method="GET",
+            headers={
+                "X-Vitable-Organization": str(vitable_organization) if vitable_organization is not None else None,
+            },
             request_options=request_options,
         )
         try:
@@ -890,6 +929,7 @@ class RawEmployersClient:
         employer_id: EmployerId,
         benefit_plan_year_id: BenefitPlanYearId,
         *,
+        vitable_organization: typing.Optional[XVitableOrganization] = None,
         request_options: typing.Optional[RequestOptions] = None,
     ) -> HttpResponse[EmployerBenefitPlanYearResponse]:
         """
@@ -903,6 +943,9 @@ class RawEmployersClient:
         benefit_plan_year_id : BenefitPlanYearId
             Unique benefit-plan-year identifier (plyr_*).
 
+        vitable_organization : typing.Optional[XVitableOrganization]
+            Organization to act as for this request (e.g. `org_SGVsbG8gV29ybGQ`). Optional when your credentials reach a single organization. Required when they reach several — omitting it then returns 400 `organization_required`. A malformed value returns 400 `invalid_organization_header`, and naming an organization you do not have access to returns 403 `organization_access_denied`.
+
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
 
@@ -914,6 +957,9 @@ class RawEmployersClient:
         _response = self._client_wrapper.httpx_client.request(
             f"v1/employers/{encode_path_param(employer_id)}/benefit-plan-years/{encode_path_param(benefit_plan_year_id)}",
             method="GET",
+            headers={
+                "X-Vitable-Organization": str(vitable_organization) if vitable_organization is not None else None,
+            },
             request_options=request_options,
         )
         try:
@@ -1032,6 +1078,7 @@ class RawEmployersClient:
         limit: typing.Optional[Limit] = None,
         page: typing.Optional[Page] = None,
         search: typing.Optional[EmployerSearch] = None,
+        vitable_organization: typing.Optional[XVitableOrganization] = None,
         request_options: typing.Optional[RequestOptions] = None,
     ) -> SyncPager[PlanYearEnrollment, PlanYearEnrollmentListResponse]:
         """
@@ -1057,6 +1104,9 @@ class RawEmployersClient:
         search : typing.Optional[EmployerSearch]
             Case-insensitive search. Matches member name partially, and the `member_id` exactly — either your own reference id or the prefixed `grpmbr_<...>` id.
 
+        vitable_organization : typing.Optional[XVitableOrganization]
+            Organization to act as for this request (e.g. `org_SGVsbG8gV29ybGQ`). Optional when your credentials reach a single organization. Required when they reach several — omitting it then returns 400 `organization_required`. A malformed value returns 400 `invalid_organization_header`, and naming an organization you do not have access to returns 403 `organization_access_denied`.
+
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
 
@@ -1075,6 +1125,9 @@ class RawEmployersClient:
                 "limit": limit,
                 "page": page,
                 "search": search,
+            },
+            headers={
+                "X-Vitable-Organization": str(vitable_organization) if vitable_organization is not None else None,
             },
             request_options=request_options,
         )
@@ -1096,6 +1149,7 @@ class RawEmployersClient:
                     limit=limit,
                     page=page + 1,
                     search=search,
+                    vitable_organization=vitable_organization,
                     request_options=request_options,
                 )
                 return SyncPager(has_next=_has_next, items=_items, get_next=_get_next, response=_parsed_response)
@@ -1350,6 +1404,7 @@ class RawEmployersClient:
         limit: typing.Optional[Limit] = None,
         page: typing.Optional[Page] = None,
         search: typing.Optional[EmployeeSearch] = None,
+        vitable_organization: typing.Optional[XVitableOrganization] = None,
         request_options: typing.Optional[RequestOptions] = None,
     ) -> SyncPager[Employee, EmployeeListResponse]:
         """
@@ -1372,6 +1427,9 @@ class RawEmployersClient:
         search : typing.Optional[EmployeeSearch]
             Case-insensitive search across employee first name, last name, and email
 
+        vitable_organization : typing.Optional[XVitableOrganization]
+            Organization to act as for this request (e.g. `org_SGVsbG8gV29ybGQ`). Optional when your credentials reach a single organization. Required when they reach several — omitting it then returns 400 `organization_required`. A malformed value returns 400 `invalid_organization_header`, and naming an organization you do not have access to returns 403 `organization_access_denied`.
+
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
 
@@ -1390,6 +1448,9 @@ class RawEmployersClient:
                 "limit": limit,
                 "page": page,
                 "search": search,
+            },
+            headers={
+                "X-Vitable-Organization": str(vitable_organization) if vitable_organization is not None else None,
             },
             request_options=request_options,
         )
@@ -1410,6 +1471,7 @@ class RawEmployersClient:
                     limit=limit,
                     page=page + 1,
                     search=search,
+                    vitable_organization=vitable_organization,
                     request_options=request_options,
                 )
                 return SyncPager(has_next=_has_next, items=_items, get_next=_get_next, response=_parsed_response)
@@ -1522,7 +1584,11 @@ class RawEmployersClient:
         raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response_json)
 
     def get_hris(
-        self, employer_id: EmployerId, *, request_options: typing.Optional[RequestOptions] = None
+        self,
+        employer_id: EmployerId,
+        *,
+        vitable_organization: typing.Optional[XVitableOrganization] = None,
+        request_options: typing.Optional[RequestOptions] = None,
     ) -> HttpResponse[EmployerHrisResponse]:
         """
         Returns the employer's HRIS connection — provider, status, last sync, and synced row count — or null when the employer has no integration. The caller must be authorized for the employer; an unknown or unauthorized employer returns 404.
@@ -1531,6 +1597,9 @@ class RawEmployersClient:
         ----------
         employer_id : EmployerId
             Unique employer identifier (empr_*)
+
+        vitable_organization : typing.Optional[XVitableOrganization]
+            Organization to act as for this request (e.g. `org_SGVsbG8gV29ybGQ`). Optional when your credentials reach a single organization. Required when they reach several — omitting it then returns 400 `organization_required`. A malformed value returns 400 `invalid_organization_header`, and naming an organization you do not have access to returns 403 `organization_access_denied`.
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
@@ -1543,6 +1612,9 @@ class RawEmployersClient:
         _response = self._client_wrapper.httpx_client.request(
             f"v1/employers/{encode_path_param(employer_id)}/hris",
             method="GET",
+            headers={
+                "X-Vitable-Organization": str(vitable_organization) if vitable_organization is not None else None,
+            },
             request_options=request_options,
         )
         try:
@@ -1658,6 +1730,7 @@ class RawEmployersClient:
         *,
         limit: typing.Optional[Limit] = None,
         offset: typing.Optional[Offset] = None,
+        vitable_organization: typing.Optional[XVitableOrganization] = None,
         request_options: typing.Optional[RequestOptions] = None,
     ) -> HttpResponse[EmployerInvoicesListResponse]:
         """
@@ -1674,6 +1747,9 @@ class RawEmployersClient:
         offset : typing.Optional[Offset]
             Opaque cursor from a previous page's next_offset
 
+        vitable_organization : typing.Optional[XVitableOrganization]
+            Organization to act as for this request (e.g. `org_SGVsbG8gV29ybGQ`). Optional when your credentials reach a single organization. Required when they reach several — omitting it then returns 400 `organization_required`. A malformed value returns 400 `invalid_organization_header`, and naming an organization you do not have access to returns 403 `organization_access_denied`.
+
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
 
@@ -1688,6 +1764,9 @@ class RawEmployersClient:
             params={
                 "limit": limit,
                 "offset": offset,
+            },
+            headers={
+                "X-Vitable-Organization": str(vitable_organization) if vitable_organization is not None else None,
             },
             request_options=request_options,
         )
@@ -1810,7 +1889,12 @@ class RawEmployersClient:
         raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response_json)
 
     def get_invoice_pdf(
-        self, employer_id: EmployerId, invoice_id: InvoiceId, *, request_options: typing.Optional[RequestOptions] = None
+        self,
+        employer_id: EmployerId,
+        invoice_id: InvoiceId,
+        *,
+        vitable_organization: typing.Optional[XVitableOrganization] = None,
+        request_options: typing.Optional[RequestOptions] = None,
     ) -> HttpResponse[EmployerInvoicePdfResponse]:
         """
         Returns the time-limited PDF download link for a single invoice belonging to the employer's billing customer. `invoice_id` is the external Chargebee id (not a prefixed UUID). The caller must be authorized for the employer; an unknown or unauthorized employer or invoice returns 404.
@@ -1823,6 +1907,9 @@ class RawEmployersClient:
         invoice_id : InvoiceId
             External Chargebee invoice id (not a prefixed UUID).
 
+        vitable_organization : typing.Optional[XVitableOrganization]
+            Organization to act as for this request (e.g. `org_SGVsbG8gV29ybGQ`). Optional when your credentials reach a single organization. Required when they reach several — omitting it then returns 400 `organization_required`. A malformed value returns 400 `invalid_organization_header`, and naming an organization you do not have access to returns 403 `organization_access_denied`.
+
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
 
@@ -1834,6 +1921,9 @@ class RawEmployersClient:
         _response = self._client_wrapper.httpx_client.request(
             f"v1/employers/{encode_path_param(employer_id)}/invoices/{encode_path_param(invoice_id)}/pdf",
             method="GET",
+            headers={
+                "X-Vitable-Organization": str(vitable_organization) if vitable_organization is not None else None,
+            },
             request_options=request_options,
         )
         try:
@@ -1944,7 +2034,11 @@ class RawEmployersClient:
         raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response_json)
 
     def get_payroll_access_setup(
-        self, employer_id: EmployerId, *, request_options: typing.Optional[RequestOptions] = None
+        self,
+        employer_id: EmployerId,
+        *,
+        vitable_organization: typing.Optional[XVitableOrganization] = None,
+        request_options: typing.Optional[RequestOptions] = None,
     ) -> HttpResponse[PayrollAccessSetupStatusResponse]:
         """
         Return whether the employer has submitted payroll access setup.
@@ -1952,6 +2046,9 @@ class RawEmployersClient:
         Parameters
         ----------
         employer_id : EmployerId
+
+        vitable_organization : typing.Optional[XVitableOrganization]
+            Organization to act as for this request (e.g. `org_SGVsbG8gV29ybGQ`). Optional when your credentials reach a single organization. Required when they reach several — omitting it then returns 400 `organization_required`. A malformed value returns 400 `invalid_organization_header`, and naming an organization you do not have access to returns 403 `organization_access_denied`.
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
@@ -1964,6 +2061,9 @@ class RawEmployersClient:
         _response = self._client_wrapper.httpx_client.request(
             f"v1/employers/{encode_path_param(employer_id)}/payroll-access-setup",
             method="GET",
+            headers={
+                "X-Vitable-Organization": str(vitable_organization) if vitable_organization is not None else None,
+            },
             request_options=request_options,
         )
         try:
@@ -2084,6 +2184,7 @@ class RawEmployersClient:
         is_controlled_group: bool,
         access_method: AccessMethod,
         has_additional_payroll_system: bool,
+        vitable_organization: typing.Optional[XVitableOrganization] = None,
         classification_correction_source: typing.Optional[ClassificationCorrectionSource] = OMIT,
         misclassified_employee_names: typing.Optional[typing.Sequence[str]] = OMIT,
         remaining_employee_action: typing.Optional[RemainingEmployeeAction] = OMIT,
@@ -2128,6 +2229,9 @@ class RawEmployersClient:
 
         has_additional_payroll_system : bool
             Whether a second payroll system is in use. When `true`, supply the `additional_*` fields below.
+
+        vitable_organization : typing.Optional[XVitableOrganization]
+            Organization to act as for this request (e.g. `org_SGVsbG8gV29ybGQ`). Optional when your credentials reach a single organization. Required when they reach several — omitting it then returns 400 `organization_required`. A malformed value returns 400 `invalid_organization_header`, and naming an organization you do not have access to returns 403 `organization_access_denied`.
 
         classification_correction_source : typing.Optional[ClassificationCorrectionSource]
             Where corrected classifications come from, when `classifications_accurate` is `false`.
@@ -2215,6 +2319,7 @@ class RawEmployersClient:
             },
             headers={
                 "content-type": "application/json",
+                "X-Vitable-Organization": str(vitable_organization) if vitable_organization is not None else None,
             },
             request_options=request_options,
             omit=OMIT,
@@ -2332,6 +2437,7 @@ class RawEmployersClient:
         *,
         limit: typing.Optional[Limit] = None,
         page: typing.Optional[Page] = None,
+        vitable_organization: typing.Optional[XVitableOrganization] = None,
         request_options: typing.Optional[RequestOptions] = None,
     ) -> SyncPager[PayrollDeductionStatement, EmployerPayrollDeductionStatementListResponse]:
         """
@@ -2347,6 +2453,9 @@ class RawEmployersClient:
 
         page : typing.Optional[Page]
             Page number to retrieve (starts at 1)
+
+        vitable_organization : typing.Optional[XVitableOrganization]
+            Organization to act as for this request (e.g. `org_SGVsbG8gV29ybGQ`). Optional when your credentials reach a single organization. Required when they reach several — omitting it then returns 400 `organization_required`. A malformed value returns 400 `invalid_organization_header`, and naming an organization you do not have access to returns 403 `organization_access_denied`.
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
@@ -2365,6 +2474,9 @@ class RawEmployersClient:
                 "limit": limit,
                 "page": page,
             },
+            headers={
+                "X-Vitable-Organization": str(vitable_organization) if vitable_organization is not None else None,
+            },
             request_options=request_options,
         )
         try:
@@ -2382,6 +2494,7 @@ class RawEmployersClient:
                     employer_id,
                     limit=limit,
                     page=page + 1,
+                    vitable_organization=vitable_organization,
                     request_options=request_options,
                 )
                 return SyncPager(has_next=_has_next, items=_items, get_next=_get_next, response=_parsed_response)
@@ -2494,7 +2607,11 @@ class RawEmployersClient:
         raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response_json)
 
     def ensure_payroll_integration_email(
-        self, employer_id: EmployerId, *, request_options: typing.Optional[RequestOptions] = None
+        self,
+        employer_id: EmployerId,
+        *,
+        vitable_organization: typing.Optional[XVitableOrganization] = None,
+        request_options: typing.Optional[RequestOptions] = None,
     ) -> HttpResponse[PayrollIntegrationEmailResponse]:
         """
         Provision and return the employer's payroll integration email.
@@ -2502,6 +2619,9 @@ class RawEmployersClient:
         Parameters
         ----------
         employer_id : EmployerId
+
+        vitable_organization : typing.Optional[XVitableOrganization]
+            Organization to act as for this request (e.g. `org_SGVsbG8gV29ybGQ`). Optional when your credentials reach a single organization. Required when they reach several — omitting it then returns 400 `organization_required`. A malformed value returns 400 `invalid_organization_header`, and naming an organization you do not have access to returns 403 `organization_access_denied`.
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
@@ -2514,6 +2634,9 @@ class RawEmployersClient:
         _response = self._client_wrapper.httpx_client.request(
             f"v1/employers/{encode_path_param(employer_id)}/payroll-integration-email",
             method="PUT",
+            headers={
+                "X-Vitable-Organization": str(vitable_organization) if vitable_organization is not None else None,
+            },
             request_options=request_options,
         )
         try:
@@ -2628,6 +2751,7 @@ class RawEmployersClient:
         employer_id: EmployerId,
         *,
         pay_frequency: DeductionFrequency,
+        vitable_organization: typing.Optional[XVitableOrganization] = None,
         request_options: typing.Optional[RequestOptions] = None,
     ) -> HttpResponse[EmployerSettingsResponse]:
         """
@@ -2639,6 +2763,9 @@ class RawEmployersClient:
             Unique employer identifier (empr_*)
 
         pay_frequency : DeductionFrequency
+
+        vitable_organization : typing.Optional[XVitableOrganization]
+            Organization to act as for this request (e.g. `org_SGVsbG8gV29ybGQ`). Optional when your credentials reach a single organization. Required when they reach several — omitting it then returns 400 `organization_required`. A malformed value returns 400 `invalid_organization_header`, and naming an organization you do not have access to returns 403 `organization_access_denied`.
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
@@ -2656,6 +2783,7 @@ class RawEmployersClient:
             },
             headers={
                 "content-type": "application/json",
+                "X-Vitable-Organization": str(vitable_organization) if vitable_organization is not None else None,
             },
             request_options=request_options,
             omit=OMIT,
@@ -2768,13 +2896,19 @@ class RawEmployersClient:
         raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response_json)
 
     def list_hris_providers(
-        self, *, request_options: typing.Optional[RequestOptions] = None
+        self,
+        *,
+        vitable_organization: typing.Optional[XVitableOrganization] = None,
+        request_options: typing.Optional[RequestOptions] = None,
     ) -> HttpResponse[OrganizationHrisProvidersResponse]:
         """
         Returns the distinct HRIS/payroll providers across the same book `GET /v1/employers` returns, sorted for display. Use these as the values for the employers list's `hris_provider` filter — filter on `provider`, show `provider_label`. The stored providers are free text, so they cannot be enumerated in advance.
 
         Parameters
         ----------
+        vitable_organization : typing.Optional[XVitableOrganization]
+            Organization to act as for this request (e.g. `org_SGVsbG8gV29ybGQ`). Optional when your credentials reach a single organization. Required when they reach several — omitting it then returns 400 `organization_required`. A malformed value returns 400 `invalid_organization_header`, and naming an organization you do not have access to returns 403 `organization_access_denied`.
+
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
 
@@ -2786,6 +2920,9 @@ class RawEmployersClient:
         _response = self._client_wrapper.httpx_client.request(
             "v1/employers/hris-providers",
             method="GET",
+            headers={
+                "X-Vitable-Organization": str(vitable_organization) if vitable_organization is not None else None,
+            },
             request_options=request_options,
         )
         try:
@@ -2915,6 +3052,7 @@ class AsyncRawEmployersClient:
         limit: typing.Optional[Limit] = None,
         page: typing.Optional[Page] = None,
         search: typing.Optional[Search] = None,
+        vitable_organization: typing.Optional[XVitableOrganization] = None,
         request_options: typing.Optional[RequestOptions] = None,
     ) -> AsyncPager[OrganizationEmployer, OrganizationEmployerListResponse]:
         """
@@ -2946,6 +3084,9 @@ class AsyncRawEmployersClient:
         search : typing.Optional[Search]
             Employer filter. Matches the display name or the legal name case-insensitively as a substring, or one of these exactly: the EIN (with or without its dash), the employer id, or the contact email of one of the employer's non-disabled admins.
 
+        vitable_organization : typing.Optional[XVitableOrganization]
+            Organization to act as for this request (e.g. `org_SGVsbG8gV29ybGQ`). Optional when your credentials reach a single organization. Required when they reach several — omitting it then returns 400 `organization_required`. A malformed value returns 400 `invalid_organization_header`, and naming an organization you do not have access to returns 403 `organization_access_denied`.
+
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
 
@@ -2968,6 +3109,9 @@ class AsyncRawEmployersClient:
                 "limit": limit,
                 "page": page,
                 "search": search,
+            },
+            headers={
+                "X-Vitable-Organization": str(vitable_organization) if vitable_organization is not None else None,
             },
             request_options=request_options,
         )
@@ -2993,6 +3137,7 @@ class AsyncRawEmployersClient:
                         limit=limit,
                         page=page + 1,
                         search=search,
+                        vitable_organization=vitable_organization,
                         request_options=request_options,
                     )
 
@@ -3102,6 +3247,7 @@ class AsyncRawEmployersClient:
         ein: str,
         email: str,
         address: EmployerAddressInput,
+        vitable_organization: typing.Optional[XVitableOrganization] = None,
         phone_number: typing.Optional[str] = OMIT,
         reference_id: typing.Optional[str] = OMIT,
         request_options: typing.Optional[RequestOptions] = None,
@@ -3125,6 +3271,9 @@ class AsyncRawEmployersClient:
 
         address : EmployerAddressInput
             Employer address
+
+        vitable_organization : typing.Optional[XVitableOrganization]
+            Organization to act as for this request (e.g. `org_SGVsbG8gV29ybGQ`). Optional when your credentials reach a single organization. Required when they reach several — omitting it then returns 400 `organization_required`. A malformed value returns 400 `invalid_organization_header`, and naming an organization you do not have access to returns 403 `organization_access_denied`.
 
         phone_number : typing.Optional[str]
             Employer phone number (10-digit US format, e.g. 5551234567)
@@ -3156,6 +3305,7 @@ class AsyncRawEmployersClient:
             },
             headers={
                 "content-type": "application/json",
+                "X-Vitable-Organization": str(vitable_organization) if vitable_organization is not None else None,
             },
             request_options=request_options,
             omit=OMIT,
@@ -3279,7 +3429,11 @@ class AsyncRawEmployersClient:
         raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response_json)
 
     async def get(
-        self, employer_id: EmployerId, *, request_options: typing.Optional[RequestOptions] = None
+        self,
+        employer_id: EmployerId,
+        *,
+        vitable_organization: typing.Optional[XVitableOrganization] = None,
+        request_options: typing.Optional[RequestOptions] = None,
     ) -> AsyncHttpResponse[EmployerResponse]:
         """
         Retrieves detailed information for a specific employer by ID. The employer must belong to the authenticated organization.
@@ -3288,6 +3442,9 @@ class AsyncRawEmployersClient:
         ----------
         employer_id : EmployerId
             Unique employer identifier (empr_*)
+
+        vitable_organization : typing.Optional[XVitableOrganization]
+            Organization to act as for this request (e.g. `org_SGVsbG8gV29ybGQ`). Optional when your credentials reach a single organization. Required when they reach several — omitting it then returns 400 `organization_required`. A malformed value returns 400 `invalid_organization_header`, and naming an organization you do not have access to returns 403 `organization_access_denied`.
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
@@ -3300,6 +3457,9 @@ class AsyncRawEmployersClient:
         _response = await self._client_wrapper.httpx_client.request(
             f"v1/employers/{encode_path_param(employer_id)}",
             method="GET",
+            headers={
+                "X-Vitable-Organization": str(vitable_organization) if vitable_organization is not None else None,
+            },
             request_options=request_options,
         )
         try:
@@ -3413,6 +3573,7 @@ class AsyncRawEmployersClient:
         self,
         employer_id: EmployerId,
         *,
+        vitable_organization: typing.Optional[XVitableOrganization] = None,
         name: typing.Optional[str] = OMIT,
         legal_name: typing.Optional[str] = OMIT,
         address: typing.Optional[UpdateEmployerAddressInput] = OMIT,
@@ -3426,6 +3587,9 @@ class AsyncRawEmployersClient:
         ----------
         employer_id : EmployerId
             Unique employer identifier (empr_*)
+
+        vitable_organization : typing.Optional[XVitableOrganization]
+            Organization to act as for this request (e.g. `org_SGVsbG8gV29ybGQ`). Optional when your credentials reach a single organization. Required when they reach several — omitting it then returns 400 `organization_required`. A malformed value returns 400 `invalid_organization_header`, and naming an organization you do not have access to returns 403 `organization_access_denied`.
 
         name : typing.Optional[str]
             Employer display name
@@ -3460,6 +3624,7 @@ class AsyncRawEmployersClient:
             },
             headers={
                 "content-type": "application/json",
+                "X-Vitable-Organization": str(vitable_organization) if vitable_organization is not None else None,
             },
             request_options=request_options,
             omit=OMIT,
@@ -3583,7 +3748,11 @@ class AsyncRawEmployersClient:
         raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response_json)
 
     async def list_benefit_plan_years(
-        self, employer_id: EmployerId, *, request_options: typing.Optional[RequestOptions] = None
+        self,
+        employer_id: EmployerId,
+        *,
+        vitable_organization: typing.Optional[XVitableOrganization] = None,
+        request_options: typing.Optional[RequestOptions] = None,
     ) -> AsyncHttpResponse[EmployerBenefitPlanYearsListResponse]:
         """
         Returns the employer's benefit plan years (all years, or one when `year` is given), each with its benefits, offered states, benefit families, and the year-level enrollment roll-up. The caller must be authorized for the employer; an unknown or unauthorized employer returns 404.
@@ -3592,6 +3761,9 @@ class AsyncRawEmployersClient:
         ----------
         employer_id : EmployerId
             Unique employer identifier (empr_*)
+
+        vitable_organization : typing.Optional[XVitableOrganization]
+            Organization to act as for this request (e.g. `org_SGVsbG8gV29ybGQ`). Optional when your credentials reach a single organization. Required when they reach several — omitting it then returns 400 `organization_required`. A malformed value returns 400 `invalid_organization_header`, and naming an organization you do not have access to returns 403 `organization_access_denied`.
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
@@ -3604,6 +3776,9 @@ class AsyncRawEmployersClient:
         _response = await self._client_wrapper.httpx_client.request(
             f"v1/employers/{encode_path_param(employer_id)}/benefit-plan-years",
             method="GET",
+            headers={
+                "X-Vitable-Organization": str(vitable_organization) if vitable_organization is not None else None,
+            },
             request_options=request_options,
         )
         try:
@@ -3718,6 +3893,7 @@ class AsyncRawEmployersClient:
         employer_id: EmployerId,
         benefit_plan_year_id: BenefitPlanYearId,
         *,
+        vitable_organization: typing.Optional[XVitableOrganization] = None,
         request_options: typing.Optional[RequestOptions] = None,
     ) -> AsyncHttpResponse[EmployerBenefitPlanYearResponse]:
         """
@@ -3731,6 +3907,9 @@ class AsyncRawEmployersClient:
         benefit_plan_year_id : BenefitPlanYearId
             Unique benefit-plan-year identifier (plyr_*).
 
+        vitable_organization : typing.Optional[XVitableOrganization]
+            Organization to act as for this request (e.g. `org_SGVsbG8gV29ybGQ`). Optional when your credentials reach a single organization. Required when they reach several — omitting it then returns 400 `organization_required`. A malformed value returns 400 `invalid_organization_header`, and naming an organization you do not have access to returns 403 `organization_access_denied`.
+
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
 
@@ -3742,6 +3921,9 @@ class AsyncRawEmployersClient:
         _response = await self._client_wrapper.httpx_client.request(
             f"v1/employers/{encode_path_param(employer_id)}/benefit-plan-years/{encode_path_param(benefit_plan_year_id)}",
             method="GET",
+            headers={
+                "X-Vitable-Organization": str(vitable_organization) if vitable_organization is not None else None,
+            },
             request_options=request_options,
         )
         try:
@@ -3860,6 +4042,7 @@ class AsyncRawEmployersClient:
         limit: typing.Optional[Limit] = None,
         page: typing.Optional[Page] = None,
         search: typing.Optional[EmployerSearch] = None,
+        vitable_organization: typing.Optional[XVitableOrganization] = None,
         request_options: typing.Optional[RequestOptions] = None,
     ) -> AsyncPager[PlanYearEnrollment, PlanYearEnrollmentListResponse]:
         """
@@ -3885,6 +4068,9 @@ class AsyncRawEmployersClient:
         search : typing.Optional[EmployerSearch]
             Case-insensitive search. Matches member name partially, and the `member_id` exactly — either your own reference id or the prefixed `grpmbr_<...>` id.
 
+        vitable_organization : typing.Optional[XVitableOrganization]
+            Organization to act as for this request (e.g. `org_SGVsbG8gV29ybGQ`). Optional when your credentials reach a single organization. Required when they reach several — omitting it then returns 400 `organization_required`. A malformed value returns 400 `invalid_organization_header`, and naming an organization you do not have access to returns 403 `organization_access_denied`.
+
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
 
@@ -3903,6 +4089,9 @@ class AsyncRawEmployersClient:
                 "limit": limit,
                 "page": page,
                 "search": search,
+            },
+            headers={
+                "X-Vitable-Organization": str(vitable_organization) if vitable_organization is not None else None,
             },
             request_options=request_options,
         )
@@ -3926,6 +4115,7 @@ class AsyncRawEmployersClient:
                         limit=limit,
                         page=page + 1,
                         search=search,
+                        vitable_organization=vitable_organization,
                         request_options=request_options,
                     )
 
@@ -4181,6 +4371,7 @@ class AsyncRawEmployersClient:
         limit: typing.Optional[Limit] = None,
         page: typing.Optional[Page] = None,
         search: typing.Optional[EmployeeSearch] = None,
+        vitable_organization: typing.Optional[XVitableOrganization] = None,
         request_options: typing.Optional[RequestOptions] = None,
     ) -> AsyncPager[Employee, EmployeeListResponse]:
         """
@@ -4203,6 +4394,9 @@ class AsyncRawEmployersClient:
         search : typing.Optional[EmployeeSearch]
             Case-insensitive search across employee first name, last name, and email
 
+        vitable_organization : typing.Optional[XVitableOrganization]
+            Organization to act as for this request (e.g. `org_SGVsbG8gV29ybGQ`). Optional when your credentials reach a single organization. Required when they reach several — omitting it then returns 400 `organization_required`. A malformed value returns 400 `invalid_organization_header`, and naming an organization you do not have access to returns 403 `organization_access_denied`.
+
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
 
@@ -4221,6 +4415,9 @@ class AsyncRawEmployersClient:
                 "limit": limit,
                 "page": page,
                 "search": search,
+            },
+            headers={
+                "X-Vitable-Organization": str(vitable_organization) if vitable_organization is not None else None,
             },
             request_options=request_options,
         )
@@ -4243,6 +4440,7 @@ class AsyncRawEmployersClient:
                         limit=limit,
                         page=page + 1,
                         search=search,
+                        vitable_organization=vitable_organization,
                         request_options=request_options,
                     )
 
@@ -4356,7 +4554,11 @@ class AsyncRawEmployersClient:
         raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response_json)
 
     async def get_hris(
-        self, employer_id: EmployerId, *, request_options: typing.Optional[RequestOptions] = None
+        self,
+        employer_id: EmployerId,
+        *,
+        vitable_organization: typing.Optional[XVitableOrganization] = None,
+        request_options: typing.Optional[RequestOptions] = None,
     ) -> AsyncHttpResponse[EmployerHrisResponse]:
         """
         Returns the employer's HRIS connection — provider, status, last sync, and synced row count — or null when the employer has no integration. The caller must be authorized for the employer; an unknown or unauthorized employer returns 404.
@@ -4365,6 +4567,9 @@ class AsyncRawEmployersClient:
         ----------
         employer_id : EmployerId
             Unique employer identifier (empr_*)
+
+        vitable_organization : typing.Optional[XVitableOrganization]
+            Organization to act as for this request (e.g. `org_SGVsbG8gV29ybGQ`). Optional when your credentials reach a single organization. Required when they reach several — omitting it then returns 400 `organization_required`. A malformed value returns 400 `invalid_organization_header`, and naming an organization you do not have access to returns 403 `organization_access_denied`.
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
@@ -4377,6 +4582,9 @@ class AsyncRawEmployersClient:
         _response = await self._client_wrapper.httpx_client.request(
             f"v1/employers/{encode_path_param(employer_id)}/hris",
             method="GET",
+            headers={
+                "X-Vitable-Organization": str(vitable_organization) if vitable_organization is not None else None,
+            },
             request_options=request_options,
         )
         try:
@@ -4492,6 +4700,7 @@ class AsyncRawEmployersClient:
         *,
         limit: typing.Optional[Limit] = None,
         offset: typing.Optional[Offset] = None,
+        vitable_organization: typing.Optional[XVitableOrganization] = None,
         request_options: typing.Optional[RequestOptions] = None,
     ) -> AsyncHttpResponse[EmployerInvoicesListResponse]:
         """
@@ -4508,6 +4717,9 @@ class AsyncRawEmployersClient:
         offset : typing.Optional[Offset]
             Opaque cursor from a previous page's next_offset
 
+        vitable_organization : typing.Optional[XVitableOrganization]
+            Organization to act as for this request (e.g. `org_SGVsbG8gV29ybGQ`). Optional when your credentials reach a single organization. Required when they reach several — omitting it then returns 400 `organization_required`. A malformed value returns 400 `invalid_organization_header`, and naming an organization you do not have access to returns 403 `organization_access_denied`.
+
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
 
@@ -4522,6 +4734,9 @@ class AsyncRawEmployersClient:
             params={
                 "limit": limit,
                 "offset": offset,
+            },
+            headers={
+                "X-Vitable-Organization": str(vitable_organization) if vitable_organization is not None else None,
             },
             request_options=request_options,
         )
@@ -4644,7 +4859,12 @@ class AsyncRawEmployersClient:
         raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response_json)
 
     async def get_invoice_pdf(
-        self, employer_id: EmployerId, invoice_id: InvoiceId, *, request_options: typing.Optional[RequestOptions] = None
+        self,
+        employer_id: EmployerId,
+        invoice_id: InvoiceId,
+        *,
+        vitable_organization: typing.Optional[XVitableOrganization] = None,
+        request_options: typing.Optional[RequestOptions] = None,
     ) -> AsyncHttpResponse[EmployerInvoicePdfResponse]:
         """
         Returns the time-limited PDF download link for a single invoice belonging to the employer's billing customer. `invoice_id` is the external Chargebee id (not a prefixed UUID). The caller must be authorized for the employer; an unknown or unauthorized employer or invoice returns 404.
@@ -4657,6 +4877,9 @@ class AsyncRawEmployersClient:
         invoice_id : InvoiceId
             External Chargebee invoice id (not a prefixed UUID).
 
+        vitable_organization : typing.Optional[XVitableOrganization]
+            Organization to act as for this request (e.g. `org_SGVsbG8gV29ybGQ`). Optional when your credentials reach a single organization. Required when they reach several — omitting it then returns 400 `organization_required`. A malformed value returns 400 `invalid_organization_header`, and naming an organization you do not have access to returns 403 `organization_access_denied`.
+
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
 
@@ -4668,6 +4891,9 @@ class AsyncRawEmployersClient:
         _response = await self._client_wrapper.httpx_client.request(
             f"v1/employers/{encode_path_param(employer_id)}/invoices/{encode_path_param(invoice_id)}/pdf",
             method="GET",
+            headers={
+                "X-Vitable-Organization": str(vitable_organization) if vitable_organization is not None else None,
+            },
             request_options=request_options,
         )
         try:
@@ -4778,7 +5004,11 @@ class AsyncRawEmployersClient:
         raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response_json)
 
     async def get_payroll_access_setup(
-        self, employer_id: EmployerId, *, request_options: typing.Optional[RequestOptions] = None
+        self,
+        employer_id: EmployerId,
+        *,
+        vitable_organization: typing.Optional[XVitableOrganization] = None,
+        request_options: typing.Optional[RequestOptions] = None,
     ) -> AsyncHttpResponse[PayrollAccessSetupStatusResponse]:
         """
         Return whether the employer has submitted payroll access setup.
@@ -4786,6 +5016,9 @@ class AsyncRawEmployersClient:
         Parameters
         ----------
         employer_id : EmployerId
+
+        vitable_organization : typing.Optional[XVitableOrganization]
+            Organization to act as for this request (e.g. `org_SGVsbG8gV29ybGQ`). Optional when your credentials reach a single organization. Required when they reach several — omitting it then returns 400 `organization_required`. A malformed value returns 400 `invalid_organization_header`, and naming an organization you do not have access to returns 403 `organization_access_denied`.
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
@@ -4798,6 +5031,9 @@ class AsyncRawEmployersClient:
         _response = await self._client_wrapper.httpx_client.request(
             f"v1/employers/{encode_path_param(employer_id)}/payroll-access-setup",
             method="GET",
+            headers={
+                "X-Vitable-Organization": str(vitable_organization) if vitable_organization is not None else None,
+            },
             request_options=request_options,
         )
         try:
@@ -4918,6 +5154,7 @@ class AsyncRawEmployersClient:
         is_controlled_group: bool,
         access_method: AccessMethod,
         has_additional_payroll_system: bool,
+        vitable_organization: typing.Optional[XVitableOrganization] = None,
         classification_correction_source: typing.Optional[ClassificationCorrectionSource] = OMIT,
         misclassified_employee_names: typing.Optional[typing.Sequence[str]] = OMIT,
         remaining_employee_action: typing.Optional[RemainingEmployeeAction] = OMIT,
@@ -4962,6 +5199,9 @@ class AsyncRawEmployersClient:
 
         has_additional_payroll_system : bool
             Whether a second payroll system is in use. When `true`, supply the `additional_*` fields below.
+
+        vitable_organization : typing.Optional[XVitableOrganization]
+            Organization to act as for this request (e.g. `org_SGVsbG8gV29ybGQ`). Optional when your credentials reach a single organization. Required when they reach several — omitting it then returns 400 `organization_required`. A malformed value returns 400 `invalid_organization_header`, and naming an organization you do not have access to returns 403 `organization_access_denied`.
 
         classification_correction_source : typing.Optional[ClassificationCorrectionSource]
             Where corrected classifications come from, when `classifications_accurate` is `false`.
@@ -5049,6 +5289,7 @@ class AsyncRawEmployersClient:
             },
             headers={
                 "content-type": "application/json",
+                "X-Vitable-Organization": str(vitable_organization) if vitable_organization is not None else None,
             },
             request_options=request_options,
             omit=OMIT,
@@ -5166,6 +5407,7 @@ class AsyncRawEmployersClient:
         *,
         limit: typing.Optional[Limit] = None,
         page: typing.Optional[Page] = None,
+        vitable_organization: typing.Optional[XVitableOrganization] = None,
         request_options: typing.Optional[RequestOptions] = None,
     ) -> AsyncPager[PayrollDeductionStatement, EmployerPayrollDeductionStatementListResponse]:
         """
@@ -5181,6 +5423,9 @@ class AsyncRawEmployersClient:
 
         page : typing.Optional[Page]
             Page number to retrieve (starts at 1)
+
+        vitable_organization : typing.Optional[XVitableOrganization]
+            Organization to act as for this request (e.g. `org_SGVsbG8gV29ybGQ`). Optional when your credentials reach a single organization. Required when they reach several — omitting it then returns 400 `organization_required`. A malformed value returns 400 `invalid_organization_header`, and naming an organization you do not have access to returns 403 `organization_access_denied`.
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
@@ -5198,6 +5443,9 @@ class AsyncRawEmployersClient:
             params={
                 "limit": limit,
                 "page": page,
+            },
+            headers={
+                "X-Vitable-Organization": str(vitable_organization) if vitable_organization is not None else None,
             },
             request_options=request_options,
         )
@@ -5218,6 +5466,7 @@ class AsyncRawEmployersClient:
                         employer_id,
                         limit=limit,
                         page=page + 1,
+                        vitable_organization=vitable_organization,
                         request_options=request_options,
                     )
 
@@ -5331,7 +5580,11 @@ class AsyncRawEmployersClient:
         raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response_json)
 
     async def ensure_payroll_integration_email(
-        self, employer_id: EmployerId, *, request_options: typing.Optional[RequestOptions] = None
+        self,
+        employer_id: EmployerId,
+        *,
+        vitable_organization: typing.Optional[XVitableOrganization] = None,
+        request_options: typing.Optional[RequestOptions] = None,
     ) -> AsyncHttpResponse[PayrollIntegrationEmailResponse]:
         """
         Provision and return the employer's payroll integration email.
@@ -5339,6 +5592,9 @@ class AsyncRawEmployersClient:
         Parameters
         ----------
         employer_id : EmployerId
+
+        vitable_organization : typing.Optional[XVitableOrganization]
+            Organization to act as for this request (e.g. `org_SGVsbG8gV29ybGQ`). Optional when your credentials reach a single organization. Required when they reach several — omitting it then returns 400 `organization_required`. A malformed value returns 400 `invalid_organization_header`, and naming an organization you do not have access to returns 403 `organization_access_denied`.
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
@@ -5351,6 +5607,9 @@ class AsyncRawEmployersClient:
         _response = await self._client_wrapper.httpx_client.request(
             f"v1/employers/{encode_path_param(employer_id)}/payroll-integration-email",
             method="PUT",
+            headers={
+                "X-Vitable-Organization": str(vitable_organization) if vitable_organization is not None else None,
+            },
             request_options=request_options,
         )
         try:
@@ -5465,6 +5724,7 @@ class AsyncRawEmployersClient:
         employer_id: EmployerId,
         *,
         pay_frequency: DeductionFrequency,
+        vitable_organization: typing.Optional[XVitableOrganization] = None,
         request_options: typing.Optional[RequestOptions] = None,
     ) -> AsyncHttpResponse[EmployerSettingsResponse]:
         """
@@ -5476,6 +5736,9 @@ class AsyncRawEmployersClient:
             Unique employer identifier (empr_*)
 
         pay_frequency : DeductionFrequency
+
+        vitable_organization : typing.Optional[XVitableOrganization]
+            Organization to act as for this request (e.g. `org_SGVsbG8gV29ybGQ`). Optional when your credentials reach a single organization. Required when they reach several — omitting it then returns 400 `organization_required`. A malformed value returns 400 `invalid_organization_header`, and naming an organization you do not have access to returns 403 `organization_access_denied`.
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
@@ -5493,6 +5756,7 @@ class AsyncRawEmployersClient:
             },
             headers={
                 "content-type": "application/json",
+                "X-Vitable-Organization": str(vitable_organization) if vitable_organization is not None else None,
             },
             request_options=request_options,
             omit=OMIT,
@@ -5605,13 +5869,19 @@ class AsyncRawEmployersClient:
         raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response_json)
 
     async def list_hris_providers(
-        self, *, request_options: typing.Optional[RequestOptions] = None
+        self,
+        *,
+        vitable_organization: typing.Optional[XVitableOrganization] = None,
+        request_options: typing.Optional[RequestOptions] = None,
     ) -> AsyncHttpResponse[OrganizationHrisProvidersResponse]:
         """
         Returns the distinct HRIS/payroll providers across the same book `GET /v1/employers` returns, sorted for display. Use these as the values for the employers list's `hris_provider` filter — filter on `provider`, show `provider_label`. The stored providers are free text, so they cannot be enumerated in advance.
 
         Parameters
         ----------
+        vitable_organization : typing.Optional[XVitableOrganization]
+            Organization to act as for this request (e.g. `org_SGVsbG8gV29ybGQ`). Optional when your credentials reach a single organization. Required when they reach several — omitting it then returns 400 `organization_required`. A malformed value returns 400 `invalid_organization_header`, and naming an organization you do not have access to returns 403 `organization_access_denied`.
+
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
 
@@ -5623,6 +5893,9 @@ class AsyncRawEmployersClient:
         _response = await self._client_wrapper.httpx_client.request(
             "v1/employers/hris-providers",
             method="GET",
+            headers={
+                "X-Vitable-Organization": str(vitable_organization) if vitable_organization is not None else None,
+            },
             request_options=request_options,
         )
         try:

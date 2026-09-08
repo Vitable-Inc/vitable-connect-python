@@ -1,3 +1,10 @@
+## 2.1.0 - 2026-09-08
+### Added
+* **`vitable_organization`** — new optional `XVitableOrganization` keyword argument added to all methods on `MembersClient`, `AsyncMembersClient`, `EmployersClient`, `AsyncEmployersClient`, `RawEmployersClient`, `AsyncRawEmployersClient`, `EnrollmentsClient`, and their async equivalents; pass an organization ID to forward the `X-Vitable-Organization` HTTP header and scope requests when credentials span multiple organizations.
+* **`XVitableOrganization`** — new type alias (`str`) exported from `vitable_connect` and `vitable_connect.types` representing an organization identifier for multi-org API calls.
+### Changed
+* **`OrganizationsClient.create`** — docstring updated to reflect multi-org semantics; the previous one-organization-per-user restriction and `409 organization_already_exists` note have been replaced with new multi-org and domain-claiming behavior.
+
 ## 2.0.0 - 2026-09-08
 ### Breaking Changes
 * **`Operation`** has been removed from `vitable_connect` and `vitable_connect.types`. Replace all imports of `Operation` with `GroupMemberSyncFailureOperation`, which is functionally identical (`Union[Literal["add", "remove"], Any]`).

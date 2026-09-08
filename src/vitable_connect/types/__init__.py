@@ -181,6 +181,7 @@ if typing.TYPE_CHECKING:
     from .webhook_event import WebhookEvent
     from .webhook_event_list_response import WebhookEventListResponse
     from .webhook_event_response import WebhookEventResponse
+    from .x_vitable_organization import XVitableOrganization
 _dynamic_imports: typing.Dict[str, str] = {
     "AccessMethod": ".access_method",
     "AccessTokenResponse": ".access_token_response",
@@ -357,6 +358,7 @@ _dynamic_imports: typing.Dict[str, str] = {
     "WebhookEvent": ".webhook_event",
     "WebhookEventListResponse": ".webhook_event_list_response",
     "WebhookEventResponse": ".webhook_event_response",
+    "XVitableOrganization": ".x_vitable_organization",
 }
 
 
@@ -557,4 +559,5 @@ __all__ = [
     "WebhookEvent",
     "WebhookEventListResponse",
     "WebhookEventResponse",
+    "XVitableOrganization",
 ]

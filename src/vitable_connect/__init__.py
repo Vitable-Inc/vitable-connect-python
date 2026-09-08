@@ -182,6 +182,7 @@ if typing.TYPE_CHECKING:
         WebhookEvent,
         WebhookEventListResponse,
         WebhookEventResponse,
+        XVitableOrganization,
     )
     from .errors import (
         BadGatewayError,
@@ -389,6 +390,7 @@ _dynamic_imports: typing.Dict[str, str] = {
     "WebhookEvent": ".types",
     "WebhookEventListResponse": ".types",
     "WebhookEventResponse": ".types",
+    "XVitableOrganization": ".types",
     "__version__": ".version",
     "auth": ".auth",
     "employees": ".employees",
@@ -613,6 +615,7 @@ __all__ = [
     "WebhookEvent",
     "WebhookEventListResponse",
     "WebhookEventResponse",
+    "XVitableOrganization",
     "__version__",
     "auth",
     "employees",

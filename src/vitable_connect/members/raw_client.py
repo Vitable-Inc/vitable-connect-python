@@ -35,6 +35,7 @@ from ..types.member_response import MemberResponse
 from ..types.member_search import MemberSearch
 from ..types.page import Page
 from ..types.status import Status
+from ..types.x_vitable_organization import XVitableOrganization
 from pydantic import ValidationError
 
 
@@ -43,7 +44,11 @@ class RawMembersClient:
         self._client_wrapper = client_wrapper
 
     def get(
-        self, member_id: MemberId, *, request_options: typing.Optional[RequestOptions] = None
+        self,
+        member_id: MemberId,
+        *,
+        vitable_organization: typing.Optional[XVitableOrganization] = None,
+        request_options: typing.Optional[RequestOptions] = None,
     ) -> HttpResponse[MemberResponse]:
         """
         Retrieves a member's profile by ID — identity, demographics, address, contact details, tobacco status, and profile status. Access is scoped to the authenticated principal; a member not visible to the caller returns a 404.
@@ -52,6 +57,9 @@ class RawMembersClient:
         ----------
         member_id : MemberId
             Unique member identifier (mbr_*)
+
+        vitable_organization : typing.Optional[XVitableOrganization]
+            Organization to act as for this request (e.g. `org_SGVsbG8gV29ybGQ`). Optional when your credentials reach a single organization. Required when they reach several — omitting it then returns 400 `organization_required`. A malformed value returns 400 `invalid_organization_header`, and naming an organization you do not have access to returns 403 `organization_access_denied`.
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
@@ -64,6 +72,9 @@ class RawMembersClient:
         _response = self._client_wrapper.httpx_client.request(
             f"v1/members/{encode_path_param(member_id)}",
             method="GET",
+            headers={
+                "X-Vitable-Organization": str(vitable_organization) if vitable_organization is not None else None,
+            },
             request_options=request_options,
         )
         try:
@@ -174,7 +185,11 @@ class RawMembersClient:
         raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response_json)
 
     def list_dependents(
-        self, member_id: MemberId, *, request_options: typing.Optional[RequestOptions] = None
+        self,
+        member_id: MemberId,
+        *,
+        vitable_organization: typing.Optional[XVitableOrganization] = None,
+        request_options: typing.Optional[RequestOptions] = None,
     ) -> HttpResponse[MemberDependentsResponse]:
         """
         Lists a member's active legal dependents — name, relationship, date of birth, age, and sex at birth. Access is scoped to the authenticated principal; a member not visible to the caller returns a 404.
@@ -182,6 +197,9 @@ class RawMembersClient:
         Parameters
         ----------
         member_id : MemberId
+
+        vitable_organization : typing.Optional[XVitableOrganization]
+            Organization to act as for this request (e.g. `org_SGVsbG8gV29ybGQ`). Optional when your credentials reach a single organization. Required when they reach several — omitting it then returns 400 `organization_required`. A malformed value returns 400 `invalid_organization_header`, and naming an organization you do not have access to returns 403 `organization_access_denied`.
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
@@ -194,6 +212,9 @@ class RawMembersClient:
         _response = self._client_wrapper.httpx_client.request(
             f"v1/members/{encode_path_param(member_id)}/dependents",
             method="GET",
+            headers={
+                "X-Vitable-Organization": str(vitable_organization) if vitable_organization is not None else None,
+            },
             request_options=request_options,
         )
         try:
@@ -304,7 +325,11 @@ class RawMembersClient:
         raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response_json)
 
     def list_employments(
-        self, member_id: MemberId, *, request_options: typing.Optional[RequestOptions] = None
+        self,
+        member_id: MemberId,
+        *,
+        vitable_organization: typing.Optional[XVitableOrganization] = None,
+        request_options: typing.Optional[RequestOptions] = None,
     ) -> HttpResponse[MemberEmploymentsResponse]:
         """
         Lists a member's employment across every employer — the same employee record shape as the employer's employees list, plus the employer name. For an organization caller the rows are scoped to companies in that organization's book; a member (self/household) or Vitable Admin sees all employments. A member not visible to the caller returns a 404.
@@ -312,6 +337,9 @@ class RawMembersClient:
         Parameters
         ----------
         member_id : MemberId
+
+        vitable_organization : typing.Optional[XVitableOrganization]
+            Organization to act as for this request (e.g. `org_SGVsbG8gV29ybGQ`). Optional when your credentials reach a single organization. Required when they reach several — omitting it then returns 400 `organization_required`. A malformed value returns 400 `invalid_organization_header`, and naming an organization you do not have access to returns 403 `organization_access_denied`.
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
@@ -324,6 +352,9 @@ class RawMembersClient:
         _response = self._client_wrapper.httpx_client.request(
             f"v1/members/{encode_path_param(member_id)}/employments",
             method="GET",
+            headers={
+                "X-Vitable-Organization": str(vitable_organization) if vitable_organization is not None else None,
+            },
             request_options=request_options,
         )
         try:
@@ -434,7 +465,11 @@ class RawMembersClient:
         raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response_json)
 
     def list_enrollments(
-        self, member_id: MemberId, *, request_options: typing.Optional[RequestOptions] = None
+        self,
+        member_id: MemberId,
+        *,
+        vitable_organization: typing.Optional[XVitableOrganization] = None,
+        request_options: typing.Optional[RequestOptions] = None,
     ) -> HttpResponse[MemberEnrollmentsResponse]:
         """
         Lists a member's benefit enrollments across every employer — benefit type and product, employer, carrier, plan, tier, employee deduction, employer contribution and total premium, the individual enrollment coverage boundary (`coverage_end`), the separate pre-effective cancellation boundary (`cancelled_date`), and the distinct benefit plan-year boundary (`plan_year_coverage_end`) used to determine whether the plan year itself has ended, the date the enrollment record was created (`issued_date`, the value Ops labels Issued on, reported for every row whatever the member answered), the window the member could answer in -- which never opens before the enrollment was issued, so a row issued mid-open-enrollment starts its window on its issue date -- whether a qualifying life event would currently be required for reissue under the product/open-enrollment rule, enrollment/open-enrollment window, and two statuses: `election_status` (what the member answered) and `policy_status` (what became of their coverage, null unless they enrolled). Every row includes a stable enrollment ID and the exact employer and benefit plan-year IDs used to fetch that row's plan-year detail. The full list is returned across all states so the client derives active plans (effective and upcoming) and the enrollment history from those per-row statuses. For an organization caller the rows are scoped to companies in that organization's book; a member (self/household) or Vitable Admin sees all enrollments. A member not visible to the caller returns a 404.
@@ -442,6 +477,9 @@ class RawMembersClient:
         Parameters
         ----------
         member_id : MemberId
+
+        vitable_organization : typing.Optional[XVitableOrganization]
+            Organization to act as for this request (e.g. `org_SGVsbG8gV29ybGQ`). Optional when your credentials reach a single organization. Required when they reach several — omitting it then returns 400 `organization_required`. A malformed value returns 400 `invalid_organization_header`, and naming an organization you do not have access to returns 403 `organization_access_denied`.
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
@@ -454,6 +492,9 @@ class RawMembersClient:
         _response = self._client_wrapper.httpx_client.request(
             f"v1/members/{encode_path_param(member_id)}/enrollments",
             method="GET",
+            headers={
+                "X-Vitable-Organization": str(vitable_organization) if vitable_organization is not None else None,
+            },
             request_options=request_options,
         )
         try:
@@ -564,7 +605,11 @@ class RawMembersClient:
         raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response_json)
 
     def get_household(
-        self, member_id: MemberId, *, request_options: typing.Optional[RequestOptions] = None
+        self,
+        member_id: MemberId,
+        *,
+        vitable_organization: typing.Optional[XVitableOrganization] = None,
+        request_options: typing.Optional[RequestOptions] = None,
     ) -> HttpResponse[HouseholdMembersResponse]:
         """
         Lists a member's household as a per-participant table — the account holder plus each active household member, with name, relationship, member type, date of birth, and household-admin flag. Access is scoped to the authenticated principal; a member not visible to the caller (or with no household) returns a 404.
@@ -572,6 +617,9 @@ class RawMembersClient:
         Parameters
         ----------
         member_id : MemberId
+
+        vitable_organization : typing.Optional[XVitableOrganization]
+            Organization to act as for this request (e.g. `org_SGVsbG8gV29ybGQ`). Optional when your credentials reach a single organization. Required when they reach several — omitting it then returns 400 `organization_required`. A malformed value returns 400 `invalid_organization_header`, and naming an organization you do not have access to returns 403 `organization_access_denied`.
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
@@ -584,6 +632,9 @@ class RawMembersClient:
         _response = self._client_wrapper.httpx_client.request(
             f"v1/members/{encode_path_param(member_id)}/household",
             method="GET",
+            headers={
+                "X-Vitable-Organization": str(vitable_organization) if vitable_organization is not None else None,
+            },
             request_options=request_options,
         )
         try:
@@ -694,7 +745,11 @@ class RawMembersClient:
         raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response_json)
 
     def list_id_cards(
-        self, member_id: MemberId, *, request_options: typing.Optional[RequestOptions] = None
+        self,
+        member_id: MemberId,
+        *,
+        vitable_organization: typing.Optional[XVitableOrganization] = None,
+        request_options: typing.Optional[RequestOptions] = None,
     ) -> HttpResponse[MemberDigitalBenefitCardsResponse]:
         """
         Lists a member's benefit ID cards — card type (medical, dental, vision, or rx), employer, plan, provider network, claims payer, carrier contact details, and the disclaimers printed on the card. Medical, dental and vision cards come from the member's active digital benefit cards; the rx card from the member's Ventegra pharmacy benefit (omitted when the member has no free-medication coverage), which carries no plan, network, or carrier details. Access is scoped to the authenticated principal, and an organization caller sees only cards from employers in its book; a member not visible to the caller returns a 404.
@@ -702,6 +757,9 @@ class RawMembersClient:
         Parameters
         ----------
         member_id : MemberId
+
+        vitable_organization : typing.Optional[XVitableOrganization]
+            Organization to act as for this request (e.g. `org_SGVsbG8gV29ybGQ`). Optional when your credentials reach a single organization. Required when they reach several — omitting it then returns 400 `organization_required`. A malformed value returns 400 `invalid_organization_header`, and naming an organization you do not have access to returns 403 `organization_access_denied`.
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
@@ -714,6 +772,9 @@ class RawMembersClient:
         _response = self._client_wrapper.httpx_client.request(
             f"v1/members/{encode_path_param(member_id)}/id-cards",
             method="GET",
+            headers={
+                "X-Vitable-Organization": str(vitable_organization) if vitable_organization is not None else None,
+            },
             request_options=request_options,
         )
         try:
@@ -830,6 +891,7 @@ class RawMembersClient:
         limit: typing.Optional[Limit] = None,
         page: typing.Optional[Page] = None,
         status: typing.Optional[Status] = None,
+        vitable_organization: typing.Optional[XVitableOrganization] = None,
         request_options: typing.Optional[RequestOptions] = None,
     ) -> SyncPager[MemberQualifyingLifeEvent, MemberQualifyingLifeEventListResponse]:
         """
@@ -849,6 +911,9 @@ class RawMembersClient:
         status : typing.Optional[Status]
             Optional. Filter to a single QLE status; omit to return all statuses.
 
+        vitable_organization : typing.Optional[XVitableOrganization]
+            Organization to act as for this request (e.g. `org_SGVsbG8gV29ybGQ`). Optional when your credentials reach a single organization. Required when they reach several — omitting it then returns 400 `organization_required`. A malformed value returns 400 `invalid_organization_header`, and naming an organization you do not have access to returns 403 `organization_access_denied`.
+
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
 
@@ -866,6 +931,9 @@ class RawMembersClient:
                 "limit": limit,
                 "page": page,
                 "status": status,
+            },
+            headers={
+                "X-Vitable-Organization": str(vitable_organization) if vitable_organization is not None else None,
             },
             request_options=request_options,
         )
@@ -885,6 +953,7 @@ class RawMembersClient:
                     limit=limit,
                     page=page + 1,
                     status=status,
+                    vitable_organization=vitable_organization,
                     request_options=request_options,
                 )
                 return SyncPager(has_next=_has_next, items=_items, get_next=_get_next, response=_parsed_response)
@@ -991,6 +1060,7 @@ class RawMembersClient:
         limit: typing.Optional[Limit] = None,
         page: typing.Optional[Page] = None,
         search: typing.Optional[MemberSearch] = None,
+        vitable_organization: typing.Optional[XVitableOrganization] = None,
         request_options: typing.Optional[RequestOptions] = None,
     ) -> SyncPager[MemberListItem, MemberListResponse]:
         """
@@ -1006,6 +1076,9 @@ class RawMembersClient:
 
         search : typing.Optional[MemberSearch]
             Case-insensitive search across member name, email, and phone number; exact match on member id (prefixed or raw uuid)
+
+        vitable_organization : typing.Optional[XVitableOrganization]
+            Organization to act as for this request (e.g. `org_SGVsbG8gV29ybGQ`). Optional when your credentials reach a single organization. Required when they reach several — omitting it then returns 400 `organization_required`. A malformed value returns 400 `invalid_organization_header`, and naming an organization you do not have access to returns 403 `organization_access_denied`.
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
@@ -1025,6 +1098,9 @@ class RawMembersClient:
                 "page": page,
                 "search": search,
             },
+            headers={
+                "X-Vitable-Organization": str(vitable_organization) if vitable_organization is not None else None,
+            },
             request_options=request_options,
         )
         try:
@@ -1042,6 +1118,7 @@ class RawMembersClient:
                     limit=limit,
                     page=page + 1,
                     search=search,
+                    vitable_organization=vitable_organization,
                     request_options=request_options,
                 )
                 return SyncPager(has_next=_has_next, items=_items, get_next=_get_next, response=_parsed_response)
@@ -1148,7 +1225,11 @@ class AsyncRawMembersClient:
         self._client_wrapper = client_wrapper
 
     async def get(
-        self, member_id: MemberId, *, request_options: typing.Optional[RequestOptions] = None
+        self,
+        member_id: MemberId,
+        *,
+        vitable_organization: typing.Optional[XVitableOrganization] = None,
+        request_options: typing.Optional[RequestOptions] = None,
     ) -> AsyncHttpResponse[MemberResponse]:
         """
         Retrieves a member's profile by ID — identity, demographics, address, contact details, tobacco status, and profile status. Access is scoped to the authenticated principal; a member not visible to the caller returns a 404.
@@ -1157,6 +1238,9 @@ class AsyncRawMembersClient:
         ----------
         member_id : MemberId
             Unique member identifier (mbr_*)
+
+        vitable_organization : typing.Optional[XVitableOrganization]
+            Organization to act as for this request (e.g. `org_SGVsbG8gV29ybGQ`). Optional when your credentials reach a single organization. Required when they reach several — omitting it then returns 400 `organization_required`. A malformed value returns 400 `invalid_organization_header`, and naming an organization you do not have access to returns 403 `organization_access_denied`.
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
@@ -1169,6 +1253,9 @@ class AsyncRawMembersClient:
         _response = await self._client_wrapper.httpx_client.request(
             f"v1/members/{encode_path_param(member_id)}",
             method="GET",
+            headers={
+                "X-Vitable-Organization": str(vitable_organization) if vitable_organization is not None else None,
+            },
             request_options=request_options,
         )
         try:
@@ -1279,7 +1366,11 @@ class AsyncRawMembersClient:
         raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response_json)
 
     async def list_dependents(
-        self, member_id: MemberId, *, request_options: typing.Optional[RequestOptions] = None
+        self,
+        member_id: MemberId,
+        *,
+        vitable_organization: typing.Optional[XVitableOrganization] = None,
+        request_options: typing.Optional[RequestOptions] = None,
     ) -> AsyncHttpResponse[MemberDependentsResponse]:
         """
         Lists a member's active legal dependents — name, relationship, date of birth, age, and sex at birth. Access is scoped to the authenticated principal; a member not visible to the caller returns a 404.
@@ -1287,6 +1378,9 @@ class AsyncRawMembersClient:
         Parameters
         ----------
         member_id : MemberId
+
+        vitable_organization : typing.Optional[XVitableOrganization]
+            Organization to act as for this request (e.g. `org_SGVsbG8gV29ybGQ`). Optional when your credentials reach a single organization. Required when they reach several — omitting it then returns 400 `organization_required`. A malformed value returns 400 `invalid_organization_header`, and naming an organization you do not have access to returns 403 `organization_access_denied`.
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
@@ -1299,6 +1393,9 @@ class AsyncRawMembersClient:
         _response = await self._client_wrapper.httpx_client.request(
             f"v1/members/{encode_path_param(member_id)}/dependents",
             method="GET",
+            headers={
+                "X-Vitable-Organization": str(vitable_organization) if vitable_organization is not None else None,
+            },
             request_options=request_options,
         )
         try:
@@ -1409,7 +1506,11 @@ class AsyncRawMembersClient:
         raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response_json)
 
     async def list_employments(
-        self, member_id: MemberId, *, request_options: typing.Optional[RequestOptions] = None
+        self,
+        member_id: MemberId,
+        *,
+        vitable_organization: typing.Optional[XVitableOrganization] = None,
+        request_options: typing.Optional[RequestOptions] = None,
     ) -> AsyncHttpResponse[MemberEmploymentsResponse]:
         """
         Lists a member's employment across every employer — the same employee record shape as the employer's employees list, plus the employer name. For an organization caller the rows are scoped to companies in that organization's book; a member (self/household) or Vitable Admin sees all employments. A member not visible to the caller returns a 404.
@@ -1417,6 +1518,9 @@ class AsyncRawMembersClient:
         Parameters
         ----------
         member_id : MemberId
+
+        vitable_organization : typing.Optional[XVitableOrganization]
+            Organization to act as for this request (e.g. `org_SGVsbG8gV29ybGQ`). Optional when your credentials reach a single organization. Required when they reach several — omitting it then returns 400 `organization_required`. A malformed value returns 400 `invalid_organization_header`, and naming an organization you do not have access to returns 403 `organization_access_denied`.
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
@@ -1429,6 +1533,9 @@ class AsyncRawMembersClient:
         _response = await self._client_wrapper.httpx_client.request(
             f"v1/members/{encode_path_param(member_id)}/employments",
             method="GET",
+            headers={
+                "X-Vitable-Organization": str(vitable_organization) if vitable_organization is not None else None,
+            },
             request_options=request_options,
         )
         try:
@@ -1539,7 +1646,11 @@ class AsyncRawMembersClient:
         raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response_json)
 
     async def list_enrollments(
-        self, member_id: MemberId, *, request_options: typing.Optional[RequestOptions] = None
+        self,
+        member_id: MemberId,
+        *,
+        vitable_organization: typing.Optional[XVitableOrganization] = None,
+        request_options: typing.Optional[RequestOptions] = None,
     ) -> AsyncHttpResponse[MemberEnrollmentsResponse]:
         """
         Lists a member's benefit enrollments across every employer — benefit type and product, employer, carrier, plan, tier, employee deduction, employer contribution and total premium, the individual enrollment coverage boundary (`coverage_end`), the separate pre-effective cancellation boundary (`cancelled_date`), and the distinct benefit plan-year boundary (`plan_year_coverage_end`) used to determine whether the plan year itself has ended, the date the enrollment record was created (`issued_date`, the value Ops labels Issued on, reported for every row whatever the member answered), the window the member could answer in -- which never opens before the enrollment was issued, so a row issued mid-open-enrollment starts its window on its issue date -- whether a qualifying life event would currently be required for reissue under the product/open-enrollment rule, enrollment/open-enrollment window, and two statuses: `election_status` (what the member answered) and `policy_status` (what became of their coverage, null unless they enrolled). Every row includes a stable enrollment ID and the exact employer and benefit plan-year IDs used to fetch that row's plan-year detail. The full list is returned across all states so the client derives active plans (effective and upcoming) and the enrollment history from those per-row statuses. For an organization caller the rows are scoped to companies in that organization's book; a member (self/household) or Vitable Admin sees all enrollments. A member not visible to the caller returns a 404.
@@ -1547,6 +1658,9 @@ class AsyncRawMembersClient:
         Parameters
         ----------
         member_id : MemberId
+
+        vitable_organization : typing.Optional[XVitableOrganization]
+            Organization to act as for this request (e.g. `org_SGVsbG8gV29ybGQ`). Optional when your credentials reach a single organization. Required when they reach several — omitting it then returns 400 `organization_required`. A malformed value returns 400 `invalid_organization_header`, and naming an organization you do not have access to returns 403 `organization_access_denied`.
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
@@ -1559,6 +1673,9 @@ class AsyncRawMembersClient:
         _response = await self._client_wrapper.httpx_client.request(
             f"v1/members/{encode_path_param(member_id)}/enrollments",
             method="GET",
+            headers={
+                "X-Vitable-Organization": str(vitable_organization) if vitable_organization is not None else None,
+            },
             request_options=request_options,
         )
         try:
@@ -1669,7 +1786,11 @@ class AsyncRawMembersClient:
         raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response_json)
 
     async def get_household(
-        self, member_id: MemberId, *, request_options: typing.Optional[RequestOptions] = None
+        self,
+        member_id: MemberId,
+        *,
+        vitable_organization: typing.Optional[XVitableOrganization] = None,
+        request_options: typing.Optional[RequestOptions] = None,
     ) -> AsyncHttpResponse[HouseholdMembersResponse]:
         """
         Lists a member's household as a per-participant table — the account holder plus each active household member, with name, relationship, member type, date of birth, and household-admin flag. Access is scoped to the authenticated principal; a member not visible to the caller (or with no household) returns a 404.
@@ -1677,6 +1798,9 @@ class AsyncRawMembersClient:
         Parameters
         ----------
         member_id : MemberId
+
+        vitable_organization : typing.Optional[XVitableOrganization]
+            Organization to act as for this request (e.g. `org_SGVsbG8gV29ybGQ`). Optional when your credentials reach a single organization. Required when they reach several — omitting it then returns 400 `organization_required`. A malformed value returns 400 `invalid_organization_header`, and naming an organization you do not have access to returns 403 `organization_access_denied`.
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
@@ -1689,6 +1813,9 @@ class AsyncRawMembersClient:
         _response = await self._client_wrapper.httpx_client.request(
             f"v1/members/{encode_path_param(member_id)}/household",
             method="GET",
+            headers={
+                "X-Vitable-Organization": str(vitable_organization) if vitable_organization is not None else None,
+            },
             request_options=request_options,
         )
         try:
@@ -1799,7 +1926,11 @@ class AsyncRawMembersClient:
         raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response_json)
 
     async def list_id_cards(
-        self, member_id: MemberId, *, request_options: typing.Optional[RequestOptions] = None
+        self,
+        member_id: MemberId,
+        *,
+        vitable_organization: typing.Optional[XVitableOrganization] = None,
+        request_options: typing.Optional[RequestOptions] = None,
     ) -> AsyncHttpResponse[MemberDigitalBenefitCardsResponse]:
         """
         Lists a member's benefit ID cards — card type (medical, dental, vision, or rx), employer, plan, provider network, claims payer, carrier contact details, and the disclaimers printed on the card. Medical, dental and vision cards come from the member's active digital benefit cards; the rx card from the member's Ventegra pharmacy benefit (omitted when the member has no free-medication coverage), which carries no plan, network, or carrier details. Access is scoped to the authenticated principal, and an organization caller sees only cards from employers in its book; a member not visible to the caller returns a 404.
@@ -1807,6 +1938,9 @@ class AsyncRawMembersClient:
         Parameters
         ----------
         member_id : MemberId
+
+        vitable_organization : typing.Optional[XVitableOrganization]
+            Organization to act as for this request (e.g. `org_SGVsbG8gV29ybGQ`). Optional when your credentials reach a single organization. Required when they reach several — omitting it then returns 400 `organization_required`. A malformed value returns 400 `invalid_organization_header`, and naming an organization you do not have access to returns 403 `organization_access_denied`.
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
@@ -1819,6 +1953,9 @@ class AsyncRawMembersClient:
         _response = await self._client_wrapper.httpx_client.request(
             f"v1/members/{encode_path_param(member_id)}/id-cards",
             method="GET",
+            headers={
+                "X-Vitable-Organization": str(vitable_organization) if vitable_organization is not None else None,
+            },
             request_options=request_options,
         )
         try:
@@ -1935,6 +2072,7 @@ class AsyncRawMembersClient:
         limit: typing.Optional[Limit] = None,
         page: typing.Optional[Page] = None,
         status: typing.Optional[Status] = None,
+        vitable_organization: typing.Optional[XVitableOrganization] = None,
         request_options: typing.Optional[RequestOptions] = None,
     ) -> AsyncPager[MemberQualifyingLifeEvent, MemberQualifyingLifeEventListResponse]:
         """
@@ -1954,6 +2092,9 @@ class AsyncRawMembersClient:
         status : typing.Optional[Status]
             Optional. Filter to a single QLE status; omit to return all statuses.
 
+        vitable_organization : typing.Optional[XVitableOrganization]
+            Organization to act as for this request (e.g. `org_SGVsbG8gV29ybGQ`). Optional when your credentials reach a single organization. Required when they reach several — omitting it then returns 400 `organization_required`. A malformed value returns 400 `invalid_organization_header`, and naming an organization you do not have access to returns 403 `organization_access_denied`.
+
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
 
@@ -1971,6 +2112,9 @@ class AsyncRawMembersClient:
                 "limit": limit,
                 "page": page,
                 "status": status,
+            },
+            headers={
+                "X-Vitable-Organization": str(vitable_organization) if vitable_organization is not None else None,
             },
             request_options=request_options,
         )
@@ -1992,6 +2136,7 @@ class AsyncRawMembersClient:
                         limit=limit,
                         page=page + 1,
                         status=status,
+                        vitable_organization=vitable_organization,
                         request_options=request_options,
                     )
 
@@ -2099,6 +2244,7 @@ class AsyncRawMembersClient:
         limit: typing.Optional[Limit] = None,
         page: typing.Optional[Page] = None,
         search: typing.Optional[MemberSearch] = None,
+        vitable_organization: typing.Optional[XVitableOrganization] = None,
         request_options: typing.Optional[RequestOptions] = None,
     ) -> AsyncPager[MemberListItem, MemberListResponse]:
         """
@@ -2114,6 +2260,9 @@ class AsyncRawMembersClient:
 
         search : typing.Optional[MemberSearch]
             Case-insensitive search across member name, email, and phone number; exact match on member id (prefixed or raw uuid)
+
+        vitable_organization : typing.Optional[XVitableOrganization]
+            Organization to act as for this request (e.g. `org_SGVsbG8gV29ybGQ`). Optional when your credentials reach a single organization. Required when they reach several — omitting it then returns 400 `organization_required`. A malformed value returns 400 `invalid_organization_header`, and naming an organization you do not have access to returns 403 `organization_access_denied`.
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
@@ -2132,6 +2281,9 @@ class AsyncRawMembersClient:
                 "limit": limit,
                 "page": page,
                 "search": search,
+            },
+            headers={
+                "X-Vitable-Organization": str(vitable_organization) if vitable_organization is not None else None,
             },
             request_options=request_options,
         )
@@ -2152,6 +2304,7 @@ class AsyncRawMembersClient:
                         limit=limit,
                         page=page + 1,
                         search=search,
+                        vitable_organization=vitable_organization,
                         request_options=request_options,
                     )
 

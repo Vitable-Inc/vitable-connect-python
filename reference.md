@@ -533,6 +533,14 @@ client.employers.list(
 <dl>
 <dd>
 
+**vitable_organization:** `typing.Optional[XVitableOrganization]` — Organization to act as for this request (e.g. `org_SGVsbG8gV29ybGQ`). Optional when your credentials reach a single organization. Required when they reach several — omitting it then returns 400 `organization_required`. A malformed value returns 400 `invalid_organization_header`, and naming an organization you do not have access to returns 403 `organization_access_denied`.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
 **request_options:** `typing.Optional[RequestOptions]` — Request-specific configuration.
     
 </dd>
@@ -650,6 +658,14 @@ client.employers.create(
 <dl>
 <dd>
 
+**vitable_organization:** `typing.Optional[XVitableOrganization]` — Organization to act as for this request (e.g. `org_SGVsbG8gV29ybGQ`). Optional when your credentials reach a single organization. Required when they reach several — omitting it then returns 400 `organization_required`. A malformed value returns 400 `invalid_organization_header`, and naming an organization you do not have access to returns 403 `organization_access_denied`.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
 **phone_number:** `typing.Optional[str]` — Employer phone number (10-digit US format, e.g. 5551234567)
     
 </dd>
@@ -739,6 +755,14 @@ client.employers.get(
 <dl>
 <dd>
 
+**vitable_organization:** `typing.Optional[XVitableOrganization]` — Organization to act as for this request (e.g. `org_SGVsbG8gV29ybGQ`). Optional when your credentials reach a single organization. Required when they reach several — omitting it then returns 400 `organization_required`. A malformed value returns 400 `invalid_organization_header`, and naming an organization you do not have access to returns 403 `organization_access_denied`.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
 **request_options:** `typing.Optional[RequestOptions]` — Request-specific configuration.
     
 </dd>
@@ -805,6 +829,14 @@ client.employers.update(
 <dd>
 
 **employer_id:** `EmployerId` — Unique employer identifier (empr_*)
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**vitable_organization:** `typing.Optional[XVitableOrganization]` — Organization to act as for this request (e.g. `org_SGVsbG8gV29ybGQ`). Optional when your credentials reach a single organization. Required when they reach several — omitting it then returns 400 `organization_required`. A malformed value returns 400 `invalid_organization_header`, and naming an organization you do not have access to returns 403 `organization_access_denied`.
     
 </dd>
 </dl>
@@ -917,6 +949,14 @@ client.employers.list_benefit_plan_years(
 <dl>
 <dd>
 
+**vitable_organization:** `typing.Optional[XVitableOrganization]` — Organization to act as for this request (e.g. `org_SGVsbG8gV29ybGQ`). Optional when your credentials reach a single organization. Required when they reach several — omitting it then returns 400 `organization_required`. A malformed value returns 400 `invalid_organization_header`, and naming an organization you do not have access to returns 403 `organization_access_denied`.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
 **request_options:** `typing.Optional[RequestOptions]` — Request-specific configuration.
     
 </dd>
@@ -992,6 +1032,14 @@ client.employers.get_benefit_plan_year(
 <dd>
 
 **benefit_plan_year_id:** `BenefitPlanYearId` — Unique benefit-plan-year identifier (plyr_*).
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**vitable_organization:** `typing.Optional[XVitableOrganization]` — Organization to act as for this request (e.g. `org_SGVsbG8gV29ybGQ`). Optional when your credentials reach a single organization. Required when they reach several — omitting it then returns 400 `organization_required`. A malformed value returns 400 `invalid_organization_header`, and naming an organization you do not have access to returns 403 `organization_access_denied`.
     
 </dd>
 </dl>
@@ -1108,6 +1156,14 @@ client.employers.list_benefit_plan_year_enrollments(
 <dd>
 
 **search:** `typing.Optional[EmployerSearch]` — Case-insensitive search. Matches member name partially, and the `member_id` exactly — either your own reference id or the prefixed `grpmbr_<...>` id.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**vitable_organization:** `typing.Optional[XVitableOrganization]` — Organization to act as for this request (e.g. `org_SGVsbG8gV29ybGQ`). Optional when your credentials reach a single organization. Required when they reach several — omitting it then returns 400 `organization_required`. A malformed value returns 400 `invalid_organization_header`, and naming an organization you do not have access to returns 403 `organization_access_denied`.
     
 </dd>
 </dl>
@@ -1335,6 +1391,14 @@ client.employers.list_employees(
 <dl>
 <dd>
 
+**vitable_organization:** `typing.Optional[XVitableOrganization]` — Organization to act as for this request (e.g. `org_SGVsbG8gV29ybGQ`). Optional when your credentials reach a single organization. Required when they reach several — omitting it then returns 400 `organization_required`. A malformed value returns 400 `invalid_organization_header`, and naming an organization you do not have access to returns 403 `organization_access_denied`.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
 **request_options:** `typing.Optional[RequestOptions]` — Request-specific configuration.
     
 </dd>
@@ -1401,6 +1465,14 @@ client.employers.get_hris(
 <dd>
 
 **employer_id:** `EmployerId` — Unique employer identifier (empr_*)
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**vitable_organization:** `typing.Optional[XVitableOrganization]` — Organization to act as for this request (e.g. `org_SGVsbG8gV29ybGQ`). Optional when your credentials reach a single organization. Required when they reach several — omitting it then returns 400 `organization_required`. A malformed value returns 400 `invalid_organization_header`, and naming an organization you do not have access to returns 403 `organization_access_denied`.
     
 </dd>
 </dl>
@@ -1498,6 +1570,14 @@ client.employers.list_invoices(
 <dl>
 <dd>
 
+**vitable_organization:** `typing.Optional[XVitableOrganization]` — Organization to act as for this request (e.g. `org_SGVsbG8gV29ybGQ`). Optional when your credentials reach a single organization. Required when they reach several — omitting it then returns 400 `organization_required`. A malformed value returns 400 `invalid_organization_header`, and naming an organization you do not have access to returns 403 `organization_access_denied`.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
 **request_options:** `typing.Optional[RequestOptions]` — Request-specific configuration.
     
 </dd>
@@ -1580,6 +1660,14 @@ client.employers.get_invoice_pdf(
 <dl>
 <dd>
 
+**vitable_organization:** `typing.Optional[XVitableOrganization]` — Organization to act as for this request (e.g. `org_SGVsbG8gV29ybGQ`). Optional when your credentials reach a single organization. Required when they reach several — omitting it then returns 400 `organization_required`. A malformed value returns 400 `invalid_organization_header`, and naming an organization you do not have access to returns 403 `organization_access_denied`.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
 **request_options:** `typing.Optional[RequestOptions]` — Request-specific configuration.
     
 </dd>
@@ -1646,6 +1734,14 @@ client.employers.get_payroll_access_setup(
 <dd>
 
 **employer_id:** `EmployerId` 
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**vitable_organization:** `typing.Optional[XVitableOrganization]` — Organization to act as for this request (e.g. `org_SGVsbG8gV29ybGQ`). Optional when your credentials reach a single organization. Required when they reach several — omitting it then returns 400 `organization_required`. A malformed value returns 400 `invalid_organization_header`, and naming an organization you do not have access to returns 403 `organization_access_denied`.
     
 </dd>
 </dl>
@@ -1782,6 +1878,14 @@ client.employers.submit_payroll_access_setup(
 <dd>
 
 **has_additional_payroll_system:** `bool` — Whether a second payroll system is in use. When `true`, supply the `additional_*` fields below.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**vitable_organization:** `typing.Optional[XVitableOrganization]` — Organization to act as for this request (e.g. `org_SGVsbG8gV29ybGQ`). Optional when your credentials reach a single organization. Required when they reach several — omitting it then returns 400 `organization_required`. A malformed value returns 400 `invalid_organization_header`, and naming an organization you do not have access to returns 403 `organization_access_denied`.
     
 </dd>
 </dl>
@@ -2008,6 +2112,14 @@ client.employers.list_payroll_deduction_statements(
 <dl>
 <dd>
 
+**vitable_organization:** `typing.Optional[XVitableOrganization]` — Organization to act as for this request (e.g. `org_SGVsbG8gV29ybGQ`). Optional when your credentials reach a single organization. Required when they reach several — omitting it then returns 400 `organization_required`. A malformed value returns 400 `invalid_organization_header`, and naming an organization you do not have access to returns 403 `organization_access_denied`.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
 **request_options:** `typing.Optional[RequestOptions]` — Request-specific configuration.
     
 </dd>
@@ -2074,6 +2186,14 @@ client.employers.ensure_payroll_integration_email(
 <dd>
 
 **employer_id:** `EmployerId` 
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**vitable_organization:** `typing.Optional[XVitableOrganization]` — Organization to act as for this request (e.g. `org_SGVsbG8gV29ybGQ`). Optional when your credentials reach a single organization. Required when they reach several — omitting it then returns 400 `organization_required`. A malformed value returns 400 `invalid_organization_header`, and naming an organization you do not have access to returns 403 `organization_access_denied`.
     
 </dd>
 </dl>
@@ -2163,6 +2283,14 @@ client.employers.update_settings(
 <dl>
 <dd>
 
+**vitable_organization:** `typing.Optional[XVitableOrganization]` — Organization to act as for this request (e.g. `org_SGVsbG8gV29ybGQ`). Optional when your credentials reach a single organization. Required when they reach several — omitting it then returns 400 `organization_required`. A malformed value returns 400 `invalid_organization_header`, and naming an organization you do not have access to returns 403 `organization_access_denied`.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
 **request_options:** `typing.Optional[RequestOptions]` — Request-specific configuration.
     
 </dd>
@@ -2175,7 +2303,7 @@ client.employers.update_settings(
 </dl>
 </details>
 
-<details><summary><code>client.employers.<a href="src/vitable_connect/employers/client.py">list_hris_providers</a>() -> OrganizationHrisProvidersResponse</code></summary>
+<details><summary><code>client.employers.<a href="src/vitable_connect/employers/client.py">list_hris_providers</a>(...) -> OrganizationHrisProvidersResponse</code></summary>
 <dl>
 <dd>
 
@@ -2222,6 +2350,14 @@ client.employers.list_hris_providers()
 
 <dl>
 <dd>
+
+<dl>
+<dd>
+
+**vitable_organization:** `typing.Optional[XVitableOrganization]` — Organization to act as for this request (e.g. `org_SGVsbG8gV29ybGQ`). Optional when your credentials reach a single organization. Required when they reach several — omitting it then returns 400 `organization_required`. A malformed value returns 400 `invalid_organization_header`, and naming an organization you do not have access to returns 403 `organization_access_denied`.
+    
+</dd>
+</dl>
 
 <dl>
 <dd>
@@ -2300,6 +2436,14 @@ client.enrollments.get(
 <dl>
 <dd>
 
+**vitable_organization:** `typing.Optional[XVitableOrganization]` — Organization to act as for this request (e.g. `org_SGVsbG8gV29ybGQ`). Optional when your credentials reach a single organization. Required when they reach several — omitting it then returns 400 `organization_required`. A malformed value returns 400 `invalid_organization_header`, and naming an organization you do not have access to returns 403 `organization_access_denied`.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
 **request_options:** `typing.Optional[RequestOptions]` — Request-specific configuration.
     
 </dd>
@@ -2369,6 +2513,14 @@ client.enrollments.reissue(
 <dd>
 
 **enrollment_id:** `EnrollmentId` — Unique enrollment identifier (enrl_*)
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**vitable_organization:** `typing.Optional[XVitableOrganization]` — Organization to act as for this request (e.g. `org_SGVsbG8gV29ybGQ`). Optional when your credentials reach a single organization. Required when they reach several — omitting it then returns 400 `organization_required`. A malformed value returns 400 `invalid_organization_header`, and naming an organization you do not have access to returns 403 `organization_access_denied`.
     
 </dd>
 </dl>
@@ -2469,6 +2621,14 @@ client.enrollments.terminate(
 <dd>
 
 **enrollment_id:** `EnrollmentId` — Unique enrollment identifier (enrl_*)
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**vitable_organization:** `typing.Optional[XVitableOrganization]` — Organization to act as for this request (e.g. `org_SGVsbG8gV29ybGQ`). Optional when your credentials reach a single organization. Required when they reach several — omitting it then returns 400 `organization_required`. A malformed value returns 400 `invalid_organization_header`, and naming an organization you do not have access to returns 403 `organization_access_denied`.
     
 </dd>
 </dl>
@@ -2903,6 +3063,14 @@ client.members.get(
 <dl>
 <dd>
 
+**vitable_organization:** `typing.Optional[XVitableOrganization]` — Organization to act as for this request (e.g. `org_SGVsbG8gV29ybGQ`). Optional when your credentials reach a single organization. Required when they reach several — omitting it then returns 400 `organization_required`. A malformed value returns 400 `invalid_organization_header`, and naming an organization you do not have access to returns 403 `organization_access_denied`.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
 **request_options:** `typing.Optional[RequestOptions]` — Request-specific configuration.
     
 </dd>
@@ -2969,6 +3137,14 @@ client.members.list_dependents(
 <dd>
 
 **member_id:** `MemberId` 
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**vitable_organization:** `typing.Optional[XVitableOrganization]` — Organization to act as for this request (e.g. `org_SGVsbG8gV29ybGQ`). Optional when your credentials reach a single organization. Required when they reach several — omitting it then returns 400 `organization_required`. A malformed value returns 400 `invalid_organization_header`, and naming an organization you do not have access to returns 403 `organization_access_denied`.
     
 </dd>
 </dl>
@@ -3049,6 +3225,14 @@ client.members.list_employments(
 <dl>
 <dd>
 
+**vitable_organization:** `typing.Optional[XVitableOrganization]` — Organization to act as for this request (e.g. `org_SGVsbG8gV29ybGQ`). Optional when your credentials reach a single organization. Required when they reach several — omitting it then returns 400 `organization_required`. A malformed value returns 400 `invalid_organization_header`, and naming an organization you do not have access to returns 403 `organization_access_denied`.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
 **request_options:** `typing.Optional[RequestOptions]` — Request-specific configuration.
     
 </dd>
@@ -3115,6 +3299,14 @@ client.members.list_enrollments(
 <dd>
 
 **member_id:** `MemberId` 
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**vitable_organization:** `typing.Optional[XVitableOrganization]` — Organization to act as for this request (e.g. `org_SGVsbG8gV29ybGQ`). Optional when your credentials reach a single organization. Required when they reach several — omitting it then returns 400 `organization_required`. A malformed value returns 400 `invalid_organization_header`, and naming an organization you do not have access to returns 403 `organization_access_denied`.
     
 </dd>
 </dl>
@@ -3195,6 +3387,14 @@ client.members.get_household(
 <dl>
 <dd>
 
+**vitable_organization:** `typing.Optional[XVitableOrganization]` — Organization to act as for this request (e.g. `org_SGVsbG8gV29ybGQ`). Optional when your credentials reach a single organization. Required when they reach several — omitting it then returns 400 `organization_required`. A malformed value returns 400 `invalid_organization_header`, and naming an organization you do not have access to returns 403 `organization_access_denied`.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
 **request_options:** `typing.Optional[RequestOptions]` — Request-specific configuration.
     
 </dd>
@@ -3261,6 +3461,14 @@ client.members.list_id_cards(
 <dd>
 
 **member_id:** `MemberId` 
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**vitable_organization:** `typing.Optional[XVitableOrganization]` — Organization to act as for this request (e.g. `org_SGVsbG8gV29ybGQ`). Optional when your credentials reach a single organization. Required when they reach several — omitting it then returns 400 `organization_required`. A malformed value returns 400 `invalid_organization_header`, and naming an organization you do not have access to returns 403 `organization_access_denied`.
     
 </dd>
 </dl>
@@ -3367,6 +3575,14 @@ client.members.list_qualifying_life_events(
 <dl>
 <dd>
 
+**vitable_organization:** `typing.Optional[XVitableOrganization]` — Organization to act as for this request (e.g. `org_SGVsbG8gV29ybGQ`). Optional when your credentials reach a single organization. Required when they reach several — omitting it then returns 400 `organization_required`. A malformed value returns 400 `invalid_organization_header`, and naming an organization you do not have access to returns 403 `organization_access_denied`.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
 **request_options:** `typing.Optional[RequestOptions]` — Request-specific configuration.
     
 </dd>
@@ -3450,6 +3666,14 @@ client.members.list(
 <dd>
 
 **search:** `typing.Optional[MemberSearch]` — Case-insensitive search across member name, email, and phone number; exact match on member id (prefixed or raw uuid)
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**vitable_organization:** `typing.Optional[XVitableOrganization]` — Organization to act as for this request (e.g. `org_SGVsbG8gV29ybGQ`). Optional when your credentials reach a single organization. Required when they reach several — omitting it then returns 400 `organization_required`. A malformed value returns 400 `invalid_organization_header`, and naming an organization you do not have access to returns 403 `organization_access_denied`.
     
 </dd>
 </dl>
@@ -3545,7 +3769,7 @@ client.organizations.list()
 <dl>
 <dd>
 
-Onboards the authenticated user's partner Organization: creates the local Organization + the creator's admin membership atomically, then mirrors it to WorkOS (creates the WorkOS org and binds the creator as admin). 409 `organization_already_exists` when the user already has an organization (v0: one organization per user).
+Onboards the authenticated user's partner Organization: creates the local Organization + the creator's admin membership atomically, then mirrors it to WorkOS (creates the WorkOS org and binds the creator as admin). A user may hold several organizations and selects which one a request acts as with the `X-Vitable-Organization` header. The founder's email domain is claimed only when no other organization holds it, so a taken domain is left with its owner rather than rejected.
 </dd>
 </dl>
 </dd>
