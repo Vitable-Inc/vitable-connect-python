@@ -10,10 +10,10 @@
       "union_naming": "v1"
     }
   },
-  "originGitCommit": "e710ee21f093ef71854fc1636c39553fa760d026",
+  "originGitCommit": "807d06d32ea058bd87c8a3e6d61c8720c8ab1ca3",
   "originGitCommitIsDirty": false,
   "invokedBy": "ci",
   "requestedVersion": "AUTO",
   "ciProvider": "github",
-  "sdkVersion": "1.0.1"
+  "sdkVersion": "2.0.0"
 }

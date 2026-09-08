@@ -97,6 +97,7 @@ if typing.TYPE_CHECKING:
     from .group_list_response import GroupListResponse
     from .group_member_sync_detail_response import GroupMemberSyncDetailResponse
     from .group_member_sync_failure import GroupMemberSyncFailure
+    from .group_member_sync_failure_operation import GroupMemberSyncFailureOperation
     from .group_member_sync_member_request import GroupMemberSyncMemberRequest
     from .group_member_sync_request_detail import GroupMemberSyncRequestDetail
     from .group_member_sync_request_detail_response import GroupMemberSyncRequestDetailResponse
@@ -137,7 +138,6 @@ if typing.TYPE_CHECKING:
     from .missing_employee_resolution import MissingEmployeeResolution
     from .name_suffix import NameSuffix
     from .offset import Offset
-    from .operation import Operation
     from .organization import Organization
     from .organization_employer import OrganizationEmployer
     from .organization_employer_list_response import OrganizationEmployerListResponse
@@ -273,6 +273,7 @@ _dynamic_imports: typing.Dict[str, str] = {
     "GroupListResponse": ".group_list_response",
     "GroupMemberSyncDetailResponse": ".group_member_sync_detail_response",
     "GroupMemberSyncFailure": ".group_member_sync_failure",
+    "GroupMemberSyncFailureOperation": ".group_member_sync_failure_operation",
     "GroupMemberSyncMemberRequest": ".group_member_sync_member_request",
     "GroupMemberSyncRequestDetail": ".group_member_sync_request_detail",
     "GroupMemberSyncRequestDetailResponse": ".group_member_sync_request_detail_response",
@@ -313,7 +314,6 @@ _dynamic_imports: typing.Dict[str, str] = {
     "MissingEmployeeResolution": ".missing_employee_resolution",
     "NameSuffix": ".name_suffix",
     "Offset": ".offset",
-    "Operation": ".operation",
     "Organization": ".organization",
     "OrganizationEmployer": ".organization_employer",
     "OrganizationEmployerListResponse": ".organization_employer_list_response",
@@ -473,6 +473,7 @@ __all__ = [
     "GroupListResponse",
     "GroupMemberSyncDetailResponse",
     "GroupMemberSyncFailure",
+    "GroupMemberSyncFailureOperation",
     "GroupMemberSyncMemberRequest",
     "GroupMemberSyncRequestDetail",
     "GroupMemberSyncRequestDetailResponse",
@@ -513,7 +514,6 @@ __all__ = [
     "MissingEmployeeResolution",
     "NameSuffix",
     "Offset",
-    "Operation",
     "Organization",
     "OrganizationEmployer",
     "OrganizationEmployerListResponse",

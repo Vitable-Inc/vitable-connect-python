@@ -4,7 +4,7 @@ import typing
 
 import pydantic
 from ..core.pydantic_utilities import IS_PYDANTIC_V2, UniversalBaseModel
-from .operation import Operation
+from .group_member_sync_failure_operation import GroupMemberSyncFailureOperation
 
 
 class GroupMemberSyncFailure(UniversalBaseModel):
@@ -13,7 +13,7 @@ class GroupMemberSyncFailure(UniversalBaseModel):
     Your identifier for the member that failed to sync.
     """
 
-    operation: Operation = pydantic.Field()
+    operation: GroupMemberSyncFailureOperation = pydantic.Field()
     """
     The sync operation that failed for this member.
     """
