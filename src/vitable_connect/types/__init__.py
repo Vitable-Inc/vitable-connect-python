@@ -38,7 +38,6 @@ if typing.TYPE_CHECKING:
     from .contribution_strategy import ContributionStrategy
     from .contribution_tier import ContributionTier
     from .coverage_tier import CoverageTier
-    from .create_organization_request_type import CreateOrganizationRequestType
     from .created_after import CreatedAfter
     from .created_before import CreatedBefore
     from .deduction_detail import DeductionDetail
@@ -143,7 +142,9 @@ if typing.TYPE_CHECKING:
     from .organization_employer_list_response import OrganizationEmployerListResponse
     from .organization_hris_provider import OrganizationHrisProvider
     from .organization_hris_providers_response import OrganizationHrisProvidersResponse
+    from .organization_membership import OrganizationMembership
     from .organization_type import OrganizationType
+    from .organization_user_role import OrganizationUserRole
     from .organizations_list_response import OrganizationsListResponse
     from .page import Page
     from .pagination import Pagination
@@ -215,7 +216,6 @@ _dynamic_imports: typing.Dict[str, str] = {
     "ContributionStrategy": ".contribution_strategy",
     "ContributionTier": ".contribution_tier",
     "CoverageTier": ".coverage_tier",
-    "CreateOrganizationRequestType": ".create_organization_request_type",
     "CreatedAfter": ".created_after",
     "CreatedBefore": ".created_before",
     "DeductionDetail": ".deduction_detail",
@@ -320,7 +320,9 @@ _dynamic_imports: typing.Dict[str, str] = {
     "OrganizationEmployerListResponse": ".organization_employer_list_response",
     "OrganizationHrisProvider": ".organization_hris_provider",
     "OrganizationHrisProvidersResponse": ".organization_hris_providers_response",
+    "OrganizationMembership": ".organization_membership",
     "OrganizationType": ".organization_type",
+    "OrganizationUserRole": ".organization_user_role",
     "OrganizationsListResponse": ".organizations_list_response",
     "Page": ".page",
     "Pagination": ".pagination",
@@ -416,7 +418,6 @@ __all__ = [
     "ContributionStrategy",
     "ContributionTier",
     "CoverageTier",
-    "CreateOrganizationRequestType",
     "CreatedAfter",
     "CreatedBefore",
     "DeductionDetail",
@@ -521,7 +522,9 @@ __all__ = [
     "OrganizationEmployerListResponse",
     "OrganizationHrisProvider",
     "OrganizationHrisProvidersResponse",
+    "OrganizationMembership",
     "OrganizationType",
+    "OrganizationUserRole",
     "OrganizationsListResponse",
     "Page",
     "Pagination",

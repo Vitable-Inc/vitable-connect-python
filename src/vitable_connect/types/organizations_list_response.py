@@ -4,7 +4,7 @@ import typing
 
 import pydantic
 from ..core.pydantic_utilities import IS_PYDANTIC_V2, UniversalBaseModel
-from .organization import Organization
+from .organization_membership import OrganizationMembership
 
 
 class OrganizationsListResponse(UniversalBaseModel):
@@ -12,7 +12,7 @@ class OrganizationsListResponse(UniversalBaseModel):
     Envelope for the caller's organization memberships (paginated).
     """
 
-    organizations: typing.List[Organization] = pydantic.Field()
+    organizations: typing.List[OrganizationMembership] = pydantic.Field()
     """
     This page of organizations.
     """

@@ -17,9 +17,9 @@ from ..errors.internal_server_error import InternalServerError
 from ..errors.not_found_error import NotFoundError
 from ..errors.too_many_requests_error import TooManyRequestsError
 from ..errors.unauthorized_error import UnauthorizedError
-from ..types.create_organization_request_type import CreateOrganizationRequestType
 from ..types.error_response import ErrorResponse
 from ..types.organization import Organization
+from ..types.organization_type import OrganizationType
 from ..types.organizations_list_response import OrganizationsListResponse
 from pydantic import ValidationError
 
@@ -35,7 +35,7 @@ class RawOrganizationsClient:
         self, *, request_options: typing.Optional[RequestOptions] = None
     ) -> HttpResponse[OrganizationsListResponse]:
         """
-        Lists the organizations the authenticated caller is an active member of (paginated). Returns an empty list when the caller belongs to no organizations.
+        Lists the organizations the authenticated caller is an active member of (paginated), each with the role the caller holds in it. Returns an empty list when the caller belongs to no organizations.
 
         Parameters
         ----------
@@ -163,7 +163,7 @@ class RawOrganizationsClient:
         self,
         *,
         name: str,
-        type: typing.Optional[CreateOrganizationRequestType] = OMIT,
+        type: typing.Optional[OrganizationType] = OMIT,
         request_options: typing.Optional[RequestOptions] = None,
     ) -> HttpResponse[Organization]:
         """
@@ -174,7 +174,7 @@ class RawOrganizationsClient:
         name : str
             Legal or trading name of the organization.
 
-        type : typing.Optional[CreateOrganizationRequestType]
+        type : typing.Optional[OrganizationType]
             Category of organization being onboarded.
 
         request_options : typing.Optional[RequestOptions]
@@ -314,7 +314,7 @@ class AsyncRawOrganizationsClient:
         self, *, request_options: typing.Optional[RequestOptions] = None
     ) -> AsyncHttpResponse[OrganizationsListResponse]:
         """
-        Lists the organizations the authenticated caller is an active member of (paginated). Returns an empty list when the caller belongs to no organizations.
+        Lists the organizations the authenticated caller is an active member of (paginated), each with the role the caller holds in it. Returns an empty list when the caller belongs to no organizations.
 
         Parameters
         ----------
@@ -442,7 +442,7 @@ class AsyncRawOrganizationsClient:
         self,
         *,
         name: str,
-        type: typing.Optional[CreateOrganizationRequestType] = OMIT,
+        type: typing.Optional[OrganizationType] = OMIT,
         request_options: typing.Optional[RequestOptions] = None,
     ) -> AsyncHttpResponse[Organization]:
         """
@@ -453,7 +453,7 @@ class AsyncRawOrganizationsClient:
         name : str
             Legal or trading name of the organization.
 
-        type : typing.Optional[CreateOrganizationRequestType]
+        type : typing.Optional[OrganizationType]
             Category of organization being onboarded.
 
         request_options : typing.Optional[RequestOptions]

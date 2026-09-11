@@ -4,8 +4,8 @@ import typing
 
 from ..core.client_wrapper import AsyncClientWrapper, SyncClientWrapper
 from ..core.request_options import RequestOptions
-from ..types.create_organization_request_type import CreateOrganizationRequestType
 from ..types.organization import Organization
+from ..types.organization_type import OrganizationType
 from ..types.organizations_list_response import OrganizationsListResponse
 from .raw_client import AsyncRawOrganizationsClient, RawOrganizationsClient
 
@@ -30,7 +30,7 @@ class OrganizationsClient:
 
     def list(self, *, request_options: typing.Optional[RequestOptions] = None) -> OrganizationsListResponse:
         """
-        Lists the organizations the authenticated caller is an active member of (paginated). Returns an empty list when the caller belongs to no organizations.
+        Lists the organizations the authenticated caller is an active member of (paginated), each with the role the caller holds in it. Returns an empty list when the caller belongs to no organizations.
 
         Parameters
         ----------
@@ -58,7 +58,7 @@ class OrganizationsClient:
         self,
         *,
         name: str,
-        type: typing.Optional[CreateOrganizationRequestType] = OMIT,
+        type: typing.Optional[OrganizationType] = OMIT,
         request_options: typing.Optional[RequestOptions] = None,
     ) -> Organization:
         """
@@ -69,7 +69,7 @@ class OrganizationsClient:
         name : str
             Legal or trading name of the organization.
 
-        type : typing.Optional[CreateOrganizationRequestType]
+        type : typing.Optional[OrganizationType]
             Category of organization being onboarded.
 
         request_options : typing.Optional[RequestOptions]
@@ -113,7 +113,7 @@ class AsyncOrganizationsClient:
 
     async def list(self, *, request_options: typing.Optional[RequestOptions] = None) -> OrganizationsListResponse:
         """
-        Lists the organizations the authenticated caller is an active member of (paginated). Returns an empty list when the caller belongs to no organizations.
+        Lists the organizations the authenticated caller is an active member of (paginated), each with the role the caller holds in it. Returns an empty list when the caller belongs to no organizations.
 
         Parameters
         ----------
@@ -149,7 +149,7 @@ class AsyncOrganizationsClient:
         self,
         *,
         name: str,
-        type: typing.Optional[CreateOrganizationRequestType] = OMIT,
+        type: typing.Optional[OrganizationType] = OMIT,
         request_options: typing.Optional[RequestOptions] = None,
     ) -> Organization:
         """
@@ -160,7 +160,7 @@ class AsyncOrganizationsClient:
         name : str
             Legal or trading name of the organization.
 
-        type : typing.Optional[CreateOrganizationRequestType]
+        type : typing.Optional[OrganizationType]
             Category of organization being onboarded.
 
         request_options : typing.Optional[RequestOptions]

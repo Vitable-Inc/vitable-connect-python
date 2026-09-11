@@ -1,3 +1,12 @@
+## 3.0.0 - 2026-09-11
+### Breaking Changes
+* **`CreateOrganizationRequestType`** has been removed from `vitable_connect` and `vitable_connect.types`. Replace all imports with `OrganizationType`, which covers the same set of literal values (`"BROKERAGE"`, `"TPA"`, `"GENERAL_AGENT"`, `"CHANNEL_PARTNER"`, `"CONSULTING_FIRM"`, `"API_PLATFORM"`).
+* **`OrganizationsListResponse.organizations`** now contains `List[OrganizationMembership]` instead of `List[Organization]`. Update any code that accesses fields unique to `Organization` to use the new `OrganizationMembership` model, which adds a `role` field and retains all core organization fields.
+* **`OrganizationsClient.create`** (and `AsyncOrganizationsClient`, `RawOrganizationsClient`, `AsyncRawOrganizationsClient`) — the `type` parameter type annotation changes from `CreateOrganizationRequestType` to `OrganizationType`; runtime behavior is unchanged but static type checkers will flag the old import.
+### Added
+* **`OrganizationMembership`** — new Pydantic model representing an organization the caller belongs to, including `id`, `name`, `type`, `idp_org_id`, `idp_provider`, `super_in`, and `role`; exported from `vitable_connect` and `vitable_connect.types`.
+* **`OrganizationUserRole`** — new type alias (`Literal["ADMIN", "OPERATIONS", "SALES", "ENROLLMENT_AGENT"] | Any`) representing the caller's role within an organization; exported from `vitable_connect` and `vitable_connect.types`.
+
 ## 2.1.0 - 2026-09-08
 ### Added
 * **`vitable_organization`** — new optional `XVitableOrganization` keyword argument added to all methods on `MembersClient`, `AsyncMembersClient`, `EmployersClient`, `AsyncEmployersClient`, `RawEmployersClient`, `AsyncRawEmployersClient`, `EnrollmentsClient`, and their async equivalents; pass an organization ID to forward the `X-Vitable-Organization` HTTP header and scope requests when credentials span multiple organizations.
