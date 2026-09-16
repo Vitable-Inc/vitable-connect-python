@@ -137,7 +137,6 @@ if typing.TYPE_CHECKING:
     from .missing_employee_resolution import MissingEmployeeResolution
     from .name_suffix import NameSuffix
     from .offset import Offset
-    from .organization import Organization
     from .organization_employer import OrganizationEmployer
     from .organization_employer_list_response import OrganizationEmployerListResponse
     from .organization_hris_provider import OrganizationHrisProvider
@@ -315,7 +314,6 @@ _dynamic_imports: typing.Dict[str, str] = {
     "MissingEmployeeResolution": ".missing_employee_resolution",
     "NameSuffix": ".name_suffix",
     "Offset": ".offset",
-    "Organization": ".organization",
     "OrganizationEmployer": ".organization_employer",
     "OrganizationEmployerListResponse": ".organization_employer_list_response",
     "OrganizationHrisProvider": ".organization_hris_provider",
@@ -517,7 +515,6 @@ __all__ = [
     "MissingEmployeeResolution",
     "NameSuffix",
     "Offset",
-    "Organization",
     "OrganizationEmployer",
     "OrganizationEmployerListResponse",
     "OrganizationHrisProvider",

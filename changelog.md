@@ -1,3 +1,8 @@
+## 4.0.0 - 2026-09-16
+### Breaking Changes
+* **`Organization`** has been removed from `vitable_connect` and `vitable_connect.types`. Remove all imports of `Organization`; if you need organization data, use `OrganizationMembership` (introduced in v3.0.0) which covers the same fields plus a `role` field.
+* **`OrganizationsClient.create`** (and `AsyncOrganizationsClient`, `RawOrganizationsClient`, `AsyncRawOrganizationsClient`) has been removed. The organization onboarding endpoint is no longer available through the SDK; remove all calls to `organizations.create()`.
+
 ## 3.0.0 - 2026-09-11
 ### Breaking Changes
 * **`CreateOrganizationRequestType`** has been removed from `vitable_connect` and `vitable_connect.types`. Replace all imports with `OrganizationType`, which covers the same set of literal values (`"BROKERAGE"`, `"TPA"`, `"GENERAL_AGENT"`, `"CHANNEL_PARTNER"`, `"CONSULTING_FIRM"`, `"API_PLATFORM"`).

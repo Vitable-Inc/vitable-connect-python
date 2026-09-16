@@ -4,13 +4,8 @@ import typing
 
 from ..core.client_wrapper import AsyncClientWrapper, SyncClientWrapper
 from ..core.request_options import RequestOptions
-from ..types.organization import Organization
-from ..types.organization_type import OrganizationType
 from ..types.organizations_list_response import OrganizationsListResponse
 from .raw_client import AsyncRawOrganizationsClient, RawOrganizationsClient
-
-# this is used as the default value for optional parameters
-OMIT = typing.cast(typing.Any, ...)
 
 
 class OrganizationsClient:
@@ -52,47 +47,6 @@ class OrganizationsClient:
         client.organizations.list()
         """
         _response = self._raw_client.list(request_options=request_options)
-        return _response.data
-
-    def create(
-        self,
-        *,
-        name: str,
-        type: typing.Optional[OrganizationType] = OMIT,
-        request_options: typing.Optional[RequestOptions] = None,
-    ) -> Organization:
-        """
-        Onboards the authenticated user's partner Organization: creates the local Organization + the creator's admin membership atomically, then mirrors it to WorkOS (creates the WorkOS org and binds the creator as admin). A user may hold several organizations and selects which one a request acts as with the `X-Vitable-Organization` header. The founder's email domain is claimed only when no other organization holds it, so a taken domain is left with its owner rather than rejected.
-
-        Parameters
-        ----------
-        name : str
-            Legal or trading name of the organization.
-
-        type : typing.Optional[OrganizationType]
-            Category of organization being onboarded.
-
-        request_options : typing.Optional[RequestOptions]
-            Request-specific configuration.
-
-        Returns
-        -------
-        Organization
-
-
-        Examples
-        --------
-        from vitable_connect import VitableConnect
-
-        client = VitableConnect(
-            api_key="YOUR_API_KEY",
-        )
-        client.organizations.create(
-            name="Acme Brokerage",
-            type="BROKERAGE",
-        )
-        """
-        _response = self._raw_client.create(name=name, type=type, request_options=request_options)
         return _response.data
 
 
@@ -143,53 +97,4 @@ class AsyncOrganizationsClient:
         asyncio.run(main())
         """
         _response = await self._raw_client.list(request_options=request_options)
-        return _response.data
-
-    async def create(
-        self,
-        *,
-        name: str,
-        type: typing.Optional[OrganizationType] = OMIT,
-        request_options: typing.Optional[RequestOptions] = None,
-    ) -> Organization:
-        """
-        Onboards the authenticated user's partner Organization: creates the local Organization + the creator's admin membership atomically, then mirrors it to WorkOS (creates the WorkOS org and binds the creator as admin). A user may hold several organizations and selects which one a request acts as with the `X-Vitable-Organization` header. The founder's email domain is claimed only when no other organization holds it, so a taken domain is left with its owner rather than rejected.
-
-        Parameters
-        ----------
-        name : str
-            Legal or trading name of the organization.
-
-        type : typing.Optional[OrganizationType]
-            Category of organization being onboarded.
-
-        request_options : typing.Optional[RequestOptions]
-            Request-specific configuration.
-
-        Returns
-        -------
-        Organization
-
-
-        Examples
-        --------
-        import asyncio
-
-        from vitable_connect import AsyncVitableConnect
-
-        client = AsyncVitableConnect(
-            api_key="YOUR_API_KEY",
-        )
-
-
-        async def main() -> None:
-            await client.organizations.create(
-                name="Acme Brokerage",
-                type="BROKERAGE",
-            )
-
-
-        asyncio.run(main())
-        """
-        _response = await self._raw_client.create(name=name, type=type, request_options=request_options)
         return _response.data
