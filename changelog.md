@@ -1,3 +1,7 @@
+## 4.1.0 - 2026-09-22
+### Added
+* **`MemberEnrollment.enrolled_date`** — new optional `date` field (YYYY-MM-DD) representing the date the member enrolled; `None` unless the row is an election.
+
 ## 4.0.0 - 2026-09-16
 ### Breaking Changes
 * **`Organization`** has been removed from `vitable_connect` and `vitable_connect.types`. Remove all imports of `Organization`; if you need organization data, use `OrganizationMembership` (introduced in v3.0.0) which covers the same fields plus a `role` field.
