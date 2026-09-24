@@ -6,9 +6,7 @@ import typing
 from importlib import import_module
 
 if typing.TYPE_CHECKING:
-    from .access_method import AccessMethod
     from .access_token_response import AccessTokenResponse
-    from .additional_access_method import AdditionalAccessMethod
     from .address import Address
     from .address_request import AddressRequest
     from .benefit_family import BenefitFamily
@@ -42,6 +40,7 @@ if typing.TYPE_CHECKING:
     from .created_before import CreatedBefore
     from .deduction_detail import DeductionDetail
     from .deduction_frequency import DeductionFrequency
+    from .detailed_address import DetailedAddress
     from .digital_benefit_card import DigitalBenefitCard
     from .election_status_item import ElectionStatusItem
     from .eligibility_policy import EligibilityPolicy
@@ -147,6 +146,7 @@ if typing.TYPE_CHECKING:
     from .organizations_list_response import OrganizationsListResponse
     from .page import Page
     from .pagination import Pagination
+    from .payroll_access_method import PayrollAccessMethod
     from .payroll_access_setup_status import PayrollAccessSetupStatus
     from .payroll_access_setup_status_response import PayrollAccessSetupStatusResponse
     from .payroll_deduction_statement import PayrollDeductionStatement
@@ -183,9 +183,7 @@ if typing.TYPE_CHECKING:
     from .webhook_event_response import WebhookEventResponse
     from .x_vitable_organization import XVitableOrganization
 _dynamic_imports: typing.Dict[str, str] = {
-    "AccessMethod": ".access_method",
     "AccessTokenResponse": ".access_token_response",
-    "AdditionalAccessMethod": ".additional_access_method",
     "Address": ".address",
     "AddressRequest": ".address_request",
     "BenefitFamily": ".benefit_family",
@@ -219,6 +217,7 @@ _dynamic_imports: typing.Dict[str, str] = {
     "CreatedBefore": ".created_before",
     "DeductionDetail": ".deduction_detail",
     "DeductionFrequency": ".deduction_frequency",
+    "DetailedAddress": ".detailed_address",
     "DigitalBenefitCard": ".digital_benefit_card",
     "ElectionStatusItem": ".election_status_item",
     "EligibilityPolicy": ".eligibility_policy",
@@ -324,6 +323,7 @@ _dynamic_imports: typing.Dict[str, str] = {
     "OrganizationsListResponse": ".organizations_list_response",
     "Page": ".page",
     "Pagination": ".pagination",
+    "PayrollAccessMethod": ".payroll_access_method",
     "PayrollAccessSetupStatus": ".payroll_access_setup_status",
     "PayrollAccessSetupStatusResponse": ".payroll_access_setup_status_response",
     "PayrollDeductionStatement": ".payroll_deduction_statement",
@@ -384,9 +384,7 @@ def __dir__():
 
 
 __all__ = [
-    "AccessMethod",
     "AccessTokenResponse",
-    "AdditionalAccessMethod",
     "Address",
     "AddressRequest",
     "BenefitFamily",
@@ -420,6 +418,7 @@ __all__ = [
     "CreatedBefore",
     "DeductionDetail",
     "DeductionFrequency",
+    "DetailedAddress",
     "DigitalBenefitCard",
     "ElectionStatusItem",
     "EligibilityPolicy",
@@ -525,6 +524,7 @@ __all__ = [
     "OrganizationsListResponse",
     "Page",
     "Pagination",
+    "PayrollAccessMethod",
     "PayrollAccessSetupStatus",
     "PayrollAccessSetupStatusResponse",
     "PayrollDeductionStatement",

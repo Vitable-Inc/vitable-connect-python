@@ -4,7 +4,7 @@ import typing
 
 import pydantic
 from ..core.pydantic_utilities import IS_PYDANTIC_V2, UniversalBaseModel
-from .address import Address
+from .detailed_address import DetailedAddress
 
 
 class BenefitPlanNetwork(UniversalBaseModel):
@@ -23,7 +23,7 @@ class BenefitPlanNetwork(UniversalBaseModel):
     URL of the network's logo, or `null` if none is on file.
     """
 
-    address: Address = pydantic.Field()
+    address: DetailedAddress = pydantic.Field()
     """
     Postal address of the provider network.
     """

@@ -1869,7 +1869,7 @@ client.employers.submit_payroll_access_setup(
 <dl>
 <dd>
 
-**access_method:** `AccessMethod` 
+**access_method:** `PayrollAccessMethod` 
     
 </dd>
 </dl>
@@ -1973,7 +1973,7 @@ client.employers.submit_payroll_access_setup(
 <dl>
 <dd>
 
-**additional_access_method:** `typing.Optional[AdditionalAccessMethod]` — How Vitable will access the second payroll system.
+**additional_access_method:** `typing.Optional[PayrollAccessMethod]` — How Vitable will access the second payroll system.
     
 </dd>
 </dl>

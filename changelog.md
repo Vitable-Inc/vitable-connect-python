@@ -1,3 +1,13 @@
+## 5.0.0 - 2026-09-24
+### Breaking Changes
+* **`AccessMethod`** has been removed from `vitable_connect` and `vitable_connect.types`. Replace all imports with `PayrollAccessMethod`, which carries the same literal values (`"SELF_SETUP"`, `"NEEDS_HELP"`).
+* **`AdditionalAccessMethod`** has been removed from `vitable_connect` and `vitable_connect.types`. Replace all imports with `PayrollAccessMethod`, which carries the same literal values (`"SELF_SETUP"`, `"NEEDS_HELP"`).
+* **`EmployersClient.setup_payroll_access`** (and `AsyncEmployersClient`, `RawEmployersClient`, `AsyncRawEmployersClient`) — the `access_method` and `additional_access_method` parameters now accept `PayrollAccessMethod` instead of `AccessMethod`/`AdditionalAccessMethod`; update any static type annotations accordingly.
+* **`BenefitPlanNetwork.address`** is now typed as `DetailedAddress` instead of `Address`; update any code that constructs or type-checks this field.
+### Added
+* **`PayrollAccessMethod`** — new unified type alias (`Literal["SELF_SETUP", "NEEDS_HELP"] | Any`) that replaces the former `AccessMethod` and `AdditionalAccessMethod`; exported from `vitable_connect` and `vitable_connect.types`.
+* **`DetailedAddress`** — new Pydantic model extending address data with `latitude`, `longitude`, `county_fips_code`, and `county_name` fields; exported from `vitable_connect` and `vitable_connect.types`.
+
 ## 4.1.0 - 2026-09-22
 ### Added
 * **`MemberEnrollment.enrolled_date`** — new optional `date` field (YYYY-MM-DD) representing the date the member enrolled; `None` unless the row is an election.

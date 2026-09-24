@@ -7,9 +7,7 @@ from importlib import import_module
 
 if typing.TYPE_CHECKING:
     from .types import (
-        AccessMethod,
         AccessTokenResponse,
-        AdditionalAccessMethod,
         Address,
         AddressRequest,
         BenefitFamily,
@@ -43,6 +41,7 @@ if typing.TYPE_CHECKING:
         CreatedBefore,
         DeductionDetail,
         DeductionFrequency,
+        DetailedAddress,
         DigitalBenefitCard,
         ElectionStatusItem,
         EligibilityPolicy,
@@ -148,6 +147,7 @@ if typing.TYPE_CHECKING:
         OrganizationsListResponse,
         Page,
         Pagination,
+        PayrollAccessMethod,
         PayrollAccessSetupStatus,
         PayrollAccessSetupStatusResponse,
         PayrollDeductionStatement,
@@ -201,9 +201,7 @@ if typing.TYPE_CHECKING:
     from .environment import VitableConnectEnvironment
     from .version import __version__
 _dynamic_imports: typing.Dict[str, str] = {
-    "AccessMethod": ".types",
     "AccessTokenResponse": ".types",
-    "AdditionalAccessMethod": ".types",
     "Address": ".types",
     "AddressRequest": ".types",
     "AsyncVitableConnect": ".client",
@@ -243,6 +241,7 @@ _dynamic_imports: typing.Dict[str, str] = {
     "DeductionFrequency": ".types",
     "DefaultAioHttpClient": "._default_clients",
     "DefaultAsyncHttpxClient": "._default_clients",
+    "DetailedAddress": ".types",
     "DigitalBenefitCard": ".types",
     "ElectionStatusItem": ".types",
     "EligibilityPolicy": ".types",
@@ -351,6 +350,7 @@ _dynamic_imports: typing.Dict[str, str] = {
     "OrganizationsListResponse": ".types",
     "Page": ".types",
     "Pagination": ".types",
+    "PayrollAccessMethod": ".types",
     "PayrollAccessSetupStatus": ".types",
     "PayrollAccessSetupStatusResponse": ".types",
     "PayrollDeductionStatement": ".types",
@@ -426,9 +426,7 @@ def __dir__():
 
 
 __all__ = [
-    "AccessMethod",
     "AccessTokenResponse",
-    "AdditionalAccessMethod",
     "Address",
     "AddressRequest",
     "AsyncVitableConnect",
@@ -468,6 +466,7 @@ __all__ = [
     "DeductionFrequency",
     "DefaultAioHttpClient",
     "DefaultAsyncHttpxClient",
+    "DetailedAddress",
     "DigitalBenefitCard",
     "ElectionStatusItem",
     "EligibilityPolicy",
@@ -576,6 +575,7 @@ __all__ = [
     "OrganizationsListResponse",
     "Page",
     "Pagination",
+    "PayrollAccessMethod",
     "PayrollAccessSetupStatus",
     "PayrollAccessSetupStatusResponse",
     "PayrollDeductionStatement",

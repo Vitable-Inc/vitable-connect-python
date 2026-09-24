@@ -5,8 +5,6 @@ import typing
 from ..core.client_wrapper import AsyncClientWrapper, SyncClientWrapper
 from ..core.pagination import AsyncPager, SyncPager
 from ..core.request_options import RequestOptions
-from ..types.access_method import AccessMethod
-from ..types.additional_access_method import AdditionalAccessMethod
 from ..types.benefit_family_param_item import BenefitFamilyParamItem
 from ..types.benefit_lifecycle_stage_item import BenefitLifecycleStageItem
 from ..types.benefit_plan_year_id import BenefitPlanYearId
@@ -40,6 +38,7 @@ from ..types.organization_employer import OrganizationEmployer
 from ..types.organization_employer_list_response import OrganizationEmployerListResponse
 from ..types.organization_hris_providers_response import OrganizationHrisProvidersResponse
 from ..types.page import Page
+from ..types.payroll_access_method import PayrollAccessMethod
 from ..types.payroll_access_setup_status_response import PayrollAccessSetupStatusResponse
 from ..types.payroll_deduction_statement import PayrollDeductionStatement
 from ..types.payroll_integration_email_response import PayrollIntegrationEmailResponse
@@ -868,7 +867,7 @@ class EmployersClient:
         classifications_accurate: bool,
         all_benefit_eligible_employees_present: bool,
         is_controlled_group: bool,
-        access_method: AccessMethod,
+        access_method: PayrollAccessMethod,
         has_additional_payroll_system: bool,
         vitable_organization: typing.Optional[XVitableOrganization] = None,
         classification_correction_source: typing.Optional[ClassificationCorrectionSource] = OMIT,
@@ -881,7 +880,7 @@ class EmployersClient:
         phone: typing.Optional[str] = OMIT,
         password: typing.Optional[str] = OMIT,
         integration_confirmed: typing.Optional[bool] = OMIT,
-        additional_access_method: typing.Optional[AdditionalAccessMethod] = OMIT,
+        additional_access_method: typing.Optional[PayrollAccessMethod] = OMIT,
         additional_login_url: typing.Optional[str] = OMIT,
         additional_username: typing.Optional[str] = OMIT,
         additional_phone: typing.Optional[str] = OMIT,
@@ -911,7 +910,7 @@ class EmployersClient:
         is_controlled_group : bool
             Whether this employer belongs to a controlled group of related entities.
 
-        access_method : AccessMethod
+        access_method : PayrollAccessMethod
 
         has_additional_payroll_system : bool
             Whether a second payroll system is in use. When `true`, supply the `additional_*` fields below.
@@ -949,7 +948,7 @@ class EmployersClient:
         integration_confirmed : typing.Optional[bool]
             Whether the payroll integration has been confirmed as working.
 
-        additional_access_method : typing.Optional[AdditionalAccessMethod]
+        additional_access_method : typing.Optional[PayrollAccessMethod]
             How Vitable will access the second payroll system.
 
         additional_login_url : typing.Optional[str]
@@ -2129,7 +2128,7 @@ class AsyncEmployersClient:
         classifications_accurate: bool,
         all_benefit_eligible_employees_present: bool,
         is_controlled_group: bool,
-        access_method: AccessMethod,
+        access_method: PayrollAccessMethod,
         has_additional_payroll_system: bool,
         vitable_organization: typing.Optional[XVitableOrganization] = None,
         classification_correction_source: typing.Optional[ClassificationCorrectionSource] = OMIT,
@@ -2142,7 +2141,7 @@ class AsyncEmployersClient:
         phone: typing.Optional[str] = OMIT,
         password: typing.Optional[str] = OMIT,
         integration_confirmed: typing.Optional[bool] = OMIT,
-        additional_access_method: typing.Optional[AdditionalAccessMethod] = OMIT,
+        additional_access_method: typing.Optional[PayrollAccessMethod] = OMIT,
         additional_login_url: typing.Optional[str] = OMIT,
         additional_username: typing.Optional[str] = OMIT,
         additional_phone: typing.Optional[str] = OMIT,
@@ -2172,7 +2171,7 @@ class AsyncEmployersClient:
         is_controlled_group : bool
             Whether this employer belongs to a controlled group of related entities.
 
-        access_method : AccessMethod
+        access_method : PayrollAccessMethod
 
         has_additional_payroll_system : bool
             Whether a second payroll system is in use. When `true`, supply the `additional_*` fields below.
@@ -2210,7 +2209,7 @@ class AsyncEmployersClient:
         integration_confirmed : typing.Optional[bool]
             Whether the payroll integration has been confirmed as working.
 
-        additional_access_method : typing.Optional[AdditionalAccessMethod]
+        additional_access_method : typing.Optional[PayrollAccessMethod]
             How Vitable will access the second payroll system.
 
         additional_login_url : typing.Optional[str]
