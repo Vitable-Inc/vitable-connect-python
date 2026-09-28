@@ -8,6 +8,7 @@ from ..core.pydantic_utilities import IS_PYDANTIC_V2, UniversalBaseModel
 from .category import Category
 from .plan_year_enrollment_election_status import PlanYearEnrollmentElectionStatus
 from .plan_year_enrollment_policy_status import PlanYearEnrollmentPolicyStatus
+from .plan_year_ichra_affordability import PlanYearIchraAffordability
 from .product_code import ProductCode
 
 
@@ -175,6 +176,14 @@ class MemberEnrollment(UniversalBaseModel):
     is_within_enrollment_window: bool = pydantic.Field()
     """
     True when today falls inside the enrollment window this member has to answer in; drives enrollment-action availability on the client.
+    """
+
+    plan_year_ichra_affordability: typing.Optional[PlanYearIchraAffordability] = pydantic.Field(default=None)
+    """
+    Whether this ICHRA plan year was marked `Affordable` or `Not Affordable` when it was configured. A plan-year setting, not a calculation for this member. Null for non-ICHRA rows and for ICHRA plan years where it has not been set.
+    
+    * `Affordable` - Affordable
+    * `Not Affordable` - Not Affordable
     """
 
     if IS_PYDANTIC_V2:

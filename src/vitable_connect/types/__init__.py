@@ -158,6 +158,7 @@ if typing.TYPE_CHECKING:
     from .plan_year_enrollment_election_status import PlanYearEnrollmentElectionStatus
     from .plan_year_enrollment_list_response import PlanYearEnrollmentListResponse
     from .plan_year_enrollment_policy_status import PlanYearEnrollmentPolicyStatus
+    from .plan_year_ichra_affordability import PlanYearIchraAffordability
     from .preferred_language import PreferredLanguage
     from .product_code import ProductCode
     from .qualifying_life_event_status import QualifyingLifeEventStatus
@@ -335,6 +336,7 @@ _dynamic_imports: typing.Dict[str, str] = {
     "PlanYearEnrollmentElectionStatus": ".plan_year_enrollment_election_status",
     "PlanYearEnrollmentListResponse": ".plan_year_enrollment_list_response",
     "PlanYearEnrollmentPolicyStatus": ".plan_year_enrollment_policy_status",
+    "PlanYearIchraAffordability": ".plan_year_ichra_affordability",
     "PreferredLanguage": ".preferred_language",
     "ProductCode": ".product_code",
     "QualifyingLifeEventStatus": ".qualifying_life_event_status",
@@ -536,6 +538,7 @@ __all__ = [
     "PlanYearEnrollmentElectionStatus",
     "PlanYearEnrollmentListResponse",
     "PlanYearEnrollmentPolicyStatus",
+    "PlanYearIchraAffordability",
     "PreferredLanguage",
     "ProductCode",
     "QualifyingLifeEventStatus",

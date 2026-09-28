@@ -6,6 +6,7 @@ import pydantic
 from ..core.pydantic_utilities import IS_PYDANTIC_V2, UniversalBaseModel
 from .plan_year_enrollment_election_status import PlanYearEnrollmentElectionStatus
 from .plan_year_enrollment_policy_status import PlanYearEnrollmentPolicyStatus
+from .plan_year_ichra_affordability import PlanYearIchraAffordability
 
 
 class PlanYearEnrollment(UniversalBaseModel):
@@ -87,6 +88,14 @@ class PlanYearEnrollment(UniversalBaseModel):
     employee_deduction_in_cents: typing.Optional[int] = pydantic.Field(default=None)
     """
     What the employee is deducted monthly, in cents: `premium_in_cents` less `employer_contribution_in_cents`, floored at zero. Null when unanswered/waived.
+    """
+
+    plan_year_ichra_affordability: typing.Optional[PlanYearIchraAffordability] = pydantic.Field(default=None)
+    """
+    Whether this ICHRA plan year was marked `Affordable` or `Not Affordable` when it was configured. A plan-year setting, not a calculation for this member. Null for non-ICHRA plan years and for ICHRA plan years where it has not been set.
+    
+    * `Affordable` - Affordable
+    * `Not Affordable` - Not Affordable
     """
 
     if IS_PYDANTIC_V2:

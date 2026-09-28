@@ -1,3 +1,9 @@
+## 5.1.0 - 2026-09-28
+### Added
+* **`PlanYearIchraAffordability`** — new type alias (`"Affordable" | "Not Affordable"`) exported from `vitable_connect` and `vitable_connect.types` representing whether an ICHRA plan year was configured as affordable.
+* **`MemberEnrollment.plan_year_ichra_affordability`** — new optional `PlanYearIchraAffordability` field indicating the affordability setting of the ICHRA plan year; `None` for non-ICHRA rows or ICHRA plan years where it has not been set.
+* **`PlanYearEnrollment.plan_year_ichra_affordability`** — new optional `PlanYearIchraAffordability` field with the same semantics as the `MemberEnrollment` counterpart.
+
 ## 5.0.0 - 2026-09-24
 ### Breaking Changes
 * **`AccessMethod`** has been removed from `vitable_connect` and `vitable_connect.types`. Replace all imports with `PayrollAccessMethod`, which carries the same literal values (`"SELF_SETUP"`, `"NEEDS_HELP"`).
