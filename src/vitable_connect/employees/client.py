@@ -99,7 +99,7 @@ class EmployeesClient:
             Email address
 
         phone : typing.Optional[str]
-            Phone number
+            10-digit US phone number; formatting characters and a leading 1 are ignored
 
         gender : typing.Optional[Gender]
             Gender identity
@@ -311,7 +311,7 @@ class AsyncEmployeesClient:
             Email address
 
         phone : typing.Optional[str]
-            Phone number
+            10-digit US phone number; formatting characters and a leading 1 are ignored
 
         gender : typing.Optional[Gender]
             Gender identity

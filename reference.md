@@ -241,7 +241,7 @@ client.employees.update(
 <dl>
 <dd>
 
-**phone:** `typing.Optional[str]` — Phone number
+**phone:** `typing.Optional[str]` — 10-digit US phone number; formatting characters and a leading 1 are ignored
     
 </dd>
 </dl>

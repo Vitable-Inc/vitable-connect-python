@@ -1,3 +1,14 @@
+## 5.1.1 - 2026-10-01
+* chore: clarify phone and country field documentation
+* Update docstrings for the `phone` and `country` parameters across
+* employee client methods and the `EmployeeAddressInput` type to provide
+* more precise usage guidance.
+* Key changes:
+* `phone` parameter docstring now specifies "10-digit US phone number; formatting characters and a leading 1 are ignored"
+* `EmployeeAddressInput.country` docstring now notes "Only US addresses are supported; the value is ignored"
+* Changes apply consistently across `EmployeesClient`, `AsyncEmployeesClient`, `RawEmployeesClient`, and `AsyncRawEmployeesClient`
+* 🌿 Generated with Fern
+
 ## 5.1.0 - 2026-09-28
 ### Added
 * **`PlanYearIchraAffordability`** — new type alias (`"Affordable" | "Not Affordable"`) exported from `vitable_connect` and `vitable_connect.types` representing whether an ICHRA plan year was configured as affordable.

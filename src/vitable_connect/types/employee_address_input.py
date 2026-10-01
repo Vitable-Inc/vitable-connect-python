@@ -42,7 +42,7 @@ class EmployeeAddressInput(UniversalBaseModel):
 
     country: typing.Optional[str] = pydantic.Field(default=None)
     """
-    Country code
+    Country code. Only US addresses are supported; the value is ignored.
     """
 
     if IS_PYDANTIC_V2:
