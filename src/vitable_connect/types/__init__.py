@@ -36,6 +36,7 @@ if typing.TYPE_CHECKING:
     from .contribution_strategy import ContributionStrategy
     from .contribution_tier import ContributionTier
     from .coverage_tier import CoverageTier
+    from .create_member_dependent_address_request import CreateMemberDependentAddressRequest
     from .created_after import CreatedAfter
     from .created_before import CreatedBefore
     from .deduction_detail import DeductionDetail
@@ -170,6 +171,8 @@ if typing.TYPE_CHECKING:
     from .request_id import RequestId
     from .resource_id import ResourceId
     from .resource_type import ResourceType
+    from .saved_member_dependent import SavedMemberDependent
+    from .saved_member_dependent_response import SavedMemberDependentResponse
     from .search import Search
     from .sex_at_birth import SexAtBirth
     from .state import State
@@ -214,6 +217,7 @@ _dynamic_imports: typing.Dict[str, str] = {
     "ContributionStrategy": ".contribution_strategy",
     "ContributionTier": ".contribution_tier",
     "CoverageTier": ".coverage_tier",
+    "CreateMemberDependentAddressRequest": ".create_member_dependent_address_request",
     "CreatedAfter": ".created_after",
     "CreatedBefore": ".created_before",
     "DeductionDetail": ".deduction_detail",
@@ -348,6 +352,8 @@ _dynamic_imports: typing.Dict[str, str] = {
     "RequestId": ".request_id",
     "ResourceId": ".resource_id",
     "ResourceType": ".resource_type",
+    "SavedMemberDependent": ".saved_member_dependent",
+    "SavedMemberDependentResponse": ".saved_member_dependent_response",
     "Search": ".search",
     "SexAtBirth": ".sex_at_birth",
     "State": ".state",
@@ -416,6 +422,7 @@ __all__ = [
     "ContributionStrategy",
     "ContributionTier",
     "CoverageTier",
+    "CreateMemberDependentAddressRequest",
     "CreatedAfter",
     "CreatedBefore",
     "DeductionDetail",
@@ -550,6 +557,8 @@ __all__ = [
     "RequestId",
     "ResourceId",
     "ResourceType",
+    "SavedMemberDependent",
+    "SavedMemberDependentResponse",
     "Search",
     "SexAtBirth",
     "State",

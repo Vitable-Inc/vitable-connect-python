@@ -3164,6 +3164,209 @@ client.members.list_dependents(
 </dl>
 </details>
 
+<details><summary><code>client.members.<a href="src/vitable_connect/members/client.py">create_dependent</a>(...) -> SavedMemberDependentResponse</code></summary>
+<dl>
+<dd>
+
+#### 📝 Description
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+Saves a dependent (spouse or child) for a member. Saving does not enroll the dependent or change the member's coverage or coverage tier. If the member already has an active dependent matching this person, that relationship is reused and returned with a 200 and `created: false`; otherwise a new one is created with a 201 and `created: true`. In both cases the dependent's address is set to the one supplied; other details of a person Vitable already has on file are not changed. When a new dependent is created at exactly the member's address, Vitable also adds them to the member's household where it can; this never fails the request. The returned IDs identify the saved dependent. Social Security numbers are not accepted, and a body with an `ssn` field returns a 400. The caller must have write access to the target member, and API access tokens cannot save dependents. A member not visible to the caller returns a 404 before the body is validated. Business-rule failures return a 422 with `child_over_max_age` (a child must be under 26), `duplicate_active_spouse` (the member already has a different active spouse), `same_member`, `member_creation_failed`, or `legal_dependent_creation_failed`.
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```python
+from vitable_connect import VitableConnect, CreateMemberDependentAddressRequest
+from vitable_connect.environment import VitableConnectEnvironment
+import datetime
+
+client = VitableConnect(
+    api_key="<token>",
+    environment=VitableConnectEnvironment.PRODUCTION,
+)
+
+client.members.create_dependent(
+    member_id="mbr_abc123def456",
+    first_name="Sam",
+    last_name="Doe",
+    date_of_birth=datetime.date.fromisoformat("2015-06-01"),
+    sex_at_birth="Male",
+    relationship="Child",
+    address=CreateMemberDependentAddressRequest(
+        address_line1="123 Main St",
+        city="Detroit",
+        state="MI",
+        zipcode="48201",
+    ),
+)
+
+```
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**member_id:** `MemberId` — Unique member identifier (mbr_*)
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**first_name:** `str` — Dependent's legal first name
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**last_name:** `str` — Dependent's legal last name
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**date_of_birth:** `datetime.date` — Date of birth (YYYY-MM-DD); cannot be in the future
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**relationship:** `Relationship` 
+
+Relationship of the dependent to the member
+
+* `Spouse` - Spouse
+* `Child` - Child
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**address:** `CreateMemberDependentAddressRequest` — Dependent's residential address
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**vitable_organization:** `typing.Optional[XVitableOrganization]` — Organization to act as for this request (e.g. `org_SGVsbG8gV29ybGQ`). Optional when your credentials reach a single organization. Required when they reach several — omitting it then returns 400 `organization_required`. A malformed value returns 400 `invalid_organization_header`, and naming an organization you do not have access to returns 403 `organization_access_denied`.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**suffix:** `typing.Optional[NameSuffix]` 
+
+Name suffix
+
+* `Sr` - Sr
+* `Jr` - Jr
+* `I` - I
+* `II` - II
+* `III` - III
+* `IV` - IV
+* `V` - V
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**sex_at_birth:** `typing.Optional[SexAtBirth]` 
+
+Sex assigned at birth
+
+* `Male` - Male
+* `Female` - Female
+* `Other` - Other
+* `Unknown` - Unknown
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**gender:** `typing.Optional[Gender]` 
+
+Gender identity
+
+* `Male` - Male
+* `Female` - Female
+* `Transgender` - Transgender
+* `Non-binary` - Non-binary
+* `Prefer not to respond` - Prefer not to respond
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**email:** `typing.Optional[str]` — Dependent's email address. Ignored for dependents under 18, and not changed for a dependent Vitable already has on file.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**phone:** `typing.Optional[str]` — Dependent's 10-digit US phone number; formatting characters and a leading 1 are ignored. Ignored for dependents under 18, and not changed for a dependent Vitable already has on file.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**request_options:** `typing.Optional[RequestOptions]` — Request-specific configuration.
+    
+</dd>
+</dl>
+</dd>
+</dl>
+
+
+</dd>
+</dl>
+</details>
+
 <details><summary><code>client.members.<a href="src/vitable_connect/members/client.py">list_employments</a>(...) -> MemberEmploymentsResponse</code></summary>
 <dl>
 <dd>

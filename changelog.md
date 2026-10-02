@@ -1,3 +1,9 @@
+## 5.2.0 - 2026-10-02
+### Added
+* **`MembersClient.create_dependent`** — new sync and async method to save a spouse or child dependent for a member via `POST v1/members/{member_id}/dependents`; also available as a raw HTTP variant on `RawMembersClient` and `AsyncRawMembersClient`.
+* **`CreateMemberDependentAddressRequest`** — new request model for supplying a dependent's residential address (`address_line1`, `address_line2`, `city`, `state`, `zipcode`), exported from `vitable_connect` and `vitable_connect.types`.
+* **`SavedMemberDependent`** and **`SavedMemberDependentResponse`** — new response models returned by `create_dependent`, representing the saved dependent row and its wrapper; exported from `vitable_connect` and `vitable_connect.types`.
+
 ## 5.1.2 - 2026-10-02
 * chore: clarify `in_last_month_of_coverage` field documentation
 * Update the docstring for `MemberEnrollment.in_last_month_of_coverage` to
