@@ -1,3 +1,16 @@
+## 5.1.2 - 2026-10-02
+* chore: clarify `in_last_month_of_coverage` field documentation
+* Update the docstring for `MemberEnrollment.in_last_month_of_coverage` to
+* more precisely describe the coverage window logic. The field now documents
+* that "today" is evaluated in ET (Eastern Time) and that the final-month
+* check considers the earliest of termination, subscription end, plan-year
+* end, and selected-plan end dates — not just the plan-year coverage window.
+* Key changes:
+* Adds "(ET)" timezone qualifier to clarify how "today" is determined
+* Expands the coverage window definition to include termination date, subscription end, and selected-plan end alongside plan-year end
+* No runtime or API surface changes; documentation only
+* 🌿 Generated with Fern
+
 ## 5.1.1 - 2026-10-01
 * chore: clarify phone and country field documentation
 * Update docstrings for the `phone` and `country` parameters across
