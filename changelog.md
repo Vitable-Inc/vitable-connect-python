@@ -1,3 +1,7 @@
+## 6.0.0 - 2026-10-15
+### Breaking Changes
+* **`MemberEnrollment.in_last_month_of_coverage`** has been renamed to **`plan_year_ends_this_month`**. Update all references from `enrollment.in_last_month_of_coverage` to `enrollment.plan_year_ends_this_month`; accessing the old name will raise `AttributeError` at runtime.
+
 ## 5.2.0 - 2026-10-02
 ### Added
 * **`MembersClient.create_dependent`** — new sync and async method to save a spouse or child dependent for a member via `POST v1/members/{member_id}/dependents`; also available as a raw HTTP variant on `RawMembersClient` and `AsyncRawMembersClient`.

@@ -168,9 +168,9 @@ class MemberEnrollment(UniversalBaseModel):
     * `Cancelled` - Cancelled
     """
 
-    in_last_month_of_coverage: bool = pydantic.Field()
+    plan_year_ends_this_month: bool = pydantic.Field()
     """
-    True when today (ET) falls in the final month of the member's individual coverage (the earliest of termination, subscription end, plan-year end, and selected-plan end) or of the plan-year coverage window; drives end-of-coverage enrollment actions on the client.
+    True when today (ET) falls in the final month of the plan year. No new enrollment can start in that month, so it drives Reissue availability on the client.
     """
 
     is_within_enrollment_window: bool = pydantic.Field()
