@@ -128,6 +128,16 @@ class Member(UniversalBaseModel):
     * `Married` - Married
     """
 
+    individual_income_in_cents: typing.Optional[int] = pydantic.Field(default=None)
+    """
+    Member's annual individual income in cents, if provided
+    """
+
+    household_income_in_cents: typing.Optional[int] = pydantic.Field(default=None)
+    """
+    Member's annual household income in cents, if provided
+    """
+
     status: typing.Optional[MemberStatus] = pydantic.Field(default=None)
     """
     Member profile status (onboarded or pending onboarding)

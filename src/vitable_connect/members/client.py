@@ -57,7 +57,7 @@ class MembersClient:
         request_options: typing.Optional[RequestOptions] = None,
     ) -> MemberResponse:
         """
-        Retrieves a member's profile by ID — identity, demographics, address, contact details, tobacco status, and profile status. Access is scoped to the authenticated principal; a member not visible to the caller returns a 404.
+        Retrieves a member's profile by ID — identity, demographics, address (with county), contact details, tobacco status, marital status, individual and household income, and profile status. Access is scoped to the authenticated principal; a member not visible to the caller returns a 404.
 
         Parameters
         ----------
@@ -575,7 +575,7 @@ class AsyncMembersClient:
         request_options: typing.Optional[RequestOptions] = None,
     ) -> MemberResponse:
         """
-        Retrieves a member's profile by ID — identity, demographics, address, contact details, tobacco status, and profile status. Access is scoped to the authenticated principal; a member not visible to the caller returns a 404.
+        Retrieves a member's profile by ID — identity, demographics, address (with county), contact details, tobacco status, marital status, individual and household income, and profile status. Access is scoped to the authenticated principal; a member not visible to the caller returns a 404.
 
         Parameters
         ----------

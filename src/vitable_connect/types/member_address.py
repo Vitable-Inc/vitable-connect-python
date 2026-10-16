@@ -106,6 +106,11 @@ class MemberAddress(UniversalBaseModel):
     ZIP code (5 or 9 digit)
     """
 
+    county_name: typing.Optional[str] = pydantic.Field(default=None)
+    """
+    County name, if known
+    """
+
     if IS_PYDANTIC_V2:
         model_config: typing.ClassVar[pydantic.ConfigDict] = pydantic.ConfigDict(extra="allow", frozen=True)  # type: ignore # Pydantic v2
     else:
