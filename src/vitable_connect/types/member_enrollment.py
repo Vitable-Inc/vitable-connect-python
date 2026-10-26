@@ -138,6 +138,11 @@ class MemberEnrollment(UniversalBaseModel):
     Date the member enrolled (YYYY-MM-DD); null unless the row is an election
     """
 
+    answered_at: typing.Optional[dt.datetime] = pydantic.Field(default=None)
+    """
+    When the employee enrolled or waived
+    """
+
     enrollment_window_start: dt.date = pydantic.Field()
     """
     First date the member could answer this enrollment (YYYY-MM-DD). Open enrollment's start date for a row issued before open enrollment opened, otherwise the date the row was issued -- an enrollment is never answerable before it exists, so this is never earlier than `issued_date`.

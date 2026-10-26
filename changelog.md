@@ -1,3 +1,8 @@
+## 6.2.0 - 2026-10-26
+### Added
+* **`EnrollmentsClient.terminate`** — new optional `carrier_coverage_end_date` (`dt.date`) parameter lets ICHRA callers supply the exact date the carrier policy ended; accepted on both sync and async variants as well as the raw HTTP clients.
+* **`MemberEnrollment.answered_at`** — new optional `datetime` field exposing when the employee enrolled or waived.
+
 ## 6.1.0 - 2026-10-16
 ### Added
 * **`Member.individual_income_in_cents`** — new optional field exposing the member's annual individual income in cents, if provided.
