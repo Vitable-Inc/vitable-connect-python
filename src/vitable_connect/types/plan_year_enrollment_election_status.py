@@ -2,4 +2,6 @@
 
 import typing
 
-PlanYearEnrollmentElectionStatus = typing.Union[typing.Literal["Enrolled", "Waived", "Pending", "Expired"], typing.Any]
+PlanYearEnrollmentElectionStatus = typing.Union[
+    typing.Literal["Enrolled", "Waived", "Pending", "Upcoming", "Expired"], typing.Any
+]

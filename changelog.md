@@ -1,3 +1,8 @@
+## 6.3.0 - 2026-11-03
+### Added
+* **`PlanYearEnrollmentElectionStatus`** and **`ElectionStatusItem`** now include an `Upcoming` value, representing enrollments whose window has not yet opened.
+* **`MemberEnrollment.election_status`** and **`PlanYearEnrollment.election_status`** documentation updated to clarify that a terminated unanswered enrollment is `Expired` even before its window opens.
+
 ## 6.2.0 - 2026-10-26
 ### Added
 * **`EnrollmentsClient.terminate`** — new optional `carrier_coverage_end_date` (`dt.date`) parameter lets ICHRA callers supply the exact date the carrier policy ended; accepted on both sync and async variants as well as the raw HTTP clients.

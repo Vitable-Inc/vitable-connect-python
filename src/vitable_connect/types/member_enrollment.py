@@ -155,11 +155,12 @@ class MemberEnrollment(UniversalBaseModel):
 
     election_status: PlanYearEnrollmentElectionStatus = pydantic.Field()
     """
-    Where the member stands: `Enrolled` or `Waived` if they answered, otherwise `Pending` while their enrollment window is open and `Expired` once it has closed.
+    Where the member stands: `Enrolled` or `Waived` if they answered, otherwise `Pending` while their enrollment window is open, `Upcoming` before it opens and `Expired` once it has closed. A terminated unanswered enrollment is `Expired`, even before its window opens.
     
     * `Enrolled` - Enrolled
     * `Waived` - Waived
     * `Pending` - Pending
+    * `Upcoming` - Upcoming
     * `Expired` - Expired
     """
 
