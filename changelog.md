@@ -1,3 +1,7 @@
+## 6.4.0 - 2026-11-05
+### Added
+* **`MemberEnrollment.requires_external_plan`** — new `bool` field indicating whether the enrollment's benefit product requires the member to choose an external health plan through a carrier application.
+
 ## 6.3.0 - 2026-11-03
 ### Added
 * **`PlanYearEnrollmentElectionStatus`** and **`ElectionStatusItem`** now include an `Upcoming` value, representing enrollments whose window has not yet opened.
