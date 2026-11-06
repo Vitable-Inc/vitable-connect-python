@@ -1,3 +1,17 @@
+## 6.4.1 - 2026-11-06
+* chore: document 409 HRIS connection error for employee update endpoint
+* Expand the docstring on `EmployeesClient.update` (sync, async, raw, and
+* async-raw variants) to document the new 409 `employer_has_hris_connection`
+* error that the API returns when a caller attempts to change `employee_class`,
+* `compensation_type`, or `start_date` for an employer with an active, pending,
+* or inactive HRIS connection. Paused connections do not block the request;
+* re-sending the current values with a new `effective_date` is still allowed.
+* Key changes:
+* Updated docstring on `EmployeesClient.update` (sync) to describe the 409 response
+* Updated docstring on `AsyncEmployeesClient.update` (async) to describe the 409 response
+* Updated docstrings on `RawEmployeesClient.update` and `AsyncRawEmployeesClient.update` to match
+* 🌿 Generated with Fern
+
 ## 6.4.0 - 2026-11-05
 ### Added
 * **`MemberEnrollment.requires_external_plan`** — new `bool` field indicating whether the enrollment's benefit product requires the member to choose an external health plan through a carrier application.
