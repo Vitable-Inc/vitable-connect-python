@@ -21,6 +21,7 @@ from ..errors.internal_server_error import InternalServerError
 from ..errors.not_found_error import NotFoundError
 from ..errors.too_many_requests_error import TooManyRequestsError
 from ..errors.unauthorized_error import UnauthorizedError
+from ..errors.unprocessable_entity_error import UnprocessableEntityError
 from ..types.compensation_type import CompensationType
 from ..types.employee_address_input import EmployeeAddressInput
 from ..types.employee_class import EmployeeClass
@@ -32,6 +33,7 @@ from ..types.error_response import ErrorResponse
 from ..types.gender import Gender
 from ..types.limit import Limit
 from ..types.page import Page
+from ..types.x_vitable_organization import XVitableOrganization
 from pydantic import ValidationError
 
 # this is used as the default value for optional parameters
@@ -43,7 +45,11 @@ class RawEmployeesClient:
         self._client_wrapper = client_wrapper
 
     def get(
-        self, employee_id: EmployeeId, *, request_options: typing.Optional[RequestOptions] = None
+        self,
+        employee_id: EmployeeId,
+        *,
+        vitable_organization: typing.Optional[XVitableOrganization] = None,
+        request_options: typing.Optional[RequestOptions] = None,
     ) -> HttpResponse[EmployeeResponse]:
         """
         Retrieves detailed information for a specific employee by ID. Returns employee details including personal information, employment status, classification and compensation-type effective dates, compensation type, and payroll deductions from the most recent statement period. Deductions reflect a snapshot of the current period and are replaced when a new statement is generated.
@@ -52,6 +58,9 @@ class RawEmployeesClient:
         ----------
         employee_id : EmployeeId
             Unique employee identifier (empl_*)
+
+        vitable_organization : typing.Optional[XVitableOrganization]
+            Organization to act as for this request (e.g. `org_SGVsbG8gV29ybGQ`). Optional when your credentials reach a single organization. Required when they reach several — omitting it then returns 400 `organization_required`. A malformed value returns 400 `invalid_organization_header`, and naming an organization you do not have access to returns 403 `organization_access_denied`.
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
@@ -64,6 +73,9 @@ class RawEmployeesClient:
         _response = self._client_wrapper.httpx_client.request(
             f"v1/employees/{encode_path_param(employee_id)}",
             method="GET",
+            headers={
+                "X-Vitable-Organization": str(vitable_organization) if vitable_organization is not None else None,
+            },
             request_options=request_options,
         )
         try:
@@ -178,6 +190,7 @@ class RawEmployeesClient:
         employee_id: EmployeeId,
         *,
         effective_date: dt.date,
+        vitable_organization: typing.Optional[XVitableOrganization] = None,
         email: typing.Optional[str] = OMIT,
         phone: typing.Optional[str] = OMIT,
         gender: typing.Optional[Gender] = OMIT,
@@ -188,7 +201,11 @@ class RawEmployeesClient:
         request_options: typing.Optional[RequestOptions] = None,
     ) -> HttpResponse[EmployeeResponse]:
         """
-        Updates employee personal, contact, address, and employment fields. This endpoint currently supports email, phone, gender, address, employee_class, start_date, and compensation_type. effective_date is required and applies to employee_class and compensation_type when those fields are included in the request. Returns 409 employer_has_hris_connection when the request changes employee_class, compensation_type or start_date for an employer with an active, pending or inactive HRIS connection (paused connections do not block); re-sending the current values with a new effective_date is allowed.
+        Updates employee personal, contact, address, and employment fields. This endpoint currently supports email, phone, gender, address, employee_class, start_date, and compensation_type. effective_date is required and applies to employee_class and compensation_type when those fields are included in the request. Returns 409 `employer_has_hris_connection` when the request changes employee_class, compensation_type or start_date while an HRIS connection manages this employer's employees; re-sending the current values with a new effective_date is allowed.
+
+        Returns 404 if the employee does not exist or is not accessible to the caller, and 403 `organization_access_denied` when an API key sends `X-Vitable-Organization` for an organization other than its own.
+
+        422 `app_error_code` values: `email_taken` (the email belongs to another person's Vitable account), `invalid_account_update` (another account detail, such as the phone, belongs to another person). 400 is returned for malformed input and for changes the employee record rejects (`invalid_employee_update`, `employee_already_terminated`).
 
         Parameters
         ----------
@@ -197,6 +214,9 @@ class RawEmployeesClient:
 
         effective_date : dt.date
             Past or present date applied to each tracked employment field included in this request
+
+        vitable_organization : typing.Optional[XVitableOrganization]
+            Organization to act as for this request (e.g. `org_SGVsbG8gV29ybGQ`). Optional when your credentials reach a single organization. Required when they reach several — omitting it then returns 400 `organization_required`. A malformed value returns 400 `invalid_organization_header`, and naming an organization you do not have access to returns 403 `organization_access_denied`.
 
         email : typing.Optional[str]
             Email address
@@ -260,6 +280,7 @@ class RawEmployeesClient:
             },
             headers={
                 "content-type": "application/json",
+                "X-Vitable-Organization": str(vitable_organization) if vitable_organization is not None else None,
             },
             request_options=request_options,
             omit=OMIT,
@@ -320,6 +341,17 @@ class RawEmployeesClient:
                 )
             if _response.status_code == 409:
                 raise ConflictError(
+                    headers=dict(_response.headers),
+                    body=typing.cast(
+                        ErrorResponse,
+                        parse_obj_as(
+                            type_=ErrorResponse,  # type: ignore
+                            object_=_response.json(),
+                        ),
+                    ),
+                )
+            if _response.status_code == 422:
+                raise UnprocessableEntityError(
                     headers=dict(_response.headers),
                     body=typing.cast(
                         ErrorResponse,
@@ -533,7 +565,11 @@ class AsyncRawEmployeesClient:
         self._client_wrapper = client_wrapper
 
     async def get(
-        self, employee_id: EmployeeId, *, request_options: typing.Optional[RequestOptions] = None
+        self,
+        employee_id: EmployeeId,
+        *,
+        vitable_organization: typing.Optional[XVitableOrganization] = None,
+        request_options: typing.Optional[RequestOptions] = None,
     ) -> AsyncHttpResponse[EmployeeResponse]:
         """
         Retrieves detailed information for a specific employee by ID. Returns employee details including personal information, employment status, classification and compensation-type effective dates, compensation type, and payroll deductions from the most recent statement period. Deductions reflect a snapshot of the current period and are replaced when a new statement is generated.
@@ -542,6 +578,9 @@ class AsyncRawEmployeesClient:
         ----------
         employee_id : EmployeeId
             Unique employee identifier (empl_*)
+
+        vitable_organization : typing.Optional[XVitableOrganization]
+            Organization to act as for this request (e.g. `org_SGVsbG8gV29ybGQ`). Optional when your credentials reach a single organization. Required when they reach several — omitting it then returns 400 `organization_required`. A malformed value returns 400 `invalid_organization_header`, and naming an organization you do not have access to returns 403 `organization_access_denied`.
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
@@ -554,6 +593,9 @@ class AsyncRawEmployeesClient:
         _response = await self._client_wrapper.httpx_client.request(
             f"v1/employees/{encode_path_param(employee_id)}",
             method="GET",
+            headers={
+                "X-Vitable-Organization": str(vitable_organization) if vitable_organization is not None else None,
+            },
             request_options=request_options,
         )
         try:
@@ -668,6 +710,7 @@ class AsyncRawEmployeesClient:
         employee_id: EmployeeId,
         *,
         effective_date: dt.date,
+        vitable_organization: typing.Optional[XVitableOrganization] = None,
         email: typing.Optional[str] = OMIT,
         phone: typing.Optional[str] = OMIT,
         gender: typing.Optional[Gender] = OMIT,
@@ -678,7 +721,11 @@ class AsyncRawEmployeesClient:
         request_options: typing.Optional[RequestOptions] = None,
     ) -> AsyncHttpResponse[EmployeeResponse]:
         """
-        Updates employee personal, contact, address, and employment fields. This endpoint currently supports email, phone, gender, address, employee_class, start_date, and compensation_type. effective_date is required and applies to employee_class and compensation_type when those fields are included in the request. Returns 409 employer_has_hris_connection when the request changes employee_class, compensation_type or start_date for an employer with an active, pending or inactive HRIS connection (paused connections do not block); re-sending the current values with a new effective_date is allowed.
+        Updates employee personal, contact, address, and employment fields. This endpoint currently supports email, phone, gender, address, employee_class, start_date, and compensation_type. effective_date is required and applies to employee_class and compensation_type when those fields are included in the request. Returns 409 `employer_has_hris_connection` when the request changes employee_class, compensation_type or start_date while an HRIS connection manages this employer's employees; re-sending the current values with a new effective_date is allowed.
+
+        Returns 404 if the employee does not exist or is not accessible to the caller, and 403 `organization_access_denied` when an API key sends `X-Vitable-Organization` for an organization other than its own.
+
+        422 `app_error_code` values: `email_taken` (the email belongs to another person's Vitable account), `invalid_account_update` (another account detail, such as the phone, belongs to another person). 400 is returned for malformed input and for changes the employee record rejects (`invalid_employee_update`, `employee_already_terminated`).
 
         Parameters
         ----------
@@ -687,6 +734,9 @@ class AsyncRawEmployeesClient:
 
         effective_date : dt.date
             Past or present date applied to each tracked employment field included in this request
+
+        vitable_organization : typing.Optional[XVitableOrganization]
+            Organization to act as for this request (e.g. `org_SGVsbG8gV29ybGQ`). Optional when your credentials reach a single organization. Required when they reach several — omitting it then returns 400 `organization_required`. A malformed value returns 400 `invalid_organization_header`, and naming an organization you do not have access to returns 403 `organization_access_denied`.
 
         email : typing.Optional[str]
             Email address
@@ -750,6 +800,7 @@ class AsyncRawEmployeesClient:
             },
             headers={
                 "content-type": "application/json",
+                "X-Vitable-Organization": str(vitable_organization) if vitable_organization is not None else None,
             },
             request_options=request_options,
             omit=OMIT,
@@ -810,6 +861,17 @@ class AsyncRawEmployeesClient:
                 )
             if _response.status_code == 409:
                 raise ConflictError(
+                    headers=dict(_response.headers),
+                    body=typing.cast(
+                        ErrorResponse,
+                        parse_obj_as(
+                            type_=ErrorResponse,  # type: ignore
+                            object_=_response.json(),
+                        ),
+                    ),
+                )
+            if _response.status_code == 422:
+                raise UnprocessableEntityError(
                     headers=dict(_response.headers),
                     body=typing.cast(
                         ErrorResponse,

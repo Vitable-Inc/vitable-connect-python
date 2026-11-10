@@ -1,3 +1,9 @@
+## 6.5.0 - 2026-11-10
+### Added
+* **`vitable_organization`** — new optional `XVitableOrganization` parameter on `EmployeesClient.get` and `EmployeesClient.update` (sync, async, raw, and async-raw variants) that sends the `X-Vitable-Organization` HTTP header, allowing multi-organization API key holders to specify which organization to act as on a per-request basis.
+* **`UnprocessableEntityError`** — `EmployeesClient.update` (and its async/raw variants) now raises `UnprocessableEntityError` on HTTP 422 responses, surfacing `email_taken` and `invalid_account_update` app error codes.
+* **`update` error documentation** — docstrings expanded to document 403 `organization_access_denied`, 404 employee-not-found, 422 `app_error_code` values, and 400 malformed-input / `invalid_employee_update` / `employee_already_terminated` responses.
+
 ## 6.4.1 - 2026-11-06
 * chore: document 409 HRIS connection error for employee update endpoint
 * Expand the docstring on `EmployeesClient.update` (sync, async, raw, and

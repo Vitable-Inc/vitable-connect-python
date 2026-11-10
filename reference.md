@@ -147,6 +147,14 @@ client.employees.get(
 <dl>
 <dd>
 
+**vitable_organization:** `typing.Optional[XVitableOrganization]` — Organization to act as for this request (e.g. `org_SGVsbG8gV29ybGQ`). Optional when your credentials reach a single organization. Required when they reach several — omitting it then returns 400 `organization_required`. A malformed value returns 400 `invalid_organization_header`, and naming an organization you do not have access to returns 403 `organization_access_denied`.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
 **request_options:** `typing.Optional[RequestOptions]` — Request-specific configuration.
     
 </dd>
@@ -171,7 +179,11 @@ client.employees.get(
 <dl>
 <dd>
 
-Updates employee personal, contact, address, and employment fields. This endpoint currently supports email, phone, gender, address, employee_class, start_date, and compensation_type. effective_date is required and applies to employee_class and compensation_type when those fields are included in the request. Returns 409 employer_has_hris_connection when the request changes employee_class, compensation_type or start_date for an employer with an active, pending or inactive HRIS connection (paused connections do not block); re-sending the current values with a new effective_date is allowed.
+Updates employee personal, contact, address, and employment fields. This endpoint currently supports email, phone, gender, address, employee_class, start_date, and compensation_type. effective_date is required and applies to employee_class and compensation_type when those fields are included in the request. Returns 409 `employer_has_hris_connection` when the request changes employee_class, compensation_type or start_date while an HRIS connection manages this employer's employees; re-sending the current values with a new effective_date is allowed.
+
+Returns 404 if the employee does not exist or is not accessible to the caller, and 403 `organization_access_denied` when an API key sends `X-Vitable-Organization` for an organization other than its own.
+
+422 `app_error_code` values: `email_taken` (the email belongs to another person's Vitable account), `invalid_account_update` (another account detail, such as the phone, belongs to another person). 400 is returned for malformed input and for changes the employee record rejects (`invalid_employee_update`, `employee_already_terminated`).
 </dd>
 </dl>
 </dd>
@@ -226,6 +238,14 @@ client.employees.update(
 <dd>
 
 **effective_date:** `datetime.date` — Past or present date applied to each tracked employment field included in this request
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**vitable_organization:** `typing.Optional[XVitableOrganization]` — Organization to act as for this request (e.g. `org_SGVsbG8gV29ybGQ`). Optional when your credentials reach a single organization. Required when they reach several — omitting it then returns 400 `organization_required`. A malformed value returns 400 `invalid_organization_header`, and naming an organization you do not have access to returns 403 `organization_access_denied`.
     
 </dd>
 </dl>
