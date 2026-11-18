@@ -44,6 +44,7 @@ class BenefitPlanYearDetail(UniversalBaseModel):
     * `mec` - Mec
     * `mvp` - Mvp
     * `ichra` - Ichra
+    * `hra` - Hra
     * `vpc` - Vpc
     * `dental` - Dental
     * `vision` - Vision

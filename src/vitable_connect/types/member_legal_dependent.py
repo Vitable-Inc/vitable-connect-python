@@ -14,6 +14,11 @@ class MemberLegalDependent(UniversalBaseModel):
     Wire serializer for :class:`MemberLegalDependentDTO` (one legal-dependent row).
     """
 
+    legal_dependent_id: str = pydantic.Field()
+    """
+    Identifier of the dependent relationship, with 'ldep_' prefix
+    """
+
     member_id: typing.Optional[str] = pydantic.Field(default=None)
     """
     The dependent's own member identifier with 'mbr_' prefix

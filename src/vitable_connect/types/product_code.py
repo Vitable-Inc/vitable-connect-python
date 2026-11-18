@@ -19,6 +19,8 @@ ProductCode = typing.Union[
         "ICHRA",
         "ICHRA_PREMIUM_PLUS",
         "ICHRA_REIMBURSEMENT_ONLY",
+        "QSEHRA_REIMBURSEMENT_ONLY",
+        "GCHRA_REIMBURSEMENT_ONLY",
     ],
     typing.Any,
 ]

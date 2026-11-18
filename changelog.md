@@ -1,3 +1,9 @@
+## 6.6.0 - 2026-11-18
+### Added
+* **`BenefitFamily` / `BenefitFamilyParamItem`** — new `"hra"` literal value recognized alongside the existing `mec`, `mvp`, `ichra`, `vpc`, `dental`, and `vision` families.
+* **`ProductCode`** — two new HRA product codes, `QSEHRA_REIMBURSEMENT_ONLY` and `GCHRA_REIMBURSEMENT_ONLY`, are now recognized; docstrings on `BenefitSummary`, `DigitalBenefitCard`, and `MemberEnrollment` updated to document them.
+* **`MemberLegalDependent.legal_dependent_id`** — new required `str` field carrying the dependent-relationship identifier (prefixed with `ldep_`).
+
 ## 6.5.0 - 2026-11-10
 ### Added
 * **`vitable_organization`** — new optional `XVitableOrganization` parameter on `EmployeesClient.get` and `EmployeesClient.update` (sync, async, raw, and async-raw variants) that sends the `X-Vitable-Organization` HTTP header, allowing multi-organization API key holders to specify which organization to act as on a per-request basis.

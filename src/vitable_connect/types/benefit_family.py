@@ -2,4 +2,4 @@
 
 import typing
 
-BenefitFamily = typing.Union[typing.Literal["mec", "mvp", "ichra", "vpc", "dental", "vision"], typing.Any]
+BenefitFamily = typing.Union[typing.Literal["mec", "mvp", "ichra", "hra", "vpc", "dental", "vision"], typing.Any]

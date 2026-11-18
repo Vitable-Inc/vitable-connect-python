@@ -38,6 +38,8 @@ class BenefitSummary(UniversalBaseModel):
     * `ICHRA` - Ichra
     * `ICHRA_PREMIUM_PLUS` - Ichra Premium Plus
     * `ICHRA_REIMBURSEMENT_ONLY` - Ichra Reimbursement Only
+    * `QSEHRA_REIMBURSEMENT_ONLY` - Qsehra Reimbursement Only
+    * `GCHRA_REIMBURSEMENT_ONLY` - Gchra Reimbursement Only
     """
 
     category: Category = pydantic.Field()
