@@ -62,12 +62,12 @@ class BenefitPlanYearDetail(UniversalBaseModel):
 
     network_names: typing.List[str] = pydantic.Field()
     """
-    Displayed networks: ["multi"] for ICHRA, otherwise the plan year's distinct network names.
+    Displayed networks: ["multi"] for external-plan benefits, empty for benefits without plan selection, otherwise the plan year's distinct network names.
     """
 
     premium_in_cents: typing.Optional[int] = pydantic.Field(default=None)
     """
-    Monthly premium in cents; only for an ICHRA benefit with effective coverage.
+    Monthly premium in cents; only for an external-plan benefit with effective coverage.
     """
 
     employee_contribution: typing.Optional[ContributionRange] = pydantic.Field(default=None)
@@ -127,7 +127,7 @@ class BenefitPlanYearDetail(UniversalBaseModel):
 
     contribution_strategy: ContributionStrategy = pydantic.Field()
     """
-    How the plan year prices contributions (ICHRA classes or coverage tiers).
+    How the plan year prices contributions (allowance classes or coverage tiers).
     """
 
     eligibility_policy: typing.Optional[EligibilityPolicy] = pydantic.Field(default=None)

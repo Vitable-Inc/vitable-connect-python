@@ -1,3 +1,16 @@
+## 6.6.1 - 2026-11-20
+* chore: update docstrings to replace ICHRA-specific language with generalized terms
+* Refresh documentation strings across `BenefitPlanYearDetail`,
+* `BenefitPlanYearList`, `ContributionStrategy`, and
+* `IchraContributionClass` to reflect that the described behaviors apply
+* to all external-plan / allowance-based benefits, not just ICHRA. No
+* public API surface, field names, types, or runtime behavior changed.
+* Key changes:
+* `BenefitPlanYearDetail` and `BenefitPlanYearList`: clarify that `network_names` returns `["multi"]` for all external-plan benefits (not only ICHRA) and is empty for benefits without plan selection
+* `BenefitPlanYearDetail` and `BenefitPlanYearList`: update `premium_in_cents` docstring from "ICHRA benefit" to "external-plan benefit"
+* `ContributionStrategy` and `IchraContributionClass`: replace "ICHRA" terminology with "allowance-based" / "allowance classes" in class and field docstrings
+* 🌿 Generated with Fern
+
 ## 6.6.0 - 2026-11-18
 ### Added
 * **`BenefitFamily` / `BenefitFamilyParamItem`** — new `"hra"` literal value recognized alongside the existing `mec`, `mvp`, `ichra`, `vpc`, `dental`, and `vision` families.

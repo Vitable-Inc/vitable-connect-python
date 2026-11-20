@@ -10,18 +10,18 @@ from .ichra_contribution_class import IchraContributionClass
 
 class ContributionStrategy(UniversalBaseModel):
     """
-    How the plan year prices contributions: exactly one collection is populated, determined by the
-    plan year's ``family`` (ICHRA vs tier-priced).
+    How the plan year prices contributions: exactly one collection is populated, determined by
+    whether the product is allowance-based (allowance classes vs tier-priced).
     """
 
     ichra_contribution_classes: typing.List[IchraContributionClass] = pydantic.Field()
     """
-    ICHRA contribution classes; empty for tier-priced benefits.
+    Allowance contribution classes; empty for tier-priced benefits.
     """
 
     contribution_tiers: typing.List[ContributionTier] = pydantic.Field()
     """
-    Coverage tiers and their costs; empty for ICHRA benefits.
+    Coverage tiers and their costs; empty for allowance-based benefits.
     """
 
     if IS_PYDANTIC_V2:
