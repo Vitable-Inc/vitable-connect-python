@@ -1,3 +1,10 @@
+## 6.7.0 - 2026-11-25
+### Added
+* **`MemberEnrollment.requires_qle_for_termination`** — new required `bool` field indicating whether terminating the enrollment requires a qualifying life event under its benefit product.
+* **`MemberEnrollment.plan_selection_required`** — new required `bool` field indicating whether enrolling in the benefit product involves choosing a plan.
+### Changed
+* **`EnrollmentsClient.terminate` / `RawEnrollmentsClient.terminate`** — docstrings updated to clarify that `carrier_coverage_end_date` is accepted for all enrollments whose benefit requires an external plan (`requires_external_plan`), not only ICHRA, and that the QLE exemption applies to all allowance-based plans (ICHRA, QSEHRA, GCHRA).
+
 ## 6.6.1 - 2026-11-20
 * chore: update docstrings to replace ICHRA-specific language with generalized terms
 * Refresh documentation strings across `BenefitPlanYearDetail`,

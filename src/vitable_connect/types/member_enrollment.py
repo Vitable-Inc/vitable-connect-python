@@ -70,9 +70,19 @@ class MemberEnrollment(UniversalBaseModel):
     Whether a qualifying life event would be required to reissue this enrollment under the product and open-enrollment rule at the time this list was read
     """
 
+    requires_qle_for_termination: bool = pydantic.Field()
+    """
+    Whether terminating this enrollment requires a qualifying life event under its benefit product
+    """
+
     requires_external_plan: bool = pydantic.Field()
     """
     Whether this enrollment's benefit product requires the member to choose an external health plan through a carrier application
+    """
+
+    plan_selection_required: bool = pydantic.Field()
+    """
+    Whether enrolling in this enrollment's benefit product means choosing a plan; false when the product has no plan to choose
     """
 
     product_name: str = pydantic.Field()
